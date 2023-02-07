@@ -52,6 +52,15 @@ public class Stats {
 		this.Critical += stats.Critical;
 		this.Haste += stats.Haste;
 		this.Power += stats.Power;
+		if (this.Critical > 90) {
+			this.Critical = 90;
+		}
+		if (this.Haste > 90) {
+			this.Haste = 90;
+		}
+		if (this.Power > 90) {
+			this.Power = 90;
+		}
 	}
 
 
