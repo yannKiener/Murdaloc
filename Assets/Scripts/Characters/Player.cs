@@ -12,6 +12,7 @@ public class Player : Character
     private float experiencePercent;
     private Vector3 initialPosition;
     private float xSpeed;
+    private int talentPoints = 0;
 
     private void Awake()
     {
@@ -51,6 +52,27 @@ public class Player : Character
         currentLife = stats.MaxLife;
         currentResource = stats.MaxResource;
     }
+
+    public int GetTalentPoints()
+    {
+        return talentPoints;
+    }
+
+    public bool RemoveOneTalentPoint()
+    {
+        if(talentPoints > 0)
+        {
+            talentPoints--;
+            return true;
+        }
+        return false;
+    }
+
+    public void ResetTalentPoints()
+    {
+        talentPoints = level - 1;
+    }
+
 
     new void Start()
     {
@@ -130,7 +152,11 @@ public class Player : Character
         {
             InterfaceUtils.ShowHideQuestLog();
         }
-        if(SystemInfo.deviceType != DeviceType.Handheld)
+        if (Input.GetButtonDown("ShowHideTalentSheet"))
+        {
+            InterfaceUtils.ShowHideTalentSheet();
+        }
+        if (SystemInfo.deviceType != DeviceType.Handheld)
         {
             SetXSpeed(Input.GetAxis("Horizontal"));
         } 
@@ -148,6 +174,9 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Boiled Clams"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
+
+            FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Ice"));
+            FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Fire"));
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -174,6 +203,8 @@ public class Player : Character
     {
         base.LevelUp();
         SetFullHealthAndMaxResource();
+        talentPoints += 1;
+        FindUtils.GetTalentSheetGrid().UpdateTalentsPointsRemainingText();
         FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
 
     }

@@ -40,6 +40,11 @@ public class SpellBook : MonoBehaviour, Slotable {
 
     void OnEnable()
     {
+
+        if (FindUtils.GetTalentSheet().activeSelf)
+        {
+            InterfaceUtils.ShowHideTalentSheet();
+        }
         Interface.OpenSpellbook();
         if (doUpdate)
         {

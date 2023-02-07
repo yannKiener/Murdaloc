@@ -42,6 +42,16 @@ public static class InterfaceUtils {
         return Resources.Load<Image>("Images/SpellIcons/" + name) as Image;
     }
 
+    public static Sprite LoadSpriteForTalent(string name)
+    {
+        Sprite result = Resources.Load<Sprite>("Images/Talents/" + name) as Sprite;
+        if (result == null)
+        {
+            result = Resources.Load<Sprite>("Images/Talents/Default") as Sprite;
+        }
+        return result;
+    }
+
     public static Sprite LoadSpriteForSpell(string name)
     {
         return Resources.Load<Sprite>("Images/SpellIcons/" + name) as Sprite;
@@ -72,6 +82,11 @@ public static class InterfaceUtils {
 
     public static bool CloseOpenWindows()
     {
+        if (FindUtils.GetVendorBox().activeSelf)
+        {
+            HideVendorBox();
+            return true;
+        }
         if (FindUtils.GetInventory().activeSelf)
         {
             ShowHideInventory();
@@ -97,14 +112,14 @@ public static class InterfaceUtils {
             HideDialogBox();
             return true;
         }
-        if (FindUtils.GetVendorBox().activeSelf)
-        {
-            HideVendorBox();
-            return true;
-        }
         if (FindUtils.GetLoot().activeSelf)
         {
             HideLoot();
+            return true;
+        }
+        if (FindUtils.GetTalentSheet().activeSelf)
+        {
+            ShowHideTalentSheet();
             return true;
         }
         return false;
@@ -138,6 +153,10 @@ public static class InterfaceUtils {
     public static void HideLoot()
     {
         FindUtils.GetLoot().SetActive(false);
+    }
+    public static void ShowHideTalentSheet()
+    {
+        FindUtils.GetTalentSheet().SetActive(!FindUtils.GetTalentSheet().activeSelf);
     }
 
 

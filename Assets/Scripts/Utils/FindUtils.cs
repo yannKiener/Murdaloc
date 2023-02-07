@@ -28,6 +28,8 @@ public static class FindUtils  {
     private static GameObject sounds;
     private static GameObject vendorPanelGO;
     private static VendorPanel vendorPanel;
+    private static GameObject talentSheet;
+    private static TalentSheet talentSheetGrid;
 
     public static Player GetPlayer()
     {
@@ -217,6 +219,22 @@ public static class FindUtils  {
         if (vendorPanel == null)
             vendorPanel = GetVendorBox().transform.Find("VendorPanel").gameObject.GetComponent<VendorPanel>();
         return vendorPanel;
+    }
+
+    public static GameObject GetTalentSheet()
+    {
+        if (talentSheet == null)
+            talentSheet = GameObject.Find("TalentSheet");
+
+        return talentSheet;
+    }
+
+    public static TalentSheet GetTalentSheetGrid()
+    {
+        if (talentSheetGrid == null)
+            talentSheetGrid = GetTalentSheet().GetComponentInChildren<TalentSheet>();
+
+        return talentSheetGrid;
     }
 
 }

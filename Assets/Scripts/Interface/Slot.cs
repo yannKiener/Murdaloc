@@ -24,7 +24,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(FindUtils.GetVendorBox().activeSelf)
+        if(FindUtils.GetVendorBox().activeSelf )
         {
             if (usable is Item)
             {
