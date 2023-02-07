@@ -594,6 +594,7 @@ public class Interface : MonoBehaviour
 
     private float getToolTipPositionX(float x, float toolTipSizeX)
     {
+
         if (x + toolTipSizeX > Screen.width)
         {
             return x - toolTipSizeX;
@@ -605,10 +606,18 @@ public class Interface : MonoBehaviour
 
     private float getToolTipPositionY(float y, float toolTipSizeY)
     {
+        int bonusForAndroid = 0;
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            bonusForAndroid = 32;
+        }
+
+        y += bonusForAndroid;
+
         float result = Screen.height - y - toolTipSizeY;
         if (result < 0)
         {
-            return result + toolTipSizeY + 32;
+            return result + toolTipSizeY + 32 + bonusForAndroid;
         } else
         {
             return result;

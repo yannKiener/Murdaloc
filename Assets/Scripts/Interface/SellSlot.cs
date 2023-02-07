@@ -38,10 +38,7 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            Buy();
-        }
+        Buy();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -24,17 +24,16 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if(FindUtils.GetVendorBox().activeSelf)
         {
-            Use();
-        } 
-        if(eventData.button == PointerEventData.InputButton.Right && FindUtils.GetVendorBox().activeSelf)
-        {
-            if(usable is Item)
+            if (usable is Item)
             {
                 Item item = (Item)usable;
                 FindUtils.GetInventoryGrid().SellItem(item);
             }
+        } else
+        {
+            Use();
         }
     }
 
