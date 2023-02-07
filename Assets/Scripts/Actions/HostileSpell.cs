@@ -23,24 +23,6 @@ public class HostileSpell : Spell
         }
 	}
 
-	private void ApplyEffectsOnTarget(GameObject target)
-	{
-		foreach (EffectOnTime buff in effectsOnTarget)
-		{
-			//apply effects on target
-		}
-	}
-
-
-	private void ApplyEffectsOnSelf()
-	{
-		foreach (EffectOnTime buff in effectsOnTarget)
-		{
-
-			//apply effects
-		}
-	}
-
 	public override bool IsCastable(Character caster, Character target){
 		return target != null && base.IsCastable (caster,target) ;
 	}

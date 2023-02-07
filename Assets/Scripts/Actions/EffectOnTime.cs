@@ -15,7 +15,7 @@ public class EffectOnTime : Castable
 	private int stacks = 1;
 	private int maxStacks = 1;
 	private Effect applyOnce;
-	private Action<Character,Character, float, int> tic;
+	private Action<Character,Character, EffectOnTime> tic;
 
 	private Character attachedCharacter = null;
 	private Character caster;
@@ -23,7 +23,12 @@ public class EffectOnTime : Castable
 	private float nextTic;
 	private bool toBeRemoved = false;
 
-	public EffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character,Character, float, int> tic){
+    float NormalMultiplier = 100;
+    float CritMultiplier = 100;
+    Action<Character, Character> actionOnCrit;
+    Dictionary<Castable, float> procs = new Dictionary<Castable, float>();
+
+    public EffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character,Character, EffectOnTime> tic){
 		this.name = name;
 		this.description = description;
 		this.isBuff = isBuff;
@@ -53,7 +58,9 @@ public class EffectOnTime : Castable
 		this.isStackable = effect.isStackable;
 		this.maxStacks = effect.maxStacks;
 		this.timePerTic = timePerTic - timePerTic * caster.GetStats ().Haste / Constants.hasteDivider; // pour prendre en compte la hate du caster
-	}
+        this.NormalMultiplier = effect.GetNormalMultiplier();
+        this.CritMultiplier = effect.GetCritMultiplier();
+    }
 		
 
 	public EffectOnTime Clone(){
@@ -101,7 +108,7 @@ public class EffectOnTime : Castable
 				removeEffectOnce ();
 				effect.stacks += 1;
 				applyEffectOnce ();
-			}	
+			} 
 			effect.refresh ();
 		} else {
 			attachedCharacter.AddEffectOnTime (new EffectOnTime(this));
@@ -133,35 +140,103 @@ public class EffectOnTime : Castable
 		return toBeRemoved;
 	}
 
+    public float GetTimeDivider()
+    {
+        return timePerTic / duration;
+    }
+
 
     public void Tic()
     {
 		if(tic != null)
-		tic (caster, attachedCharacter,timePerTic/duration,stacks);
+		tic (caster, attachedCharacter, this);
+        CheckProcs(caster, attachedCharacter);
     }
 
     public void Update()
     {
+        if (timeLeft < nextTic)
+        {
+            Tic();
+            nextTic -= timePerTic;
+        }
+
         if (timeLeft < 0 || IsEffectOver())
         {
             Remove();
         }
-        else
-        {
-            if (timeLeft < nextTic)
-			{
-                Tic();
-                nextTic -= timePerTic;
-            }
-        }
-
 		timeLeft -= Time.deltaTime;
-
     }
 
     protected bool IsEffectOver()
     {
         return false;
+    }
+
+    public void AddToNormalMultiplier(float n)
+    {
+        NormalMultiplier += n;
+    }
+
+    public void RemoveToNormalMultiplier(float n)
+    {
+        NormalMultiplier -= n;
+    }
+
+
+    public void SetNormalMultiplier(float newNormalMultiplier)
+    {
+        NormalMultiplier = newNormalMultiplier;
+    }
+
+    public void SetCritMultiplier(float newCritMultiplier)
+    {
+        CritMultiplier = newCritMultiplier;
+    }
+
+    public float GetNormalMultiplier()
+    {
+        Debug.Log(NormalMultiplier);
+        return NormalMultiplier;
+    }
+
+    public float GetCritMultiplier()
+    {
+        return CritMultiplier;
+    }
+
+    public void SetActionOnCrit(Action<Character, Character> act)
+    {
+        actionOnCrit = act;
+    }
+
+    public void OnCrit(Character caster, Character target, int damageOrHeal)
+    {
+        if (actionOnCrit != null)
+        {
+            actionOnCrit(caster, target);
+        }
+    }
+
+    public void SetProc(Castable procEffect, float chancePercent)
+    {
+        procs[procEffect] = chancePercent;
+    }
+
+    public void RemoveProc(Castable procEffect)
+    {
+        procs.Remove(procEffect);
+    }
+
+    private void CheckProcs(Character caster, Character target)
+    {
+        foreach (KeyValuePair<Castable, float> kv in procs)
+        {
+            if (UnityEngine.Random.Range(0, 100) <= kv.Value)
+            {
+                kv.Key.ApplyTo(caster, target);
+            }
+        }
     }
 
     public void ApplyTo(Character caster, Character target)

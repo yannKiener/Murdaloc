@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,24 +11,28 @@ public class Talent
     private int stacks;
     private int maxStacks;
     private Sprite icon;
+    Action<Character, int> activateTalentOnPlayer;
+    Action<Character, int> deactivateTalentOnPlayer;
 
-    public Talent(string name, string description, int maxStacks)
+    public Talent(string name, string description, int maxStacks, Action<Character, int> activationEffect, Action<Character, int> deactivationEffect)
     {
         this.name = name;
         this.description = description;
         this.maxStacks = maxStacks;
         this.stacks = 0;
         icon = InterfaceUtils.LoadSpriteForTalent(name);
+        activateTalentOnPlayer = activationEffect;
+        deactivateTalentOnPlayer = deactivationEffect;
     }
 
     public void ActivateEffect()
     {
-       //TODO : Debug.Log("Activating talent effect");
+        activateTalentOnPlayer(FindUtils.GetPlayer(), stacks);
     }
 
     public void RemoveEffect()
     {
-        //TODO :Debug.Log("Removing talent effect");
+        deactivateTalentOnPlayer(FindUtils.GetPlayer(), stacks);
     }
 
 

@@ -8,10 +8,10 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 	void Awake ()
     {
+        CreateEffectsOnTime();
         CreateSpells();
         CreateSpecialisations();
         Items.InitializeCategories();
-
     }
 
     /*
@@ -26,50 +26,43 @@ public class SpellAndEffectLoader : MonoBehaviour {
      */
     private void CreateSpecialisations()
     {
+        Specialisation mage = new Specialisation("Mage");
+        mage.SetTalent(2, new Talent("FireBurn", "Add 10% chance to burn your target with Fireball", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
+        mage.SetTalent(4, new Talent("SHADOW BURST", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
+        mage.SetTalent(6, new Talent("FIRE BURST", "add 20% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(20)));
+        mage.SetTalent(10, new Talent("ICETEST", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance"),true), (player, stacks) => player.RemoveSpell("Icelance")));
 
-        Specialisation mage = new Specialisation("Ice");
-        mage.SetTalent(1, new Talent("ICETEST", "Add mint chewing gum to your inventory", 1));
-        mage.SetTalent(2, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(3, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(6, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(7, new Talent("ICETEST", ".", 5));
+        /*
         mage.SetTalent(10, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(11, new Talent("ICETEST", ".", 5));
         mage.SetTalent(13, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(14, new Talent("ICETEST", ".", 5));
         mage.SetTalent(18, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(19, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(21, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(22, new Talent("ICETEST", ".", 5));
+        mage.SetTalent(23, new Talent("ICETEST", ".", 5));
         mage.SetTalent(26, new Talent("ULTIMAAATE", "ULTI FROST", 1));
+        */
 
-        Specialisation fireMage = new Specialisation("Fire");
-        fireMage.SetTalent(1, new Talent("FIRETEST", "Add mint chewing gum to your inventory", 1));
-        fireMage.SetTalent(2, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(4, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(5, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(7, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(9, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(10, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(12, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(14, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(17, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(19, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(20, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(22, new Talent("FIRETEST", ".", 5));
-        fireMage.SetTalent(26, new Talent("ULTIMAAATE", "ULTI FIRE ", 1));
 
         Specialisations.Add(mage);
-        Specialisations.Add(fireMage);
+    }
+
+    private void CreateEffectsOnTime()
+    {
+        CreateEffectOnTime("Corruption", "First DoT of the game", false, 1, 6, 1f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60));
+        CreateEffectOnTime("Burning", "Inflict fire damage every two seconds.", false, 3, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 0.5f } }, 10));
+        CreateEffectOnTime("Renovation", "First HoT of the game", true, 3, 10, 1, null, newHealOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 2f } }, 50));
+        CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
+
+
+        //Spells for consummables
+        CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20, true));
+        CreateEffectOnTime("Drink", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));
+        CreateEffectOnTime("Potion of cunning", "You feel 10% smarter !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.intelligence, 10 } }), null);
+        CreateEffectOnTime("Potion of might", "You feel 10% stronger !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.force, 10 } }), null);
+        CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
+
     }
 
     private void CreateSpells()
     {
-
-        CreateEffectOnTime("Corruption", "First DoT of the game", false, 1, 6, 0.5f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60));
-        CreateEffectOnTime("Renovation", "First HoT of the game", true, 3, 10, 1, null, newHealOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 2f } }, 50));
-        CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
-
         CreateHostileSpell("Fireball", "A magic Fireball. That's it.", 10, 2, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
         CreateHostileSpell("Slam", "Slap your target's face with your first", 20, 0, 0, 0, 2, newDamage(new Dictionary<Stat, float> { { Stat.force, 1f }, { Stat.agility, 0.5f } }, 10, 0.4f), "Default", null, null);
         CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
@@ -80,24 +73,18 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());
 
         //Spells for consummables
-        CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20, true));
-        CreateEffectOnTime("Drink", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));
         CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, null, "Food", null, new List<EffectOnTime>() { EffectsOnTime.Get("Food") });
         CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, null, "Drink", null, new List<EffectOnTime>() { EffectsOnTime.Get("Drink") });
         CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, AddLifePercent(25), "Potion", null, null);
         CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, AddLifePercent(40), "Potion", null, null);
         CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, AddLifePercent(60), "Potion", null, null);
-        CreateEffectOnTime("Potion of cunning", "You feel 10% smarter !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.intelligence, 10 } }), null);
         CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of cunning") });
-        CreateEffectOnTime("Potion of might", "You feel 10% stronger !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.force, 10 } }), null);
         CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of might") });
-        CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
         CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
-
     }
 
 
-    private void CreateEffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character, Character, float, int> tic)
+    private void CreateEffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character, Character, EffectOnTime> tic)
     {
         EffectsOnTime.Add(new EffectOnTime(name, description, isBuff, maxStacks, duration, timePerTic, applyOnce, tic));
     }
@@ -219,19 +206,19 @@ public class SpellAndEffectLoader : MonoBehaviour {
     //EffectsOnTime
 
 
-    private Action<Character, Character, float, int> AddLifePercentOverTime(int lifePercent, bool mustNotBeFighting = false)
+    private Action<Character, Character, EffectOnTime> AddLifePercentOverTime(int lifePercent, bool mustNotBeFighting = false)
     {
-        return ((Character arg1, Character arg2, float timedivider, int stacks) => { if (!mustNotBeFighting || !arg1.IsInCombat()) { arg1.ApplyHeal((int)(arg1.GetMaxLife() * lifePercent / 100 * stacks)); } });
+        return ((Character arg1, Character arg2, EffectOnTime effect) => { if (!mustNotBeFighting || !arg1.IsInCombat()) { arg1.ApplyHeal((int)(arg1.GetMaxLife() * lifePercent / 100 * effect.GetStacks())); } });
     }
 
-    private Action<Character, Character, float, int> RemoveLifePercentOverTime(int lifePercent)
+    private Action<Character, Character, EffectOnTime> RemoveLifePercentOverTime(int lifePercent)
     {
-        return ((Character arg1, Character arg2, float timedivider, int stacks) => { arg1.ApplyDamage((int)(arg1.GetMaxLife() * lifePercent / 100 * stacks)); });
+        return ((Character arg1, Character arg2, EffectOnTime effect) => { arg1.ApplyDamage((int)(arg1.GetMaxLife() * lifePercent / 100 * effect.GetStacks())); });
     }
 
-    private Action<Character, Character, float, int> AddManaPercentOverTime(int manaPercent, bool mustNotBeFighting = false)
+    private Action<Character, Character, EffectOnTime> AddManaPercentOverTime(int manaPercent, bool mustNotBeFighting = false)
     {
-        return ((Character arg1, Character arg2, float timedivider, int stacks) => { if (arg1.GetResourceType() is Mana && (!mustNotBeFighting || !arg1.IsInCombat())) { arg1.AddResource((int)(arg1.GetMaxResource() * manaPercent / 100 * stacks)); } });
+        return ((Character arg1, Character arg2, EffectOnTime effect) => { if (arg1.GetResourceType() is Mana && (!mustNotBeFighting || !arg1.IsInCombat())) { arg1.AddResource((int)(arg1.GetMaxResource() * manaPercent / 100 * effect.GetStacks())); } });
     }
     private Action<Character, Character, float, int> RemoveManaPercentOverTime(int manaPercent)
     {
@@ -240,15 +227,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
 
-    private Action<Character, Character, float, int> newHealOnTime(Dictionary<Stat, float> statWeight, int totalHeal){
+    private Action<Character, Character, EffectOnTime> newHealOnTime(Dictionary<Stat, float> statWeight, int totalHeal){
 		return newActionOntime (statWeight, totalHeal, true);
 	}
 
-	private Action<Character, Character, float, int> newDamageOnTime(Dictionary<Stat, float> statWeight, int totalDamage){
+	private Action<Character, Character, EffectOnTime> newDamageOnTime(Dictionary<Stat, float> statWeight, int totalDamage){
 		return newActionOntime (statWeight, totalDamage, false);
 	}
 
-	private Action<Character, Character, float, int> newActionOntime (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal) {
+	private Action<Character, Character, EffectOnTime> newActionOntime (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal) {
 		float forceMultiplier = 0;
 		float agilityMultiplier = 0;
 		float intelligenceMultiplier = 0;
@@ -273,7 +260,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 			}
 		}
 		if (!isHeal) {
-			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
+			return ((Character arg1, Character arg2, EffectOnTime effect) => {
 				int damage = baseNumber;
                 damage += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
                 damage += (int)(arg1.GetStats().Force * forceMultiplier);
@@ -285,13 +272,17 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				damage = damage + (damage * casterStats.Power / 100); //Applying power 
-				if (isCrit) { // Apply Crit
-					damage = damage * 2;
-				}
-				arg2.ApplyDamage ((int)((damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100)*stacks*timedivider), isCrit);
+                damage = (int)(effect.GetNormalMultiplier() * damage / 100);
+
+                if (isCrit)
+                { // Apply Crit
+                    damage += (int)(effect.GetCritMultiplier() * damage / 100);
+                    effect.OnCrit(arg1, arg2, damage);
+                }
+                arg2.ApplyDamage ((int)((damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100)* effect.GetStacks()*effect.GetTimeDivider()), isCrit);
 			});
 		} else {
-			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
+			return ((Character arg1, Character arg2, EffectOnTime effect) => {
 				int heal = baseNumber;
                 heal += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
                 heal += (int)(arg1.GetStats().Force * forceMultiplier);
@@ -303,10 +294,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				heal = heal + (heal * casterStats.Power / 100); //Applying power 
-				if (isCrit) { // Apply Crit
-					heal = heal * 2;
-				}
-				arg2.ApplyHeal ((int)((heal + heal * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100)*stacks*timedivider), isCrit);
+                heal = (int)(effect.GetNormalMultiplier() * heal / 100);
+                if (isCrit)
+                { // Apply Crit
+                    heal += (int)(effect.GetCritMultiplier() * heal / 100);
+                    effect.OnCrit(arg1, arg2, heal);
+                }
+                arg2.ApplyHeal ((int)((heal + heal * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100) * effect.GetStacks() * effect.GetTimeDivider()), isCrit);
 			});
 		}
 	}

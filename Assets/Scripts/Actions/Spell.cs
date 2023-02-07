@@ -12,8 +12,8 @@ public abstract class Spell : Usable, Castable
 	protected int levelRequirement;
 	protected float coolDown;
 	protected float coolDownRemaing = 0;
-    protected List<EffectOnTime> effectsOnTarget;
-    protected List<EffectOnTime> effectsOnSelf;
+    protected Dictionary<string, EffectOnTime> effectsOnTarget = new Dictionary<string, EffectOnTime>();
+    protected Dictionary<string, EffectOnTime> effectsOnSelf = new Dictionary<string, EffectOnTime>();
 	protected float maxDistance;
 	protected Action<Character,Character, Spell> applySpellEffect;
 	protected bool isHostileSpell;
@@ -21,10 +21,11 @@ public abstract class Spell : Usable, Castable
     protected AudioClip preCastSound;
     protected List<AudioClip> castSounds;
     protected List<AudioClip> impactSounds;
+
     float NormalMultiplier = 100;
     float CritMultiplier = 100;
     Action<Character, Character> actionOnCrit;
-    Dictionary<Castable, float> procs;
+    Dictionary<Castable, float> procs = new Dictionary<Castable, float>();
 
     public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown,float maxDistance, Action<Character,Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
@@ -35,8 +36,23 @@ public abstract class Spell : Usable, Castable
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
 		this.applySpellEffect = spellEffect;
-		this.effectsOnTarget = effectsOnTarget;
-		this.effectsOnSelf = effectsOnSelf;
+
+        if (effectsOnTarget != null)
+        {
+            foreach (EffectOnTime effect in effectsOnTarget)
+            {
+                this.effectsOnTarget[effect.GetName()] = effect;
+            }
+        }
+
+        if(effectsOnSelf != null)
+        {
+            foreach (EffectOnTime effect in effectsOnSelf)
+            {
+                this.effectsOnSelf[effect.GetName()] = effect;
+            }
+        }
+
 		this.maxDistance = maxDistance;
 		this.isHostileSpell = isHostile;
 		this.image = InterfaceUtils.LoadImageForSpell (spellName);
@@ -162,18 +178,48 @@ public abstract class Spell : Usable, Castable
 			}
 			applyEffectsOn (caster, caster, effectsOnSelf);
 			applyEffectsOn (caster, target, effectsOnTarget);
-			coolDownRemaing = coolDown;
+            CheckProcs(caster, target);
+            coolDownRemaing = coolDown;
 			caster.addSpellOnCD (this);
 		}
     }
 
-	protected void applyEffectsOn(Character caster, Character target, List<EffectOnTime> effects){
-		if(target != null && effects != null && effects.Count > 0){
-			foreach (EffectOnTime effect in effects) {
-				effect.Apply (caster, target);
-			}
-		}
+    public EffectOnTime GetEffectOnTarget(string name)
+    {
+        return effectsOnTarget[name];
+    }
 
+    public void RemoveEffectOnTarget(string name)
+    {
+        effectsOnTarget.Remove(name);
+    }
+
+    public void AddEffectOnTarget(EffectOnTime effect)
+    {
+        effectsOnTarget[effect.GetName()] = effect;
+    }
+
+    public EffectOnTime GetEffectOnSelf(string name)
+    {
+        return effectsOnSelf[name];
+    }
+
+    public void RemoveEffectOnSelf(string name)
+    {
+        effectsOnSelf.Remove(name);
+    }
+
+    public void AddEffectOnSelf(EffectOnTime effect)
+    {
+        effectsOnSelf[effect.GetName()] = effect;
+    }
+
+    protected void applyEffectsOn(Character caster, Character target, Dictionary<string, EffectOnTime> effects){
+		if(target != null && effects != null && effects.Count > 0){
+			foreach (KeyValuePair<string,EffectOnTime> effect in effects) {
+				effect.Value.Apply (caster, target);
+			}
+		}   
 	}
 
     public AudioClip GetPreCastSound()
@@ -214,6 +260,17 @@ public abstract class Spell : Usable, Castable
 
 
 
+    public void AddToNormalMultiplier (float n)
+    {
+        NormalMultiplier += n;
+    }
+
+    public void RemoveToNormalMultiplier(float n)
+    {
+        NormalMultiplier -= n;
+    }
+
+
     public void SetNormalMultiplier(float newNormalMultiplier)
     {
         NormalMultiplier = newNormalMultiplier;
@@ -239,12 +296,15 @@ public abstract class Spell : Usable, Castable
         actionOnCrit = act;
     }
 
-    public void OnCrit(Character caster, Character target, int damage)
+    public void OnCrit(Character caster, Character target, int damageOrHeal)
     {
-        actionOnCrit(caster, target);
+        if (actionOnCrit != null)
+        {
+            actionOnCrit(caster, target);
+        }
     }
 
-    public void AddProc(Castable procEffect, float chancePercent)
+    public void SetProc(Castable procEffect, float chancePercent)
     {
         procs[procEffect] = chancePercent;
     }

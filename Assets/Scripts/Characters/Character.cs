@@ -683,7 +683,16 @@ public abstract class Character : MonoBehaviour
     {
         spellList[spell.GetName()] =  spell;
     }
-        
+
+    public virtual void RemoveSpell(string spellname)
+    {
+        spellList.Remove(spellname);
+    }
+    public virtual void RemoveSpell(Spell spell)
+    {
+        RemoveSpell(spell.GetName());
+    }
+
     public void CastSpell(string spellName)
     {
 		CastSpell (spellList [spellName]);
