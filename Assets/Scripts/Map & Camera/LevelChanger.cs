@@ -5,19 +5,23 @@ using UnityEngine;
 public class LevelChanger : MonoBehaviour {
 
     public string Scene;
+    public string Message;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected");
         if (collision.gameObject.tag == "Player")
         {
-            Interface.DrawModalDialog("Change level ? ", new System.Action(() => GameUtils.LoadScene(Scene)));
+            Interface.DrawModalDialog(Message, new System.Action(() => GameUtils.LoadScene(Scene)));
             //Change level
         }
     }
 
     private void Start()
     {
+        if(Message == null || Message.Length == 0)
+        {
+            Message = "Change level ? ";
+        }
         GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
