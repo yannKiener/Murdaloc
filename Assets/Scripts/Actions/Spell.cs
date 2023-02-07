@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public static class Spells
 {
-    private Dictionnary<string,Spell> spellList;
+    private static Dictionary<string, Spell> spellList = new Dictionary<string, Spell>();
 
-    public static void Initialize()
+    public static void Add(Spell spell)
     {
-         spellList = new Dictionnary<string,Spell>();
+        spellList.Add(spell.GetName(), spell);
     }
     
-    public static void AddSpell(Spell spell)
+    public static Spell Get(string spellName)
     {
-         spellList.add(spell.GetName(),spell);
-    }
-    
-    public static Spell GetSpell(string spellName)
-    {
-         return spellList[spellName];
+        return spellList[spellName];
     }
     
     
@@ -31,7 +27,7 @@ public interface Spell
     int GetResourceCost();
     float GetCastTime();
     int GetLevelRequirement();
-    void Cast(GameObject target);
+    void Cast(Character caster, Character target);
 
 }
 
@@ -95,7 +91,7 @@ public abstract class AbstractSpell : MonoBehaviour, Spell
         return levelRequirement;
     }
 
-    public virtual void Cast(GameObject target)
+    public virtual void Cast(Character caster, Character target)
     {
     }
 }
@@ -110,7 +106,7 @@ public class HostileSpell : AbstractSpell
 
 	}
 
-    public override void Cast(GameObject target)
+    public override void Cast(Character caster, Character target)
     {
         if (CheckCondition())
         {
@@ -152,7 +148,7 @@ public class HostileSpell : AbstractSpell
 [System.Serializable]
 public class FriendlySpell : AbstractSpell
 {
-    public override void Cast(GameObject target)
+    public override void Cast(Character caster, Character target)
     {
         if (CheckCondition())
         {

@@ -7,6 +7,9 @@ public interface Character
     void kill();
     string GetName();
     void move();
+    void interact();
+    void castSpell(string spellName);
+    void addSpell(Spell spell);
 
 }
 
@@ -20,7 +23,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected int currentMana;
     protected string charName;
 	protected bool casting;
-	protected Spell[] spellList;
+    protected Character target;
+	protected Dictionary<string, Spell> spellList;
 
     public void Initialize(string name)
     {
@@ -30,6 +34,11 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         currentMana = maxMana;
         this.charName = name;
 		casting = false;
+    }
+
+    public void interact()
+    {
+
     }
 
     public void kill()
@@ -47,6 +56,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     }
 
+    public void addSpell(Spell spell)
+    {
+        spellList.Add(spell.GetName(), spell);
+    }
+
+    public void castSpell(string spellName)
+    {
+        spellList[spellName].Cast(this, target);
+    }
+
 }
 
 
@@ -60,14 +79,11 @@ public class Player : AbstractCharacter
     private bool jumping = false;
     private bool wantToJump = false;
 	private bool inCombat = false;
-	private List<GameObject> enemyList;
-	private GameObject target;
+    private List<Character> enemyList = new List<Character>();
 	
 	
 	void Start(){
-		
-		
-		enemyList = new List<GameObject>();
+
 	}
 
     void Update()
@@ -99,13 +115,14 @@ public class Player : AbstractCharacter
     }
 	
 
-	private void enterCombat (GameObject enemy) {
+	private void enterCombat (GameObject enemyGo) {
+        Character enemy = enemyGo.GetComponent<Character>();
 		if (!inCombat) {
-			print ("+combat");
+			//print ("+combat");
 			inCombat = true;
 			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
 		}
-		if (!enemyList.Contains (enemy)) {
+		if (enemy != null && !enemyList.Contains (enemy)) {
 			enemyList.Add (enemy);
 			if (enemyList.Count == 1) {
 				target = enemy;
@@ -114,14 +131,14 @@ public class Player : AbstractCharacter
 	}
 
 	private void leaveCombat () {
-		print ("-combat");
+		//print ("-combat");
 		inCombat = false;
 		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
 	}
 
-	private void attackTarget (GameObject tar) {
+	private void attackTarget (Character tar) {
 		enemyList.Remove (tar);
-		Destroy (tar);
+        tar.kill();
 		if (enemyList.Count != 0) {
             target = enemyList[0];
 		}
