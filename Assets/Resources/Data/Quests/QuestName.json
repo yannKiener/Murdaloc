@@ -1,0 +1,28 @@
+{  
+   "objectives":[  
+      {  
+         "kill":{  
+            "name":"Warlock Gnoll",
+            "count":2
+         }
+      },
+      {  
+         "kill":{  
+            "name":"Mage Gnoll",
+            "count":2
+         }
+      },
+      {  
+         "kill":{  
+            "name":"Basher Gnoll",
+            "count":2
+         }
+      },
+      {  
+         "loot":{  
+            "name":"Ringitem",
+            "count":1
+         }
+      }
+   ]
+}

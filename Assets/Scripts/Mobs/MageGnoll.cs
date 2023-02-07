@@ -7,9 +7,7 @@ public class MageGnoll : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Hostile mob = gameObject.AddComponent<Hostile>();
-        Dictionary<string, int> lootTable = new Dictionary<string, int>();
-        lootTable.Add("Weapon2item", 50);
-        mob.Initialize("Mage Gnoll",2,false, lootTable);
+        mob.Initialize("Mage Gnoll",2,false);
 		mob.AddSpell (Spells.Get ("Fireball"));
 	}
 	

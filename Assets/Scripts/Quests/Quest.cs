@@ -8,7 +8,8 @@ public class Quest{
     List<Objective> objectives;
     bool isQuestReady = false;
 	
-	public Quest(string name, List<Objective> objectives){
+	public Quest(string name, List<Objective> objectives)
+    {
         this.objectives = objectives;
 		this.questName = name;
 	}
@@ -37,9 +38,9 @@ public class Quest{
             int objectiveOverCounter = 0;
             foreach (Objective objective in objectives)
             {
-                if (!objective.IsOver() && enemy != null && objective.GetName().Equals(enemy.GetName()))
+                if (!objective.IsOver() && enemy != null )
                 {
-                    objective.RemoveOne();
+                    objective.Update(enemy);
                 }
 
                 if (objective.IsOver())

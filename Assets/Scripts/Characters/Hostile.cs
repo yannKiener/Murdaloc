@@ -122,12 +122,11 @@ public class Hostile : Character
     public override void die()
     {
         Player player = FindUtils.GetPlayer();
-        float exp = (level / (player.GetLevel() * player.GetLevel())) * (10 - (player.GetLevel() / Constants.MaxLevel));
+        float exp = (level / ((float)player.GetLevel() * player.GetLevel())) * (Constants.BaseExp - (player.GetLevel() / (float)Constants.MaxLevel));
         if (isElite)
         {
             exp = exp * 2.5f;
         }
-
         player.AddExp(exp);
 
         Quests.UpdateTrackedQuests(this);

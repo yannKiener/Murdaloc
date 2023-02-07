@@ -190,9 +190,12 @@ public abstract class Character : MonoBehaviour
 
     public virtual void CancelTarget()
     {
-        cakeslice.Outline outline = this.target.GetGameObject().GetComponent<cakeslice.Outline>();
-        Destroy(outline);
-        this.target = null;
+        if(target != null)
+        {
+            cakeslice.Outline outline = this.target.GetGameObject().GetComponent<cakeslice.Outline>();
+            Destroy(outline);
+            this.target = null;
+        }
     }
 
     public Spell GetCastingSpell(){
@@ -505,8 +508,8 @@ public abstract class Character : MonoBehaviour
 
 	protected bool GCDReady(){
 		bool isReady = gcd <= 0;
-		if (!isReady)
-			print ("GCD : " + gcd.ToString("0.0"));
+		//if (!isReady)
+			//print ("GCD : " + gcd.ToString("0.0"));
 		return isReady;
 	}
     

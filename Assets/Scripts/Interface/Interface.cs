@@ -11,12 +11,14 @@ public class Interface : MonoBehaviour {
 	public GUIStyle castBarStyle;
 	public GUIStyle toolTipStyle;
 	public GUIStyle textOverStyle;
-	static Player player;
+    public GUIStyle expBarStyle;
+    static Player player;
 	static Character target;
 	int barsWidth = (int)(Screen.width * Constants.characterBarswPercent / 100);
 	int barsHeight = (int)(Screen.height * Constants.characterBarshPercent / 100);
 	int castBarWidth = (int)(Screen.width * Constants.castBarwPercent / 100);
 	int castBarHeight = (int)(Screen.height * Constants.castBarhPercent / 100);
+    int expBarHeight = (int)(Screen.height* Constants.expBarHeightPercent / 100);
     static string toolTipText;
     static string toolTipName;
 
@@ -33,6 +35,7 @@ public class Interface : MonoBehaviour {
 		resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
 		castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f,0.72f,0.41f));
 		toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.01f, 0, 0.1f, 0.7f));
+        expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f,0,0.5f,1));
 	}
 
     public static void DrawToolTip(string name, string description)
@@ -70,15 +73,19 @@ public class Interface : MonoBehaviour {
 			drawCastBar (player, x,y,true,castBarWidth,castBarHeight);
 		}
         drawToolTip();
-        drawExperienceBar(FindUtils.GetPlayer());
+        drawExperienceBar(FindUtils.GetPlayer(),0,99);
 
 
     }
 
-    private void drawExperienceBar(Player player)
+    private void drawExperienceBar(Player player, int xPercent, int yPercent)
     {
 
-        GUI.Box(new Rect(Screen.width, Screen.width, barsWidth, barsHeight), player.GetExp().ToString(), backgroundStyle);
+        int x = (int)(Screen.width * xPercent / 100);
+        int y = (int)(Screen.height * yPercent / 100);
+        GUI.Box(new Rect(x,y, Screen.width, expBarHeight), "", nameBarStyle);
+        GUI.Box(new Rect(x, y, (Screen.width * player.GetExp() / 100), expBarHeight), "", expBarStyle);
+        GUI.Box(new Rect(x, y, Screen.width, expBarHeight), player.GetExp().ToString("0.0") + "%", backgroundStyle);
     }
 
     private void drawToolTip()

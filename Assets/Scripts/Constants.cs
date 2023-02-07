@@ -5,7 +5,8 @@ using UnityEngine;
 public static class Constants {
 	//Global Gameplay 
 	public static readonly float MaxSpeed = 8f;
-	public static readonly float JumpForce = 5f;
+    public static readonly float JumpForce = 5f; 
+	public static readonly float BaseExp = 20f; 
 
 	//Strings
 	public static readonly string Mana = "Mana";
@@ -17,9 +18,11 @@ public static class Constants {
 	public static readonly bool drawCastBar = true;
 	public static readonly float castBarwPercent = 22;
 	public static readonly float castBarhPercent = 4;
+    public static readonly float expBarHeightPercent = 1;
+    
 
-	//stats
-	public static readonly float GlobalCooldown = 1f;
+    //stats
+    public static readonly float GlobalCooldown = 1f;
 	public static readonly int BaseResource = 100;
 	public static readonly int BaseLife = 100;
 	public static readonly int StaminaLifeMultiplier = 10;
@@ -43,7 +46,6 @@ public static class Constants {
     public static readonly int IntelligenceByLevel = 3;
     public static readonly int StaminaByLevel = 5;
     public static readonly int SpiritByLevel = 4;
-
 
     //Items
     public static readonly float MainStatMultiplier = 1.3f;

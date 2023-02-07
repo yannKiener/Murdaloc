@@ -173,12 +173,14 @@ public class Player : Character
     }
     public void AddExp(float expPercent)
     {
+        Debug.Log("Gained xp  " + expPercent);
         this.experiencePercent += expPercent;
         if(experiencePercent >= 100)
         {
             LevelUp();
             experiencePercent -= 100;
         }
+
     }
 
 	public override void die()	

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SimpleJSON;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,24 @@ public static class Quests {
 
         if(!quests.ContainsKey(name))
         {
-            Quest quest = new Quest(name, new Objective("Goretusk", 2)); // TODO : CREER LES OBJECTIVES DEPUIS LA DB ?
+            JSONObject questData = DatabaseUtils.GetQuest(name);
+            List<Objective> objectives = new List<Objective>();
+            foreach(JSONObject objective in questData["objectives"])
+            {
+                JSONObject killObjective = objective["kill"].AsObject;
+                if (killObjective != null && killObjective.Count >= 2)
+                {
+                    objectives.Add(new KillObjective(killObjective["name"],killObjective["count"].AsInt));
+                }
+
+                JSONObject lootObjective = objective["loot"].AsObject;
+                if (lootObjective != null && lootObjective.Count >= 2)
+                {
+                    objectives.Add(new LootObjective(lootObjective["name"], lootObjective["count"].AsInt));
+                }
+            }
+
+            Quest quest = new Quest(name, objectives); 
             quest.Start();
             quests.Add(name, quest);
         }
@@ -29,7 +47,6 @@ public static class Quests {
 
     public static void UpdateTrackedQuests(Hostile enemy)
     {
-        Debug.Log("recieved kill : " + enemy.GetName());
         foreach(Quest quest in quests.Values)
         {
             quest.Update(enemy);
@@ -44,6 +61,7 @@ public static class Quests {
         {
             quests[questName].End();
             quests.Remove(questName);
+            FindUtils.GetPlayer().AddExp(20);
         }
     }
     

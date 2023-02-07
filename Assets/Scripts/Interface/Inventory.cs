@@ -47,6 +47,7 @@ public class Inventory : MonoBehaviour, Slotable {
         {
             clearChilds(slot.transform);
             slot.GetComponent<Slot>().usable = null;
+            Quests.UpdateTrackedQuests(null);
             return true;
         }
     }
@@ -75,8 +76,25 @@ public class Inventory : MonoBehaviour, Slotable {
         {
             Item tempItem = item;
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempItem.GetImageAsSprite(), tempItem);
+            Quests.UpdateTrackedQuests(null);
             return true;
         }
+    }
+
+    public int HasItem(string itemName)
+    {
+        int count = 0;
+
+        for (int i = 0; i < slotNumber; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == itemName)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public void OnDropIn(GameObject slot)
@@ -91,6 +109,7 @@ public class Inventory : MonoBehaviour, Slotable {
                 clearChilds(slot.transform);
             }
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempGameObject.GetComponent<Image>().sprite, tempUsable);
+            Quests.UpdateTrackedQuests(null);
         }
     }
 

@@ -2,7 +2,7 @@
    "text":"Hello there.",
    "choices":[  
       {  
-         "condition":"!QuestStarted",
+         "condition":"!QuestNameStarted",
          "choice":"Is everything fine?",
          "dialog":{  
             "text":"Actually no, I lost my wedding ring in the nearest gnoll camp to the west. I don't want to talk about why, but could you please get it for me quickly?",
@@ -10,7 +10,7 @@
                {  
                   "choice":"Allright",
                   "dialog":{  
-                     "startQuest":"Quest",
+                     "startQuest":"QuestName",
                      "action":"exit"
                   }
                },
@@ -24,17 +24,17 @@
          }
       },
       {  
-         "condition":"QuestStarted",
+         "condition":"QuestNameStarted",
          "choice":"About the ring...",
          "dialog":{  
             "text":"Keep quiet ! Don't say that out loud. Do you have it ?",
             "choices":[  
                {
-				 "condition":"QuestReady",
+				 "condition":"QuestNameReady",
 				 "choice":"I have the ring!",
 				 "dialog":{  
 					"text":"Well done %T!",
-					"endQuest":"Quest",
+					"endQuest":"QuestName",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>",
@@ -55,7 +55,7 @@
          }
       },
       {  
-         "condition":"QuestOver",
+         "condition":"QuestNameOver",
          "choice":"About the ring...",
          "dialog":{  
             "text":"<He winks>. It's a pretty one, right ? See you later.",

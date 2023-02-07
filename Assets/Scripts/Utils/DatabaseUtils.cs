@@ -14,6 +14,12 @@ public static class DatabaseUtils {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
     }
 
+    public static JSONObject GetQuest(string questName)
+    {
+        Debug.Log("Loading quest : " + questName);
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Quests/" + questName).text).AsObject;
+    }
+
 
     public static JSONArray GetJsonStatNames(Stat stat)
     {
