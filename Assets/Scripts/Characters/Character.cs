@@ -679,7 +679,7 @@ public abstract class Character : MonoBehaviour
 		return this.spellList;
 	}
 
-    public virtual void AddSpell(Spell spell, bool addToActionBar = false)
+    public virtual void AddSpell(Spell spell)
     {
         spellList[spell.GetName()] = spell.Clone();
     }
@@ -780,7 +780,7 @@ public abstract class Character : MonoBehaviour
 
 	protected void createFloatingText (string text, Color color, bool isCrit, bool isAutoAttack = false)
 	{
-		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("FloatingText"));
+		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("Prefab/UI/FloatingText"));
 		setObjectAboveAsChild (floatingTextGameObj, 1f);
 		FloatingText floatingText = floatingTextGameObj.AddComponent<FloatingText> ();
 		floatingText.setText (text);
@@ -794,7 +794,7 @@ public abstract class Character : MonoBehaviour
     }
 
 	protected void createStatusBar(){
-		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("StatusBar"));
+		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("Prefab/UI/StatusBar"));
 		setObjectAboveAsChild (statusBarGameObject, 0.5f);
 		statusBarGameObject.AddComponent<StatusBar>();
 	}
@@ -802,7 +802,6 @@ public abstract class Character : MonoBehaviour
 	private void setObjectAboveAsChild(GameObject gameObj, float yOffSet){
 		gameObj.transform.SetParent (this.gameObject.transform, false);
 		gameObj.transform.position += new Vector3 (0,this.gameObject.GetComponent<SpriteRenderer> ().bounds.size.y + yOffSet,0);
-
 	}
 
 

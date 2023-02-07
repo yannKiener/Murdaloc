@@ -27,16 +27,18 @@ public class SpellAndEffectLoader : MonoBehaviour {
     private void CreateSpecialisations()
     {
         Specialisation mage = new Specialisation("Mage");
+        
+        mage.SetTalent(2, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
         mage.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
         mage.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
+        mage.SetTalent(5, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova")), (player, stacks) => player.RemoveSpell("Frost nova")));
         mage.SetTalent(6, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
         mage.SetTalent(7, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
-        mage.SetTalent(10, new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance"),true), (player, stacks) => player.RemoveSpell("Icelance")));
-        mage.SetTalent(11, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion"), true), (player, stacks) => player.RemoveSpell("Fire explosion")));
-        mage.SetTalent(12, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm"), true), (player, stacks) => player.RemoveSpell("Meteor storm")));
+        mage.SetTalent(10, new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance")), (player, stacks) => player.RemoveSpell("Icelance")));
+        mage.SetTalent(11, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion")), (player, stacks) => player.RemoveSpell("Fire explosion")));
+        mage.SetTalent(12, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
         mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }));
-        mage.SetTalent(15, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova"), true), (player, stacks) => player.RemoveSpell("Frost nova")));
-
+        
 
         /*
         mage.SetTalent(10, new Talent("ICETEST", ".", 5));
@@ -77,9 +79,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
         CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 1f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Frost", null, null);
-        CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 5, 8, 10, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } },60,5), "Fire", null, null);
-        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 5, 3, 5, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0f } }, 0, 5,true,1), "Fire", null, null);
-        CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 5, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 5, true, 1), "Frost", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
+        CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 5, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } },60,5), "Fire", null, null);
+        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 5, 3, 2, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0f } }, 0, 2,true,1), "Fire", null, null);
+        CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "Frost", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
 
 
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());

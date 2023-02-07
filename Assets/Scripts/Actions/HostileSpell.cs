@@ -27,8 +27,9 @@ public class HostileSpell : Spell
         }
 	}
 
-	public override bool IsCastable(Character caster, Character target){
-		return target != null && base.IsCastable (caster,target) ;
+	public override bool IsCastable(Character caster, Character target, bool displayCDText = true)
+    {
+		return target != null && base.IsCastable (caster,target, displayCDText) ;
 	}
 
 }

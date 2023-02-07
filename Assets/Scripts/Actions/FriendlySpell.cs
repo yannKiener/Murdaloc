@@ -33,12 +33,13 @@ public class FriendlySpell : Spell
         return new FriendlySpell(this);
     }
 
-    public override bool IsCastable(Character caster, Character target){
+    public override bool IsCastable(Character caster, Character target, bool displayCDText = true)
+    {
 		if (targetIsNullOrEnemy(target)) {
 			target = caster;
 		}
 
-		return base.IsCastable (caster, target);
+		return base.IsCastable (caster, target, displayCDText);
 	}
 
 	private bool targetIsNullOrEnemy(Character target){

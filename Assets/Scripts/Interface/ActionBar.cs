@@ -14,6 +14,38 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     }
 
+    public List<string> GetSave()
+    {
+        List<string> shortCuts = new List<string>();
+
+        foreach (Transform c in transform)
+        {
+            Slot s = c.GetComponent<Slot>();
+            if (c.childCount != 0 && s != null && s.usable != null)
+            {
+                shortCuts.Add(s.usable.GetName());
+            }
+        }
+
+        return shortCuts;
+    }
+
+
+    public void Load(List<string> shortCuts) {
+
+        foreach(string spellName in shortCuts)
+        {
+            Dictionary<string, Spell> playerSpells = FindUtils.GetPlayer().GetSpells();
+            if (playerSpells.ContainsKey(spellName))
+            {
+                Add(playerSpells[spellName]);
+            } else
+            {
+                Add(Spells.Get(spellName));
+            }
+        }
+    }
+
     private GameObject getFirstFreeSlot()
     {
         foreach (Transform c in transform)
@@ -39,6 +71,7 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     public void Add(Usable usable)
     {
+        Debug.Log("Adding usable : " + usable.GetName());
         GameObject slot = getFirstFreeSlot();
 
         if (slot != null)
@@ -62,7 +95,8 @@ public class ActionBar : MonoBehaviour, Slotable {
         }else if(Draggable.currentUsable is Consumable)
         {
 
-            //Add link of consumable
+            eventData.Use();
+            //Add link of consumable ou le spell du consumable!
         } else 
         {
             eventData.Use();
@@ -111,6 +145,33 @@ public class ActionBar : MonoBehaviour, Slotable {
         if (Input.GetButtonDown("ActionBar10"))
         {
             transform.GetChild(9).GetComponent<Slot>().Use();
+        }
+
+        CheckSlotsConditions();
+    }
+
+    private void CheckSlotsConditions()
+    {
+        foreach(Transform t in transform)
+        {
+            if(t.childCount > 0)
+            {
+                HideSlotIfCantCast(t.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private void HideSlotIfCantCast(GameObject slotGameObject)
+    {
+        Player p = FindUtils.GetPlayer();
+        Spell spell = (Spell)slotGameObject.GetComponent<Draggable>().usable;
+
+        if (spell.IsCastable(p, p.GetTarget(), false))
+        {
+            slotGameObject.GetComponent<Image>().color = Color.white;
+        } else
+        {
+            slotGameObject.GetComponent<Image>().color =  new Color(1,1,1,0.5f);
         }
     }
     

@@ -23,6 +23,8 @@ public class SaveGame {
     Specialisation sp2;
     Specialisation sp3;
 
+    List<string> actionBarSpells;
+
     public SaveGame()
     {
         CharacterSheet chSheet = FindUtils.GetCharacterSheetGrid();
@@ -55,6 +57,8 @@ public class SaveGame {
         sp1 = tSheet.GetSpec1();
         sp2 = tSheet.GetSpec2();
         sp3 = tSheet.GetSpec3();
+
+        actionBarSpells = FindUtils.GetActionBar().GetSave();
     }
 
     public string GetLastScene()
@@ -90,11 +94,12 @@ public class SaveGame {
 
         FindUtils.GetInventoryGrid().AddCash(cash);
 
-        FindUtils.GetTalentSheetGrid().LoadSpecsSave(sp1, sp2, sp3);
 
 
         DialogStatus.SetAllStatus(status);
         FindUtils.GetPlayer().InitializeWith(name, level, talentPoints, expPercent, r, sList);
+
+        FindUtils.GetTalentSheetGrid().LoadSpecsSave(sp1, sp2, sp3);
 
         foreach (Item item in inventoryItems)
         {
@@ -116,6 +121,8 @@ public class SaveGame {
 
         Quests.LoadQuests(quests);
         Quests.UpdateQuestLog();
+
+        FindUtils.GetActionBar().Load(actionBarSpells);
 
     }
 }

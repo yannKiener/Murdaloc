@@ -96,8 +96,8 @@ public abstract class Spell : Usable, Castable
     }
 
 
-	public virtual bool IsCastable(Character caster, Character target){
-		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(true) && checkFriendlyTarget(target));
+	public virtual bool IsCastable(Character caster, Character target, bool displayCDText = true){
+		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(displayCDText) && checkFriendlyTarget(target));
 	}
 
     protected bool checkFriendlyTarget(Character target)
@@ -146,10 +146,10 @@ public abstract class Spell : Usable, Castable
     }
 
     public string GetDescription() {
-        if(castTime == 0)
-            return string.Concat(description,"\nInstant cast.","\nLevel requirement : ", levelRequirement.ToString());
+        if (castTime == 0)
+            return string.Concat(description, "\nInstant cast.", "\nLevel requirement : ", levelRequirement.ToString());
         else
-            return string.Concat(description, "\nCasting time : ",castTime.ToString(),"s.", "\nLevel requirement : ", levelRequirement.ToString());
+            return string.Concat(description, "\nCasting time : ", GetCastTime(FindUtils.GetPlayer().GetStats()).ToString(),"s.", "\nLevel requirement : ", levelRequirement.ToString());
     }
 
     public int GetResourceCost() {

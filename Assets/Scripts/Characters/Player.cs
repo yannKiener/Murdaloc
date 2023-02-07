@@ -102,7 +102,7 @@ public class Player : Character
         ClearSpells();
         foreach(Spell spell in spellList)
         {
-            AddSpell(spell, true);
+            AddSpell(spell);
         }
 
         FindUtils.GetSpellBookGrid().UpdateSpellBook();
@@ -242,19 +242,11 @@ public class Player : Character
         RemoveSpell(spell.GetName());
     }
 
-    public override void AddSpell(Spell spell, bool addToActionBar = false)
+    public override void AddSpell(Spell spell)
     {
         base.AddSpell(spell);
         if(FindUtils.GetSpellBookGrid() != null)
             FindUtils.GetSpellBookGrid().UpdateSpellBook();
-
-        if (addToActionBar)
-        {
-            if (FindUtils.GetActionBar() != null)
-            {
-                FindUtils.GetActionBar().Add(spell);
-            }
-        }
 
     }
 
