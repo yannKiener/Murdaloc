@@ -5,7 +5,7 @@
          "condition":"!Blade for everyoneStarted",
          "choice":"You asked for me ?",
          "dialog":{  
-            "text":"I haven't seen you yet... Are you the sleepy one ?. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
+            "text":"I haven't seen you yet... Are you the sleepy one ? Anyways, listen. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
             "choices":[  
                {  
                   "choice":"What can I do ?",
@@ -39,16 +39,17 @@
          }
       },
 	  {
-         "condition":"Blade for everyoneOver",
+         "condition":"Blade for everyoneOver&!Travel to ElwynStarted",
          "choice":"You still need me ?",
          "dialog":{  
-            "text":"Well, I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going this way.",
+            "text":"Well, I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going their way.",
 			"choices":[  
 				{  
-				   "condition":"Prove your worthOver",
+				   "condition":"Prove your worthOver&!Travel to ElwynStarted",
 				   "choice":"I can help.",
 				   "dialog":{  
-						"text":"Hm, I sense more power in you.. Fine, let's move then. Meet me in Elwyn, east of here.",
+						"text":"Hm, I sense more power in you.. You may be useful. Fine, let's move then. Meet me in Elwyn, east of here.",
+					    "startQuest":"Travel to Elwyn",
 						"action":"ActivateTeleporterInArea",
 						"choices":[  
 							{  
@@ -71,9 +72,21 @@
 				}
 			 ]
 		}
-	  },
+	  },,
+	  {
+         "condition":"Travel to ElwynStarted",
+         "choice":"You still need me ?",
+         "dialog":{  
+            "text":"As I said, I need you to come with us, we have to warn our friends in Redridge moutains before the humanoids get here. Meet me in Elwyn, east of here.",
+			"choices":[  
+				{  
+				   "choice":"<Leave>",
+				}
+			 ]
+		}
+	  }
       {  
-         "choice":"Nevermind"
+         "choice":"<Leave>"
       }
    ]
 }

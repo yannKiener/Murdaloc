@@ -1,12 +1,25 @@
 {  
-   "text":"Greetings %T! Come closer.",
+   "text":"%T, Come closer.",
    "choices":[  
-      {  
+      { 
+         "condition":"Travel to ElwynStarted&!Travel to ElwynOver",
+         "choice":"So this is Elwyn?",
+         "dialog":{  
+            "text":"Yes %T. We will make a halt here for a while.",
+			"endQuest":"Travel to Elwyn",
+            "choices":[ 
+               {  
+                  "choice":"<Leave>"
+			   }
+            ]
+         }
+      },
+      { 
          "condition":"!KillPrincessStarted",
          "choice":"You need me?",
          "dialog":{  
-            "text":"Indeed %T. A huge pig is destroying our crops to the East. I need you to get rid of it. We call this one Princess.",
-            "choices":[  
+            "text":"Indeed %T. A huge pig is destroying our crops to the East. We call this one Princess. I need you to get rid of it quickly, before we continue east to Redridge.",
+            "choices":[ 
                {  
                   "choice":"Consider this done",
                   "dialog":{  
