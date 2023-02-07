@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public interface Character 
 {
@@ -16,6 +17,9 @@ public interface Character
     void castSpell(string spellName);
     void addSpell(Spell spell);
 	void ApplyDamage (int damage);
+	void ApplyHeal (int heal);
+	void RemoveMana (int mana);
+	void AddMana (int mana);
 	void AggroTarget(Character aggroTarget);
 	void AggroFrom(Character aggroFrom);
 	void CancelCast();
@@ -41,6 +45,9 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
+	protected Image healthBar;
+	protected bool isHealthBarDisplayed = false;
+
 
     public void Initialize(string name)
     {
@@ -72,6 +79,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 	public int GetMaxMana(){
 		return maxMana;
+	}
+
+
+	public void RemoveMana (int mana){
+		currentMana -= mana;
+
+	}
+
+	public void AddMana (int mana){
+		currentMana += mana;
 	}
 
 	public void CancelCast(){
@@ -189,8 +206,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     {
         if(!casting) 
         {
-        castingSpell = spellList [spellName];
-        casting = true;
+        	castingSpell = spellList [spellName];
+			int manaCost = castingSpell.GetResourceCost ();
+			if (manaCost <= currentMana) {
+				print (currentMana);
+				print (manaCost);
+				casting = true;
+			} else {
+				castingSpell = null;
+				print ("NOT ENOUGH MANA");
+			}
 		}
     }
     
@@ -218,11 +243,37 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		
 	public void ApplyDamage (int damage)
 	{
-		print ("Applying damage : " + damage + " to : " + this.GetName());
 		this.currentLife -= damage;
+
+		updateHealthBar ();
 
 		if (currentLife <= 0)
 			this.kill ();
+	}
+
+	public void ApplyHeal (int heal)
+	{
+		this.currentLife += heal;
+
+		updateHealthBar ();
+
+		if (currentLife <= 0)
+			this.kill ();
+	}
+
+	protected void updateHealthBar(){
+		float healthPercent = (float)currentLife / (float)maxLife;
+
+		if (!isHealthBarDisplayed && healthBar == null) {
+			GameObject healthBarGameObject = (GameObject)Instantiate (Resources.Load ("HealthBar"));
+			healthBarGameObject.transform.SetParent (this.gameObject.transform, false);
+			healthBarGameObject.transform.position += new Vector3 (0,1,0);
+			healthBar = healthBarGameObject.transform.GetChild (0).GetChild (0).gameObject.GetComponent<Image> ();
+			healthBar.fillAmount = healthPercent;
+			isHealthBarDisplayed = true;
+		} else {
+			healthBar.fillAmount = healthPercent;
+		}
 	}
 
 

@@ -113,7 +113,8 @@ public class HostileSpell : AbstractSpell
     {
 		if (CheckCondition(caster, target))
         {
-			target.ApplyDamage (this.damage);
+			caster.RemoveMana (resourceCost);
+			target.ApplyDamage (damage);
         }
         else
         {
@@ -160,7 +161,7 @@ public class FriendlySpell : AbstractSpell
     {
         if (CheckCondition())
         {
-            //Cast Spell
+			caster.AddMana (caster.GetMaxMana() - caster.GetCurrentMana ());
         }
         else
         {
