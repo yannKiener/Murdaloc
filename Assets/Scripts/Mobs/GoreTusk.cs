@@ -7,10 +7,7 @@ public class GoreTusk : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Hostile mob = gameObject.AddComponent<Hostile>();
-        Dictionary<string, int> lootTable = new Dictionary<string, int>();
-        lootTable.Add("Neckitem", 60);
-        lootTable.Add("Torsoitem", 40);
-		mob.Initialize("Goretusk",1,false,lootTable);
+		mob.Initialize("Goretusk",1,false);
         mob.AddDialog("test");
 	}
 	

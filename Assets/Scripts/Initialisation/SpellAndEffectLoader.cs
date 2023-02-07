@@ -156,12 +156,14 @@ public class SpellAndEffectLoader : MonoBehaviour {
     {
         FindUtils.GetCharacterSheetGrid();
         FindUtils.GetCharacterSheetText();
-        FindUtils.GetCharacterSheet().SetActive(false);
-        FindUtils.GetInventoryGrid();
-        FindUtils.GetInventory().SetActive(false);
-        FindUtils.GetPlayer();
+        FindUtils.GetLootGrid();
         FindUtils.GetSpellBookGrid();
+        FindUtils.GetPlayer();
+        FindUtils.GetInventoryGrid();
+        FindUtils.GetCharacterSheet().SetActive(false);
+        FindUtils.GetInventory().SetActive(false);
         FindUtils.GetSpellBook().SetActive(false);
+        FindUtils.GetLoot().SetActive(false);
     }
     // Update is called once per frame
     void Update () {

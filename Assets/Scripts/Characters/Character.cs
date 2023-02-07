@@ -49,7 +49,7 @@ public abstract class Character : MonoBehaviour
         this.isElite = isElite;
         if(lootTable == null)
         {
-            //LootTable = GetDefaultLootTableForLevel 
+            lootTable = GetDefaultLootTableForLevel(level);
         }
         this.lootTable = lootTable;
     }
@@ -69,7 +69,12 @@ public abstract class Character : MonoBehaviour
             {
                 if(Random.Range(0,101) < kv.Value)
                 {
-                    result.Add(Items.GetFromDB(kv.Key));
+                    if (kv.Key.Equals("Random"))
+                    {
+                        result.Add(ItemGenerator.GenerateItem(level));
+                    } else { 
+                        result.Add(Items.GetFromDB(kv.Key));
+                    }
                 }
             }
         }
@@ -79,6 +84,17 @@ public abstract class Character : MonoBehaviour
     public void SetLootTable(Dictionary<string, int> lootTable)
     {
         this.lootTable = lootTable;
+    }
+
+    protected virtual Dictionary<string, int> GetDefaultLootTableForLevel(int level)
+    {
+        Dictionary<string, int> result = new Dictionary<string, int>();
+        result.Add("Random", Random.Range(0, (int)((level / Constants.MaxLevel) * 100)));
+        if (isElite)
+        {
+            result.Add("Random", Random.Range(30,30+ (int)((level / Constants.MaxLevel) * 100)));
+        }
+        return result;
     }
 
     public Dictionary<string, int> GetLootTable()
@@ -226,6 +242,9 @@ public abstract class Character : MonoBehaviour
 
 
 	public void CancelCast(){
+
+        Debug.Log("canceling cast");
+        gcd = 0;
 		castingTime = 0;
 		casting = false;
 		castingSpell = null;
@@ -477,7 +496,9 @@ public abstract class Character : MonoBehaviour
     {
 		hasCasted = true;
 		castingSpell.Cast (this, target);
-		CancelCast();
+        castingTime = 0;
+        casting = false;
+        castingSpell = null;
     }
 		
 	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)

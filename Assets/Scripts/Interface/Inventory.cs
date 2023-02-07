@@ -24,6 +24,17 @@ public class Inventory : MonoBehaviour, Slotable {
 
     }
 
+    public bool IsEmpty()
+    {
+        for (int i = 0; i < slotNumber; i++)
+        {
+            if (transform.GetChild(i).childCount != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public bool RemoveItem(Item item)
     {
@@ -61,6 +72,7 @@ public class Inventory : MonoBehaviour, Slotable {
         GameObject tempGameObject = Draggable.currentItem;
         Usable tempUsable = Draggable.currentUsable;
         if (tempUsable is Item) {
+            ((Item)tempUsable).isInInventory = true;
             //Si le slot a déjà un contenu, on le supprime 
             if (slot.transform.childCount > 0)
             {

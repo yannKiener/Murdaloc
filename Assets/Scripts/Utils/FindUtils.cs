@@ -9,6 +9,8 @@ public static class FindUtils  {
     private static SpellBook spellBookGrid;
     private static GameObject inventory;
     private static Inventory inventoryGrid;
+    private static GameObject loot;
+    private static GameObject lootGrid;
     private static GameObject characterSheet;
     private static Text characterSheetText;
     private static CharacterSheet characterSheetGrid;
@@ -49,7 +51,7 @@ public static class FindUtils  {
     public static Inventory GetInventoryGrid()
     {
         if (inventoryGrid == null)
-            inventoryGrid = GetInventory().GetComponent<Inventory>();
+            inventoryGrid = GameObject.Find("InventoryGrid").GetComponent<Inventory>();
 
         return inventoryGrid;
     }
@@ -76,5 +78,22 @@ public static class FindUtils  {
             characterSheetGrid = GameObject.Find("CharacterSheetGrid").GetComponent<CharacterSheet>();
 
         return characterSheetGrid;
+    }
+
+
+    public static GameObject GetLoot()
+    {
+        if (loot == null)
+            loot = GameObject.Find("Loot");
+        
+        return loot;
+    }
+
+    public static GameObject GetLootGrid()
+    {
+        if (lootGrid == null)
+            lootGrid = GameObject.Find("LootGrid");
+
+        return lootGrid;
     }
 }

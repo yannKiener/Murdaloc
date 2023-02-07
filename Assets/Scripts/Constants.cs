@@ -32,7 +32,8 @@ public static class Constants {
 	public static readonly int BaseManaPerSecond = 5;
 	public static readonly int RegenManaEvery = 1;
 	public static readonly int RegenEnergyEvery = 2;
-    public static readonly int maxHaste = 90;
+    public static readonly int MaxHaste = 90;
+    public static readonly int MaxLevel = 60;
 
     //Items
     public static readonly float MainStatMultiplier = 1.3f;
@@ -41,6 +42,9 @@ public static class Constants {
     public static readonly float UncommonStatMultiplier = 0.7f;
     public static readonly float RareStatMultiplier = 1f;
     public static readonly float EpicStatMultiplier = 1.3f;
+
+    //Loot
+    public static readonly int DeleteLootAfterSeconds = 120;
 
     //Enemies 
     public static readonly float AggroDistance = 2;

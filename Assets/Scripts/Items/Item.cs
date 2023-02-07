@@ -14,6 +14,7 @@ public class Item : Usable {
     protected Stats stats;
     protected ItemType type;
     public bool isEquipped;
+    public bool isInInventory;
 
     public Item(string itemName, string description, int levelRequirement, Stats stats, ItemType type)
     {
@@ -23,6 +24,7 @@ public class Item : Usable {
         this.stats = stats;
         this.type = type;
         isEquipped = false;
+        isInInventory = true;
         
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
         if (image == null)
@@ -78,11 +80,16 @@ public class Item : Usable {
             if (isEquipped)
             {
                 FindUtils.GetCharacterSheetGrid().RemoveItem(this);
-              //  FindUtils.GetInventory().GetComponent<Inventory>().AddItem(this);
             } else
             {
-                FindUtils.GetCharacterSheetGrid().EquipItem(this);
-                    // FindUtils.GetInventory().GetComponent<Inventory>().RemoveItem(this);
+                if (isInInventory)
+                {
+                    FindUtils.GetCharacterSheetGrid().EquipItem(this);
+                } else
+                {
+                    FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(this);
+                    FindUtils.GetInventoryGrid().AddItem(this);
+                }
             }
         } else
         {
