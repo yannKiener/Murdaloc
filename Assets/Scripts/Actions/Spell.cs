@@ -88,7 +88,7 @@ public abstract class Spell
 
 
 	public float GetCastTime(Stats stats) {
-		return castTime - castTime * stats.Haste/100;
+		return castTime - castTime * stats.Haste/200;
     }
 
     public int GetLevelRequirement()
