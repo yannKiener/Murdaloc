@@ -24,8 +24,6 @@ public class EffectOnTime
 {
 	private float duration;
 	private float timePerTic;
-	//private int totalDamage;
-	//private int totalHeal;
 	private string name;
 	private string description;
 	private bool isBuff;

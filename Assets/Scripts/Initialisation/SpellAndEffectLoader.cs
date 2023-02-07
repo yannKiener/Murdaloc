@@ -1,19 +1,63 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SpellAndEffectLoader : MonoBehaviour {
 
 
 	void Awake (){
-		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,2,6,0.5f,100,0));
-		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,4,10,1,0,80));
+		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,1,6,0.5f,100,0));
+		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,3,10,1,0,80));
 
-		Spells.Add (new HostileSpell ("fireball","A magic Fireball. That's it.", 10,2,25,0,0,5));
-		Spells.Add (new HostileSpell ("slam","Slap your target's face with your first", 20,0,10,0,0,2));
-		Spells.Add (new FriendlySpell ("renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("renovation") }));
-		Spells.Add (new HostileSpell ("corruption","FIRST DOT SPELL", 5,0.5f,0,0,0,5,new List<EffectOnTime> { EffectsOnTime.Get("corruption") },new List<EffectOnTime>()));
+		Spells.Add (new HostileSpell ("fireball","A magic Fireball. That's it.", 10,2,0,0,5,newAction(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null));
+		Spells.Add (new HostileSpell ("slam","Slap your target's face with your first", 20,0,0,0,2,newAction(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},30),null,null));
+		Spells.Add (new FriendlySpell ("renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("renovation") }));
+		Spells.Add (new HostileSpell ("corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("corruption") },new List<EffectOnTime>()));
 	}
+
+
+
+	private Action<Character, Character> newAction (Dictionary<Stat, float> statWeight, int baseDamage) {
+		float forceMultiplier = 0;
+		float agilityMultiplier = 0;
+		float intelligenceMultiplier = 0;
+		float staminaMultiplier = 0;
+		float spiritMultiplier = 0;
+
+		foreach (KeyValuePair<Stat,float> p in statWeight) {
+			if(p.Key == Stat.force){
+				forceMultiplier = p.Value;
+			}
+			if(p.Key == Stat.agility){
+				agilityMultiplier = p.Value;
+			}
+			if(p.Key == Stat.intelligence){
+				intelligenceMultiplier = p.Value;
+			}
+			if(p.Key == Stat.stamina){
+				staminaMultiplier = p.Value;
+			}
+			if(p.Key == Stat.spirit){
+				spiritMultiplier = p.Value;
+			}
+		}
+			
+		return ((Character arg1, Character arg2) => {
+			int damage = baseDamage;
+
+			Stats casterStats = arg1.GetStats ();
+			bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
+
+			damage = damage + (damage * casterStats.Power / 100); //Applying power 
+			if (isCrit) { // Apply Crit
+				damage = damage * 2;
+			}
+			arg2.ApplyDamage((int)(damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100));
+		});
+	}
+
+
 
 	// Use this for initialization
 	void Start () {

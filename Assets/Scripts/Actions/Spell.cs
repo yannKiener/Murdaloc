@@ -1,6 +1,7 @@
 ﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public static class Spells
@@ -30,11 +31,10 @@ public abstract class Spell
 	protected int coolDown;
     protected List<EffectOnTime> effectsOnTarget;
     protected List<EffectOnTime> effectsOnSelf;
-    protected int damage;
-	protected bool isCrit = false;
 	protected float maxDistance;
+	protected Action<Character,Character> applySpellEffect;
 
-	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,float maxDistance,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+	public Spell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance,Action<Character,Character> spellEffect,List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
 		this.spellName = name.ToLower();
 		this.description = description;
@@ -42,21 +42,9 @@ public abstract class Spell
 		this.castTime = castTime;
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
-		this.damage = damage;
+		this.applySpellEffect = spellEffect;
 		this.effectsOnTarget = effectsOnTarget;
 		this.effectsOnSelf = effectsOnSelf;
-		this.maxDistance = maxDistance;
-	}
-
-	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,float maxDistance)
-	{
-		this.spellName = name.ToLower();
-		this.description = description;
-		this.resourceCost = resourceCost;
-		this.castTime = castTime;
-		this.levelRequirement = levelRequirement;
-		this.coolDown = coolDown;
-		this.damage = damage;
 		this.maxDistance = maxDistance;
 	}
 
@@ -91,9 +79,6 @@ public abstract class Spell
         return resourceCost;
     }
 
-	public bool IsCrit() {
-        return this.isCrit;
-    }
 
 
 	public float GetCastTime(Stats stats) {
@@ -107,22 +92,15 @@ public abstract class Spell
 
     public virtual void Cast(Character caster, Character target)
     {
-		caster.RemoveResource (resourceCost);
-		applyEffectsOn (caster, caster, effectsOnSelf);
-		applyEffectsOn (caster, target, effectsOnTarget);
-    }
-
-	protected int modifiedSpell (Character caster, Character target, int number)
-	{
-		Stats casterStats = caster.GetStats ();
-		this.isCrit = casterStats.Critical > Random.Range (1, 101);
-
-		number = number + (number * casterStats.Power / 100); //Applying power 
-		if (this.isCrit) { // Apply Crit
-			number = number * 2;
+		if (IsCastable (caster, target)) {
+			caster.RemoveResource (resourceCost);
+			if (applySpellEffect != null) {
+				applySpellEffect (caster, target);
+			}
+			applyEffectsOn (caster, caster, effectsOnSelf);
+			applyEffectsOn (caster, target, effectsOnTarget);
 		}
-		return (int)(number + number * Random.Range (-30f, 30f) / 100);
-	}
+    }
 
 	protected void applyEffectsOn(Character caster, Character target, List<EffectOnTime> effects){
 		if(target != null && effects != null && effects.Count > 0){

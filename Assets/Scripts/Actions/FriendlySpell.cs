@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class FriendlySpell : Spell
 {
-	public FriendlySpell(string name, string desc, int rsrcCost,  float castTime, int lvlReq, int cD, float minD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,0,lvlReq,cD,minD,effectsOnTarget,effectsOnSelf){
+	public FriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance,Action<Character,Character> spellEffect, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,description,resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, effectsOnTarget, effectsOnSelf){
 
 
 	}
+
 	public override void Cast(Character caster, Character target)
 	{
 		if (targetIsNullOrEnemy(target)) {

@@ -34,4 +34,21 @@ public static class Constants {
 	public static readonly float AggroOtherDistance = 2;
 
 
+
+
 }
+
+public enum Stat {
+force,
+agility,
+intelligence,
+stamina,
+spirit,
+critical,
+haste,
+power,
+autoAttackDamage,
+autoAttackTime
+}
+
+
