@@ -10,11 +10,6 @@ public abstract class Item : Usable {
     protected Sprite image;
     protected int sellPrice;
 
-
-    protected string getPriceSentence()
-    {
-        return "Price : " + InterfaceUtils.GetStringPrice(sellPrice);
-    }
     public virtual int GetSellPrice()
     {
         return sellPrice;

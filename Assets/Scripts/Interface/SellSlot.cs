@@ -22,12 +22,12 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         Inventory inv = FindUtils.GetInventoryGrid();
         if (item != null)
         {
-            if (inv.HasEnoughCash(item.GetSellPrice() * 5))
+            if (inv.HasEnoughCash((int)(item.GetSellPrice() * Constants.BuyPriceMultiplier)))
             {
                 if (inv.AddItem(item))
                 {
                     FindUtils.GetInterface().CoinSound();
-                    inv.RemoveCash(item.GetSellPrice() * 5);
+                    inv.RemoveCash((int)(item.GetSellPrice() * Constants.BuyPriceMultiplier));
                     if (!hasInfinite)
                         Destroy(this.gameObject);
                 }
@@ -47,7 +47,7 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item != null)
-            Interface.DrawToolTip(item.GetName(), item.GetDescription());
+            Interface.DrawToolTip(item.GetName(), item.GetDescription(), (int)(item.GetSellPrice() * Constants.BuyPriceMultiplier));
     }
 
     public void OnPointerExit(PointerEventData eventData)

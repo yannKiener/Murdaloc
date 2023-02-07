@@ -28,7 +28,7 @@ public class Equipment : Item
 
     public override string GetDescription()
     {
-        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() + "\n" + getPriceSentence();
+        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail();
     }
 
     public void SetImage(Sprite image)

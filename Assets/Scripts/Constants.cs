@@ -66,6 +66,7 @@ public static class Constants {
 
     //Loot
     public static readonly int DeleteLootAfterSeconds = 120;
+    public static readonly float BuyPriceMultiplier = 5;
 
     //Enemies 
     public static readonly float AggroDistance = 2;

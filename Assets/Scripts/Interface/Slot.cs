@@ -41,7 +41,14 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (usable != null)
-            Interface.DrawToolTip(usable.GetName(), usable.GetDescription());
+            if(usable is Item)
+            {
+                Interface.DrawToolTip(usable.GetName(), usable.GetDescription(), ((Item)usable).GetSellPrice());
+            }
+            else
+            {
+                Interface.DrawToolTip(usable.GetName(), usable.GetDescription());
+            }
     }
 
     public void OnPointerExit(PointerEventData eventData)

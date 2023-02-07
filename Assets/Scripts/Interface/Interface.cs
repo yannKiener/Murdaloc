@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Interface : MonoBehaviour {
-	public GUIStyle nameBarStyle;
+public class Interface : MonoBehaviour
+{
+    public Texture copperIcon;
+    public Texture silverIcon;
+    public Texture goldIcon;
+
+    public GUIStyle nameBarStyle;
 	public GUIStyle healthBarStyle;
 	public GUIStyle resourceBarStyle;
 	public GUIStyle backgroundStyle;
@@ -43,8 +48,11 @@ public class Interface : MonoBehaviour {
     int expBarHeight = (int)(Screen.height* Constants.expBarHeightPercent / 100);
     static string toolTipText;
     static string toolTipName;
+    static int toolTipPrice;
+    private int cashIconSize;
 
-	public static void LoadPlayer(){
+
+    public static void LoadPlayer(){
 		player = FindUtils.GetPlayer();
 	}
 
@@ -125,6 +133,7 @@ public class Interface : MonoBehaviour {
         SoundManager.PlaySound(levelUp);
     }
 
+
     // Use this for initialization
     void Start () {
 		nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0, 0, 0, 0.7f));
@@ -133,18 +142,22 @@ public class Interface : MonoBehaviour {
 		castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f,0.72f,0.41f));
 		toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.01f, 0, 0.1f, 0.7f));
         expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f,0,0.5f,1));
-	}
 
-    public static void DrawToolTip(string name, string description)
+        cashIconSize = (int)(Screen.height * 4 / 100);
+    }
+
+    public static void DrawToolTip(string name, string description, int price = 0)
     {
         toolTipText = description;
         toolTipName = name;
+        toolTipPrice = price;
     }
     
     public static void RemoveToolTip()
     {
         toolTipText = null;
         toolTipName = null;
+        toolTipPrice = 0;
     }
 
 
@@ -192,7 +205,42 @@ public class Interface : MonoBehaviour {
             string tooltipContent = string.Concat(toolTipName,":\n", toolTipText);
             GUIContent tooltip = new GUIContent(tooltipContent);
             Vector2 size = toolTipStyle.CalcSize(tooltip);
-            GUI.Label(new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y), size.x, size.y), tooltipContent, toolTipStyle);
+            Rect labelRect = new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y + cashIconSize), size.x, size.y);
+            GUI.Label(labelRect, tooltipContent, toolTipStyle);
+            if(toolTipPrice > 0)
+            {
+                int copper = InterfaceUtils.GetCopper(toolTipPrice);
+                int silver = InterfaceUtils.GetSilver(toolTipPrice);
+                int gold = InterfaceUtils.GetGold(toolTipPrice);
+
+                Rect rect = new Rect(labelRect.x + labelRect.size.x - cashIconSize, labelRect.y + labelRect.size.y, cashIconSize, cashIconSize);
+
+                GUIContent copperText = new GUIContent(copper.ToString());
+                Vector2 c = toolTipStyle.CalcSize(copperText);
+                Rect rect2 = new Rect(rect.x - c.x, rect.y, cashIconSize, cashIconSize);
+                GUI.Label(rect2, copperText, toolTipStyle);
+                GUI.Label(rect, copperIcon, toolTipStyle);
+
+                if (silver > 0 || gold > 0)
+                {
+                    GUIContent silverText = new GUIContent(silver.ToString());
+                    Vector2 silverSize = toolTipStyle.CalcSize(silverText);
+                    rect = new Rect(rect2.x - cashIconSize, rect2.y, cashIconSize, cashIconSize);
+                    rect2 = new Rect(rect.x - silverSize.x, rect.y, cashIconSize, cashIconSize);
+                    GUI.Label(rect2, silverText, toolTipStyle);
+                    GUI.Label(rect, silverIcon, toolTipStyle);
+
+                    if (gold > 0)
+                    {
+                        GUIContent goldText = new GUIContent(gold.ToString());
+                        Vector2 goldSize = toolTipStyle.CalcSize(goldText);
+                        rect = new Rect(rect2.x - cashIconSize, rect2.y, cashIconSize, cashIconSize);
+                        rect2 = new Rect(rect.x - goldSize.x, rect.y, cashIconSize, cashIconSize);
+                        GUI.Label(rect2, goldText, toolTipStyle);
+                        GUI.Label(rect, goldIcon, toolTipStyle);
+                    }
+                }
+            }
         }
     }
 
@@ -341,7 +389,7 @@ public class Interface : MonoBehaviour {
         float result = Screen.height - y - toolTipSizeY;
         if (result < 0)
         {
-            return result + toolTipSizeY;
+            return result + toolTipSizeY + 32;
         } else
         {
             return result;

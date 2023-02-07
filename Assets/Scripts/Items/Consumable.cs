@@ -23,7 +23,7 @@ public class Consumable : Item
 
     public override string GetDescription()
     {
-        return description + "\n" + getPriceSentence();
+        return description;
     }
 
     public void SetImage(Sprite image)
