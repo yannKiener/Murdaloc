@@ -9,7 +9,6 @@ public class DestroyIfNotAndroid : MonoBehaviour {
     {
         if(SystemInfo.deviceType != DeviceType.Handheld)
         {
-            Debug.Log("Destroyed android controls");
             Destroy(this.gameObject);
         }
     }
