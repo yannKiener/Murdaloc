@@ -179,7 +179,7 @@ public class Hostile : Character
         if (itemsLoot != null && itemsLoot.Count > 0 && !itemsLoot.Contains(null))
         {
             GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
-            lootBox.GetComponent<Loot>().Initialize(itemsLoot, transform.position);
+            lootBox.GetComponent<Loot>().Initialize(itemsLoot, new Vector3(transform.position.x, transform.position.y,-1));
         }
         CancelInvoke("randomizeDirection");
         CancelInvoke("AggroAroundSelf");
