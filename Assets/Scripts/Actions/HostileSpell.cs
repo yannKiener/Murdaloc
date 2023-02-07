@@ -36,5 +36,4 @@ public class HostileSpell : Spell
     {
         return target != null && caster != null && ((caster is Player || caster is Friendly) && target is Hostile) || (caster is Hostile && (target is Player || target is Friendly));
     }
-
 }
