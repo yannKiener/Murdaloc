@@ -231,14 +231,14 @@ public class Interface : MonoBehaviour
         toolTipPrice = 0;
     }
 
-    public void HealTrisomie21()
+    public void ForceBarStyles()
     {
 
         if (nameBarStyle.normal.background == null)
         {
             nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0, 0, 0, 0.7f));
         }
-        if (healthBarStyle.normal.background == null)
+        if (healthBarStyle.normal.background == null) 
         {
             healthBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.1f, 0.8f, 0.1f));
         }
@@ -263,7 +263,7 @@ public class Interface : MonoBehaviour
 
 	void OnGUI()
 	{
-        HealTrisomie21();
+        ForceBarStyles();
 
 
         drawCharInfoAt(player, 2, 0);
