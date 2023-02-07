@@ -80,6 +80,7 @@ public class Player : AbstractCharacter
     private bool wantToJump = false;
 	private bool inCombat = false;
     private List<Character> enemyList = new List<Character>();
+    private string[] actionBar;
 	
 	
 	void Start(){
@@ -93,6 +94,14 @@ public class Player : AbstractCharacter
         //EnemyManagement
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+			castSpell(actionBar[0]);
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+		    castSpell(actionBar[1]);
+		}
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
 			attackTarget (target);
 		}
 		if (enemyList.Count == 0 && inCombat) {
@@ -102,6 +111,12 @@ public class Player : AbstractCharacter
 		
 		
         MovePlayer(GetComponent<Rigidbody2D>()); 
+    }
+    
+    
+    public void SetActionBarSlot(int slot, string slotName)
+    {
+         actionBar[slot] = slotName;
     }
 
 

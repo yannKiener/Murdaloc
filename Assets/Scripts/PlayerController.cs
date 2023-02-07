@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
     {
         Player player = gameObject.AddComponent<Player>();
         player.Initialize("Speaf");
+        player.SetActionBarSlot(0,"FIREBALL");
+        player.SetActionBarSlot(1,"splash");
 
         print(player.GetName()); 
 	}

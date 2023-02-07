@@ -43,6 +43,7 @@ public abstract class AbstractSpell : Spell
 	protected int coolDown;
     protected List<EffectOnTime> effectsOnTarget;
     protected List<EffectOnTime> effectsOnSelf;
+    protected int damage;
 
 
 	public AbstractSpell()
@@ -53,8 +54,9 @@ public abstract class AbstractSpell : Spell
         castTime = 1;
         levelRequirement = 1;
 		coolDown = 0;
+		damage = 0;
 	}
-	public AbstractSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown)
+	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
 	{
 		this.spellName = name;
 		this.description = description;
@@ -62,6 +64,7 @@ public abstract class AbstractSpell : Spell
 		this.castTime = castTime;
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
+		this.damage = damage;
 	}
 
 
