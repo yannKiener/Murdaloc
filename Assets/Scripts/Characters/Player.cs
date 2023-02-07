@@ -37,6 +37,15 @@ public class Player : Character
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
+    public void StartJumping()
+    {
+        wantToJump = true;
+    }
+    public void StopJumping()
+    {
+        wantToJump = false;
+    }
+
     public void SetFullHealthAndMaxResource()
     {
         currentLife = stats.MaxLife;
