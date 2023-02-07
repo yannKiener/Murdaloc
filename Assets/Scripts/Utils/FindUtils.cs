@@ -205,7 +205,7 @@ public static class FindUtils  {
         return sounds;
     }
 
-    public static GameObject GetVendorPanelGameObject()
+    public static GameObject GetVendorBox()
     {
         if (vendorPanelGO == null)
             vendorPanelGO = GameObject.Find("VendorBox");
@@ -215,7 +215,7 @@ public static class FindUtils  {
     public static VendorPanel GetVendorPanel()
     {
         if (vendorPanel == null)
-            vendorPanel = GetVendorPanelGameObject().transform.Find("VendorPanel").gameObject.GetComponent<VendorPanel>();
+            vendorPanel = GetVendorBox().transform.Find("VendorPanel").gameObject.GetComponent<VendorPanel>();
         return vendorPanel;
     }
 

@@ -28,7 +28,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
         {
             Use();
         } 
-        if(eventData.button == PointerEventData.InputButton.Right && FindUtils.GetVendorPanelGameObject().activeSelf)
+        if(eventData.button == PointerEventData.InputButton.Right && FindUtils.GetVendorBox().activeSelf)
         {
             if(usable is Item)
             {

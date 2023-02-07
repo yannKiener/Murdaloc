@@ -46,6 +46,9 @@ public class ActionBar : MonoBehaviour, Slotable {
                 clearChilds(slot.transform);
             }
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempGameObject.GetComponent<Image>().sprite, tempUsable);
+        }else
+        {
+            eventData.Use();
         }
     }
 

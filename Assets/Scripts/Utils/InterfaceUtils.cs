@@ -88,6 +88,16 @@ public static class InterfaceUtils {
             ShowHideQuestLog();
             return true;
         }
+        if (FindUtils.GetDialogBox().activeSelf)
+        {
+            HideDialogBox();
+            return true;
+        }
+        if (FindUtils.GetVendorBox().activeSelf)
+        {
+            HideVendorBox();
+            return true;
+        }
         return false;
     }
 
@@ -107,6 +117,14 @@ public static class InterfaceUtils {
     public static void ShowHideQuestLog()
     {
         FindUtils.GetQuestLog().SetActive(!FindUtils.GetQuestLog().activeSelf);
+    }
+    public static void HideDialogBox()
+    {
+        FindUtils.GetDialogBox().SetActive(false);
+    }
+    public static void HideVendorBox()
+    {
+        FindUtils.GetVendorBox().SetActive(false);
     }
 
 

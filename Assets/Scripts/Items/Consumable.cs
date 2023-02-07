@@ -8,7 +8,6 @@ public class Consumable : Item
 
     private int stacks;
     private Spell spell;
-    private static float coolDownRemaing = 0;
 
     public Consumable(string name, string description, Spell spell)
     {

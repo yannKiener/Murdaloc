@@ -43,7 +43,7 @@ public class ChoiceContainer : MonoBehaviourWithMouseOverColor, IPointerClickHan
             FindUtils.GetDialogBox().SetActive(false);
             if (choice.GetDialog().GetAction().ToLower().Equals("vendor"))
             {
-                FindUtils.GetVendorPanelGameObject().SetActive(true);
+                FindUtils.GetVendorBox().SetActive(true);
                 FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner().GetSellTable());
             }
         } else
