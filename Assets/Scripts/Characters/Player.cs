@@ -61,6 +61,21 @@ public class Player : Character
         xSpeed = xSpd;
     }
 
+    public void Cancel()
+    {
+        if (!Interface.CloseModalDialog() && !InterfaceUtils.CloseOpenWindows() && !CancelCast())
+        {
+            if (FindUtils.GetPlayer().GetTarget() != null)
+            {
+                FindUtils.GetPlayer().CancelTarget();
+            }
+            else
+            {
+                Interface.OpenCloseMenu();
+            }
+        }
+    }
+
     void Controls()
     {
         if (Input.GetButtonDown("CycleTargets"))
@@ -69,16 +84,7 @@ public class Player : Character
         }
         if (Input.GetButtonDown("Cancel"))
         {
-            if (!Interface.CloseModalDialog() && !InterfaceUtils.CloseOpenWindows() && !CancelCast())
-            {
-                if(FindUtils.GetPlayer().GetTarget() != null)
-                {
-                    FindUtils.GetPlayer().CancelTarget();
-                } else
-                {
-                    Interface.OpenCloseMenu();
-                }
-            }
+            Cancel();
         }
         if (Input.GetButtonDown("AutoAttack"))
         {
@@ -100,8 +106,10 @@ public class Player : Character
         {
             InterfaceUtils.ShowHideQuestLog();
         }
-
-        SetXSpeed(Input.GetAxis("Horizontal"));
+        if(SystemInfo.deviceType != DeviceType.Handheld)
+        {
+            SetXSpeed(Input.GetAxis("Horizontal"));
+        } 
 
         if (Input.GetKeyDown(KeyCode.X))
         {
