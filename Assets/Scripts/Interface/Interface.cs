@@ -582,9 +582,7 @@ public class Interface : MonoBehaviour
     {
         int buttonXSize = modalDialogWidth / 6;
         int buttonYSize = modalDialogWidth / 6;
-        int textXSize = modalDialogWidth - 20;
-        int testYSize = modalDialogHeight - 15 - buttonYSize;
-        GUI.Label(new Rect(0, 0, textXSize+100, testYSize+100), ModalText);
+        GUI.Label(new Rect(30, modalDialogHeight/4 , modalDialogWidth, modalDialogHeight), ModalText);
 
         if (GUI.Button(new Rect(modalDialogWidth/3 - buttonXSize/2, 4* modalDialogHeight/5 - buttonYSize / 2, buttonXSize, buttonYSize), "Yes", buttonStyle))
         {

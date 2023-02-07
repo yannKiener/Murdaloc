@@ -29,8 +29,8 @@ public static class Constants {
     public static readonly float optionMenuSizeYPercent = 50;
     public static readonly float shortcutMenuSizeXPercent = 50;
     public static readonly float shortcutMenuSizeYPercent = 70;
-    public static readonly float modalDialogSizeXPercent = 20;
-    public static readonly float modalDialogSizeYPercent = 10;
+    public static readonly float modalDialogSizeXPercent = 25;
+    public static readonly float modalDialogSizeYPercent = 15;
     public static readonly float ToolTipWidth = 15;
     public static readonly float InteractDistance = 2f;
     public static readonly Dictionary<string, string> bindingMap = new Dictionary<string, string>
