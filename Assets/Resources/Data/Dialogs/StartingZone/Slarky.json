@@ -2,16 +2,16 @@
    "text":"Don't waste my time.",
    "choices":[  
 	  {
-         "condition":"Blade for everyoneOver&!TalentTreeSelected",
+         "condition":"!TalentTreeSelected",
          "choice":"I want to be a Rogue.",
          "dialog":{   
-            "text":"Is that so ! You sure ?",
+            "text":"Is that so ? I may help and teach you, but know that once you're in, you won't be able to get out.",
             "choices":[  
                {  
-                  "choice":"Sure !",
+                  "choice":"<Accept>",
                   "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"Ok. But only mage is implemented yet lol. It's done, now leave.",
+                    "action":"AddRogueSpells",
+					"text":"Ok. Here is how things work, nothing is given free. Train yourself on some Rabbits, west of here. Come back when you're done.",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>"
@@ -21,6 +21,39 @@
                }
             ]
          }
-	  }
+	  }, 
+      {  
+		"condition":"RogueTalentSelected&!Prove your worthOver&!Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"No that loud! And you're clearly not done yet.",
+            "choices":[  
+               {  
+                  "choice":"<Leave>"
+			   }
+		   ]
+		}
+      }, 
+      {  
+		"condition":"RogueTalentSelected&!Prove your worthOver&Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"Good, good... That should be it.",
+            "choices":[  
+               {  
+                  "choice":"<Accept>",
+                  "dialog":{  
+                    "action":"AddRogueSpec",
+					"endQuest":"Prove your worth",
+					"text":"Go now, don't let anyone overcome you.",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+				   }
+			    }
+		   ]
+		}
+      }
    ]
 }

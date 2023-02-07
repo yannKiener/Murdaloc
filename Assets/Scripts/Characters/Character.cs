@@ -354,9 +354,24 @@ public abstract class Character : MonoBehaviour
         return resource;
     }
 
+    public void SetResourceType(Resource res)
+    {
+        resource = res;
+        if(res is Energy || res is Rage)
+        {
+            stats.MaxResource = Constants.BaseResource;
+            stats.IsResourceMana(false);
+        }
+    }
+
 	public int GetCurrentResource(){
 		return currentResource;
 	}
+
+    public void SetCurrentResource(int rscNumber)
+    {
+        currentResource = rscNumber;
+    }
 
 	public int GetMaxResource(){
 		return stats.MaxResource;
@@ -587,7 +602,13 @@ public abstract class Character : MonoBehaviour
                 if (autoAttack1Time >= modifiedAutoAttackTime(autoAttack1Speed) && autoAttackDistanceOK())
                 {
                     autoAttack1Time = 0;
-                    target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
+                    int autoattack1Dmg = modifiedAutoAttackDamage(autoAttack1Damage);
+                    bool isAutoattack1Crit = autoAttackIsCrit;
+                    target.ApplyDamage(autoattack1Dmg, isAutoattack1Crit, true);
+                    if (this.GetResourceType() is Rage)
+                    {
+                        GainRage(autoattack1Dmg, isAutoattack1Crit);
+                    }
                     PlayAutoAttackSoundAndAnim(true);
                 }
             }
@@ -598,12 +619,45 @@ public abstract class Character : MonoBehaviour
                 if (autoAttack2Time >= modifiedAutoAttackTime(autoAttack2Speed) && autoAttackDistanceOK())
                 {
                     autoAttack2Time = 0;
-                    target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
+                    int autoattack2Dmg = modifiedAutoAttackDamage(autoAttack2Damage);
+                    bool isAutoattack2Crit = autoAttackIsCrit;
+                    target.ApplyDamage(autoattack2Dmg, isAutoattack2Crit, true);
+                    if(this.GetResourceType() is Rage)
+                    {
+                        GainRage(autoattack2Dmg, isAutoattack2Crit, false);
+                    }
                     PlayAutoAttackSoundAndAnim(false);
                 }
             }
 		}
 	}
+
+    protected void GainRage(int autoattackDamage, bool isCrit, bool isMainHand = true)
+    {
+        float rageGained = 0;
+        if (isMainHand)
+        {
+            float maxDamage = autoAttack1Damage + autoAttack1Damage * (Constants.RandomDamageRange) / 100;
+            float rageFactor = (autoattackDamage / maxDamage);
+            rageGained = 4 * rageFactor * autoAttack1Speed;
+        } else
+        {
+            float maxDamage = autoAttack2Damage + autoAttack2Damage * (Constants.RandomDamageRange) / 100;
+            float rageFactor = (autoattackDamage / maxDamage );
+            rageGained = 2 * rageFactor * autoAttack2Speed;
+        }
+
+        if (isCrit)
+        {
+            rageGained *= 1.5f;
+        }
+        Debug.Log("Rage gained on attack : " + Mathf.RoundToInt(rageGained));
+        AddResource(Mathf.RoundToInt(rageGained));
+    }
+    protected void GainRageOnHit(int damage, float damagePercent)
+    {
+        AddResource(Mathf.CeilToInt(damagePercent));
+    }
 
 	protected bool autoAttackDistanceOK(){
 		return Mathf.Abs ((target.transform.position.x - transform.position.x)) < Constants.MaxAutoAttackDistance;
@@ -650,9 +704,8 @@ public abstract class Character : MonoBehaviour
 	}
 
 	protected void UpdateRegen() {
-		if (!(currentResource >= stats.MaxResource)) {
-			currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat, this);
-		} 
+		AddResource(resource.Regen (Time.deltaTime, hasCasted, inCombat, this));
+		
 		if (currentResource > stats.MaxResource){
 			currentResource = stats.MaxResource;
 		}
@@ -898,6 +951,10 @@ public abstract class Character : MonoBehaviour
                 createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
 
                 this.currentLife -= damage;
+                if(this.GetResourceType() is Rage && isAutoAttack)
+                {
+                    GainRageOnHit(damage, ((float)damage / (float)GetMaxLife() * 100));
+                }
 
                 if (currentLife <= 0)
                 {

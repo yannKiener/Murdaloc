@@ -1,17 +1,18 @@
 {  
-   "text":"Hey, i'm the mage around Here.",
+   "text":"Hey, i'm the Mage around Here.",
    "choices":[  
 	  {
-         "condition":"Blade for everyoneOver&!TalentTreeSelected",
+         "condition":"!TalentTreeSelected",
          "choice":"I want to be a Mage.",
-         "dialog":{   
-            "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a mage, right ?",
+         "dialog":{ 
+            "text":"So, you want to master the power of the Arcanes ? Maybe Fire or even Frost ? You've come to the right place. I can teach you, but once you've learned the basics, you'll need to prove that you're a fast learner.",
             "choices":[  
                {  
-                  "choice":"Sure !",
+                  "choice":"<Accept>",
                   "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"It is done. Leave now, as a mage.",
+                    "action":"AddMageSpells",
+					"startQuest":"Prove your worth",
+					"text":"It is done. Go find some Rabbits, west of here. Train yourself and I shall notice when you're ready to uncover more.",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>"
@@ -23,7 +24,37 @@
          }
 	  }, 
       {  
-         "choice":"Nevermind"
+		"condition":"MageTalentSelected&!Prove your worthOver&!Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"So soon ? Sorry young Mage, I don't sense that you're ready to learn more, yet.",
+            "choices":[  
+               {  
+                  "choice":"<Leave>"
+			   }
+		   ]
+		}
+      }, 
+      {  
+		"condition":"MageTalentSelected&!Prove your worthOver&Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"Ah, I feel you've learned enough. Are you ready to uncover the secret powers of your Mana?",
+            "choices":[  
+               {  
+                  "choice":"<Accept>",
+                  "dialog":{  
+                    "action":"AddMageSpec",
+					"endQuest":"Prove your worth",
+					"text":"So be it. Leave now, as a Mage.",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+				   }
+			    }
+		   ]
+		}
       }
    ]
 }

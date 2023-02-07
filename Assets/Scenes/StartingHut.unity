@@ -3044,6 +3044,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f90b6bd710fb9414da897cc07cf23243,
         type: 3}
+    - target: {fileID: 5933614480340180003, guid: 33ae6315510f2974dbccc9865af25c0c,
+        type: 3}
+      propertyPath: SpellList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5933614480340180003, guid: 33ae6315510f2974dbccc9865af25c0c,
+        type: 3}
+      propertyPath: SpellList.Array.data[0]
+      value: Astral Recall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33ae6315510f2974dbccc9865af25c0c, type: 3}
 --- !u!1 &2030310190 stripped

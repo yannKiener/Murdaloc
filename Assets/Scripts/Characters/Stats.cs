@@ -61,6 +61,11 @@ public class Stats {
         this.power = power;
     }
 
+    public void IsResourceMana(bool isRsrcMana)
+    {
+        isResourceMana = isRsrcMana;
+    }
+
 	public void Add(Stats stats, bool isWeapon2 = false){
 		this.Force += stats.Force;
 		this.Agility += stats.Agility;

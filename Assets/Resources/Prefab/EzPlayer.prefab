@@ -149,11 +149,6 @@ MonoBehaviour:
   LootTable: []
   QuestLootTable: []
   SpellList:
-  - Fireball
-  - Renovation
-  - Corruption
-  - Sprint
-  - Slam
   - Astral Recall
   aggroSounds: []
   attackSounds: []

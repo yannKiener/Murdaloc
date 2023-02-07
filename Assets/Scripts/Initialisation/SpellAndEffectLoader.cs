@@ -95,6 +95,12 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
 
 
+        //Rogue Spells
+        CreateHostileSpell("Hemorrage", "A fast attack with your main hand + 70% of your agility.", 15, 0, 0, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.7f } }, 10, 1f), "Default", null, null);
+
+
+
+        //Base spells
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());
 
         //Spells for consummables
@@ -408,6 +414,38 @@ public class SpellAndEffectLoader : MonoBehaviour {
             FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner());
         });
 
+        DialogActions.Add("AddMageSpells", () =>
+        {
+            DialogStatus.SetStatus("TalentTreeSelected", true);
+            DialogStatus.SetStatus("MageTalentSelected", true);
+            Player player = FindUtils.GetPlayer();
+            player.SetResourceType(new Mana());
+            player.SetCurrentResource(0);
+            player.AddSpell(Spells.Get("Fireball"));
+           
+        });
+
+        DialogActions.Add("AddWarriorSpells", () =>
+        {
+            DialogStatus.SetStatus("TalentTreeSelected", true);
+            DialogStatus.SetStatus("WarriorTalentSelected", true);
+            Player player = FindUtils.GetPlayer();
+            player.SetResourceType(new Rage());
+            player.SetCurrentResource(0);
+            player.AddSpell(Spells.Get("Slam"));
+        });
+
+        DialogActions.Add("AddRogueSpells", () =>
+        {
+            DialogStatus.SetStatus("TalentTreeSelected", true);
+            DialogStatus.SetStatus("RogueTalentSelected", true);
+            Player player = FindUtils.GetPlayer();
+            player.SetResourceType(new Energy());
+            player.SetCurrentResource(0); 
+            player.AddSpell(Spells.Get("Sprint"));
+            player.AddSpell(Spells.Get("Hemorrage"));
+        });
+
         DialogActions.Add("AddMageSpec", () =>
         {
             if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
@@ -415,7 +453,26 @@ public class SpellAndEffectLoader : MonoBehaviour {
                 FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
                 FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
                 FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
-                DialogStatus.SetStatus("TalentTreeSelected", true);
+            }
+        });
+
+        DialogActions.Add("AddWarriorSpec", () =>
+        {
+            if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
+            {
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
+                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
+                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
+            }
+        });
+
+        DialogActions.Add("AddRogueSpec", () =>
+        {
+            if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
+            {
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
+                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
+                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
             }
         });
 

@@ -1,0 +1,10 @@
+{  
+   "objectives":[  
+      {  
+         "kill":{  
+            "name":"Rabbit",
+            "count":5
+         }
+      }
+   ]
+}

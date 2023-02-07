@@ -42,10 +42,10 @@
          "condition":"Blade for everyoneOver",
          "choice":"You still need me ?",
          "dialog":{  
-            "text":"Indeed. I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going this way.",
+            "text":"Well, I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going this way.",
 			"choices":[  
 				{  
-				   "condition":"TalentTreeSelected",
+				   "condition":"Prove your worthOver",
 				   "choice":"I can help.",
 				   "dialog":{  
 						"text":"Hm, I sense more power in you.. Fine, let's move then. Meet me in Elwyn, east of here.",
@@ -58,7 +58,7 @@
 				   }
 				},
 				{  
-				   "condition":"!TalentTreeSelected",
+				   "condition":"!Prove your worthOver",
 				   "choice":"I can help.",
 				   "dialog":{  
 						"text":"Sorry young %T, I don't want to be slowed down. I don't feel the fighter spirit enough in you. Talk to Murlark, he may help you.",

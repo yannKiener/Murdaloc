@@ -2,16 +2,17 @@
    "text":"Hey, i'm the Warrior around here.",
    "choices":[  
 	  {
-         "condition":"Blade for everyoneOver&!TalentTreeSelected",
+         "condition":"!TalentTreeSelected",
          "choice":"I want to be a Warrior.",
          "dialog":{   
-            "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a MAGE, right ?",
+            "text":"Hah ! You think you have the guts to become a true Warrior ?! I can show you a few things, but you'll have to prove your worth, prove that you can follow our path.",
             "choices":[  
                {  
-                  "choice":"Sure !",
+                  "choice":"<Accept>",
                   "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"It is done. Leave now, as a mage.",
+                    "action":"AddWarriorSpells",
+					"startQuest":"Prove your worth",
+					"text":"All right, I want you to kill Rabbits, we have too much of them around here. Come back only when you have enough blood on your hands.",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>"
@@ -23,7 +24,37 @@
          }
 	  }, 
       {  
-         "choice":"Nevermind"
+		"condition":"WarriorTalentSelected&!Prove your worthOver&!Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"Hah ! That's not good enough ! Are those cute rabbits scaring you ?! Come back with more blood on your hands !",
+            "choices":[  
+               {  
+                  "choice":"<Leave>"
+			   }
+		   ]
+		}
+      }, 
+      {  
+		"condition":"WarriorTalentSelected&!Prove your worthOver&Prove your worthReady",
+        "choice":"About my training...",
+		"dialog":{
+            "text":"Hmm, thay will be enough. Maybe you can handle our path after all.",
+            "choices":[  
+               {  
+                  "choice":"<Accept>",
+                  "dialog":{  
+                    "action":"AddWarriorSpec",
+					"endQuest":"Prove your worth",
+					"text":"Go now, don't let anyone overcome you.",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+				   }
+			    }
+		   ]
+		}
       }
    ]
 }

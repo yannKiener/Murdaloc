@@ -62,7 +62,7 @@ public class Rage : Resource {
 		if (localTime >= 1f) {
 			localTime -= 1f;
 			if (inCombat) {
-				return 1;
+				return 0;
 			} else {
 				return -1;
 			}

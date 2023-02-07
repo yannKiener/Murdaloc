@@ -556,11 +556,24 @@ public class Interface : MonoBehaviour
         {
             GUI.Box(new Rect(x + 3* barsWidth / 5, y, 2*barsWidth / 5, barsHeight), "Elite", nameBarStyle);
         }
+        GUIStyle rscbar = resourceBarStyle;
+        if (c.GetResourceType() is Energy)
+        {
+            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.yellow);
+        }
+        if (c.GetResourceType() is Rage)
+        {
+            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.red);
+        }
+        if (c.GetResourceType() is Mana)
+        {
+            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
+        }
         GUI.Box (new Rect(x, y + barsHeight, barsWidth, barsHeight), c.GetName(),nameBarStyle);
 		GUI.Box (new Rect (x, y+2*barsHeight, barsWidth, 3*barsHeight),"",nameBarStyle);
 		GUI.Box(new Rect(x,y+2*barsHeight,(int) ((float)c.GetCurrentLife()/(float)c.GetStats().MaxLife*barsWidth),barsHeight),"",healthBarStyle); 
 		GUI.Box (new Rect (x,y+2*barsHeight, barsWidth, barsHeight), c.GetCurrentLife() + " / " + c.GetStats().MaxLife,backgroundStyle);
-		GUI.Box(new Rect(x,y+(3*barsHeight),(int) ((float)c.GetCurrentResource()/(float)c.GetStats().MaxResource*barsWidth),barsHeight),"",resourceBarStyle); 
+		GUI.Box(new Rect(x,y+(3*barsHeight),(int) ((float)c.GetCurrentResource()/(float)c.GetStats().MaxResource*barsWidth),barsHeight),"", rscbar); 
 		GUI.Box (new Rect (x,y+(3*barsHeight), barsWidth, barsHeight), c.GetCurrentResource() + " / " + c.GetStats().MaxResource,backgroundStyle);
 		List<EffectOnTime> cBuffs = c.GetBuffs ();
 		List<EffectOnTime> cDebuffs = c.GetDebuffs();
