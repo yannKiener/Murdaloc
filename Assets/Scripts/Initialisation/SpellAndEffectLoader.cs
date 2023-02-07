@@ -54,6 +54,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
         CreateEffectOnTime("Enrage", "Hit harder & faster but moves slower.", true, 1, 8, 8, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f }, { Stat.haste, 20f }, { Stat.power, 20f } }), null);
+        CreateEffectOnTime("Webbed", "Can't move", false, 1, 3.5f, 3, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
 
 
         //Spells for consummables
@@ -91,6 +92,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
         //Spells for Mobs
         CreateFriendlySpell("Enrage", "Hit harder & faster but move slower.", 50, 0, 5, 20, 2, null, "Bloodlust", null, new List<EffectOnTime>() { EffectsOnTime.Get("Enrage") });
+        CreateHostileSpell("Web", "Send a web to your target and prevent him from moving.", 20, 1.5f, 2, 15, 4, null, "Trap", new List<EffectOnTime>() { EffectsOnTime.Get("Webbed") }, null);
     }
 
 
