@@ -213,6 +213,7 @@ public class Player : Character
         base.LevelUp();
         SetFullHealthAndMaxResource();
         AddTalentPoint();
+
         FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
     }
 

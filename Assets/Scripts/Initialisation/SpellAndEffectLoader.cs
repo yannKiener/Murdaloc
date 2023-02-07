@@ -28,7 +28,6 @@ public class SpellAndEffectLoader : MonoBehaviour {
     {
         Specialisation mage = new Specialisation("Mage");
         
-        mage.SetTalent(2, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
         mage.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
         mage.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
         mage.SetTalent(5, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova")), (player, stacks) => player.RemoveSpell("Frost nova")));
@@ -40,6 +39,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         mage.SetTalent(12, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
         mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }, icelance));
         mage.SetTalent(15, new Talent("Critical ice", "Your Ice Lance freeze your target on critical.", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].SetActionOnCrit((pl, tar) => { EffectsOnTime.Get("Frozen").Apply(pl, tar); }); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveActionOnCrit(); } }, icelance));
+        mage.SetTalent(16, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
 
         Specialisations.Add(mage);
     }

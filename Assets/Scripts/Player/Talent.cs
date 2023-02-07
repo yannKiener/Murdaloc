@@ -86,7 +86,13 @@ public class Talent
 
     public string GetDescription()
     {
-        return description;
+        if(linkedTalent == null)
+        {
+            return description;
+        } else
+        {
+            return description + "\n Talent required : " + linkedTalent.GetName();
+        }
     }
 
     public int GetStacks()
