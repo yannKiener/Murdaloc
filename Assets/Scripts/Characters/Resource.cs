@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface Resource 
 {
-	int Regen(float timeElapsed, bool hasCasted);
+	int Regen(float timeElapsed, bool hasCasted, bool inCombat);
 	string GetName();
 
 }
@@ -17,7 +17,7 @@ public abstract class AbstractResource : Resource {
 		return(this.ToString());
 	}
 
-	public virtual int Regen(float timeElapsed, bool hasCasted){
+	public virtual int Regen(float timeElapsed, bool hasCasted, bool inCombat){
 		return 1;	
 	}
 }
@@ -25,7 +25,7 @@ public abstract class AbstractResource : Resource {
 [System.Serializable]
 public class Mana : AbstractResource {
 
-	public override int Regen(float timeElapsed, bool hasCasted){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
 		if (hasCasted) {
 			localTime = Time.time;
 		} else if(Time.time >= localTime + 5f){ //regen après 5s.
@@ -41,7 +41,7 @@ public class Mana : AbstractResource {
 [System.Serializable]
 public class Energy : AbstractResource {
 
-	public override int Regen(float timeElapsed, bool hasCasted){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
 		localTime += timeElapsed;
 
 		if (localTime >= 2f) {
@@ -56,12 +56,16 @@ public class Energy : AbstractResource {
 [System.Serializable]
 public class Rage : AbstractResource {
 
-	public override int Regen(float timeElapsed, bool hasCasted){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
 		localTime += timeElapsed;
 
 		if (localTime >= 1f) {
 			localTime -= 1f;
-			return 1;
+			if (inCombat) {
+				return 1;
+			} else {
+				return -1;
+			}
 		}
 		return 0;
 	}

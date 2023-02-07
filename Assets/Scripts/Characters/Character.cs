@@ -31,6 +31,9 @@ public interface Character
 
 public abstract class AbstractCharacter : MonoBehaviour, Character 
 {
+	protected float MAXSPEED = 8f;	
+	protected float JUMPFORCE = 5f;
+
     protected int maxLife;
     protected int currentLife;
     protected int currentResource;
@@ -62,7 +65,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		isDead = false;
 		castingSpell = null;
 		if (resource == null) {
-			resource = new Mana ();
+			resource = new Rage ();
 		}
     }
 
@@ -150,9 +153,12 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
      }
 
 	protected void UpdateRegen() {
-		currentResource += resource.Regen (Time.deltaTime, hasCasted);
+		currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat);
 		if (currentResource > maxResource) {
 			currentResource = maxResource;
+		}
+		if (currentResource < 0 ) {
+			currentResource = 0;
 		}
 		if (hasCasted) {
 			hasCasted = false;
@@ -297,253 +303,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 
 
-[System.Serializable]
-public class Player : AbstractCharacter
-{
 
-    private float MAXSPEED = 10f;	
-    private float JUMPFORCE = 5f;
-    private bool jumping = false;
-    private bool wantToJump = false;
-	private string[] actionBar = new string[5];
-	private int enemyOffset = 0;
-	
-	void Start(){
-
-	}
-
-	void Update() 
-	{
-		UpdateCombat ();
-		UpdateCast();
-		UpdateRegen ();
-
-        //EnemyManagement
-		if(Input.GetKeyUp(KeyCode.Tab)){
-			CycleTargets();
-		}
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			CancelCast ();
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-			castSpell(actionBar[0]);
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-		    castSpell(actionBar[1]);
-		}
-		if (Input.GetKeyDown (KeyCode.Alpha3)) {
-			castSpell (actionBar [2]);
-		}
-        MovePlayer(GetComponent<Rigidbody2D>()); 
-	}
-
-	private void CycleTargets(){
-		int count = enemyList.Count;
-		if (count > 1) {
-			enemyOffset += 1;
-
-			if (enemyOffset >= count) {
-				enemyOffset = 0;
-			}
-
-			cakeslice.Outline outline = target.GetGameObject ().GetComponent<cakeslice.Outline> ();
-			Destroy(outline);
-
-			target = enemyList[enemyOffset];
-		}
-
-	}
-
-	void OnGUI()
-	{
-		
-		GUI.Box (new Rect (0, 0, 200, 20), name);
-		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + maxLife);
-		GUI.Box(new Rect(0,20,currentLife*2,20), new Texture2D(1,1)); 
-		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + maxResource);
-		GUI.Box(new Rect(0,40,currentResource*2,20), new Texture2D(1,1)); 
-
-
-		if (target != null && !target.IsDead()) {
-			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
-			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
-			GUI.Box (new Rect (400, 20, target.GetCurrentLife()*2, 20), new Texture2D(1,1));
-			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentResource() + " / " + target.GetMaxResource());
-			GUI.Box(new Rect(400,40,target.GetCurrentResource()*2,20), new Texture2D(1,1)); 
-
-			//test outlining target
-			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
-				target.GetGameObject ().AddComponent<cakeslice.Outline> ();
-			}
-		}
-
-		if (casting) {
-			int spellCastTime = (int)castingSpell.GetCastTime ();
-			int castPercentage = (int)(100 * (castingTime/spellCastTime));
-
-			GUI.Box (new Rect (Screen.width/2, 93	*Screen.height/100, 100, 30), castingSpell.GetName() + " : " +castingTime.ToString("0.0") + " / " + spellCastTime);
-			GUI.Box(new Rect(Screen.width/2, 93*Screen.height/100,castPercentage,30), new Texture2D(1,1)); 
-		}
-		//GUI.BeginGroup(new Rect(400,400, 10,20));
-		//	GUI.EndGroup();
-		//GUI.EndGroup();
-
-	}
-
-
-	
-    
-    public void SetActionBarSlot(int slot, string slotName)
-    {
-		if (actionBar.Length > slot)
-			actionBar [slot] = slotName;
-		else
-			print ("slotName too great");
-    }
-
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        /* on arrete le saut selon un tag
-        if(collision.transform.tag == "Ground"){
-            jumping = false;
-        }*/
-        jumping = false;
-
-    }
-
-    private void MovePlayer(Rigidbody2D player)
-    {
-        float xSpeed = Input.GetAxis("Horizontal");
-        if (Input.GetKeyDown("space"))
-        {
-            wantToJump = true;
-        }
-        if (Input.GetKeyUp("space"))
-        {
-            wantToJump = false;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        { //Si c'est maintenu. On pourrait changer les sauts aussi pour ca.
-            xSpeed = xSpeed * 2;
-        }
-
-
-        float ySpeed = player.velocity.y;
-
-        if (wantToJump && !jumping)
-        {
-            ySpeed = JUMPFORCE;
-            jumping = true;
-        }
-
-        player.velocity = new Vector2(xSpeed * MAXSPEED, ySpeed);
-
-        //Limit player to camera At ALL TIMES
-
-        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-        pos.x = Mathf.Clamp01(pos.x);
-        pos.y = Mathf.Clamp01(pos.y);
-        transform.position = Camera.main.ViewportToWorldPoint(pos);
-    }
-
-}
-
-
-
-[System.Serializable]
-public class Hostile : AbstractCharacter
-{
-	
-    void Update()
-    {
-        limitMovements();
-        if (!inCombat)
-        {
-            AggroAroundSelf();
-        }
-    }
-    
-    void AggroAroundSelf()
-    {
-        if (!inCombat) 
-        {
-           //gerer la distance selon le level?
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);
-                int i = 0;
-             while (i < hitColliders.Length)
-            {
-                 if (hitColliders[i].tag == "Player")
-                 {
-                     AggroTarget(hitColliders[i].gameObject.GetComponent<Character>());
-
-					//Todo : Supprimer ca plus tard c'est juste pour la déco
-					GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
-					aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
-					StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
-                 }
-                 i++;
-             }  
-        }
-    }
-	
-	void OnCollisionEnter2D(Collision2D collision){
-		if (collision.gameObject.tag == "Player" && !inCombat) {
-            inCombat = true;
-            //Aggro(collision);
-            AggroAroundSelf(collision);
-		}
-	}
-	
-	
-    private void AggroAroundSelf(Collision2D collision)
-    {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);        
-        int i = 0;
-        while (i < hitColliders.Length)
-        {
-            if (hitColliders[i].tag == "Enemy")
-            {
-                hitColliders[i].SendMessage("Aggro", collision);
-            }
-
-            i++;
-        }
-    }
-	
-
-    private void limitMovements() {
-        if (inCombat)
-        {
-            Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-            pos.x = Mathf.Clamp01(pos.x);
-            pos.y = Mathf.Clamp01(pos.y);
-            transform.position = Camera.main.ViewportToWorldPoint(pos);
-        }
-    }
-
-	/*
-    private void Aggro(Collision2D collision)
-    {
-            inCombat = true;
-            collision.gameObject.SendMessage("enterCombat", this.gameObject);
-
-            //TODO : Supprimer ca et trouver un moyen plus classe pour afficher l'aggro :D
-            GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
-            aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
-            StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
-    } 
-    */
-
-    IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
-    {
-        yield return new WaitForSeconds(delayTime);
-        Destroy(obj);
-    }
-	
-}
 
 [System.Serializable]
 public class Friendly : AbstractCharacter
