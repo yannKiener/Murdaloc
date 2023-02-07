@@ -9,14 +9,14 @@ public class SpellAndEffectLoader : MonoBehaviour {
 	void Awake ()
     {
         CreateEffectOnTime("Corruption","First DoT of the game",false,1,6,0.5f,null,newDamageOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},60));
-		CreateEffectOnTime("Renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50));
+		CreateEffectOnTime("Renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,2f}},50));
 		CreateEffectOnTime("Sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null);
 
         CreateHostileSpell("Fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),"Fire", null, null);
-        CreateHostileSpell("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},10,0.8f),"Default", null, null);
-        CreateFriendlySpell("Renovation", "FIRST HOTSPELL", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") });
+        CreateHostileSpell("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},10,0.4f),"Default", null, null);
+        CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") });
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") });
-        CreateHostileSpell("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,"Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
+        CreateHostileSpell("Corruption","Damages over time.", 5,0.5f,0,0,5,null,"Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30),"Frost", null, null);
 
         //Spells for consummables
