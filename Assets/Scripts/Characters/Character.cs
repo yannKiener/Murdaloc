@@ -937,7 +937,12 @@ public abstract class Character : InteractableBehaviour
         RemoveSpell(spell.GetName());
     }
 
-    public bool CanCastSpell(Spell spell, bool displayText)
+    public bool CanCastSpell(string spellName, bool displayText)
+    {
+        return spellList.ContainsKey(spellName) && CanCastSpell(spellList[spellName], displayText);
+    }
+
+    private bool CanCastSpell(Spell spell, bool displayText)
     {
         return ((spell.HasGcd() && GCDReady()) || !spell.HasGcd()) && spell.IsCastable(this, target, displayText);
     }
