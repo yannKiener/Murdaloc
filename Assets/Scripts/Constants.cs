@@ -27,6 +27,7 @@ public static class Constants {
     public static readonly float optionMenuSizeYPercent = 30;
     public static readonly float modalDialogSizeXPercent = 20;
     public static readonly float modalDialogSizeYPercent = 10;
+    public static readonly float ToolTipWidth = 15;
 
 
     //stats

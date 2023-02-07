@@ -16,7 +16,11 @@ public class Interface : MonoBehaviour
 	public GUIStyle backgroundStyle;
 	public GUIStyle castBarStyle;
 	public GUIStyle toolTipStyle;
-	public GUIStyle buffStackStyle;
+    public GUIStyle EpicToolTipStyle;
+    public GUIStyle RareToolTipStyle;
+    public GUIStyle UncommonToolTipStyle;
+    public GUIStyle CommonToolTipStyle;
+    public GUIStyle buffStackStyle;
     public GUIStyle buffTimerStyle;
     public GUIStyle expBarStyle;
     public GUIStyle menuStyle;
@@ -56,10 +60,9 @@ public class Interface : MonoBehaviour
     int modalDialogHeight = (int)(Screen.width * Constants.modalDialogSizeYPercent / 100);
     int optionMenuWidth = (int)(Screen.width * Constants.optionMenuSizeXPercent / 100);
     int optionMenuHeight = (int)(Screen.width * Constants.optionMenuSizeYPercent / 100);
-    private static string toolTipText;
-    private static string toolTipName;
+
+    private static Dictionary<string, GUIStyle> toolTipTexts;
     private static int toolTipPrice;
-    private static EquipmentQuality toolTipQuality;
     private int cashIconSize;
 
     private static string ModalText;
@@ -224,20 +227,48 @@ public class Interface : MonoBehaviour
         return result;
     }
 
-    public static void DrawToolTip(string name, string description, int price = 0, EquipmentQuality qual = EquipmentQuality.Common)
+    public static void DrawToolTip(Item item, float buyPriceMultiplier = 1)
     {
-        toolTipText = description;
-        toolTipName = name;
+        Dictionary<string, GUIStyle> toolTipTxts = new Dictionary<string, GUIStyle>();
+        if(item.GetQuality() == EquipmentQuality.Epic)
+        {
+            toolTipTxts.Add(item.GetName(), FindUtils.GetInterface().EpicToolTipStyle);
+        } else if (item.GetQuality() == EquipmentQuality.Rare)
+        {
+            toolTipTxts.Add(item.GetName(), FindUtils.GetInterface().RareToolTipStyle);
+        } else if (item.GetQuality() == EquipmentQuality.Uncommon)
+        {
+            toolTipTxts.Add(item.GetName(), FindUtils.GetInterface().UncommonToolTipStyle);
+        } else
+        {
+            toolTipTxts.Add(item.GetName(), FindUtils.GetInterface().CommonToolTipStyle);
+        }
+
+        toolTipTxts.Add(item.GetDescription(), FindUtils.GetInterface().toolTipStyle);
+
+        DrawToolTip(toolTipTxts, (int)(item.GetSellPrice() * buyPriceMultiplier));
+    }
+
+    public static void DrawToolTip(params string[] texts)
+    {
+        Dictionary<string, GUIStyle> tooltipTxts = new Dictionary<string, GUIStyle>();
+        foreach(string str in texts)
+        {
+            tooltipTxts.Add(str, FindUtils.GetInterface().toolTipStyle);
+        }
+        DrawToolTip(tooltipTxts);
+    }
+
+    public static void DrawToolTip(Dictionary<string, GUIStyle> toolTipsTxts, int price = 0)
+    {
+        toolTipTexts = toolTipsTxts;
         toolTipPrice = price;
-        toolTipQuality = qual;
     }
     
     public static void RemoveToolTip()
     {
-        toolTipText = null;
-        toolTipName = null;
+        toolTipTexts = null;
         toolTipPrice = 0;
-        toolTipQuality = EquipmentQuality.Common;
     }
 
     public void ForceBarStyles()
@@ -262,6 +293,22 @@ public class Interface : MonoBehaviour
         if (toolTipStyle.normal.background == null)
         {
             toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
+        }
+        if (EpicToolTipStyle.normal.background == null)
+        {
+            EpicToolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
+        }
+        if (RareToolTipStyle.normal.background == null)
+        {
+            RareToolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
+        }
+        if (UncommonToolTipStyle.normal.background == null)
+        {
+            UncommonToolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
+        }
+        if (CommonToolTipStyle.normal.background == null)
+        {
+            CommonToolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
         }
         if (expBarStyle.normal.background == null)
         {
@@ -414,35 +461,61 @@ public class Interface : MonoBehaviour
         GUI.Box(new Rect(x, y, Screen.width, expBarHeight), player.GetExp().ToString("0.0") + "%", backgroundStyle);
     }
 
+
+    private Vector2 getStartingPositionForTooltipWith(Dictionary<string, GUIStyle> toolTipTxts)
+    {
+        string content = "";
+        float toolTipWidth = Constants.ToolTipWidth * Screen.width / 100;
+
+        foreach (KeyValuePair<string, GUIStyle> kv in toolTipTxts)
+        {
+            content += kv.Key;
+        }
+        GUIContent tooltip = new GUIContent(content);
+        Vector2 size = new Vector2(toolTipWidth, toolTipStyle.CalcHeight(tooltip, toolTipWidth));
+
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            return new Vector2(getToolTipPositionX(Screen.width / 2.5f, size.x), getToolTipPositionY(Screen.height / 2.5f, size.y + cashIconSize));
+        }
+        else
+        {
+            return new Vector2(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y + cashIconSize));
+        }
+    }
+
+    private Vector2 addToolTipReturnSize(Vector2 position, string text, GUIStyle style)
+    {
+        float toolTipWidth = Constants.ToolTipWidth * Screen.width / 100;
+        GUIContent tooltipContent = new GUIContent(text);
+        float height = style.CalcHeight(tooltipContent, toolTipWidth);
+        Vector2 size = new Vector2(toolTipWidth, height);
+
+        GUI.Label(new Rect(position, size), tooltipContent, style);
+
+        return new Vector2(position.x,position.y + height);
+    }
+
     private void drawToolTip()
     {
-        if (toolTipText != null && toolTipName != null)
+        if (toolTipTexts != null)
         {
-            string tooltipContent = string.Concat(toolTipName,":\n", toolTipText);
-            GUIContent tooltip = new GUIContent(tooltipContent);
-            Vector2 size = toolTipStyle.CalcSize(tooltip);
+            Vector2 toolTipTopLeftPosition = getStartingPositionForTooltipWith(toolTipTexts);
 
-            Rect labelRect;
-            if (SystemInfo.deviceType == DeviceType.Handheld)
+            foreach (KeyValuePair<string, GUIStyle> kv in toolTipTexts)
             {
-                labelRect = new Rect(getToolTipPositionX(Screen.width / 2.5f, size.x), getToolTipPositionY(Screen.height / 2.5f, size.y + cashIconSize), size.x, size.y);
+                toolTipTopLeftPosition = addToolTipReturnSize(toolTipTopLeftPosition, kv.Key, kv.Value);
             }
-            else
-            {
-                labelRect = new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y + cashIconSize), size.x, size.y);
-            }
-            
-            GUI.Label(labelRect, tooltipContent, toolTipStyle);
 
-
+            float toolTipWidth = Constants.ToolTipWidth * Screen.width / 100;
             //Display Price
-            if(toolTipPrice > 0)
+            if (toolTipPrice > 0)
             {
                 int copper = InterfaceUtils.GetCopper(toolTipPrice);
                 int silver = InterfaceUtils.GetSilver(toolTipPrice);
                 int gold = InterfaceUtils.GetGold(toolTipPrice);
 
-                Rect rect = new Rect(labelRect.x + labelRect.size.x - cashIconSize, labelRect.y + labelRect.size.y, cashIconSize, cashIconSize);
+                Rect rect = new Rect(toolTipTopLeftPosition.x - cashIconSize + toolTipWidth, toolTipTopLeftPosition.y, cashIconSize, cashIconSize);
 
                 GUIContent copperText = new GUIContent(copper.ToString());
                 Vector2 c = toolTipStyle.CalcSize(copperText);
@@ -504,7 +577,7 @@ public class Interface : MonoBehaviour
 		if (cDebuffs.Count > 0) {
 			int yPosition = y + (5 * barsHeight);
 			if (hasbuffs) {
-				yPosition += barsHeight;
+				yPosition += (int)(1.8f* barsHeight);
 			}
 
 			drawEffects (cDebuffs,x,yPosition,barsHeight,barsHeight);	
@@ -563,14 +636,14 @@ public class Interface : MonoBehaviour
         int counter = 1;
         int i = 1;
 		foreach (EffectOnTime effect in effects) {
-			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureForSpell(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + getBuffFormatForTime(effect.GetTimeLeft ()));
+			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureForSpell(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +".\n" + effect.GetDescription () + "\nStacks :" + effect.GetStacks() +" \nTime left : " + getBuffFormatForTime(effect.GetTimeLeft ()));
 			GUI.Box (new Rect (x, y, h, w), content);
 			int stacks = effect.GetStacks();
 			if(stacks > 1){
                 DrawOutline(new Rect (x, y, h, w), stacks.ToString(), buffStackStyle, Color.white,1.5f);
             }
             //On affiche le timer
-            GUI.Label(new Rect(x, y + h, h, w), getBuffFormatForTime(effect.GetTimeLeft()), buffTimerStyle);
+            DrawOutline(new Rect(x, y + h, h, w), getBuffFormatForTime(effect.GetTimeLeft()), buffTimerStyle,Color.white,1.5f);
 
             if (content.tooltip.Equals(GUI.tooltip))
                 counter = i;
@@ -604,7 +677,6 @@ public class Interface : MonoBehaviour
 
     private float getToolTipPositionX(float x, float toolTipSizeX)
     {
-
         if (x + toolTipSizeX > Screen.width)
         {
             return x - toolTipSizeX;
@@ -619,7 +691,7 @@ public class Interface : MonoBehaviour
         float result = Screen.height - y - toolTipSizeY;
         if (result < 0)
         {
-            return result + toolTipSizeY + 64 ;
+            return result + toolTipSizeY + 32;
         } else
         {
             return result;

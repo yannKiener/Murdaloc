@@ -43,7 +43,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
         if (usable != null)
             if(usable is Item)
             {
-                Interface.DrawToolTip(usable.GetName(), usable.GetDescription(), ((Item)usable).GetSellPrice());
+                Interface.DrawToolTip((Item) usable);
             }
             else
             {

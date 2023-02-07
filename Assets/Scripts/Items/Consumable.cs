@@ -36,7 +36,7 @@ public class Consumable : Item
 
     public override string GetDescription()
     {
-        return description;
+        return "Consumable.\n" + description;
     }
 
     public void SetImage(Sprite image)

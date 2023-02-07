@@ -49,7 +49,7 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item != null)
-            Interface.DrawToolTip(item.GetName(), item.GetDescription(), (int)(item.GetSellPrice() * Constants.BuyPriceMultiplier));
+            Interface.DrawToolTip(item, Constants.BuyPriceMultiplier);
     }
 
     public void OnPointerExit(PointerEventData eventData)
