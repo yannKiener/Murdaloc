@@ -18,6 +18,8 @@ public static class InputManager
     static Dictionary<string, string> bindingsPlayer = new Dictionary<string, string>();
     static Dictionary<string, string> bindingsActionBar = new Dictionary<string, string>();
     static Dictionary<string, string> bindings = new Dictionary<string, string>();
+    static int shortcutCount = 0;
+    private static bool isInputActive = true;
 
     private static void loadDefaultPlayerBindings()
     {
@@ -60,18 +62,74 @@ public static class InputManager
         };
     }
 
+    public static void DeactivateInput()
+    {
+        isInputActive = false;
+    }
+
+    public static void ActivateInput()
+    {
+        isInputActive = true;
+    }
+
     public static bool IsButtonDown(string buttonName){
-        return Input.GetKeyDown(bindings[buttonName]);
+        return isInputActive && Input.GetKeyDown(bindings[buttonName]);
     }
 
     public static bool IsButtonUp(string buttonName)
     {
-        return Input.GetKeyUp(bindings[buttonName]);
+        return isInputActive && Input.GetKeyUp(bindings[buttonName]);
     }
 
     public static bool IsButtonPressed(string buttonName)
     {
-        return Input.GetKey(bindings[buttonName]);
+        return isInputActive && Input.GetKey(bindings[buttonName]);
+    }
+
+    public static string GetShortcutFor(string actionName)
+    {
+        if (bindings.ContainsKey(actionName))
+        {
+            return bindings[actionName];
+        } else
+        {
+            return "";
+        }
+    }
+
+    public static Dictionary<string,string> GetShortCuts()
+    {
+        return bindings;
+    }
+
+    public static int GetShortCutCount()
+    {
+        return bindings.Count;
+    }
+
+    public static void SetShortcutFor(string actionName, string shortcut)
+    {
+        if (updateShortCutFor(bindingsPlayer, actionName, shortcut) || updateShortCutFor(bindingsInterface, actionName, shortcut) || updateShortCutFor(bindingsActionBar, actionName, shortcut))
+        {
+            LoadBindingsToGame();
+            //SaveBindings();
+        }
+        else
+        {
+            Debug.Log("NO SHORTCUT FOUND FOR : " + actionName);
+        }
+
+    }
+
+    private static bool updateShortCutFor(Dictionary<string,string> dict, string actionName, string shortcut)
+    {
+        if (dict.ContainsKey(actionName))
+        {
+            dict.Remove(actionName);
+            dict.Add(actionName, shortcut);
+            return true;
+        }
+        return false;
     }
 
     public static void SaveBindings()
@@ -97,6 +155,17 @@ public static class InputManager
     {
         BinaryFormatter bf = new BinaryFormatter();
 
+        if (File.Exists(Application.persistentDataPath + playerFileName))
+        {
+            FileStream file = File.Open(Application.persistentDataPath + playerFileName, FileMode.Open);
+            bindingsPlayer = (Dictionary<string, string>)bf.Deserialize(file);
+            file.Close();
+        }
+        else
+        {
+            loadDefaultPlayerBindings();
+        }
+
         if (File.Exists(Application.persistentDataPath + interfaceFileName))
         {
             FileStream file = File.Open(Application.persistentDataPath + interfaceFileName, FileMode.Open);
@@ -105,16 +174,6 @@ public static class InputManager
         } else
         {
             loadDefaultInterfaceBindings();
-        }
-
-        if (File.Exists(Application.persistentDataPath + playerFileName))
-        {
-            FileStream file = File.Open(Application.persistentDataPath + playerFileName, FileMode.Open);
-            bindingsPlayer = (Dictionary<string, string>)bf.Deserialize(file);
-            file.Close();
-        } else
-        {
-            loadDefaultPlayerBindings();
         }
 
         if (File.Exists(Application.persistentDataPath + actionFileName))
@@ -133,9 +192,10 @@ public static class InputManager
     private static void LoadBindingsToGame()
     {
         bindings = new Dictionary<string, string>();
-        bindingsInterface.ToList().ForEach(x => bindings.Add(x.Key, x.Value));
         bindingsPlayer.ToList().ForEach(x => bindings.Add(x.Key, x.Value));
+        bindingsInterface.ToList().ForEach(x => bindings.Add(x.Key, x.Value));
         bindingsActionBar.ToList().ForEach(x => bindings.Add(x.Key, x.Value));
+        shortcutCount = bindings.Count;
     }
 
     public static void LoadDefault()
@@ -143,5 +203,6 @@ public static class InputManager
         loadDefaultPlayerBindings();
         loadDefaultInterfaceBindings();
         loadDefaultActionBarBindings();
+        SaveBindings();
     }
 }

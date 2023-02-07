@@ -79,7 +79,6 @@ public static class DialogSigns
             }
         }
         return 0;
-
     }
 }
 

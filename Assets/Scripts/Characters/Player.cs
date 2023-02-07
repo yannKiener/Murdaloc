@@ -139,7 +139,7 @@ public class Player : Character
         {
             CycleTargets();
         }
-        if (InputManager.IsButtonDown("Cancel"))
+        if (InputManager.IsButtonDown("Cancel") || Input.GetKeyDown("escape"))
         {
             Cancel();
         }

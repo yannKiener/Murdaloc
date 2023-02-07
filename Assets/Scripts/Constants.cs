@@ -24,13 +24,35 @@ public static class Constants {
     public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
     public static readonly float keepDpsDamageSeconds = 5;
     public static readonly float mainMenuSizeXPercent = 20;
-    public static readonly float mainMenuSizeYPercent = 30;
-    public static readonly float optionMenuSizeXPercent = 40;
-    public static readonly float optionMenuSizeYPercent = 30;
+    public static readonly float mainMenuSizeYPercent = 50;
+    public static readonly float optionMenuSizeXPercent = 30;
+    public static readonly float optionMenuSizeYPercent = 50;
+    public static readonly float shortcutMenuSizeXPercent = 50;
+    public static readonly float shortcutMenuSizeYPercent = 70;
     public static readonly float modalDialogSizeXPercent = 20;
     public static readonly float modalDialogSizeYPercent = 10;
     public static readonly float ToolTipWidth = 15;
     public static readonly float InteractDistance = 2f;
+    public static readonly Dictionary<string, string> bindingMap = new Dictionary<string, string>
+    {
+         { "\b", "backspace" },
+         { "\n", "return" },
+         { "\r", "return" },
+         { "\r\n", "return" },
+         { " ", "space" },
+         { "&", "1" },
+         { "é", "2" },
+         { "\"", "3" },
+         { "'", "4" },
+         { "(", "5" },
+         { "-", "6" },
+         { "è", "7" },
+         { "_", "8" },
+         { "ç", "9" },
+         { "à", "0" },
+         { ")", "°" },
+         { "=", "+" }
+    };
 
 
     //stats

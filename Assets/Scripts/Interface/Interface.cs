@@ -56,11 +56,13 @@ public class Interface : MonoBehaviour
 	int castBarHeight = (int)(Screen.height * Constants.castBarhPercent / 100);
     int expBarHeight = (int)(Screen.height* Constants.expBarHeightPercent / 100);
     int mainMenuWidth = (int)(Screen.width * Constants.mainMenuSizeXPercent / 100);
-    int mainMenuHeight = (int)(Screen.width * Constants.mainMenuSizeYPercent / 100);
+    int mainMenuHeight = (int)(Screen.height * Constants.mainMenuSizeYPercent / 100);
     int modalDialogWidth = (int)(Screen.width * Constants.modalDialogSizeXPercent / 100);
-    int modalDialogHeight = (int)(Screen.width * Constants.modalDialogSizeYPercent / 100);
+    int modalDialogHeight = (int)(Screen.height * Constants.modalDialogSizeYPercent / 100);
     int optionMenuWidth = (int)(Screen.width * Constants.optionMenuSizeXPercent / 100);
-    int optionMenuHeight = (int)(Screen.width * Constants.optionMenuSizeYPercent / 100);
+    int optionMenuHeight = (int)(Screen.height * Constants.optionMenuSizeYPercent / 100);
+    int shortcutMenuWidth = (int)(Screen.width * Constants.shortcutMenuSizeXPercent / 100);
+    int shortcutMenuHeight = (int)(Screen.height * Constants.shortcutMenuSizeYPercent / 100);
 
     private static Dictionary<string, GUIStyle> toolTipTexts;
     private static int toolTipPrice;
@@ -70,6 +72,10 @@ public class Interface : MonoBehaviour
     private static Action ModalButtonAction;
     private static bool isMenuOpen = false;
     private static bool isOptionMenuOpen = false;
+    private static bool isShortcutMenuOpen = false;
+    private static Vector2 scrollPositionForShortcutMenu = Vector2.zero;
+    private IEnumerator timeoutCoroutine;
+    private IEnumerator shortcutCoroutine;
 
 
     public static void LoadPlayer(){
@@ -213,6 +219,16 @@ public class Interface : MonoBehaviour
         isOptionMenuOpen = false;
     }
 
+    public static void OpenShortcutMenu()
+    {
+        isShortcutMenuOpen = true;
+    }
+
+    public static void CloseShortcutMenu()
+    {
+        isShortcutMenuOpen = false;
+    }
+
 
     public static void DrawModalDialog(string modalText, Action modalButtonAction)
     {
@@ -274,7 +290,6 @@ public class Interface : MonoBehaviour
 
     public void ForceBarStyles()
     {
-
         if (nameBarStyle.normal.background == null)
         {
             nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0, 0, 0, 0.7f));
@@ -352,56 +367,181 @@ public class Interface : MonoBehaviour
     {
         if (isMenuOpen)
         {
+            CloseShortcutMenu();
             CloseOptionMenu();
             CloseModalDialog();
             Rect windowRect = new Rect((Screen.width - mainMenuWidth) / 2, (Screen.height - mainMenuHeight) / 2, mainMenuWidth, mainMenuHeight);
 
             GUI.Window(1, windowRect, InGameMenuWindow, "Menu", menuStyle);
+            InputManager.ActivateInput();
+            Time.timeScale = 1;
+            stopAllExistingShortcutCoroutines();
         }
         if (isOptionMenuOpen)
         {
-            Rect windowRect = new Rect((Screen.width - optionMenuWidth) / 2, (Screen.height - optionMenuHeight) / 2, optionMenuWidth, optionMenuHeight);
+            Rect windowRect = new Rect((Screen.width - optionMenuWidth) / 2, (Screen.height - optionMenuHeight) / 2, optionMenuWidth, optionMenuWidth);
 
             GUI.Window(2, windowRect, InGameOptionMenuWindow, "Options", menuStyle);
         }
+        if (isShortcutMenuOpen)
+        {
+            InputManager.DeactivateInput();
+            Time.timeScale = 0;
+            Rect windowRect = new Rect((Screen.width - shortcutMenuWidth) / 2, (Screen.height - shortcutMenuHeight) / 2, shortcutMenuWidth, shortcutMenuHeight);
+
+            GUI.Window(3, windowRect, InGameShortcutMenuWindow, "Shortcuts", menuStyle);
+        } 
 
     }
 
-    private Rect getRectForIngameOptionMenuPosition(int position)
-    {
-        int paddingX = optionMenuWidth / 10;
-        int paddingY = optionMenuHeight / 10;
-        int buttonSizeX = optionMenuWidth;
-        int buttonSizeY = optionMenuHeight / 10;
-        return new Rect(paddingX, paddingY + (position - 1) * (buttonSizeY), buttonSizeX - paddingX * 2, buttonSizeY);
-    }
 
     void InGameOptionMenuWindow(int windowID)
     {
         float soundVolumeLevel = SoundManager.GetVolume();
-        GUI.Label(getRectForIngameOptionMenuPosition(1), "Sound effects volume:");
-        SoundManager.SetVolume(GUI.HorizontalScrollbar(getRectForIngameOptionMenuPosition(2), soundVolumeLevel, 0.1f, 0, 1));
+        GUI.Label(getRectForIngameOptionMenuPosition(2), "Sound effects volume:");
+        SoundManager.SetVolume(GUI.HorizontalScrollbar(getRectForIngameOptionMenuPosition(3), soundVolumeLevel, 0.1f, 0, 1));
         float musicVolumeLevel = MusicManager.GetVolume();
         GUI.Label(getRectForIngameOptionMenuPosition(4), "Music volume:");
         MusicManager.SetVolume(GUI.HorizontalScrollbar(getRectForIngameOptionMenuPosition(5), musicVolumeLevel, 0.1f, 0, 1));
 
-        if (GUI.Button(getRectForIngameOptionMenuPosition(8), "Return", buttonStyle))
+        if (GUI.Button(getDefaultSizedRectForMenuPosition(8, 10, optionMenuWidth, optionMenuHeight), "Return", buttonStyle))
         {
             OpenMenu(false);
         }
     }
 
+    private void stopAllExistingShortcutCoroutines()
+    {
+        if (shortcutCoroutine != null)
+        {
+            StopCoroutine(shortcutCoroutine);
+        }
+        if (timeoutCoroutine != null)
+        {
+            StopCoroutine(timeoutCoroutine);
+        }
+    }
+
+    void InGameShortcutMenuWindow(int windowID)
+    {
+        //Begin test shortcuts display
+        int scrollMenuWidth = shortcutMenuWidth * 90 / 100;
+        int scrollMenuHeight = shortcutMenuHeight * 70 / 100;
+        int scrollMenuPaddingX = shortcutMenuWidth * 5 / 100;
+        int scrollMenuPaddingY = shortcutMenuHeight * 5 / 100;
+
+        int testDivisions = 15;
+        int scrollZone = (1 +  InputManager.GetShortCutCount()) * mainMenuHeight / testDivisions;
+
+        scrollPositionForShortcutMenu = GUI.BeginScrollView(new Rect(scrollMenuPaddingX, scrollMenuPaddingY, scrollMenuWidth, scrollMenuHeight), scrollPositionForShortcutMenu, new Rect(0, 0, 0, scrollZone));
+
+        int testCount = InputManager.GetShortCutCount();
+        int i = 0;
+
+        Dictionary<string, string> shortcuts = new Dictionary<string, string>(InputManager.GetShortCuts()); 
+
+        foreach (KeyValuePair<string,string> shortcut in shortcuts)
+        {
+            if(GUI.Button(getRectForShortcutMenu(i, testDivisions, scrollMenuWidth, mainMenuHeight), shortcut.Key + " : " + shortcut.Value, buttonStyle))
+            {
+                stopAllExistingShortcutCoroutines();
+                shortcutCoroutine = SetShortcut(shortcut.Key);
+                StartCoroutine(shortcutCoroutine);
+                timeoutCoroutine = TimeOutShortcut(shortcutCoroutine);
+                StartCoroutine(timeoutCoroutine);
+            }
+            i++;
+        }
+
+        IEnumerator TimeOutShortcut(IEnumerator coRoutineToStopAfter)
+        {
+            yield return new WaitForSecondsRealtime(3);
+            StopCoroutine(coRoutineToStopAfter);
+        }
+
+        IEnumerator SetShortcut(string actionName)
+        {
+            bool done = false;
+            while (!done)
+            {
+                string input = Input.inputString;
+                if (input != null && !input.Equals(""))
+                {
+                    if (Constants.bindingMap.ContainsKey(input))
+                    {
+                        input = Constants.bindingMap[input];
+                    }
+                    InputManager.SetShortcutFor(actionName, input);
+                    done = true;
+                    StopCoroutine(timeoutCoroutine);
+
+                }
+                yield return null; 
+            }
+        }
+
+        GUI.EndScrollView();
+        //End test shortcuts display
+
+        if (GUI.Button(getDefaultSizedRectForMenuPosition(8, 10, shortcutMenuWidth, shortcutMenuHeight), "Reset to defaults", buttonStyle))
+        {
+
+            Action resetDefaultsAction = new Action(() => InputManager.LoadDefault());
+            DrawModalDialog("Reset to default shortcuts ?", resetDefaultsAction);
+        }
+
+        if (GUI.Button(getDefaultSizedRectForMenuPosition(9, 10, shortcutMenuWidth, shortcutMenuHeight), "Return", buttonStyle))
+        {
+            OpenMenu(false);
+        }
+    }
+
+    private Rect getRectForShortcutMenu(int position, int divisionCount, int menuWidth, int menuHeight)
+    {
+        int buttonSizeX = menuWidth / 2;
+        int buttonSizeY = menuHeight / divisionCount;
+        int paddingX = (buttonSizeX * (position % 2));
+        int paddingY = menuHeight / divisionCount;
+        return new Rect(paddingX, paddingY + (int)(position/2) * paddingY, buttonSizeX, buttonSizeY);
+    }
+
+
+    private Rect getRectForMenuPosition(int position, int divisionCount, int menuWidth, int menuHeight, int buttonWidth, int buttonHeightBeforeDivide)
+    {
+        int paddingX = menuWidth / divisionCount;
+        int paddingY = menuHeight / divisionCount;
+        int buttonSizeX = buttonWidth;
+        int buttonSizeY = buttonHeightBeforeDivide / divisionCount;
+        return new Rect(paddingX, paddingY + (position - 1) * (paddingY), buttonSizeX - paddingX * 2, buttonSizeY);
+    }
+
+    private Rect getRectForMenuPosition(int position, int divisionCount, int menuWidth, int menuHeight)
+    {
+        return getRectForMenuPosition(position, divisionCount, menuHeight, menuHeight, menuWidth, menuHeight);
+    }
+
+    private Rect getDefaultSizedRectForMenuPosition(int position, int divisionCount, int menuWidth, int menuHeight)
+    {
+        return getRectForMenuPosition(position, divisionCount, menuWidth, menuHeight, menuWidth, mainMenuHeight);
+    }
+
+    private Rect getRectForIngameOptionMenuPosition(int position)
+    {
+        return getRectForMenuPosition(position, 10, optionMenuWidth, optionMenuHeight);
+    }
+
     private Rect getRectForIngameMenuPosition(int position)
     {
-        int paddingX = mainMenuWidth / 10;
-        int paddingY = mainMenuHeight / 10;
-        int buttonSizeX = mainMenuWidth;
-        int buttonSizeY = mainMenuHeight / 10;
-        return new Rect(paddingX, paddingY + (position - 1) * (buttonSizeY), buttonSizeX - paddingX * 2, buttonSizeY);
+        return getRectForMenuPosition(position, 10, mainMenuWidth, mainMenuHeight);
     }
 
     void InGameMenuWindow(int windowID)
     {
+        if (GUI.Button(getRectForIngameMenuPosition(1), "Shortcuts", buttonStyle))
+        {
+            CloseMenu(false);
+            OpenShortcutMenu();
+        }
         if (GUI.Button(getRectForIngameMenuPosition(2), "Options", buttonStyle))
         {
             CloseMenu(false);
@@ -427,7 +567,7 @@ public class Interface : MonoBehaviour
         }
     }
 
-        private void drawModalDialog()
+    private void drawModalDialog()
     {
         if (ModalText != null && ModalButtonAction != null)
         {
@@ -444,7 +584,7 @@ public class Interface : MonoBehaviour
         int buttonYSize = modalDialogWidth / 6;
         int textXSize = modalDialogWidth - 20;
         int testYSize = modalDialogHeight - 15 - buttonYSize;
-        GUI.Label(new Rect(10, 5, textXSize, testYSize), ModalText);
+        GUI.Label(new Rect(0, 0, textXSize+100, testYSize+100), ModalText);
 
         if (GUI.Button(new Rect(modalDialogWidth/3 - buttonXSize/2, 4* modalDialogHeight/5 - buttonYSize / 2, buttonXSize, buttonYSize), "Yes", buttonStyle))
         {
