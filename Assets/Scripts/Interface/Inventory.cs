@@ -247,9 +247,20 @@ public class Inventory : MonoBehaviour, Slotable {
 
     public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
-        Usable tempUsable = Draggable.currentUsable;
-        if (tempUsable is Item) {
-            AddItem((Item)tempUsable);
+        if (slot.transform.childCount > 0 && Draggable.currentItem == slot.transform.GetChild(0).gameObject)
+        {
+            eventData.Use();
+        }
+        else
+        {
+            Usable tempUsable = Draggable.currentUsable;
+            if (tempUsable is Item)
+            {
+                if (!AddItem((Item)tempUsable))
+                {
+                    eventData.Use();
+                }
+            }
         }
     }
 

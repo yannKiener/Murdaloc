@@ -49,7 +49,11 @@ public class CharacterSheet : MonoBehaviour, Slotable {
                 }
                 else
                 {
-                    EquipEquipment(tempEquipment);
+                    if (!EquipEquipment(tempEquipment))
+                    {
+                        eventData.Use();
+                    }
+                    
                 }
             } else
             {
@@ -67,18 +71,24 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     public bool RemoveEquipmentSlot(GameObject slot, bool addToInventory = true)
     {
-
-        if (slot != null && (Equipment)slot.GetComponent<Slot>().usable != null)
+        if (slot != null)
         {
+            if ((Equipment)slot.GetComponent<Slot>().usable == null)
+            {
+                return true;
+            }
+
             Equipment item = (Equipment)slot.GetComponent<Slot>().usable;
             //On retire l'objet
-            clearChilds(slot.transform);
-            slot.GetComponent<Slot>().usable = null;
             if (addToInventory)
             {
-                item.isEquipped = false;
-                FindUtils.GetInventoryGrid().AddItem(item);
+                if (!FindUtils.GetInventoryGrid().AddItem(item))
+                {
+                    return false;
+                }   
             }
+            clearChilds(slot.transform);
+            slot.GetComponent<Slot>().usable = null;
             FindUtils.GetPlayer().GetStats().Remove(item.GetStats());
             if (slot.name.Equals("Weapon1")) 
             {
@@ -93,90 +103,59 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         return false;
     }
 
-    public void EquipEquipment(Equipment item)
+    public bool EquipEquipment(Equipment item)
     {
-        if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(1))
+        switch (item.GetEquipmentSlot())
         {
-            switch (item.GetEquipmentSlot())
-            {
-                case EquipmentSlot.Head:
-                    ClearSlot(EquipmentSlot.Head);
-                    EquipHead(item);
-                    break;
-                case EquipmentSlot.Neck:
-                    ClearSlot(EquipmentSlot.Neck);
-                    EquipNeck(item);
-                    break;
-                case EquipmentSlot.Torso:
-                    ClearSlot(EquipmentSlot.Torso);
-                    EquipTorso(item);
-                    break;
-                case EquipmentSlot.Legs:
-                    ClearSlot(EquipmentSlot.Legs);
-                    EquipLegs(item);
-                    break;
-                case EquipmentSlot.Belt:
-                    ClearSlot(EquipmentSlot.Belt);
-                    EquipBelt(item);
-                    break;
-                case EquipmentSlot.Hands:
-                    ClearSlot(EquipmentSlot.Hands);
-                    EquipHands(item);
-                    break;
-                case EquipmentSlot.Ring:
-                    ClearSlot(EquipmentSlot.Ring);
-                    EquipRing(item);
-                    break;
-                case EquipmentSlot.Feet:
-                    ClearSlot(EquipmentSlot.Feet);
-                    EquipFeet(item);
-                    break;
-                case EquipmentSlot.TwoHanded:
-
-                    if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(1))
+            case EquipmentSlot.Head:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Head");
+            case EquipmentSlot.Neck:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Neck");
+            case EquipmentSlot.Torso:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Torso");
+            case EquipmentSlot.Legs:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Legs");
+            case EquipmentSlot.Belt:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Belt");
+            case EquipmentSlot.Hands:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Hands");
+            case EquipmentSlot.Ring:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Ring");
+            case EquipmentSlot.Feet:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Feet");
+            case EquipmentSlot.TwoHanded:
+                return EquipItemToSlot(item, item.GetEquipmentSlot(), "Weapon1");
+            case EquipmentSlot.Weapon1:
+                if (GetEquipmentForSlot(EquipmentSlot.Weapon1) == null)
+                {
+                    return EquipItemToSlot(item, item.GetEquipmentSlot(), "Weapon1");
+                } else
+                {
+                    if (GetEquipmentForSlot(EquipmentSlot.Weapon1) != null && GetEquipmentForSlot(EquipmentSlot.Weapon1).GetEquipmentSlot() != EquipmentSlot.TwoHanded)
                     {
-                        ClearSlot(EquipmentSlot.TwoHanded);
-                        EquipWeapon1(item);
+                        return EquipItemToSlot(item, EquipmentSlot.Weapon2, "Weapon2");
                     } else
                     {
-                        MessageUtils.ErrorMessage("Make some space before equipping.");
+                        return EquipItemToSlot(item, item.GetEquipmentSlot(), "Weapon1");
                     }
-                    break;
-                case EquipmentSlot.Weapon1:
-                    if (GetEquipmentForSlot(EquipmentSlot.Weapon1) == null)
+                }
+            case EquipmentSlot.Weapon2:
+                if(GetEquipmentForSlot(EquipmentSlot.Weapon1) != null && GetEquipmentForSlot(EquipmentSlot.Weapon1).GetEquipmentSlot() == EquipmentSlot.TwoHanded)
+                {
+                    if (ClearSlot(EquipmentSlot.Weapon1))
                     {
-                        EquipWeapon1(item);
+                        return EquipItemToSlot(item, EquipmentSlot.Weapon2, "Weapon2");
                     } else
                     {
-                        if (GetEquipmentForSlot(EquipmentSlot.Weapon1) != null && GetEquipmentForSlot(EquipmentSlot.Weapon1).GetEquipmentSlot() != EquipmentSlot.TwoHanded)
-                        {
-                            ClearSlot(EquipmentSlot.Weapon2);
-                            EquipWeapon2(item);
-                        } else
-                        {
-                            ClearSlot(EquipmentSlot.Weapon1);
-                            EquipWeapon1(item);
-                        }
+                        return false;
                     }
-                    break;
-                case EquipmentSlot.Weapon2:
-                    if(GetEquipmentForSlot(EquipmentSlot.Weapon1) != null && GetEquipmentForSlot(EquipmentSlot.Weapon1).GetEquipmentSlot() == EquipmentSlot.TwoHanded)
-                    {
-                        ClearSlot(EquipmentSlot.Weapon1);
-                        EquipWeapon2(item);
-                    } else
-                    {
-                        ClearSlot(EquipmentSlot.Weapon2);
-                        EquipWeapon2(item);
-                    }
-                    break;
-            }
-
+                } else
+                {
+                    return EquipItemToSlot(item, EquipmentSlot.Weapon2, "Weapon2");
+                }
         }
-        else
-        {
-            MessageUtils.ErrorMessage("Make some space before equipping.");
-        }
+
+        return ErrorUnknownEquimentSlot(item.GetEquipmentSlot());
     }
 
     public Equipment GetEquipmentForSlot(EquipmentSlot itemSlot)
@@ -209,101 +188,74 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         return null;
     }
 
-    public void ClearSlot(EquipmentSlot itemSlot)
+    public bool ClearSlot(EquipmentSlot itemSlot)
     {
         switch (itemSlot)
         {
             case EquipmentSlot.Head:
-                RemoveEquipmentSlot(transform.Find("Head").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Head").gameObject);
             case EquipmentSlot.Neck:
-                RemoveEquipmentSlot(transform.Find("Neck").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Neck").gameObject);
             case EquipmentSlot.Torso:
-                RemoveEquipmentSlot(transform.Find("Torso").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Torso").gameObject);
             case EquipmentSlot.Legs:
-                RemoveEquipmentSlot(transform.Find("Legs").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Legs").gameObject);
             case EquipmentSlot.Belt:
-                RemoveEquipmentSlot(transform.Find("Belt").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Belt").gameObject);
             case EquipmentSlot.Hands:
-                RemoveEquipmentSlot(transform.Find("Hands").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Hands").gameObject);
             case EquipmentSlot.Ring:
-                RemoveEquipmentSlot(transform.Find("Ring").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Ring").gameObject);
             case EquipmentSlot.Feet:
-                RemoveEquipmentSlot(transform.Find("Feet").gameObject);
-                break;
+                return RemoveEquipmentSlot(transform.Find("Feet").gameObject);
             case EquipmentSlot.TwoHanded:
-                FindUtils.GetPlayer().ResetAutoAttacks();
-                RemoveEquipmentSlot(transform.Find("Weapon1").gameObject);
-                RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
-                break;
+                Debug.Log("Removing both weaps");
+                bool hasRemovedBothWeap = RemoveEquipmentSlot(transform.Find("Weapon1").gameObject) && RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
+                Debug.Log("Result : " + hasRemovedBothWeap);
+                if (hasRemovedBothWeap)
+                {
+                    FindUtils.GetPlayer().ResetAutoAttacks();
+                }
+                return hasRemovedBothWeap;
             case EquipmentSlot.Weapon1:
-                FindUtils.GetPlayer().ResetAutoAttack1();
-                RemoveEquipmentSlot(transform.Find("Weapon1").gameObject);
-                break;
+                Debug.Log("Removing weap 1");
+                bool hasRemovedWeap1 = RemoveEquipmentSlot(transform.Find("Weapon1").gameObject);
+                Debug.Log("Result : " + hasRemovedWeap1);
+                if (hasRemovedWeap1)
+                {
+                    FindUtils.GetPlayer().ResetAutoAttack1();
+                }
+                return hasRemovedWeap1;
             case EquipmentSlot.Weapon2:
-                FindUtils.GetPlayer().ResetAutoAttack2();
-                RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
-                break;
+                Debug.Log("Removing weap2");
+                bool hasRemovedWeap2 = RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
+                Debug.Log("Result : " + hasRemovedWeap2);
+                if (hasRemovedWeap2)
+                {
+                    FindUtils.GetPlayer().ResetAutoAttack2();
+                }
+                return hasRemovedWeap2;
         }
+        return ErrorUnknownEquimentSlot(itemSlot);
     }
 
-    private void EquipHead(Equipment item)
+    private bool ErrorUnknownEquimentSlot(EquipmentSlot equiSlot)
     {
-        Equip(transform.Find("Head").gameObject, item);
+        Debug.LogError("Unknown slot : " + equiSlot);
+        return false;
     }
 
-    private void EquipNeck(Equipment item)
+    private bool EquipItemToSlot(Equipment item, EquipmentSlot equipmentSlot, string slotGameObjName)
     {
-        Equip(transform.Find("Neck").gameObject, item);
+        bool isSlotCleared = ClearSlot(equipmentSlot);
+        if (isSlotCleared)
+        {
+            Equip(transform.Find(slotGameObjName).gameObject, item);
+        }
+        return isSlotCleared;
     }
 
-    private void EquipTorso(Equipment item)
-    {
-        Equip(transform.Find("Torso").gameObject, item);
-    }
-
-    private void EquipLegs(Equipment item)
-    {
-        Equip(transform.Find("Legs").gameObject, item);
-    }
-
-    private void EquipBelt(Equipment item)
-    {
-        Equip(transform.Find("Belt").gameObject, item);
-    }
-
-    private void EquipHands(Equipment item)
-    {
-        Equip(transform.Find("Hands").gameObject, item);
-    }
-
-    private void EquipRing(Equipment item)
-    {
-        Equip(transform.Find("Ring").gameObject, item);
-    }
-
-    private void EquipFeet(Equipment item)
-    {
-        Equip(transform.Find("Feet").gameObject, item);
-    }
-
-    private void EquipWeapon1(Equipment item, bool isTwoHanded = false)
-    {
-        FindUtils.GetPlayer().SetAutoAttack1(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
-        Equip(transform.Find("Weapon1").gameObject, item);
-    }
-
-    private void EquipWeapon2(Equipment item)
-    {
-        FindUtils.GetPlayer().SetAutoAttack2(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
-        Equip(transform.Find("Weapon2").gameObject,item);
-    }
+    
 
     private void Equip(GameObject slot, Equipment item)
     {
@@ -319,8 +271,15 @@ public class CharacterSheet : MonoBehaviour, Slotable {
             }
 
             item.isEquipped = true;
-            
-        } 
+        }
+        if (slot.name.Equals("Weapon1"))
+        {
+            FindUtils.GetPlayer().SetAutoAttack1(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
+        }
+        if (slot.name.Equals("Weapon2"))
+        {
+            FindUtils.GetPlayer().SetAutoAttack2(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
+        }
 
         FindUtils.GetPlayer().GetStats().Add(item.GetStats());
         InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, item.GetImageAsSprite(), item);

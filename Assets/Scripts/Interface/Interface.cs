@@ -609,7 +609,7 @@ public class Interface : MonoBehaviour
         int bonusForAndroid = 0;
         if (SystemInfo.deviceType == DeviceType.Handheld)
         {
-            bonusForAndroid = 64;
+            bonusForAndroid = 128;
         }
 
         y += bonusForAndroid;
@@ -617,7 +617,7 @@ public class Interface : MonoBehaviour
         float result = Screen.height - y - toolTipSizeY;
         if (result < 0)
         {
-            return result + toolTipSizeY + 32 + bonusForAndroid;
+            return result + toolTipSizeY + 64 + bonusForAndroid;
         } else
         {
             return result;
