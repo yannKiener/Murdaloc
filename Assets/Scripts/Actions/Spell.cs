@@ -112,6 +112,8 @@ public abstract class AbstractSpell : Spell
     }
 
 	protected int modifiedSpell(Character caster, Character target, int number){
+		Stats casterStats = caster.GetStats ();
+		//apply casterStats and targetStats here
 		return number + (int)(number * Random.Range (-30f, 30f) / 100);
 	}
 

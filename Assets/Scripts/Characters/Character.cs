@@ -33,6 +33,7 @@ public interface Character
 	void AddEffectOnTime (EffectOnTime effect);
 	void RemoveEffectOnTime (EffectOnTime effect);
 	void LevelUp();
+	Stats GetStats ();
 
 }
 
@@ -80,6 +81,10 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		isDead = false;
 		castingSpell = null;
     }
+
+	public Stats GetStats(){
+		return stats;
+	}
 
 	public void LevelUp(){
 		this.stats.Add(new Stats(1,1,10,10,1,1,1,1,false));
