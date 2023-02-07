@@ -1023,7 +1023,7 @@ public abstract class Character : InteractableBehaviour
             {
                 if (castingSpell.IsCastable(this, target, false))
                 {
-                    DoneCasting();
+                    DoneCasting(castingSpell.DoesStopRegen());
                 } else
                 {
                     CancelCast();
@@ -1032,9 +1032,17 @@ public abstract class Character : InteractableBehaviour
         }
     }
 
-    protected void DoneCasting()
+    protected void DoneCasting(bool stopRegen)
     {
-        hasCasted = true;
+        if (stopRegen)
+        {
+            Debug.Log("Stopping regen");
+            hasCasted = true;
+        }else
+        {
+            Debug.Log("NOT stopping regen!");
+        }
+
         SoundManager.StopSound(castingSpell.GetPreCastSound());
         if (anim != null)
         {

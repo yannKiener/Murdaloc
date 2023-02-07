@@ -1,0 +1,17 @@
+{  
+   "text":"<He watches you silently, scrutinizing all your steps.>",
+   "choices":[  
+	  {
+        "choice":"Who are you ?",
+        "dialog":
+		{   
+            "text":"I'm the bodyguard. Move along sir.",
+			"choices":[  
+               {  
+                  "choice":"<Leave>."
+               }
+            ]
+		}
+	  }
+   ]
+}

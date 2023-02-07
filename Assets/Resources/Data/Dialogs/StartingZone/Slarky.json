@@ -2,7 +2,7 @@
    "text":"Don't waste my time.",
    "choices":[  
 	  {
-         "condition":"!TalentTreeSelected",
+         "condition":"!TalentTreeSelected&Blade for everyoneOver",
          "choice":"I want to be a Rogue.",
          "dialog":{   
             "text":"Is that so ? I may help and teach you, but know that once you're in, you won't be able to get out.",
@@ -19,7 +19,10 @@
 					   }
 					]
                   }
-               }
+               },
+			   {
+				  "choice":"<Leave>"
+			   }
             ]
          }
 	  }, 
@@ -27,7 +30,7 @@
 		"condition":"RogueTalentSelected&!Prove your worthOver&!Prove your worthReady",
         "choice":"About my training...",
 		"dialog":{
-            "text":"No that loud! And you're clearly not done yet.",
+            "text":"Pfeh ! You're clearly not done yet.",
             "choices":[  
                {  
                   "choice":"<Leave>"

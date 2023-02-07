@@ -2,7 +2,7 @@
    "text":"Hey, i'm the Warrior around here.",
    "choices":[  
 	  {
-         "condition":"!TalentTreeSelected",
+         "condition":"!TalentTreeSelected&Blade for everyoneOver",
          "choice":"I want to be a Warrior.",
          "dialog":{   
             "text":"Hah ! You think you have the guts to become a true Warrior ?! I can show you a few things, but you'll have to prove your worth, prove that you can follow our path.",
@@ -19,7 +19,10 @@
 					   }
 					]
                   }
-               }
+               },
+			   {
+				  "choice":"<Leave>"
+			   }
             ]
          }
 	  }, 
@@ -27,7 +30,7 @@
 		"condition":"WarriorTalentSelected&!Prove your worthOver&!Prove your worthReady",
         "choice":"About my training...",
 		"dialog":{
-            "text":"Hah ! That's not good enough ! Are those cute rabbits scaring you ?! Come back with more blood on your hands !",
+            "text":"Hahah ! That's not good enough ! Are those cute rabbits scaring you ?! Come back with more blood on your hands !",
             "choices":[  
                {  
                   "choice":"<Leave>"

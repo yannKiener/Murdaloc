@@ -5,12 +5,12 @@
          "condition":"Blade for everyoneStarted&!Blade for everyoneOver",
          "choice":"The chief said you had a blade for me.",
          "dialog":{  
-            "text":"So you too huh? Give a blade to everybody, FREE ! What a stupid order. There you go.",
+            "text":"So you too huh? Give a blade to everybody, FREE, what a stupid order. Well i'm sure you will understand why it's not my finest. There you go.",
             "choices":[  
                {  
                   "choice":"Thanks.",
                   "dialog":{  
-					"text":"Now you have a blade, could you help me a bit ? I have to work overtime for those crappy swords, and my stock of fur is empty. I don't have to time to refill it that mean no armor for anybody! I need some rabbit fur, could you get some from me ? I can give you a better blade if you do that.",
+					"text":"Now you have a blade, could you help me a bit actually ? I have to work overtime for those damn swords, and my stock of fur is empty. I don't have to time to refill it and that mean no armor for anybody, especially for the one leaving the camp soon! There's rabbits around, their fur should be enough. Could you get some from me ? I can give you a better blade if you do that.",
 					"endQuest":"Blade for everyone",
 					"choices":[  
 					   {  
@@ -30,9 +30,9 @@
       },
 	  {
          "condition":"Blade for everyoneOver&!Refilling the stocksStarted",
-         "choice":"You spoke about furs?",
+         "choice":"About those furs..",
          "dialog":{  
-            "text":"Yeah ! Could you get some for me ? You'll find rabbits west of here, they'll be good enough. I can reward you with a better blade !",
+            "text":"Yeah ! Could you get some for me ? You'll find rabbits west of here, they'll be good enough. Don't forget, I will reward you with a better blade, you have my word.",
             "choices":[  
                {  
                   "choice":"<Accept>",
@@ -56,7 +56,7 @@
 				 "condition":"Refilling the stocksReady",
 				 "choice":"There you go.",
 				 "dialog":{  
-					"text":"What's your name again ? %T right? Well thank you %T ! Here, take this sword,",
+					"text":"What's your name again ? %T ? Well thank you %T ! At least someone helpful ! Here, take this sword,",
 					"endQuest":"Refilling the stocks",
 					"choices":[  
 					   {  

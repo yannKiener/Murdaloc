@@ -4480,6 +4480,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoldTooth
       objectReference: {fileID: 0}
+    - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
+        type: 3}
+      propertyPath: SpellList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
+        type: 3}
+      propertyPath: LootTable.Array.data[1].dropRatePercent
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
+        type: 3}
+      propertyPath: SpellList.Array.data[0]
+      value: Pyroblast
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
+        type: 3}
+      propertyPath: SpellList.Array.data[1]
+      value: Fireball
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51013adbdcf09b4ca1c12f14efa248a, type: 3}
 --- !u!4 &1440516965 stripped

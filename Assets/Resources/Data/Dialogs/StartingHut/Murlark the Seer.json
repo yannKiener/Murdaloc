@@ -10,7 +10,7 @@
                {  
                   "choice":"<Ask what happened>",
                   "dialog":{  
-					"text":"We don't know much for now, we've all been hit by some kind of lightning explosion. Strangely no one was physically hurt, but strangely I noticed that we have.. Evolved.. a lot since.",
+					"text":"We don't know much for now, we've all been hit by some kind of lightning explosion. No one was physically hurt, but strangely I noticed that we have.. Changed.. Maybe even evolved.",
 					"choices":[  
 					   {  
 						  "choice":"<Stand up>",
@@ -30,7 +30,7 @@
                {  
                   "choice":"<Stand up>",
                   "dialog":{  
-					"text":"Now now, %T, slowly. Allow me help you. You should report to the chief outside when you're ready.",
+					"text":"Now now, %T, slowly. Allow me to help you. You should report to the chief outside when you're ready.",
                     "action":"WakeUpPlayer",
 					"choices":[
 					   {  
@@ -46,7 +46,7 @@
 		 "condition":"PlayerWokeUp",
          "choice":"What should I do ?",
 		 "dialog":{
-			"text":"Walk outside this room and report to the Chief. He have new orders for every Murloc around. Now go, young %T.",
+			"text":"Walk outside this room and report to the Chief. With recent events, he have new orders for every Murloc around. Now go, young %T.",
 			"choices":[
 			   {  
 				  "choice":"<Leave>"

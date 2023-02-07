@@ -1,0 +1,21 @@
+{  
+   "condition":"!Prove your worthOver",
+   "text":"I'm a bit busy right now!!",
+   "choices":[  
+	  {
+         "condition":"Travel to ElwynStarted",
+         "choice":"Are you done ?",
+         "dialog":{  
+            "text":"Yeah yeah almost ! So you're coming with us ? Well you can begin walking, we'll follow !",
+			"choices":[  
+				{  
+				   "choice":"<Leave>",
+				}
+			 ]
+		}
+	  },
+      {   
+         "choice":"<Leave>"
+      }
+   ]
+}

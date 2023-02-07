@@ -116,7 +116,8 @@ public class MapGenerator : MonoBehaviour {
 	private void DrawObjectOnMap(GameObject map, List<ObjectsToDraw> objectsToDrawList) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
-        }
+        } 
+
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());
         float mapPortion = map.GetComponent<Renderer>().bounds.size.x / width;
         float lowerxBound = getLowerXBound(map);
@@ -134,7 +135,7 @@ public class MapGenerator : MonoBehaviour {
                         float sizeMultiplier = UnityEngine.Random.Range(1, 1.5f);
                         objToDraw.transform.localScale = new Vector3(objToDraw.transform.localScale.x*sizeMultiplier, objToDraw.transform.localScale.y * sizeMultiplier);
                         objToDraw.GetComponent<SpriteRenderer>().sortingOrder = (int)Math.Round(sizeMultiplier);
-                        yOffSet = 0.6f - (sizeMultiplier / 1.5f)*0.2f;
+                        yOffSet = 0.7f - (sizeMultiplier / 1.5f)*0.2f;
                     } else
                     {
                         objToDraw.GetComponent<SpriteRenderer>().sortingOrder = 10;

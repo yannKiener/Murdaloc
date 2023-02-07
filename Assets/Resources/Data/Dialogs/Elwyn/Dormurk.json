@@ -1,13 +1,13 @@
 {  
-   "text":"Hey ! Welcome to this Pre-Alpha. The chief asked for you, did you talked to him ?",
+   "text":"Hey ! Welcome to this Pre-Alpha. You made it through the tutorial well done ! Ahem, our great leader asked for you, did you talked to him ?",
    "choices":[  
       {  
          "choice":"Where is he ?",
          "dialog":{   
-            "text":"Are you blind %T ? He's just next to Gurlgill few steps east of here !",
+            "text":"Are you blind %T ? Just in case you're not joking, he's just next few steps east of here..",
             "choices":[  
                {  
-                  "choice":"<leave>"
+                  "choice":"<Leave>"
                }
             ]
          }
@@ -15,7 +15,7 @@
       {  
          "choice":"What the hell is this game !?",
          "dialog":{   
-            "text":"Don't be this rude please. It's simple ! You're a Murloc, you have some Murloc friends here like me, and the goal is to get XP and PHAT LEWT. First, open your Spellbook and Drag&Drop spells in your 'ActionBar' at the bottom of your screen. The menu is on the bottom-left corner BTW. That's it, GL to survive, and enjoy.",
+            "text":"No need to be rude, please. It's simple ! You're a Murloc, you have some Murloc friends here like me, and the goal is kill baddies to get xp and phat lewt while following an INCREDIBLE STORY (Work in progress). Try to figure out everything by yourself, GL with that. That's about it, explore, fight, survive, and enjoy.",
             "choices":[  
                {  
                   "choice":"kThxBye."
@@ -24,7 +24,13 @@
          }
       },
       {  
-         "choice":"Allright bye"
+         "choice":"What do you have to sell ?",
+         "dialog":{  
+            "action":"Vendor"
+         }
+      },
+      {  
+         "choice":"<Leave>"
       }
    ]
 }

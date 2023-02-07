@@ -1,0 +1,17 @@
+{  
+   "text":"<He watches you silently>",
+   "choices":[  
+	  {
+        "choice":"Who are you ?",
+        "dialog":
+		{   
+            "text":"I'm still Murgles bodyguard. Not allowed to talk right now.",
+			"choices":[  
+               {  
+                  "choice":"<Leave>."
+               }
+            ]
+		}
+	  }
+   ]
+}

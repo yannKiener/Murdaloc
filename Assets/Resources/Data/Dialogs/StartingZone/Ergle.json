@@ -1,8 +1,8 @@
 {  
-   "text":"Hey, i'm the Mage around Here.",
+   "text":"Greetings young one, i'm the town's Mage.",
    "choices":[  
 	  {
-         "condition":"!TalentTreeSelected",
+         "condition":"!TalentTreeSelected&Blade for everyoneOver",
          "choice":"I want to be a Mage.",
          "dialog":{ 
             "text":"So, you want to master the power of the Arcanes ? Maybe Fire or even Frost ? You've come to the right place. I can teach you, but once you've learned the basics, you'll need to prove that you're a fast learner.",
@@ -19,7 +19,10 @@
 					   }
 					]
                   }
-               }
+               },
+			   {
+				  "choice":"<Leave>"
+			   }
             ]
          }
 	  }, 

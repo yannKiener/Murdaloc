@@ -15,7 +15,12 @@ public class HostileSpell : Spell
 
     public override Spell Clone()
     {
-        return new HostileSpell(this);
+        Spell spell = new HostileSpell(this);
+        spell.SetStopRegen(this.stopRegen);
+        spell.SetActionOnCrit(this.actionOnCrit);
+        spell.SetProcs(this.procs);
+        spell.SetSpellCondition(this.GetSpellCondition());
+        return spell;
     }
 
     public override void Cast (Character caster, Character target)

@@ -16,48 +16,6 @@ public static class Constants {
     public static readonly string Energy = "Energy";
 
 
-    //Interface
-    public static readonly float characterBarswPercent = 22;
-	public static readonly float characterBarshPercent = 4;
-	public static readonly bool drawCastBar = true;
-	public static readonly float castBarwPercent = 22;
-	public static readonly float castBarhPercent = 4;
-    public static readonly float expBarHeightPercent = 1;
-    public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
-    public static readonly float keepDpsDamageSeconds = 5;
-    public static readonly float mainMenuSizeXPercent = 20;
-    public static readonly float mainMenuSizeYPercent = 50;
-    public static readonly float optionMenuSizeXPercent = 30;
-    public static readonly float optionMenuSizeYPercent = 50;
-    public static readonly float shortcutMenuSizeXPercent = 50;
-    public static readonly float shortcutMenuSizeYPercent = 70;
-    public static readonly float modalDialogSizeXPercent = 25;
-    public static readonly float modalDialogSizeYPercent = 15;
-    public static readonly float ToolTipWidth = 15;
-    public static readonly float InteractDistance = 2f;
-    public static readonly Dictionary<string, string> bindingMap = new Dictionary<string, string>
-    {
-         { "\b", "backspace" },
-         { "\n", "return" },
-         { "\r", "return" },
-         { "\r\n", "return" },
-         { " ", "space" },
-         { "&", "1" },
-         { "é", "2" },
-         { "\"", "3" },
-         { "'", "4" },
-         { "(", "5" },
-         { "-", "6" },
-         { "è", "7" },
-         { "_", "8" },
-         { "ç", "9" },
-         { "à", "0" },
-         { ")", "°" },
-         { "=", "+" }
-    };
-    public static readonly float autoAttackApplyDelay = 0.3f;
-
-
     //stats
     public static readonly float GlobalCooldown = 1f;
 	public static readonly int BaseResource = 100;
@@ -124,7 +82,50 @@ public static class Constants {
     public static readonly float TimeToFadeInOrOutSpawnOrDespawn = 3f;
     public static readonly float RespawnTimer = 300;
     public static readonly float MinimumTimeBetweenCast = 3;
+    public static readonly float EliteStaminaBonusPercent = 150;
+    public static readonly float EliteStatsBonusPercent = 50;
 
+
+    //Interface
+    public static readonly float characterBarswPercent = 22;
+    public static readonly float characterBarshPercent = 4;
+    public static readonly bool drawCastBar = true;
+    public static readonly float castBarwPercent = 22;
+    public static readonly float castBarhPercent = 4;
+    public static readonly float expBarHeightPercent = 1;
+    public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
+    public static readonly float keepDpsDamageSeconds = 5;
+    public static readonly float mainMenuSizeXPercent = 20;
+    public static readonly float mainMenuSizeYPercent = 50;
+    public static readonly float optionMenuSizeXPercent = 30;
+    public static readonly float optionMenuSizeYPercent = 50;
+    public static readonly float shortcutMenuSizeXPercent = 50;
+    public static readonly float shortcutMenuSizeYPercent = 70;
+    public static readonly float modalDialogSizeXPercent = 25;
+    public static readonly float modalDialogSizeYPercent = 15;
+    public static readonly float ToolTipWidth = 15;
+    public static readonly float InteractDistance = 2f;
+    public static readonly float autoAttackApplyDelay = 0.3f;
+    public static readonly Dictionary<string, string> bindingMap = new Dictionary<string, string>
+    {
+         { "\b", "backspace" },
+         { "\n", "return" },
+         { "\r", "return" },
+         { "\r\n", "return" },
+         { " ", "space" },
+         { "&", "1" },
+         { "é", "2" },
+         { "\"", "3" },
+         { "'", "4" },
+         { "(", "5" },
+         { "-", "6" },
+         { "è", "7" },
+         { "_", "8" },
+         { "ç", "9" },
+         { "à", "0" },
+         { ")", "°" },
+         { "=", "+" }
+    };
 }
 
 public enum Stat {

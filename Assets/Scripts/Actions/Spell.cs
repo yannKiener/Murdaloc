@@ -12,6 +12,7 @@ public abstract class Spell : Usable, Castable
 	protected int levelRequirement;
 	protected float coolDown;
 	protected float coolDownRemaing = 0;
+    protected bool stopRegen;
     protected Dictionary<string, EffectOnTime> effectsOnTarget = new Dictionary<string, EffectOnTime>();
     protected Dictionary<string, EffectOnTime> effectsOnSelf = new Dictionary<string, EffectOnTime>();
 	protected float maxDistance;
@@ -26,8 +27,8 @@ public abstract class Spell : Usable, Castable
 
     float NormalMultiplier = 100;
     float CritMultiplier = 100;
-    Action<Character, Character> actionOnCrit;
-    Dictionary<Castable, float> procs = new Dictionary<Castable, float>();
+    protected Action<Character, Character> actionOnCrit;
+    protected Dictionary<Castable, float> procs = new Dictionary<Castable, float>();
 
     public Spell(bool isHostile, string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown, float maxDistance, Action<Character, Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null, bool hasGcd = true)
 	{
@@ -86,8 +87,18 @@ public abstract class Spell : Usable, Castable
     {
         this.hasGcd = hasGcd;
     }
-		
-	public Spell(Spell s){
+
+    public bool DoesStopRegen()
+    {
+        return this.stopRegen;
+    }
+
+    public void SetStopRegen(bool stopRegen)
+    {
+        this.stopRegen = stopRegen;
+    }
+
+    public Spell(Spell s){
         this.isHostileSpell = s.isHostile();
         this.spellName = s.spellName;
 		this.description = s.description;
@@ -390,6 +401,11 @@ public abstract class Spell : Usable, Castable
     public void SetProc(Castable procEffect, float chancePercent)
     {
         procs[procEffect] = chancePercent;
+    }
+
+    public void SetProcs(Dictionary<Castable, float> procs)
+    {
+        this.procs = procs;
     }
 
     public void RemoveProc(Castable procEffect)

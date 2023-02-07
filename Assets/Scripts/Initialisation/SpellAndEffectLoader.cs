@@ -95,7 +95,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Sprint", "+60% movement speed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
-        CreateEffectOnTime("Enrage", "Hit harder & faster.", true, 1, 6, 6, new StatEffect(new Dictionary<Stat, float> { { Stat.haste, 30f }, { Stat.power, 30f } }), null);
+        CreateEffectOnTime("Enrage", "Hit harder but moves slower.", true, 1, 6, 6, new StatEffect(new Dictionary<Stat, float> { { Stat.power, 30f }, { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Webbed", "Can't move", false, 1, 3.5f, 3, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
         CreateEffectOnTime("Stun", "Stunned. Can't move or attack.", false, 1, 3, 5, new StunEffect(), null);
         CreateEffectOnTime("Charge stun", "Stunned. Can't move or attack.", false, 1, 2, 1, new StunEffect(), null);
@@ -175,8 +175,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         
         //Base spells
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, true, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { GameObject.FindObjectOfType<CameraFollowPlayer>().transform.position = FindUtils.GetPlayer().GetInitialPosition(); arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return !c.IsInCombat(); }));
-        //Base auto-attack
-        CreateHostileSpell("Basic attack", "A basic attack with your equipped weapons.", 0, 0, 0, 0, Constants.MaxAutoAttackDistance, false, new Action<Character, Character, Spell>((Character arg1, Character arg2, Spell sp) => { arg1.ApplyAutoAttack(); }), "None", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => {return c.IsReadyToAutoAttack(); }));
+        CreateHostileSpell("Basic attack", "A basic attack with your equipped weapons.", 0, 0, 0, 0, Constants.MaxAutoAttackDistance, false, new Action<Character, Character, Spell>((Character arg1, Character arg2, Spell sp) => { arg1.ApplyAutoAttack(); }), "None", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => {return c.IsReadyToAutoAttack(); }), false);
 
         //Others ?
         CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, true, null, "Holy", getEffect(), getEffect("Renovation"));
@@ -184,17 +183,17 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
         //Spells for consummables
-        CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, false, null, "Food", null, getEffect("Food"));
-        CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, false, null, "Drink", null, getEffect("Drink"));
-        CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, false, AddLifePercent(25), "Potion", null, null);
-        CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, false, AddLifePercent(40), "Potion", null, null);
-        CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, false, AddLifePercent(60), "Potion", null, null);
-        CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of cunning"));
-        CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of might"));
-        CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of deftness"));
+        CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, false, null, "Food", null, getEffect("Food"), false);
+        CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, false, null, "Drink", null, getEffect("Drink"), false);
+        CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, false, AddLifePercent(25), "Potion", null, null, false);
+        CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, false, AddLifePercent(40), "Potion", null, null, false);
+        CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, false, AddLifePercent(60), "Potion", null, null, false);
+        CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of cunning"), false);
+        CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of might"), false);
+        CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, false, null, "Potion", null, getEffect("Potion of deftness"), false);
 
         //Spells for Mobs
-        CreateFriendlySpell("Enrage", "Hit harder & faster.", 50, 0, 5, 20, 2, true, null, "Bloodlust", null, getEffect("Enrage"));
+        CreateFriendlySpell("Enrage", "Hit harder but move slower.", 50, 0, 5, 20, 2, true, null, "Bloodlust", null, getEffect("Enrage"));
         CreateHostileSpell("Web", "Send a web to your target and prevent him from moving.", 20, 1.5f, 2, 15, 4, true, null, "Trap", getEffect("Webbed"), null);
     }   
 
@@ -204,27 +203,33 @@ public class SpellAndEffectLoader : MonoBehaviour {
         EffectsOnTime.Add(new EffectOnTime(name, description, isBuff, maxStacks, duration, timePerTic, applyOnce, tic));
     }
    
-    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
-    {
-        Spells.Add(new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd));
-    }
-
-    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
-    {
-        Spells.Add(new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd));
-    }
-
-    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition)
+    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf, bool stopRegen = true)
     {
         HostileSpell spell = new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd);
-        spell.SetSpellCondition(specialCondition);
+        spell.SetStopRegen(stopRegen);
         Spells.Add(spell);
     }
 
-    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition)
+    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf, bool stopRegen = true)
+    {
+        FriendlySpell spell = new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd);
+        spell.SetStopRegen(stopRegen);
+        Spells.Add(spell);
+    }
+
+    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition, bool stopRegen = true)
+    {
+        HostileSpell spell = new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd);
+        spell.SetSpellCondition(specialCondition);
+        spell.SetStopRegen(stopRegen);
+        Spells.Add(spell);
+    }
+
+    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, bool hasGcd, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition, bool stopRegen = true)
     {
         FriendlySpell spell =  new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf, hasGcd);
         spell.SetSpellCondition(specialCondition);
+        spell.SetStopRegen(stopRegen);
         Spells.Add(spell);
     }
 

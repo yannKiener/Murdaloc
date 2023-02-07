@@ -205,7 +205,7 @@ public class Player : Character
             LevelUp();
             FindUtils.GetInventoryGrid().AddCash(100000);
             FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
-            /*
+            
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of cunning"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of might"));
@@ -214,7 +214,7 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Boiled Clams"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
-            */
+            
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {

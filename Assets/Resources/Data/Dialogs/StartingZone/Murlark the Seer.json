@@ -2,10 +2,22 @@
    "text":"Ah, %T. I've been expecting you.",
    "choices":[  
 	  {
+         "condition":"!Blade for everyoneStarted",
+		 "choice":"What should I do again ?",
+		 "dialog":{
+			 "text":"Report to the chief, Murgles. He has new order for everyone since the lightning struck, and you're not going to be an exception young one.",
+			 "choices":[
+				{
+					"choice":"<Leave>"
+				}
+			]
+		 }
+	  },
+	  {
          "condition":"Blade for everyoneOver&!TalentTreeSelected",
          "choice":"I have a blade now.",
          "dialog":{   
-            "text":"Hah, you still have much to learn. You should follow one of our new ways. Some Murlocs around here are able to teach you, mostly Ergle, Gurblarg or Slarky. You should talk to them.",
+            "text":"Hah, and where do you think you're going with that ? You still have much to learn. You should follow one of our ways. Some Murlocs around here are able to teach you, mostly Ergle, Gurblarg or Slarky. You should talk to them.",
             "choices":[  
                {		   
                   "choice":"<Leave>"
@@ -14,16 +26,16 @@
          }
 	  }, 
 	  {
-         "condition":"!Blade for everyoneStarted",
-		 "choice":"What should I do again ?",
-		 "dialog":{
-			 "text":"Report to the chief, few steps east of here. He'll know what to do.",
-			 "choices":[
-				{
-					"choice":"<Leave>"
-				}
-			]
-		 }
-	  }
+         "condition":"TalentTreeSelected&Prove your worthOver",
+         "choice":"I know kung fu !",
+         "dialog":{   
+            "text":"So you're choosen your path ! Well done %T. I feel great potential in you. I believe that you may be useful to Chief Murgles, they plan to leave our camp to look for answers. I'll be staying here to protect our home during their absence.",
+            "choices":[  
+               {		   
+                  "choice":"<Leave>"
+               }
+            ]
+         }
+	  }, 
    ]
 }

@@ -30,7 +30,12 @@ public class FriendlySpell : Spell
 
     public override Spell Clone()
     {
-        return new FriendlySpell(this);
+        Spell spell = new FriendlySpell(this);
+        spell.SetStopRegen(this.stopRegen);
+        spell.SetActionOnCrit(this.actionOnCrit);
+        spell.SetProcs(this.procs);
+        spell.SetSpellCondition(this.GetSpellCondition());
+        return spell;
     }
 
     public override bool IsCastable(Character caster, Character target, bool displayCDText = true)

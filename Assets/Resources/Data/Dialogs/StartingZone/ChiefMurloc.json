@@ -5,12 +5,12 @@
          "condition":"!Blade for everyoneStarted",
          "choice":"You asked for me ?",
          "dialog":{  
-            "text":"I haven't seen you yet... Are you the sleepy one ? Anyways, listen. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
+            "text":"Ah, I haven't seen you yet... So, you are the sleepy one ? Very well, listen. Our scouts saw a group of small humanoids walking a mile away from our village probably Dwarves or Gnomes. They were armed and may be responsible for those.. recent events. At least we have no other clue.",
             "choices":[  
                {  
                   "choice":"What can I do ?",
                   "dialog":{  
-                     "text":"It's simple, if you see them, run as fast as you can to the village. Don't try to fight them. Still, no one is safe with them around. For your own sake, ask for a blade to the smith from me.",
+                     "text":"You ? It's simple, if you see them, run as fast as you can to the village. Don't try to fight them, and that's an order. Some of us will leave our camp for an expedition. No one is safe with them around, just in case for your own sake, ask for a blade to the smith from me.",
                      "choices":[  
                         {  
                            "choice":"Will do.",
@@ -24,7 +24,7 @@
                {  
                   "choice":"I will crush them !",
                   "dialog":{  
-                     "text":"Warrior spirit! I like that. Ask the smith for a blade, I feel you will quickly get used to it, and it may save your life. Still, don't look for those humanoids, it will only bring chaos. And that's an order.",
+                     "text":"Warrior spirit heh? I like that ! Well, we're going for an expedition to track them, but it will certainely be dangerous so we're only picking our most experienced fellows. I don't feel you're ready. Still, just in case while we're away, ask the smith for a blade, I'm sure you will quickly get used to it and it save your life. Again, don't be a fool, don't look for those humanoids for it will only bring chaos. And that's an order.",
                      "choices":[
                         {  
                            "choice":"Will do.",
@@ -42,13 +42,13 @@
          "condition":"Blade for everyoneOver&!Travel to ElwynStarted",
          "choice":"You still need me ?",
          "dialog":{  
-            "text":"Well, I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going their way.",
+            "text":"Well, as i said, i'm gathering a small expedition group to track the group of humanoids. Looks like there were heading to Redridge Mountains and we know a friendly tribe over there. We have to warn them, hoping it's not too late.",
 			"choices":[  
 				{  
 				   "condition":"Prove your worthOver&!Travel to ElwynStarted",
 				   "choice":"I can help.",
 				   "dialog":{  
-						"text":"Hm, I sense more power in you.. You may be useful. Fine, let's move then. Meet me in Elwyn, east of here.",
+						"text":"Hm, I sense more power in you.. You may be useful after all. Fine, let's move then. Meet me in Elwyn, east of here.",
 					    "startQuest":"Travel to Elwyn",
 						"action":"ActivateTeleporterInArea",
 						"choices":[  
@@ -62,7 +62,7 @@
 				   "condition":"!Prove your worthOver",
 				   "choice":"I can help.",
 				   "dialog":{  
-						"text":"Sorry young %T, I don't want to be slowed down. I don't feel the fighter spirit enough in you. Talk to Murlark, he may help you.",
+						"text":"Sorry young %T, I don't want to be slowed down. I don't feel the fighter spirit enough in you. Talk to Murlark if you need something.",
 						 "choices":[  
 							{  
 							   "choice":"<Leave>"
@@ -72,19 +72,19 @@
 				}
 			 ]
 		}
-	  },,
+	  },
 	  {
          "condition":"Travel to ElwynStarted",
          "choice":"You still need me ?",
          "dialog":{  
-            "text":"As I said, I need you to come with us, we have to warn our friends in Redridge moutains before the humanoids get here. Meet me in Elwyn, east of here.",
+            "text":"As I said, If you want to come with us, meet me in Elwyn, east of here. We have to warn our friends in Redridge Moutains before the humanoids reach them.",
 			"choices":[  
 				{  
 				   "choice":"<Leave>",
 				}
 			 ]
 		}
-	  }
+	  },
       {  
          "choice":"<Leave>"
       }

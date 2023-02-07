@@ -1,0 +1,19 @@
+{  
+   "text":"Hey there ! We're almost ready to leave.",
+   "choices":[  
+      {  
+         "choice":"Who are you ?",
+         "dialog":{   
+            "text":"I'm Dormurk, i'm part of the expedition, but i'm no fighter. And there's Gurlgill over there, fixing our cart. Or at least trying to. We have work to do, friend, we'll talk later.",
+            "choices":[  
+               {  
+                  "choice":"<leave>"
+               }
+            ]
+         }
+      }, 
+      {  
+         "choice":"<leave>"
+      }
+   ]
+}
