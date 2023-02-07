@@ -148,8 +148,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         InitializeFindUtils();
-		
-	}
+        Items.InitializeCategories();
+    }
 	
 
     private void InitializeFindUtils()

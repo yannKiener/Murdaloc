@@ -12,10 +12,10 @@ public class Item : Usable {
     protected int levelRequirement;
     protected Sprite image;
     protected Stats stats;
-    protected string type;
+    protected ItemType type;
     public bool isEquipped;
 
-    public Item(string itemName, string description, int levelRequirement, Stats stats, string type)
+    public Item(string itemName, string description, int levelRequirement, Stats stats, ItemType type)
     {
         this.itemName = itemName;
         this.description = description;
@@ -33,7 +33,7 @@ public class Item : Usable {
     }
     public string GetDescription()
     {
-        return description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
+        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
     }
 
     public void SetImage(Sprite image)
@@ -41,9 +41,9 @@ public class Item : Usable {
         this.image = image;
     }
 
-    public string GetItemType()
+    public ItemSlot GetItemSlot()
     {
-        return type;
+        return ItemCategories.GetCategory(type).GetSlot();
     }
 
     public string GetName()

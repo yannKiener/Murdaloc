@@ -2,7 +2,7 @@
    "Headitem":{  
       "description":"second head item",
       "levelRequirement":1,
-      "type":"Head",
+      "type":"PlateHead",
       "stats":{  
          "force":"1",
          "agility":"2",
@@ -27,7 +27,7 @@
    "Torsoitem":{  
       "description":"first torso item",
       "levelRequirement":1,
-      "type":"Torso",
+      "type":"PlateTorso",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -42,7 +42,7 @@
    "Legsitem":{  
       "description":"first legs item",
       "levelRequirement":1,
-      "type":"Legs",
+      "type":"ClothLegs",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -57,7 +57,7 @@
    "Beltitem":{  
       "description":"first Belt item",
       "levelRequirement":1,
-      "type":"Belt",
+      "type":"LeatherBelt",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -72,7 +72,7 @@
    "Handsitem":{  
       "description":"first Hands item",
       "levelRequirement":1,
-      "type":"Hands",
+      "type":"LeatherHands",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -102,7 +102,7 @@
    "Feetitem":{  
       "description":"first Feet item",
       "levelRequirement":1,
-      "type":"Feet",
+      "type":"LeatherFeet",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -117,7 +117,7 @@
    "Weapon1item":{  
       "description":"first Weapon1 item",
       "levelRequirement":1,
-      "type":"Weapon1",
+      "type":"Mace",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -132,7 +132,7 @@
    "Weapon2item":{  
       "description":"first Weapon2 item",
       "levelRequirement":1,
-      "type":"Weapon2",
+      "type":"Sword",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -147,37 +147,7 @@
    "TwoHandeditem":{  
       "description":"first TwoHanded item",
       "levelRequirement":1,
-      "type":"TwoHanded",
-      "stats":{  
-         "force":"0",
-         "agility":"0",
-         "intelligence":"0",
-         "stamina":"0",
-         "spirit":"0",
-         "critical":"0",
-         "haste":"0",
-         "power":"0"
-      }
-   },
-   "Head2item":{  
-      "description":"first Head2 item",
-      "levelRequirement":1,
-      "type":"Head",
-      "stats":{  
-         "force":"0",
-         "agility":"0",
-         "intelligence":"0",
-         "stamina":"0",
-         "spirit":"0",
-         "critical":"0",
-         "haste":"0",
-         "power":"0"
-      }
-   },
-   "Ring2item":{  
-      "description":"first Ring2 item",
-      "levelRequirement":1,
-      "type":"Ring",
+      "type":"TwoHandedMace",
       "stats":{  
          "force":"0",
          "agility":"0",

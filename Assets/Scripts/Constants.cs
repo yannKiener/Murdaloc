@@ -71,4 +71,51 @@ public enum Stat {
 	maxLife
 }
 
+public enum ItemType
+{
+    PlateHead,
+    PlateTorso,
+    PlateLegs,
+    PlateBelt,
+    PlateHands,
+    PlateFeet,
+    LeatherHead,
+    LeatherTorso,
+    LeatherLegs,
+    LeatherBelt,
+    LeatherHands,
+    LeatherFeet,
+    ClothHead,
+    ClothTorso,
+    ClothLegs,
+    ClothBelt,
+    ClothHands,
+    ClothFeet,
+    Neck,
+    Ring,
+    Axe,
+    TwoHandedAxe,
+    Sword,
+    TwoHandedSword,
+    Dagger,
+    Mace,
+    TwoHandedMace,
+    Staff,
+    OffHand,
+    Shield
+}
 
+public enum ItemSlot
+{
+    Head,
+    Neck,
+    Torso,
+    Legs,
+    Belt,
+    Hands,
+    Ring,
+    Feet,
+    TwoHanded,
+    Weapon1,
+    Weapon2
+}

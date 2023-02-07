@@ -45,9 +45,9 @@ public class Player : Character
         if (Input.GetKeyDown (KeyCode.X)) {
 			print ("LevelUp ! Testing...");
 			LevelUp ();
-			stats.displayStats ();
+			//stats.displayStats ();
             FindUtils.GetInventoryGrid().AddItem(Items.GetFromDB("Headitem"));
-            AddSpell(Spells.Get("Icelance"));
+            FindUtils.GetInventoryGrid().AddItem(ItemGenerator.GenerateItem(level));
         }
 
 		MovePlayer(GetComponent<Rigidbody2D>()); 

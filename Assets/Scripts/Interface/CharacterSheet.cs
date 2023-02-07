@@ -26,8 +26,15 @@ public class CharacterSheet : MonoBehaviour, Slotable {
     public bool RemoveItem(Item item)
     {
         GameObject slot = getSlotWithItem(item);
-        if(slot != null)
+        return RemoveItemSlot(slot);
+    }
+
+    public bool RemoveItemSlot(GameObject slot)
+    {
+
+        if (slot != null)
         {
+            Item item = (Item)slot.GetComponent<Slot>().usable;
             //On retire l'objet
             item.isEquipped = false;
             clearChilds(slot.transform);
@@ -41,40 +48,40 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     public void EquipItem(Item item)
     {
-        switch (item.GetItemType())
+        switch (item.GetItemSlot())
         {
-            case "Head":
+            case ItemSlot.Head:
                 EquipHead(item);
                 break;
-            case "Neck":
+            case ItemSlot.Neck:
                 EquipNeck(item);
                 break;
-            case "Torso":
+            case ItemSlot.Torso:
                 EquipTorso(item);
                 break;
-            case "Legs":
+            case ItemSlot.Legs:
                 EquipLegs(item);
                 break;
-            case "Belt":
+            case ItemSlot.Belt:
                 EquipBelt(item);
                 break;
-            case "Hands":
+            case ItemSlot.Hands:
                 EquipHands(item);
                 break;
-            case "Ring":
+            case ItemSlot.Ring:
                 EquipRing(item);
                 break;
-            case "Feet":
+            case ItemSlot.Feet:
                 EquipFeet(item);
                 break;
-            case "TwoHanded":
+            case ItemSlot.TwoHanded:
                 EquipWeapon1(item);
                 //TODO remove weapon 2
                 break;
-            case "Weapon1":
+            case ItemSlot.Weapon1:
                 EquipWeapon1(item);
                 break;
-            case "Weapon2":
+            case ItemSlot.Weapon2:
                 EquipWeapon2(item);
                 break;
         }

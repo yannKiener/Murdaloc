@@ -6,13 +6,24 @@ using SimpleJSON;
 public static class DatabaseUtils {
     public static string GetJsonItems()
     {
-        return Resources.Load<TextAsset>("items").text; 
+        return Resources.Load<TextAsset>("Data/Items/items").text; 
+    }
+
+    public static JSONArray GetJsonCategoryName(ItemType type)
+    {
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
+    }
+
+
+    public static JSONArray GetJsonCategories()
+    {
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["categories"].AsArray;
     }
 
 
     public static JSONObject GetJsonItem(string itemName)
     {
-        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("items").text).AsObject[itemName].AsObject;
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/items").text).AsObject[itemName].AsObject;
         if (result == null)
         {
             return null;
@@ -25,7 +36,7 @@ public static class DatabaseUtils {
 	
 	
 	public static Dialog GetDialog(string dialogName){
-        JSONObject data = JSON.Parse(Resources.Load<TextAsset>("Dialogs/"+dialogName).text).AsObject;
+        JSONObject data = JSON.Parse(Resources.Load<TextAsset>("Data/Dialogs/"+dialogName).text).AsObject;
 		return createDialog(data);
 	}
 	
