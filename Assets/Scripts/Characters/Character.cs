@@ -263,6 +263,9 @@ public class Player : AbstractCharacter
         {
 		    castSpell(actionBar[1]);
 		}
+		if (Input.GetKeyDown (KeyCode.Alpha3)) {
+			castSpell (actionBar [2]);
+		}
 		UpdateCombat ();
 		UpdateCast();
         MovePlayer(GetComponent<Rigidbody2D>()); 

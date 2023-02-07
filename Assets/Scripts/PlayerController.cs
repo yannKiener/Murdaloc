@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 		player.addSpell (Spells.Get ("POTTU"));
 		player.SetActionBarSlot(0,"fireball");
 		player.SetActionBarSlot(1,"splash");
-		player.SetActionBarSlot(2,"POTTU");
+		player.SetActionBarSlot(2,"pottu");
         print(player.GetName()); 
 
 	}
