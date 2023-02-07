@@ -150,7 +150,7 @@ MonoBehaviour:
   LootTable: []
   QuestLootTable: []
   SpellList:
-  - Slam
+  - Heroic Strike
   aggroSounds:
   - {fileID: 8300000, guid: 73ffc69bcb595644094f3510f7e0b969, type: 3}
   attackSounds:

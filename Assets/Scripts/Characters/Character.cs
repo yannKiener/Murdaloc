@@ -951,6 +951,9 @@ public abstract class Character : MonoBehaviour
                 if (castingSpell.IsCastable(this, target, false))
                 {
                     DoneCasting();
+                } else
+                {
+                    CancelCast();
                 }
             }
         }

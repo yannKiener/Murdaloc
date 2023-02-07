@@ -8,22 +8,21 @@ public static class DialogSigns
 
     public static void UpdateSigns()
     {
-        List<GameObject> friendliesInArea = GameObject.FindGameObjectsWithTag("Friendly").ToList();
-        foreach(GameObject friendly in friendliesInArea)
+        List<Friendly> friendliesInArea = GameObject.FindObjectsOfType<Friendly>().ToList();
+        foreach (Friendly friend in friendliesInArea)
         {
-            RemoveMarks(friendly);
-
-            Friendly friend = friendly.GetComponent<Friendly>();
+            RemoveMarks(friend.gameObject);
+            
             int markInt = hasDialogMarkQuest(friend.GetDialog());
             if (markInt == 2)
             {
                 GameObject go = Resources.Load<GameObject>("Prefab/UI/QuestionMark");
-                GameObject.Instantiate(go, friendly.transform);
+                GameObject.Instantiate(go, friend.transform);
             }
             else if (markInt == 1)
             {
                 GameObject go = Resources.Load<GameObject>("Prefab/UI/ExclamationMark");
-                GameObject.Instantiate(go, friendly.transform);
+                GameObject.Instantiate(go, friend.transform);
             }
         }
     }
