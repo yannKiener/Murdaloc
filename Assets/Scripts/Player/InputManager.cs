@@ -28,7 +28,9 @@ public static class InputManager
             {"MoveLeft","q"},
             {"MoveRight","d"},
             {"Jump","space"},
-            {"CycleTargets","tab"}
+            {"CycleTargets","tab"},
+            {"AstralRecall","w"},
+            {"BasicAttack","a"}
         };
     }
 
@@ -54,11 +56,11 @@ public static class InputManager
             {"ActionBar3","3"},
             {"ActionBar4","4"},
             {"ActionBar5","5"},
-            {"ActionBar6","a"},
-            {"ActionBar7","e"},
-            {"ActionBar8","r"},
-            {"ActionBar9","t"},
-            {"ActionBar10","f"}
+            {"ActionBar6","e"},
+            {"ActionBar7","r"},
+            {"ActionBar8","t"},
+            {"ActionBar9","f"},
+            {"ActionBar10","x"}
         };
     }
 

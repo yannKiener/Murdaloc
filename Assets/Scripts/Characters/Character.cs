@@ -19,6 +19,7 @@ public abstract class Character : InteractableBehaviour
     public bool isElite;
     public string resourceType;
     public float statPercent = 100;
+    public float speedPercent = 100;
     protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
 	protected List<EffectOnTime> buffList = new List<EffectOnTime>();
@@ -924,7 +925,13 @@ public abstract class Character : InteractableBehaviour
 
     public void CastSpell(string spellName, bool displayText = true)
     {
-		CastSpell (spellList [spellName], displayText);
+        if (spellList.ContainsKey(spellName))
+        {
+            CastSpell(spellList[spellName], displayText);
+        } else
+        {
+            Debug.Log(CharacterName + " does not know spell :" + spellName);
+        }
     }
 
 	public void CastSpell(Spell spell, bool displayText = true)

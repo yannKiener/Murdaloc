@@ -994,7 +994,7 @@ MonoBehaviour:
   attachAtRight: 0
   attachAtObject: {fileID: 1885414163}
   mapPrefab: {fileID: 1068257257719256, guid: 89ba4bf7224f59a408acc7648f26cfa4, type: 3}
-  backgroundObjectDensity: 100
+  backgroundObjectDensity: 88
   backgroundObjectsList: []
   enemyDensity: 11
   enemyList: []

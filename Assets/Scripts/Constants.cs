@@ -4,7 +4,9 @@ using UnityEngine;
 
 public static class Constants {
 	//Global Gameplay 
-	public static readonly float MaxSpeed = 7f;
+	public static readonly float MaxSpeed = 5f;
+    public static readonly float EnemyRoamSpeedMultiplier = 0.3f;
+    public static readonly float EnemyCombatSpeedMultiplier = 1.1f;
     public static readonly float JumpForce = 5f; 
 	public static readonly float BaseExp = 30f; 
 

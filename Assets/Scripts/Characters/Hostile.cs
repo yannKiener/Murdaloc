@@ -34,6 +34,10 @@ public class Hostile : Character
         {
             stats.UpdatePercentToAll(statPercent);
         }
+        if(speedPercent != 100)
+        {
+            stats.MaxSpeed = stats.MaxSpeed * speedPercent / 100;
+        }
 
         autoAttack1Damage = stats.AutoAttackDamage;
         autoAttack1Speed = stats.AutoAttackTime;
@@ -101,7 +105,9 @@ public class Hostile : Character
 
 	private void move(Rigidbody2D mob){
 		if (!casting && !IsDead() && !IsStunned()) {
-			if (inCombat) {
+            float speed = stats.MaxSpeed * Constants.EnemyRoamSpeedMultiplier;
+
+            if (inCombat) {
 				float targetPos = target.GetGameObject ().transform.position.x;
 				float selfPos = this.gameObject.transform.position.x;
 				if (targetPos + Constants.MaxAutoAttackDistance < selfPos) {
@@ -112,10 +118,11 @@ public class Hostile : Character
                     UpdateTargetingDirection(targetPos);
                     direction = 0;
 				}
-			}
+                speed = stats.MaxSpeed * Constants.EnemyCombatSpeedMultiplier;
+            }
 
             UpdateMoveAnimation(direction);
-            mob.velocity = new Vector2 (direction * stats.MaxSpeed/3, mob.velocity.y);
+            mob.velocity = new Vector2 (direction * speed, mob.velocity.y);
 		} else
         {
             UpdateMoveAnimation(0);

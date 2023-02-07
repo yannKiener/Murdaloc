@@ -164,6 +164,14 @@ public class Player : Character
         {
             InterfaceUtils.ShowHideTalentSheet();
         }
+        if (InputManager.IsButtonDown("AstralRecall"))
+        {
+            CastSpell("Astral Recall");
+        }
+        if (InputManager.IsButtonDown("BasicAttack"))
+        {
+            CastSpell("Basic attack");
+        }
         if (SystemInfo.deviceType != DeviceType.Handheld)
         {
             if (InputManager.IsButtonPressed("MoveLeft"))
@@ -186,7 +194,7 @@ public class Player : Character
         }
 
         //Cheat
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             LevelUp();
             FindUtils.GetInventoryGrid().AddCash(100000);
@@ -204,7 +212,7 @@ public class Player : Character
         }
 
         //Cheat
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             if (GetTarget() != null && GetTarget() is Hostile)
                 GetTarget().ApplyDamage(999999, true, true);
