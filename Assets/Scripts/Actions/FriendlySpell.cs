@@ -10,6 +10,7 @@ public class FriendlySpell : AbstractSpell
 		if (IsCastable(caster,target))
 		{
 			caster.AddResource (caster.GetMaxResource() - caster.GetCurrentResource ());
+			caster.ApplyHeal (100);
 		}
 		else
 		{

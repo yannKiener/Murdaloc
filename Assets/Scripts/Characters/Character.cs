@@ -13,9 +13,12 @@ public interface Character
 	int GetCurrentResource();
     void move();
 	bool IsDead();
+	bool IsCasting();
+	bool IsInCombat();
     void interact();
-    void castSpell(string spellName);
-    void addSpell(Spell spell);
+	void CastSpell(string spellName);
+	void CastSpell(Spell spell);
+    void AddSpell(Spell spell);
 	void ApplyDamage (int damage);
 	void ApplyHeal (int heal);
 	void RemoveResource (int res);
@@ -23,6 +26,9 @@ public interface Character
 	void AggroTarget(Character aggroTarget);
 	void AggroFrom(Character aggroFrom);
 	void CancelCast();
+	float GetHealthPercent ();
+	float GetResourcePercent ();
+	float GetCastPercent ();
 	GameObject GetGameObject();
 
 }
@@ -99,6 +105,28 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		currentResource += res;
 	}
 
+
+	public float GetHealthPercent (){
+		return (float)currentLife / (float)maxLife;
+	}
+	public float GetResourcePercent (){
+		return (float)currentResource / (float)maxResource;
+	}
+	public float GetCastPercent (){
+		if (casting && castingSpell != null) {
+			return (castingTime / castingSpell.GetCastTime ());
+		} 
+		return 0f;
+	}
+	public bool IsCasting(){
+		return casting;
+	}
+	public bool IsInCombat(){
+		return inCombat;
+	}
+
+
+
 	public void CancelCast(){
 		castingTime = 0;
 		casting = false;
@@ -137,19 +165,20 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		     }
       }
      
-     protected void EnterCombat()
+     protected void EnterCombat() 
      {
          if (!inCombat)
          {
              inCombat = true;
-             GameObject.Find("Main Camera").SendMessage("leavePlayer");
+			 createStatusBar ();
+             GameObject.Find("Main Camera").SendMessage("leavePlayer"); //TODO : Connerie mettre ca que au player et pas aux mobs..!!
          }
      }
      
      protected void LeaveCombat()
      {
          inCombat = false;
-         GameObject.Find("Main Camera").SendMessage("followPlayer");
+		 GameObject.Find("Main Camera").SendMessage("followPlayer"); //TODO : Connerie mettre ca que au player et pas aux mobs..!!
      }
 
 	protected void UpdateRegen() {
@@ -219,17 +248,22 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     }
 
-    public void addSpell(Spell spell)
+    public void AddSpell(Spell spell)
     {
 		//print(spell.GetName());
         spellList.Add(spell.GetName(), spell);
     }
 
-    public void castSpell(string spellName)
+    public void CastSpell(string spellName)
     {
-        if(!casting) 
-        {
-        	castingSpell = spellList [spellName];
+		print (this.GetName() + " is casting : " + spellName);
+		CastSpell (spellList [spellName]);
+    }
+
+	public void CastSpell(Spell spell){
+		if(!casting) 
+		{
+			castingSpell = spell;
 			if (castingSpell.IsCastable(this,target)) {
 				casting = true;
 			} else {
@@ -237,7 +271,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 				castingSpell = null;
 			}
 		}
-    }
+
+	}
     
     protected void UpdateCast()
 	{
@@ -266,8 +301,6 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	{
 		this.currentLife -= damage;
 
-		updateHealthBar ();
-
 		if (currentLife <= 0)
 			this.kill ();
 	}
@@ -276,27 +309,20 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	{
 		this.currentLife += heal;
 
-		updateHealthBar ();
+		if (currentLife > maxLife) 
+			currentLife = maxLife;
 
 		if (currentLife <= 0)
 			this.kill ();
 	}
 
-	protected void updateHealthBar(){
-		float healthPercent = (float)currentLife / (float)maxLife;
-
-		if (!isHealthBarDisplayed && healthBar == null) {
-			GameObject healthBarGameObject = (GameObject)Instantiate (Resources.Load ("HealthBar"));
-			healthBarGameObject.transform.SetParent (this.gameObject.transform, false);
-			healthBarGameObject.transform.position += new Vector3 (0,1,0);
-			healthBar = healthBarGameObject.transform.GetChild (0).GetChild (0).gameObject.GetComponent<Image> ();
-			healthBar.fillAmount = healthPercent;
-			isHealthBarDisplayed = true;
-		} else {
-			healthBar.fillAmount = healthPercent;
-		}
+	protected void createStatusBar(){
+		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("StatusBar"));
+		statusBarGameObject.transform.SetParent (this.gameObject.transform, false);
+		float spriteHeight = this.gameObject.GetComponent<SpriteRenderer> ().bounds.size.y;
+		statusBarGameObject.transform.position += new Vector3 (0,spriteHeight + 0.5f,0);
+		statusBarGameObject.AddComponent<StatusBar>();
 	}
-
 
 }
 

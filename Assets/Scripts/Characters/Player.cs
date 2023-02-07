@@ -29,14 +29,14 @@ public class Player : AbstractCharacter
 		}
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			castSpell(actionBar[0]);
+			CastSpell(actionBar[0]);
 		}
 		if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			castSpell(actionBar[1]);
+			CastSpell(actionBar[1]);
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha3)) {
-			castSpell (actionBar [2]);
+			CastSpell (actionBar [2]);
 		}
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}

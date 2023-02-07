@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class Hostile : AbstractCharacter
@@ -13,12 +14,14 @@ public class Hostile : AbstractCharacter
 
 	void Update()
 	{
-		move ( GetComponent<Rigidbody2D>());
-		limitMovements();
-		if (!inCombat)
-		{
-			AggroAroundSelf();
-		}
+		UpdateCombat ();
+		UpdateRegen ();
+		UpdateCast ();
+
+		manageCombat ();
+		move (GetComponent<Rigidbody2D>());
+		limitCombatMovements();
+		AggroAroundSelf();
 	}
 
 	void AggroAroundSelf()
@@ -53,6 +56,16 @@ public class Hostile : AbstractCharacter
 	}
 
 
+	private void manageCombat(){
+		if (inCombat && spellList.Count != 0 && !casting) {
+			int castPercentage = getRandomPercentage ();
+			if (castPercentage < 2) { //2% de chance par frame de cast un spell random
+				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)));
+			}
+		}
+	}
+
+
 	private void move(Rigidbody2D mob){
 		if (!casting) {
 			if (inCombat) {
@@ -65,15 +78,11 @@ public class Hostile : AbstractCharacter
 				} else {
 					direction = 0;
 				}
-
 			}
-
 			mob.velocity = new Vector2 (direction * MAXSPEED/3, mob.velocity.y);
-
 		}
-
 	}
-
+		
 	private void randomizeDirection(){
 		int percentage = getRandomPercentage ();
 
@@ -105,7 +114,7 @@ public class Hostile : AbstractCharacter
 	}
 
 
-	private void limitMovements() {
+	private void limitCombatMovements() {
 		if (inCombat)
 		{
 			Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);

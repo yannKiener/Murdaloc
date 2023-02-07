@@ -9,6 +9,7 @@ public class Mob : MonoBehaviour {
 	void Start () {
         Hostile mob = gameObject.AddComponent<Hostile>();
         mob.Initialize("Méchant Carré Rouge");
+		mob.AddSpell (Spells.Get ("fireball"));
 	}
 	
 	// Update is called once per frame

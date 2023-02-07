@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour {
     {
         Player player = gameObject.AddComponent<Player>();
         player.Initialize("Speaf");
-		player.addSpell (Spells.Get ("fireball"));
-		player.addSpell (Spells.Get ("splash"));
-		player.addSpell (Spells.Get ("POTTU"));
+		player.AddSpell (Spells.Get ("fireball"));
+		player.AddSpell (Spells.Get ("splash"));
+		player.AddSpell (Spells.Get ("POTTU"));
 		player.SetActionBarSlot(0,"fireball");
 		player.SetActionBarSlot(1,"splash");
 		player.SetActionBarSlot(2,"pottu");

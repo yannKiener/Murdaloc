@@ -68,7 +68,7 @@ public abstract class AbstractSpell : Spell
 
 
 	public bool IsCastable(Character caster, Character target){
-		return (caster.GetCurrentResource () >= resourceCost && target != null); //Ajouter le level et la distance.
+		return (caster.GetCurrentResource () >= resourceCost && target != null); //TODO : Ajouter le level et la distance plus tard
 	}
 
 
