@@ -15,6 +15,7 @@ public static class Constants {
 	//Interface
 	public static readonly float characterBarswPercent = 22;
 	public static readonly float characterBarshPercent = 4;
+	public static readonly bool drawCastBar = true;
 	public static readonly float castBarwPercent = 22;
 	public static readonly float castBarhPercent = 4;
 }

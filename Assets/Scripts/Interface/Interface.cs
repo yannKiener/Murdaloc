@@ -43,15 +43,15 @@ public class Interface : MonoBehaviour {
 
 		target = player.GetTarget ();
 		if (target != null && !target.IsDead()) {
-			drawCharInfoAt (target, 30, 2);
+			drawCharInfoAt (target, 70, 2);
 			//outlining target sprite
 			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
 				target.GetGameObject ().AddComponent<cakeslice.Outline> ();
 			}
 		}
 
-		if (player.IsCasting()) {
-			drawCastBar (50,96);
+		if (player.IsCasting() && Constants.drawCastBar) {
+			drawCastBar (player, 50,96);
 		}
 
 	}
@@ -78,18 +78,18 @@ public class Interface : MonoBehaviour {
 	}
 
 
-	private void drawCastBar(float xPercent, float yPercent){
+	private void drawCastBar(Character c, float xPercent, float yPercent){
 		int x = (int)(Screen.width * xPercent / 100);
 		x -= (castBarWidth / 2);
 		int y = (int)(Screen.height * yPercent / 100);
 
-		Spell castingSpell = player.GetCastingSpell ();
+		Spell castingSpell = c.GetCastingSpell ();
 
-		float spellCastTime = castingSpell.GetCastTime (player.GetStats());
+		float spellCastTime = castingSpell.GetCastTime (c.GetStats());
 		if (spellCastTime != 0) {
 			GUI.Box (new Rect (x, y, castBarWidth, castBarHeight),"",nameBarStyle);
-			GUI.Box (new Rect (x, y, player.GetCastPercent()*castBarWidth, castBarHeight),"",castBarStyle); 
-			GUI.Box (new Rect (x, y, castBarWidth, castBarHeight), castingSpell.GetName () + " : " + player.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
+			GUI.Box (new Rect (x, y, c.GetCastPercent()*castBarWidth, castBarHeight),"",castBarStyle); 
+			GUI.Box (new Rect (x, y, castBarWidth, castBarHeight), castingSpell.GetName () + " : " + c.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
 		}
 	}
 }
