@@ -50,6 +50,11 @@ public abstract class Spell : Usable
 		this.image = InterfaceUtils.LoadImageForSpell (spellName);
 	}
 
+    public Sprite GetImageAsSprite()
+    {
+        return InterfaceUtils.LoadSpriteForSpell(this.GetName());
+    }
+
 	public void Use(Character caster){
         caster.CastSpell(this.spellName);
 

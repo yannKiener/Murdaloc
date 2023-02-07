@@ -79,6 +79,12 @@ public class Player : Character
         base.AddSpell(spell);
         if(FindUtils.GetSpellBookGrid() != null)
             FindUtils.GetSpellBookGrid().UpdateSpellBook();
+
+        if (FindUtils.GetActionBar() != null)
+        {
+            FindUtils.GetActionBar().Add(spell);
+        }
+
     }
 
     public void initializeSpell(Spell spell)

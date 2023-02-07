@@ -10,6 +10,10 @@ public class ActionBar : MonoBehaviour, Slotable {
 
 	// Use this for initialization
 	void Start () {
+        foreach(KeyValuePair<string, Spell> kv in FindUtils.GetPlayer().GetSpells())
+        {
+            Add(kv.Value);
+        }
 	}
 
     public void OnDragFrom(GameObject slot)
@@ -17,11 +21,30 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     }
 
+    private GameObject getFirstFreeSlot()
+    {
+        foreach (Transform c in transform)
+        {
+            if (c.childCount == 0)
+                return c.gameObject;
+        }
+        return null;
+    }
+
+    public void Add(Usable usable)
+    {
+        GameObject slot = getFirstFreeSlot();
+
+        if (slot != null)
+        {
+            InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, usable.GetImageAsSprite(), usable);
+        }
+    }
+
     public void OnDropIn(GameObject slot)
     {
         if(Draggable.currentItem != null)
         {
-
             GameObject tempGameObject = Draggable.currentItem;
             Usable tempUsable = Draggable.currentUsable;
             //Si le slot a déjà un contenu, on le supprime 

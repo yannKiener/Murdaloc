@@ -7,6 +7,7 @@ public static class FindUtils  {
     private static Player player;
     private static GameObject spellBook;
     private static SpellBook spellBookGrid;
+    private static ActionBar actionBar;
     private static GameObject inventory;
     private static Inventory inventoryGrid;
     private static GameObject loot;
@@ -20,7 +21,9 @@ public static class FindUtils  {
     private static DialogPanel dialogPanelComponent;
     private static GameObject questGridGo;
     private static QuestGrid questGrid;
-    private static GameObject questLog; 
+    private static GameObject questLog;
+    private static GameObject dpsBar;
+    private static Dps dps;
 
     public static Player GetPlayer()
     {
@@ -45,6 +48,14 @@ public static class FindUtils  {
             spellBookGrid = GameObject.Find("SpellBookGrid").GetComponent<SpellBook>();
 
         return spellBookGrid;
+    }
+
+    public static ActionBar GetActionBar()
+    {
+        if (actionBar == null)
+            actionBar = GameObject.Find("ActionBar").GetComponent<ActionBar>();
+
+        return actionBar;
     }
 
     public static GameObject GetInventory()
@@ -159,4 +170,21 @@ public static class FindUtils  {
 
         return questGrid;
     }
+
+    public static GameObject GetDpsBar()
+    {
+        if (dpsBar == null)
+            dpsBar = GameObject.Find("DpsBar");
+
+        return dpsBar;
+    }
+
+    public static Dps GetDps()
+    {
+        if (dps == null)
+            dps = GetDpsBar().transform.Find("DpsBackground").Find("DpsNumber").GetComponent<Dps>();
+
+        return dps;
+    }
+
 }

@@ -656,6 +656,10 @@ public abstract class Character : MonoBehaviour
 		
 	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)
 	{
+        if (!this.GetName().Equals(FindUtils.GetPlayer().GetName()))
+        {
+           FindUtils.GetDps().AddDamageToDps(damage);
+        }
 		if (damage > 0)
         {
             createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);

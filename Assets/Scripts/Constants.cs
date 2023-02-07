@@ -20,6 +20,7 @@ public static class Constants {
 	public static readonly float castBarhPercent = 4;
     public static readonly float expBarHeightPercent = 1;
     public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
+    public static readonly float keepDpsDamageSeconds = 5;
     
 
     //stats
