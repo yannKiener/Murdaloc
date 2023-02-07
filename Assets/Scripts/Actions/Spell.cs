@@ -26,7 +26,7 @@ public static class Spells
 	
 
 
-public abstract class Spell 
+public abstract class Spell : Usable
 {
     protected string spellName;
     protected string description;
@@ -129,6 +129,12 @@ public abstract class Spell
     {
         return levelRequirement;
     }
+
+	protected override void Use (Character caster, Character target)
+	{
+		base.Use (caster,target);
+		Cast (caster,target);
+	}
 
     public virtual void Cast(Character caster, Character target)
     {

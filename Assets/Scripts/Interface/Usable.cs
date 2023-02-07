@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Usable : MonoBehaviour {
+public interface Usable {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    protected virtual void Use() { 
-
-		Debug.Log("Item used");
-	}
+	void Use (Character caster, Character target);
+	string GetName ();
 
 
 }

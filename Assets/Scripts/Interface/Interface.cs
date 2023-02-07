@@ -132,7 +132,7 @@ public class Interface : MonoBehaviour {
 		}
 	}
 
-	private Texture loadTextureFor(string name){
+	private static Texture loadTextureFor(string name){
 		return Resources.Load ("Images/SpellIcons/" + name) as Texture;
 	}
 }
