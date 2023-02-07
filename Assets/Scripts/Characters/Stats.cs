@@ -16,6 +16,8 @@ public class Stats {
 	private int critical;
 	private int haste;
 	private int power;
+	private int autoAttackDamage = Constants.BaseAutoAttackDamage;
+	private float autoAttackTime = Constants.BaseAutoAttackTime;
 
 
 	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana)
@@ -51,6 +53,25 @@ public class Stats {
 		this.Haste += stats.Haste;
 		this.Power += stats.Power;
 	}
+
+
+	public void SetAutoAttack(int damage, float time){
+		this.autoAttackDamage = damage;
+		this.autoAttackTime = time;
+	}
+
+	public float AutoAttackTime {
+		get {
+			return this.autoAttackTime;
+		}
+	}
+
+	public int AutoAttackDamage {
+		get {
+			return this.autoAttackDamage;
+		}
+	}
+
 	
 	public int MaxLife {
 		get {

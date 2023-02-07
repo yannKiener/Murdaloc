@@ -79,7 +79,7 @@ public class Hostile : Character
 					direction = 0;
 				}
 			}
-			mob.velocity = new Vector2 (direction * MAXSPEED/3, mob.velocity.y);
+			mob.velocity = new Vector2 (direction * Constants.MaxSpeed/3, mob.velocity.y);
 		}
 	}
 		

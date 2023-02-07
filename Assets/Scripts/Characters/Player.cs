@@ -109,11 +109,11 @@ public class Player : Character
 
 		if (wantToJump && !jumping)
 		{
-			ySpeed = JUMPFORCE;
+			ySpeed = Constants.JumpForce;
 			jumping = true;
 		}
 
-		player.velocity = new Vector2(xSpeed * MAXSPEED, ySpeed);
+		player.velocity = new Vector2(xSpeed * Constants.MaxSpeed, ySpeed);
 
 		//Limit player to camera At ALL TIMES
 

@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public abstract class Character : MonoBehaviour 
 {
-	protected float MAXSPEED = 8f;	
-	protected float JUMPFORCE = 5f;
-
-
     protected int currentLife;
     protected int currentResource;
     protected string charName;
@@ -29,6 +25,9 @@ public abstract class Character : MonoBehaviour
 	protected bool hasCasted = false;
 	protected Stats stats;
 	protected float gcd = 0;
+	protected bool autoAttackEnabled = true;
+	protected bool autoAttackIsCrit = false;
+	protected float autoAttackTime = 0f;
 
     public void Initialize(string name)
 	{
@@ -46,6 +45,20 @@ public abstract class Character : MonoBehaviour
 
 	public Stats GetStats(){
 		return stats;
+	}
+
+	public void SwitchAutoAttack(){
+		autoAttackEnabled = !autoAttackEnabled;
+	}
+
+	public void CancelAutoAttack(){
+		autoAttackEnabled = false;
+	}
+
+	public void StartAutoAttack(){
+		if (target != null) {
+			autoAttackEnabled = true;
+		}
 	}
 
 	public void LevelUp(){
@@ -159,6 +172,7 @@ public abstract class Character : MonoBehaviour
 		UpdateRegen();
 		UpdateEffects ();
 		UpdateGCD ();
+		UpdateAutoAttack ();
 	}
 		
 
@@ -196,8 +210,42 @@ public abstract class Character : MonoBehaviour
      
 	virtual protected void LeaveCombat()
      {
-         inCombat = false;
+		CancelAutoAttack ();
+        inCombat = false;
      }
+
+	protected void UpdateAutoAttack(){
+		if (autoAttackEnabled && target != null && !casting) {
+			autoAttackTime += Time.deltaTime;
+			if (autoAttackTime >= modifiedAutoAttackTime () && autoAttackDistanceOK()) {
+				autoAttackTime = 0;
+				target.ApplyDamage (modifiedAutoAttackDamage (), autoAttackIsCrit,true);
+				//Todo Animation Auto Attack
+			}
+		}
+	}
+
+	protected bool autoAttackDistanceOK(){
+		return Mathf.Abs ((target.transform.position.x - transform.position.x)) < Constants.MaxAutoAttackDistance;
+	}
+
+
+	protected int modifiedAutoAttackDamage(){
+		int damage = stats.AutoAttackDamage;
+		this.autoAttackIsCrit = stats.Critical > Random.Range (1, 101);
+
+		damage = damage + (damage * stats.Power / 100); //Applying power 
+		if (this.autoAttackIsCrit) { // Apply Crit
+			damage = damage * 2;
+		}
+		return (int)(damage + damage * Random.Range (-30f, 30f) / 100);
+
+	}
+
+	protected float modifiedAutoAttackTime(){
+		return (stats.AutoAttackTime - (stats.AutoAttackTime * stats.Haste/Constants.hasteDivider));
+
+	}
 
 	protected void UpdateEffects(){
 		updateBufflist (buffList);
@@ -340,12 +388,12 @@ public abstract class Character : MonoBehaviour
 		CancelCast();
     }
 		
-	public void ApplyDamage (int damage, bool isCrit = false)
+	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)
 	{
 		if (damage > 0) {
 
 			this.currentLife -= damage;
-			createFloatingText (damage.ToString (), new Color (1, 0, 0), isCrit);
+			createFloatingText (damage.ToString (), new Color (1, 0, 0), isCrit, isAutoAttack);
 
 			if (currentLife <= 0) {
 				currentLife = 0;
@@ -369,7 +417,7 @@ public abstract class Character : MonoBehaviour
 		}
 	}
 
-	protected void createFloatingText (string text, Color color, bool isCrit)
+	protected void createFloatingText (string text, Color color, bool isCrit, bool isAutoAttack = false)
 	{
 		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("FloatingText"));
 		setObjectAboveAsChild (floatingTextGameObj, 1f);
@@ -378,6 +426,9 @@ public abstract class Character : MonoBehaviour
 		floatingText.setColor (color);
 		if (isCrit) {
 			floatingText.SetCrit();
+		}
+		if (isAutoAttack) {
+			floatingText.setColor (Color.white);
 		}
 	}
 

@@ -26,6 +26,7 @@ public class FloatingText : MonoBehaviour {
 		fontSize = 200;
 	}
 
+
 	public void setText(string text){
 		this.text = text;	
 	}
