@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Player : AbstractCharacter
+public class Player : Character
 {
 	private bool jumping = false;
 	private bool wantToJump = false;

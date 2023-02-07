@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 [System.Serializable]
-public class Hostile : AbstractCharacter
+public class Hostile : Character
 {
 	private int direction = 0;
 

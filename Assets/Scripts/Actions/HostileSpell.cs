@@ -24,7 +24,7 @@ public class HostileSpell : AbstractSpell
 		if (IsCastable(caster, target))
 		{
 			base.Cast (caster, target);
-			target.ApplyDamage (modifiedSpell(caster, target, damage));
+			target.ApplyDamage (modifiedSpell(caster, target, damage), isCrit);
 		}
 		else
 		{

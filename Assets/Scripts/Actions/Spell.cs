@@ -27,7 +27,7 @@ public interface Spell
     int GetLevelRequirement();
 	bool IsCastable (Character caster, Character target);
     void Cast(Character caster, Character target);
-
+    bool IsCrit();
 }
 
 
@@ -42,6 +42,7 @@ public abstract class AbstractSpell : Spell
     protected List<EffectOnTime> effectsOnTarget;
     protected List<EffectOnTime> effectsOnSelf;
     protected int damage;
+	protected bool isCrit = false;
 
 
 	public AbstractSpell()
@@ -77,9 +78,6 @@ public abstract class AbstractSpell : Spell
 		return (caster.GetCurrentResource () >= resourceCost); //TODO : Ajouter le level et la distance plus tard
 	}
 
-
-
-
     public string GetName() {
         return spellName;
     }
@@ -94,6 +92,11 @@ public abstract class AbstractSpell : Spell
     public int GetResourceCost() {
         return resourceCost;
     }
+
+	public bool IsCrit() {
+        return this.isCrit;
+    }
+
 
 	public float GetCastTime(Stats stats) {
 		return castTime - castTime * stats.Haste/100;
@@ -111,10 +114,17 @@ public abstract class AbstractSpell : Spell
 		applyEffectsOn (target, effectsOnTarget);
     }
 
-	protected int modifiedSpell(Character caster, Character target, int number){
+	protected int modifiedSpell (Character caster, Character target, int number)
+	{
 		Stats casterStats = caster.GetStats ();
+		int damage = number + (int)(number * Random.Range (-30f, 30f) / 100);
+		this.isCrit = casterStats.Critical > Random.Range (1, 101);
+
+		if (this.isCrit) {
+			damage = damage * 2;
+		}
 		//apply casterStats and targetStats here
-		return number + (int)(number * Random.Range (-30f, 30f) / 100);
+		return damage;
 	}
 
 	protected void applyEffectsOn(Character character, List<EffectOnTime> effects){

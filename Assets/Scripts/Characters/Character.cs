@@ -3,43 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface Character 
-{
-    void kill();
-    string GetName();
-	int GetMaxLife();
-	int GetCurrentLife();
-	int GetMaxResource();
-	int GetCurrentResource();
-    void move();
-	bool IsDead();
-	bool IsCasting();
-	bool IsInCombat();
-    void interact();
-	void CastSpell(string spellName);
-	void CastSpell(Spell spell);
-    void AddSpell(Spell spell);
-	void ApplyDamage (int damage);
-	void ApplyHeal (int heal);
-	void RemoveResource (int res);
-	void AddResource (int res);
-	void AggroTarget(Character aggroTarget);
-	void AggroFrom(Character aggroFrom);
-	void CancelCast();
-	float GetHealthPercent ();
-	float GetResourcePercent ();
-	float GetCastPercent ();
-	GameObject GetGameObject();
-	void AddEffectOnTime (EffectOnTime effect);
-	void RemoveEffectOnTime (EffectOnTime effect);
-	void LevelUp();
-	Stats GetStats ();
-
-}
-
-
-
-public abstract class AbstractCharacter : MonoBehaviour, Character 
+public abstract class Character : MonoBehaviour 
 {
 	protected float MAXSPEED = 8f;	
 	protected float JUMPFORCE = 5f;
@@ -337,24 +301,24 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		CancelCast();
     }
 		
-	public void ApplyDamage (int damage)
+	public void ApplyDamage (int damage, bool isCrit = false)
 	{
 		if (damage > 0) {
-			
+
 			this.currentLife -= damage;
-			createFloatingText (damage.ToString (), new Color (1, 0, 0));
+			createFloatingText (damage.ToString (), new Color (1, 0, 0), isCrit);
 
 			if (currentLife <= 0)
 				this.kill ();
 		}
 	}
 
-	public void ApplyHeal (int heal)
+	public void ApplyHeal (int heal, bool isCrit = false)
 	{
 		if (heal > 0) {
 			
 			this.currentLife += heal;
-			createFloatingText (heal.ToString (), new Color (0, 1, 0));
+			createFloatingText (heal.ToString (), new Color (0, 1, 0), isCrit);
 
 			if (currentLife > stats.MaxLife)
 				currentLife = stats.MaxLife;
@@ -364,12 +328,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		}
 	}
 
-	protected void createFloatingText(string text, Color color){
+	protected void createFloatingText (string text, Color color, bool isCrit)
+	{
 		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("FloatingText"));
 		setObjectAboveAsChild (floatingTextGameObj, 1f);
-		FloatingText floatingText = floatingTextGameObj.AddComponent<FloatingText>();
+		FloatingText floatingText = floatingTextGameObj.AddComponent<FloatingText> ();
 		floatingText.setText (text);
 		floatingText.setColor (color);
+		if (isCrit) {
+			floatingText.SetCrit();
+		}
 	}
 
 	protected void createStatusBar(){
@@ -392,7 +360,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 
 [System.Serializable]
-public class Friendly : AbstractCharacter
+public class Friendly : Character
 {
 
 }

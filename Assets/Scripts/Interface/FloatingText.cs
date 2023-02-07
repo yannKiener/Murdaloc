@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FloatingText : MonoBehaviour {
 	GameObject textGameObj;
 	Text textComponent;
+	int fontSize = 120;
 	string text;
 	Color color;
 
@@ -15,8 +16,14 @@ public class FloatingText : MonoBehaviour {
 		textComponent = textGameObj.GetComponent<Text> ();
 		float clipLength = textGameObj.GetComponent<Animator> ().GetCurrentAnimatorClipInfo (0) [0].clip.length;
 		textComponent.text = text;
+		textComponent.fontSize = fontSize;
 		textComponent.color = color;
 		Destroy (this.gameObject, clipLength);
+	}
+
+	public void SetCrit ()
+	{	
+		fontSize = 250;
 	}
 
 	public void setText(string text){
