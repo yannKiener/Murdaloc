@@ -16,6 +16,7 @@ public class ActionBar : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 		childCount = transform.childCount;
 		slots = new Usable[childCount];
+		Debug.Log (player);
 
 		InitializeActionBarWith (player.GetSpells());
 	}
