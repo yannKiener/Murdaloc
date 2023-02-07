@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     {
         Player player = gameObject.AddComponent<Player>();
         player.Initialize("Speaf");
+		player.AddSpell (Spells.Get ("autoattack"));
 		player.AddSpell (Spells.Get ("fireball"));
 		player.AddSpell (Spells.Get ("POTTU"));
 		player.AddSpell (Spells.Get ("corruption"));

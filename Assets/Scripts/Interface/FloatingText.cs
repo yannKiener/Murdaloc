@@ -23,7 +23,7 @@ public class FloatingText : MonoBehaviour {
 
 	public void SetCrit ()
 	{	
-		fontSize = 250;
+		fontSize = 200;
 	}
 
 	public void setText(string text){

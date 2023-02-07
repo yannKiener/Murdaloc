@@ -29,8 +29,6 @@ public abstract class Character : MonoBehaviour
 	protected bool hasCasted = false;
 	protected Stats stats;
 
-
-
     public void Initialize(string name)
 	{
 		if (resource == null) {
@@ -165,6 +163,7 @@ public abstract class Character : MonoBehaviour
          {
              inCombat = true;
 			 createStatusBar ();
+			 InvokeRepeating("AutoAttack",1f,1f);
          }
      }
      
@@ -209,6 +208,10 @@ public abstract class Character : MonoBehaviour
 			ClearEnemyList ();
 			UpdateTarget ();
 		}
+	}
+
+    protected void AutoAttack (){
+		CastSpell("autoattack");
 	}
 
 	protected void ClearEnemyList (){
@@ -265,7 +268,7 @@ public abstract class Character : MonoBehaviour
     }
 
     public void CastSpell(string spellName)
-    {
+    {	
 		CastSpell (spellList [spellName]);
     }
 
