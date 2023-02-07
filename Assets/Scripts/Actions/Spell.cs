@@ -198,6 +198,11 @@ public abstract class Spell : Usable, Castable
         return null;
     }
 
+    public Dictionary<string, EffectOnTime> GetEffectsOnTarget()
+    {
+        return effectsOnTarget;
+    }
+
     public void RemoveEffectOnTarget(string name)
     {
         effectsOnTarget.Remove(name);
