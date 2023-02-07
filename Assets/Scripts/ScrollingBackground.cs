@@ -28,21 +28,10 @@ public class ScrollingBackground : MonoBehaviour {
 		leftIndex = 0;
 		rightIndex = layers.Length-1;
 
-		InitialisationWTF();
-	}
-	// Pour que le scrolling marche bien et que l'utilisateur ne voie pas
-	// De mouvement dégueu lors des premiers déplacements..
-	// TODO : Faire en sorte de plus appeller cette fonction de merde. (De préférence ajouter += un Vector3 au lieu d'en set directement un pour garder le Y initial)
-	private void InitialisationWTF(){ 
-		ScrollLeft();
-		ScrollLeft();
-		ScrollLeft();
-		ScrollRight();
-		ScrollRight();
 	}
 
 	private void ScrollLeft(){
-		int lastRight = rightIndex;
+		//int lastRight = rightIndex;
 		layers[rightIndex].position = new Vector3((layers[leftIndex].position.x - backgroundSize), layers[rightIndex].position.y, 0);
 		leftIndex = rightIndex;
 		rightIndex--;
@@ -52,7 +41,7 @@ public class ScrollingBackground : MonoBehaviour {
 	}
 
 	private void ScrollRight(){
-		int lastLeft = leftIndex;
+		//int lastLeft = leftIndex;
 		layers[leftIndex].position = new Vector3((layers[rightIndex].position.x + backgroundSize), layers[leftIndex].position.y, 0);
 		rightIndex = leftIndex;
 		leftIndex++;
