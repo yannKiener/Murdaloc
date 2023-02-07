@@ -8,7 +8,7 @@ public static class EquipmentCategories {
 
     public static void AddCategory(EquipmentCategory category)
     {
-        equipmentCategories.Add(category.GetCategoryType(), category);
+        equipmentCategories[category.GetCategoryType()] = category;
     }
 
     public static EquipmentCategory GetCategory(EquipmentType type)

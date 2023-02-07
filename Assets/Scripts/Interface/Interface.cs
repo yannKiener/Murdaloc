@@ -332,7 +332,7 @@ public class Interface : MonoBehaviour
         if (GUI.Button(getRectForIngameMenuPosition(4), "Main Menu", buttonStyle))
         {
             CloseMenu();
-            Debug.Log("Main Menu clicked");
+            GameUtils.LoadScene("MainMenu");
         }
 
         if (GUI.Button(getRectForIngameMenuPosition(5), "Exit", buttonStyle))

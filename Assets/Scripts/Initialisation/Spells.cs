@@ -9,7 +9,7 @@ public static class Spells
 
     public static void Add(Spell spell)
     {
-        spellList.Add(spell.GetName(), spell);
+        spellList[spell.GetName()] =  spell;
     }
 
     public static Spell Get(string spellName)
