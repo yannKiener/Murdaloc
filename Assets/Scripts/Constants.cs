@@ -63,11 +63,20 @@ public static class Constants {
     //Equipments
     public static readonly float MainStatMultiplier = 1.3f;
     public static readonly float OffStatMultiplier = 0.2f;
-    public static readonly float CommonStatMultiplier = 0f;
+    public static readonly float TwoHandedAutoAttackMultiplier = 1.2f;
+    public static readonly float TwoHandedStatMultiplier = 1.8f;
+    public static readonly float OffHandStatMultiplier = 1.2f;
+    public static readonly float CommonStatMultiplier = 0.5f;
     public static readonly float UncommonStatMultiplier = 0.7f;
     public static readonly float RareStatMultiplier = 1f;
     public static readonly float EpicStatMultiplier = 1.3f;
-    public static readonly float TwoHandedStatMultiplier = 1.6f;
+    public static readonly float PriceMultiplierEpic = 1.5f;
+    public static readonly float PriceMultiplierRare = 1.2f;
+    public static readonly float PriceMultiplierUncommon = 1f;
+    public static readonly float PriceMultiplierCommon = 0.8f;
+    public static readonly int EpicDropChancePercent = 10;
+    public static readonly int RareDropChancePercent = 40;
+    public static readonly int UncommonDropChancePercent = 80;
 
     //Loot
     public static readonly int DeleteLootAfterSeconds = 120;
@@ -139,6 +148,14 @@ public enum EquipmentType
     Staff,
     OffHand,
     Shield
+}
+
+public enum EquipmentQuality
+{
+    Epic,
+    Rare,
+    Uncommon,
+    Common
 }
 
 public enum EquipmentSlot

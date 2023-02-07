@@ -142,6 +142,11 @@ public class Stats {
     public string GetStatsDetail()
     {
         string result = "";
+
+        if (AutoAttackDamage > 0 && AutoAttackTime > 0)
+        {
+            result += "\nDps : " + (autoAttackDamage / autoAttackTime).ToString("0.00");
+        }
         if (AutoAttackDamage > 0)
         {
             result += "\nDamage : " + AutoAttackDamage;
@@ -185,7 +190,7 @@ public class Stats {
         return result;
     }
 
-    public void MultiplyBy(float multiplier)
+    public void MultiplyStatsBy(float multiplier)
     {
         force = (int)(force * multiplier);
         agility = (int)(agility * multiplier);
@@ -195,7 +200,6 @@ public class Stats {
         haste = (int)(haste * multiplier);
         power = (int)(power * multiplier);
         critical = (int)(critical * multiplier);
-        autoAttackDamage = (int)(autoAttackDamage * multiplier);
     }
 
 	public float AddPercent(Stat stat, float percent){

@@ -59,6 +59,7 @@ public class Interface : MonoBehaviour
     private static string toolTipText;
     private static string toolTipName;
     private static int toolTipPrice;
+    private static EquipmentQuality toolTipQuality;
     private int cashIconSize;
 
     private static string ModalText;
@@ -223,11 +224,12 @@ public class Interface : MonoBehaviour
         return result;
     }
 
-    public static void DrawToolTip(string name, string description, int price = 0)
+    public static void DrawToolTip(string name, string description, int price = 0, EquipmentQuality qual = EquipmentQuality.Common)
     {
         toolTipText = description;
         toolTipName = name;
         toolTipPrice = price;
+        toolTipQuality = qual;
     }
     
     public static void RemoveToolTip()
@@ -235,6 +237,7 @@ public class Interface : MonoBehaviour
         toolTipText = null;
         toolTipName = null;
         toolTipPrice = 0;
+        toolTipQuality = EquipmentQuality.Common;
     }
 
     public void ForceBarStyles()
@@ -430,6 +433,9 @@ public class Interface : MonoBehaviour
             }
             
             GUI.Label(labelRect, tooltipContent, toolTipStyle);
+
+
+            //Display Price
             if(toolTipPrice > 0)
             {
                 int copper = InterfaceUtils.GetCopper(toolTipPrice);

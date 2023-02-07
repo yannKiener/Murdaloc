@@ -8,7 +8,9 @@ using System.Linq;
 public static class EquipmentGenerator  {
     private static List<EquipmentType> weaponTypes = new List<EquipmentType>() { EquipmentType.Axe, EquipmentType.TwoHandedAxe, EquipmentType.Sword, EquipmentType.TwoHandedSword, EquipmentType.Mace, EquipmentType.TwoHandedMace, EquipmentType.Dagger, EquipmentType.Staff };
 
-    private static List<EquipmentType> TwoHandedWeaponTypes = new List<EquipmentType>() {EquipmentType.TwoHandedAxe,EquipmentType.TwoHandedSword, EquipmentType.TwoHandedMace, EquipmentType.Staff};
+    private static List<EquipmentType> twoHandedWeaponTypes = new List<EquipmentType>() {EquipmentType.TwoHandedAxe,EquipmentType.TwoHandedSword, EquipmentType.TwoHandedMace, EquipmentType.Staff};
+
+    private static List<EquipmentType> heldInOffhand = new List<EquipmentType>() {EquipmentType.Shield, EquipmentType.OffHand};
 
     public static Equipment GenerateEquipment(int maxLevel)
     {
@@ -23,15 +25,35 @@ public static class EquipmentGenerator  {
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;
         EquipmentType itemType = GetRandomEquipmentType();
+        EquipmentQuality quality = GetRandomQualityForLevel(maxLevel);
         int damagePerSecondOnWeapon = Constants.BaseAutoAttackDPS + Constants.AutoAttackDPSPerLevel * maxLevel;
-
-        Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon);
+        Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon, quality);
         string name = GetRandomNameForType(itemType, stats);
         Sprite sprite = GetRandomSpriteForType(itemType);
 
-        Equipment result = new Equipment(name,"",maxLevel,stats,itemType);
+        Equipment result = new Equipment(name,"",maxLevel,stats,itemType, quality);
         result.SetImage(sprite);
         return result;
+    }
+
+    private static EquipmentQuality GetRandomQualityForLevel(int level)
+    {
+        int random = UnityEngine.Random.Range(0,101);
+        if (random < Constants.EpicDropChancePercent)
+        {
+            return EquipmentQuality.Epic;
+        }
+        if (random < Constants.RareDropChancePercent)
+        {
+            return EquipmentQuality.Rare;
+        }
+        if (random < Constants.UncommonDropChancePercent)
+        {
+            return EquipmentQuality.Uncommon;
+        }
+
+        return EquipmentQuality.Common;
+
     }
 
     private static Sprite GetRandomSpriteForType(EquipmentType type)
@@ -112,8 +134,40 @@ public static class EquipmentGenerator  {
         return stats;
     }
 
-    private static Stats GenerateStatsForType(EquipmentType type, float maxMainStats, float maxOffStats, int attackDamage)
+    private static Stats GenerateStatsForType(EquipmentType type, float maxMainStats, float maxOffStats, int attackDamage, EquipmentQuality quality)
     {
+        if(quality == EquipmentQuality.Common)
+        {
+            maxMainStats = maxMainStats * Constants.CommonStatMultiplier;
+            maxOffStats = maxOffStats * Constants.CommonStatMultiplier;
+
+        } else if (quality == EquipmentQuality.Uncommon)
+        {
+            maxMainStats = maxMainStats * Constants.UncommonStatMultiplier;
+            maxOffStats = maxOffStats * Constants.UncommonStatMultiplier;
+        }
+        else if (quality == EquipmentQuality.Rare)
+        {
+            maxMainStats = maxMainStats * Constants.RareStatMultiplier;
+            maxOffStats = maxOffStats * Constants.RareStatMultiplier;
+        }
+        else if (quality == EquipmentQuality.Epic)
+        {
+            maxMainStats = maxMainStats * Constants.EpicStatMultiplier;
+            maxOffStats = maxOffStats * Constants.EpicStatMultiplier;
+        }
+
+        if (IsOffHand(type))
+        {   
+            maxMainStats = maxMainStats * Constants.OffHandStatMultiplier;
+            maxOffStats = maxOffStats * Constants.OffHandStatMultiplier;
+        }
+        if (IsTwoHanded(type))
+        {
+            maxMainStats = maxMainStats * Constants.TwoHandedStatMultiplier;
+            maxOffStats = maxOffStats * Constants.TwoHandedStatMultiplier;
+        }
+
         float stat1Multiplier = UnityEngine.Random.Range(30,51) ;
         float stat2Multiplier = UnityEngine.Random.Range(30,51) ;
         float stat3Multiplier = UnityEngine.Random.Range(0, 101-(stat1Multiplier+stat2Multiplier)) ;
@@ -133,15 +187,15 @@ public static class EquipmentGenerator  {
         if (IsWeapon(type))
         {
             float attackSpeed = (float)Math.Round(GetAttackSpeedForType(type), 1);
-            result.AddStat(Stat.autoAttackDamage, attackDamage * attackSpeed);
+            float mediumAttackDamage = attackDamage * attackSpeed;
+            if (IsTwoHanded(type))
+            {
+                mediumAttackDamage = mediumAttackDamage * Constants.TwoHandedAutoAttackMultiplier;
+            }
+            result.AddStat(Stat.autoAttackDamage, mediumAttackDamage);
             result.AddStat(Stat.autoAttackTime, attackSpeed);
         }
 
-        if (IsTwoHanded(type))
-        {
-            result.MultiplyBy(Constants.TwoHandedStatMultiplier);
-        }
-        
         return result;
     }
 
@@ -169,14 +223,24 @@ public static class EquipmentGenerator  {
         return 5;
     }
 
-    public static bool IsTwoHanded(EquipmentType itemType)
+    private static bool IsTwoHanded(EquipmentType itemType)
     {
-        return TwoHandedWeaponTypes.Contains(itemType);
+        return IsEqTypeInList(twoHandedWeaponTypes, itemType);
+    }
+    
+    private static bool IsOffHand(EquipmentType itemType)
+    {
+        return IsEqTypeInList(heldInOffhand, itemType);
     }
 
-    public static bool IsWeapon(EquipmentType itemType)
+    private static bool IsWeapon(EquipmentType itemType)
     {
-        return weaponTypes.Contains(itemType);
+        return IsEqTypeInList(weaponTypes,itemType);
+    }
+
+    private static bool IsEqTypeInList(List<EquipmentType> listOfTypes, EquipmentType itemType)
+    {
+        return listOfTypes.Contains(itemType);
     }
 
     private static List<Stat> GetMainStatList(EquipmentType type)

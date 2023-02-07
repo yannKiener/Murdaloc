@@ -213,18 +213,21 @@ public class Player : Character
 
     public override void LevelUp()
     {
-        if(LevelUpAnimation != null)
+        if(level < Constants.MaxLevel)
         {
-            GameObject lvlUpAnimInstance = Instantiate(LevelUpAnimation, transform);
-            Animator animLvlUp = lvlUpAnimInstance.GetComponent<Animator>();
-            animLvlUp.Play("LevelUp");
-            Destroy(lvlUpAnimInstance, animLvlUp.GetCurrentAnimatorClipInfo(0)[0].clip.length/1.5f);
+            if(LevelUpAnimation != null)
+            {
+                GameObject lvlUpAnimInstance = Instantiate(LevelUpAnimation, transform);
+                Animator animLvlUp = lvlUpAnimInstance.GetComponent<Animator>();
+                animLvlUp.Play("LevelUp");
+                Destroy(lvlUpAnimInstance, animLvlUp.GetCurrentAnimatorClipInfo(0)[0].clip.length/1.5f);
+            }
+            base.LevelUp();
+            SetFullHealthAndMaxResource();
+            AddTalentPoint();
+            
+            FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
         }
-        base.LevelUp();
-        SetFullHealthAndMaxResource();
-        AddTalentPoint();
-
-        FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
     }
 
 

@@ -14,9 +14,10 @@ public class Equipment : Item
     public bool isEquipped;
     public string spriteName;
 
-    public Equipment(string itemName, string description, int levelRequirement, Stats stats, EquipmentType type)
+    public Equipment(string itemName, string description, int levelRequirement, Stats stats, EquipmentType type, EquipmentQuality quality = EquipmentQuality.Common)
     {
-        this.sellPrice = 5000 + levelRequirement * 2500;
+        this.sellPrice = (int)(GetPriceMultiplierFromQuality(quality) * (5000 + levelRequirement * 2500));
+        this.quality = quality;
         this.itemName = itemName;
         this.description = description;
         this.levelRequirement = levelRequirement;
@@ -48,7 +49,7 @@ public class Equipment : Item
 
     public override string GetDescription()
     {
-        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail();
+        return quality + " " + type + ".\n" + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail();
     }
 
     public void SetImage(Sprite image)
