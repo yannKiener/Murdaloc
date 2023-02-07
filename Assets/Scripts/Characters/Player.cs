@@ -171,10 +171,6 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.X))
         {
             LevelUp();
-            LevelUp();
-            LevelUp();
-            LevelUp();
-            LevelUp();
             FindUtils.GetInventoryGrid().AddCash(100000);
             FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
@@ -186,15 +182,16 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
 
-            AddSpell(Spells.Get("Icelance"));
-
-            FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Mage"));
+            if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
+            {
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Mage"));
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (GetTarget() != null && GetTarget() is Hostile)
-                GetTarget().die();
+                GetTarget().ApplyDamage(999999, true, true);
         }
 
         if (Input.GetMouseButtonDown(0))

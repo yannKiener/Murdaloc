@@ -791,7 +791,7 @@ public abstract class Character : MonoBehaviour
 		if (isAutoAttack) {
 			floatingText.setColor (Color.white);
 		}
-	}
+    }
 
 	protected void createStatusBar(){
 		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("StatusBar"));

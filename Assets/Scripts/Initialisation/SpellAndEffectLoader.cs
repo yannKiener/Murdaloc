@@ -78,7 +78,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 1f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Frost", null, null);
         CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 5, 8, 10, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } },60,5), "Fire", null, null);
-        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 5, 3, 5, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0.8f } }, 0, 5,true,1), "Fire", null, null);
+        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 5, 3, 5, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0f } }, 0, 5,true,1), "Fire", null, null);
         CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 5, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 5, true, 1), "Frost", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
 
 

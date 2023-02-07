@@ -19,7 +19,7 @@ public class FloatingText : MonoBehaviour {
 		textComponent.fontSize = fontSize;
 		textComponent.color = color;
 		Destroy (this.gameObject, clipLength);
-	}
+    }
 
 	public void SetCrit ()
 	{	
