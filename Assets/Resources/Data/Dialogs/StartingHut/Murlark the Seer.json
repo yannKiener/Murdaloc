@@ -2,6 +2,7 @@
    "text":"Ah, you're finally awake.",
    "choices":[  
 	  {
+		 "condition":"!PlayerWokeUp",
          "choice":"...",
          "dialog":{  
             "text":"You've been asleep for 2 days now, you'll feel better in a few moments. You're the last waking up!",
@@ -9,12 +10,12 @@
                {  
                   "choice":"<Ask what happened>",
                   "dialog":{  
-					"text":"We don't know much for now, we've all been hit by some kind lightning explosion. No one was physically hurt, but we have.. Evolved.. a lot since.",
+					"text":"We don't know much for now, we've all been hit by some kind of lightning explosion. Strangely no one was physically hurt, but strangely I noticed that we have.. Evolved.. a lot since.",
 					"choices":[  
 					   {  
 						  "choice":"<Stand up>",
 						  "dialog":{  
-							"text":"Now now, %T, slowly. Allow me help you.",
+							"text":"Now now, %T, slowly. Allow me help you. You should report to the chief outside when you're ready.",
 							"action":"WakeUpPlayer",
 							"choices":[  
 							   {  
@@ -29,9 +30,9 @@
                {  
                   "choice":"<Stand up>",
                   "dialog":{  
-					"text":"Now now, %T, slowly. Allow me help you.",
+					"text":"Now now, %T, slowly. Allow me help you. You should report to the chief outside when you're ready.",
                     "action":"WakeUpPlayer",
-					"choices":[  
+					"choices":[
 					   {  
 						  "choice":"<Leave>"
 					   }
@@ -40,6 +41,13 @@
                }
             ]
          }
+	  },
+	  {
+		 "condition":"PlayerWokeUp",
+         "choice":"What should I do ?",
+		 "dialog":{
+			"text":"Walk outside this room and report to the Chief. He have new orders for every Murloc around. Now go, young %T."
+		 }
 	  }
    ]
 }

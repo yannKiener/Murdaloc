@@ -104,7 +104,7 @@ public class EffectOnTime : Castable
     {
 		attachedCharacter = target;
 		this.caster = caster;
-		EffectOnTime effect = attachedCharacter.getEffect (this);
+		EffectOnTime effect = attachedCharacter.GetEffect (this);
 
 		if(effect != null){
 			if(isStackable && effect.stacks < maxStacks){
@@ -127,13 +127,13 @@ public class EffectOnTime : Castable
 
 	private void applyEffectOnce(){
 		if(applyOnce != null)
-			applyOnce.apply (caster, attachedCharacter, attachedCharacter.getEffect (this).GetStacks());
+			applyOnce.apply (caster, attachedCharacter, attachedCharacter.GetEffect (this).GetStacks());
 
 	}
 
 	private void removeEffectOnce(){
 		if (applyOnce != null) {
-			applyOnce.remove (caster, attachedCharacter,  attachedCharacter.getEffect (this).GetStacks());
+			applyOnce.remove (caster, attachedCharacter,  attachedCharacter.GetEffect (this).GetStacks());
 		}
 
 	}

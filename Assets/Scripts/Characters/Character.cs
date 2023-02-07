@@ -292,7 +292,7 @@ public abstract class Character : MonoBehaviour
 		return debuffList;
 	}
 
-	public EffectOnTime getEffect(EffectOnTime effect){
+	public EffectOnTime GetEffect(EffectOnTime effect){
 		if (effect.IsBuff ()) {
 			return buffList.Find (b => b.GetName() == effect.GetName()) ;
 		} else {
@@ -310,7 +310,7 @@ public abstract class Character : MonoBehaviour
 
 
 	public void RemoveEffectOnTime (EffectOnTime effect){
-		effect.Remove ();
+        GetEffect(effect).Remove ();
 	}
 
 	public GameObject GetGameObject (){

@@ -2,7 +2,6 @@
    "text":"Hey.",
    "choices":[  
 	{
-	 {
          "condition":"Blade for everyoneOver&!Murloc expressStarted",
          "choice":"Why are you looking at me like that?",
          "dialog":{  

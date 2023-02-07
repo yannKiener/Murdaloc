@@ -434,6 +434,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
             Player player = FindUtils.GetPlayer();
             player.RemoveEffectOnTime(EffectsOnTime.Get("Asleep"));
             player.gameObject.GetComponent<Animator>().Play("Stand");
+
+            DialogStatus.SetStatus("PlayerWokeUp", true);
+
+            List<LevelChanger> levelChangersInZone = Resources.FindObjectsOfTypeAll<LevelChanger>().ToList();
+
+            foreach (LevelChanger lvlChanger in levelChangersInZone)
+            {
+                lvlChanger.gameObject.SetActive(true);
+            }
         });
 
 
