@@ -48,6 +48,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
 	protected Resource resource;
+	protected bool hasCasted = false;
 
 
     public void Initialize(string name)
@@ -106,7 +107,9 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     void Update() {
          UpdateCast();
          UpdateCombat();
+		 UpdateRegen();
     }
+		
 
      public void AggroTarget(Character aggroTarget)
      {
@@ -145,6 +148,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
          inCombat = false;
          GameObject.Find("Main Camera").SendMessage("followPlayer");
      }
+
+	protected void UpdateRegen() {
+		currentResource += resource.Regen (Time.deltaTime, hasCasted);
+		if (currentResource > maxResource) {
+			currentResource = maxResource;
+		}
+		if (hasCasted) {
+			hasCasted = false;
+		}
+	}
      
      protected void UpdateCombat (){
 		if (inCombat) {
@@ -202,7 +215,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void addSpell(Spell spell)
     {
-		print(spell.GetName());
+		//print(spell.GetName());
         spellList.Add(spell.GetName(), spell);
     }
 
@@ -213,8 +226,6 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         	castingSpell = spellList [spellName];
 			int resCost = castingSpell.GetResourceCost ();
 			if (resCost <= currentResource) {
-				print (currentResource);
-				print (resCost);
 				casting = true;
 			} else {
 				castingSpell = null;
@@ -238,6 +249,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected void DoneCasting()
     {
     if (target != null) {
+			hasCasted = true;
 			castingSpell.Cast (this, target);
 		} else {
 			print ("NO TARGET");
@@ -301,7 +313,10 @@ public class Player : AbstractCharacter
 	}
 
 	void Update() 
-    {
+	{
+		UpdateCombat ();
+		UpdateCast();
+		UpdateRegen ();
 
         //EnemyManagement
 		if(Input.GetKeyUp(KeyCode.Tab)){
@@ -321,8 +336,6 @@ public class Player : AbstractCharacter
 		if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			castSpell (actionBar [2]);
 		}
-		UpdateCombat ();
-		UpdateCast();
         MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
