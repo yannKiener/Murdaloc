@@ -20,12 +20,12 @@ public class Inventory : MonoBehaviour, Slotable {
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenInventory();
+        Interface.OpenInventory();
     }
 
     void OnDisable()
     {
-        FindUtils.GetInterface().CloseInventory();
+        Interface.CloseInventory();
     }
 
     void Awake()
@@ -79,12 +79,16 @@ public class Inventory : MonoBehaviour, Slotable {
     {
         if (RemoveItem(item))
         {
-            FindUtils.GetInterface().CoinSound();
+            Interface.CoinSound();
             AddCash(item.GetSellPrice());
         }
 
     }
 
+    public int GetCash()
+    {
+        return cash;
+    }
 
     public int GetCopper()
     {
@@ -286,6 +290,21 @@ public class Inventory : MonoBehaviour, Slotable {
             }
         }
         return null;
+    }
+
+    public List<Item> GetItems()
+    {
+
+        List<Item> items = new List<Item>();
+        foreach (Transform child in transform)
+        {
+            Item i = (Item)child.gameObject.GetComponent<Slot>().usable;
+            if (i != null)
+            {
+                items.Add(i);
+            }
+        }
+        return items;
     }
 
     private void clearChilds(Transform t)

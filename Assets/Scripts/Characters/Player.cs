@@ -20,7 +20,7 @@ public class Player : Character
         this.initialPosition = this.transform.position;
     }
 
-    public void InitializeWith(string name, int cash, int level, float expPercent, Resource rsrc, List<Spell> spellList, List<Equipment> charSheetItems, List<Item> inventoryItems)
+    public void InitializeWith(string name, int level, float expPercent, Resource rsrc, List<Spell> spellList)
     {
         this.CharacterName = name;
         this.level = level;
@@ -29,24 +29,19 @@ public class Player : Character
         if (rsrc == null)
         {
             resource = new Mana();
+        } else
+        {
+            resource = rsrc;
         }
 
         ClearSpells();
         foreach(Spell spell in spellList)
         {
-            AddSpell(spell);
-        }
-        this.stats = GetBaseStatsForLevel(level);
-        foreach(Equipment item in charSheetItems)
-        {
-            FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
-        }
-        foreach(Item item in inventoryItems)
-        {
-            FindUtils.GetInventoryGrid().AddItem(item);
+            base.AddSpell(spell);
         }
 
-        FindUtils.GetInventoryGrid().AddCash(cash);
+        FindUtils.GetSpellBookGrid().UpdateSpellBook();
+        this.stats = GetBaseStatsForLevel(this.level);
 
 
         /*
@@ -119,7 +114,7 @@ public class Player : Character
 
         if (Input.GetMouseButtonDown(0))
         {
-            FindUtils.GetInterface().Click();
+            Interface.Click();
         }
 
     }

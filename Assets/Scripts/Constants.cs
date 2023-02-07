@@ -104,6 +104,7 @@ public enum Stat {
 	maxLife
 }
 
+[System.Serializable]
 public enum EquipmentType
 {
     PlateHead,

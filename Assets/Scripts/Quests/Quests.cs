@@ -39,7 +39,7 @@ public static class Quests {
             
             Quest quest = new Quest(name, objectives, rewards); 
             quest.Start();
-            FindUtils.GetInterface().QuestAdded();
+            Interface.QuestAdded();
             quests.Add(name, quest);
             UpdateQuestLog();
         }

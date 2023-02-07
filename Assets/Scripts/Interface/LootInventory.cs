@@ -15,7 +15,7 @@ public class LootInventory : MonoBehaviour, Slotable
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenInventory();
+        Interface.OpenInventory();
     }
     
 
@@ -178,7 +178,7 @@ public class LootInventory : MonoBehaviour, Slotable
         {
             loot.isOpen = false;
         }
-        FindUtils.GetInterface().CloseInventory();
+        Interface.CloseInventory();
         Close();
     }
 

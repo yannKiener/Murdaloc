@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 [Serializable]
 public class Equipment : Item
@@ -11,6 +12,7 @@ public class Equipment : Item
     protected Stats stats;
     protected EquipmentType type;
     public bool isEquipped;
+    public string spriteName;
 
     public Equipment(string itemName, string description, int levelRequirement, Stats stats, EquipmentType type)
     {
@@ -22,9 +24,27 @@ public class Equipment : Item
         this.type = type;
         isEquipped = false;
         isInInventory = true;
-        
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
+        this.spriteName = image.name;
     }
+
+    public override void LoadImage()
+    {
+        this.image = InterfaceUtils.LoadSpriteForItem(itemName);
+        if (image.name == "Default")
+        {
+            List<Sprite> spriteList =  DatabaseUtils.LoadAllSpritesForType(type).ToList<Sprite>();
+            foreach(Sprite sp in spriteList)
+            {
+                if (spriteName.Equals(sp.name))
+                {
+                    this.image = sp;
+                    break;
+                }
+            }
+        }
+    }
+
 
     public override string GetDescription()
     {
@@ -34,6 +54,7 @@ public class Equipment : Item
     public void SetImage(Sprite image)
     {
         this.image = image;
+        this.spriteName = image.name;
     }
 
     public EquipmentSlot GetEquipmentSlot()

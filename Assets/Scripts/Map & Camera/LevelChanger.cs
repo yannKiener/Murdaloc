@@ -12,7 +12,6 @@ public class LevelChanger : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Interface.DrawModalDialog(Message, new System.Action(() => GameUtils.LoadScene(Scene)));
-            //Change level
         }
     }
 

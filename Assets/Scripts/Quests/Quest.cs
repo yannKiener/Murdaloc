@@ -72,7 +72,7 @@ public class Quest{
 	
 	public void SetReady()
     {
-        FindUtils.GetInterface().QuestReadyToTurnIn(); 
+        Interface.QuestReadyToTurnIn(); 
         Debug.Log("Quest Ready to turn in!");
         DialogStatus.SetStatus(questName + "Ready", true);
         isQuestReady = true;
@@ -100,7 +100,7 @@ public class Quest{
 	
 	public void End()
     {
-        FindUtils.GetInterface().QuestDone();
+        Interface.QuestDone();
         removeObjectiveItemsInInventory();
         foreach (Item i in rewards)
         {

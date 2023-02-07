@@ -12,12 +12,12 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenCharsheet();
+        Interface.OpenCharsheet();
     }
 
     void OnDisable()
     {
-        FindUtils.GetInterface().CloseCharsheet();
+        Interface.CloseCharsheet();
     }
 
     public void OnDragFrom(GameObject slot)
@@ -341,6 +341,20 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         RemoveEquipmentSlot(getSlotWithEquipment(weap2), false);
         EquipEquipment(weap2);
         EquipEquipment(weaponToEquip);
+    }
+
+    public List<Equipment> GetEquipments()
+    {
+        List<Equipment> stuff = new List<Equipment>();
+        foreach (Transform child in transform)
+        {
+            Equipment eq = (Equipment)child.gameObject.GetComponent<Slot>().usable;
+            if (eq != null)
+            {
+                stuff.Add(eq);
+            }
+        }
+        return stuff;
     }
 
     public Stats GetStuffStats()

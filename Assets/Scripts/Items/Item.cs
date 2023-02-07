@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class Item : Usable {
 
     protected string itemName;
     protected string description = "MissingDesc";
     public bool isInInventory;
+    [System.NonSerialized]
     protected Sprite image;
     protected int sellPrice;
+
+
+    public virtual void LoadImage()
+    {
+    }
 
     public virtual int GetSellPrice()
     {

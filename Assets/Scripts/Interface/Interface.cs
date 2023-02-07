@@ -23,25 +23,25 @@ public class Interface : MonoBehaviour
     public GUIStyle buttonStyle;
     public List<GameObject> backgroundObjectsListDefault;
 
-    public AudioClip click;
-    public AudioClip cancel;
-    public AudioClip openWindow;
-    public AudioClip closeWindow;
-    public AudioClip openVendor;
-    public AudioClip closeVendor;
-    public AudioClip coinSound;
-    public AudioClip openInventory;
-    public AudioClip closeInventory;
-    public AudioClip openSpellBook;
-    public AudioClip closeSpellBook;
-    public AudioClip openCharSheet;
-    public AudioClip closeCharSheet;
-    public AudioClip openQuestLog;
-    public AudioClip closeQuestLog;
-    public AudioClip questDone;
-    public AudioClip questAdded;
-    public AudioClip questReady;
-    public AudioClip levelUp;
+    public static AudioClip click;
+    public static AudioClip cancel;
+    public static AudioClip openWindow;
+    public static AudioClip closeWindow;
+    public static AudioClip openVendor;
+    public static AudioClip closeVendor;
+    public static AudioClip coinSound;
+    public static AudioClip openInventory;
+    public static AudioClip closeInventory;
+    public static AudioClip openSpellBook;
+    public static AudioClip closeSpellBook;
+    public static AudioClip openCharSheet;
+    public static AudioClip closeCharSheet;
+    public static AudioClip openQuestLog;
+    public static AudioClip closeQuestLog;
+    public static AudioClip questDone;
+    public static AudioClip questAdded;
+    public static AudioClip questReady;
+    public static AudioClip levelUp;
 
     static Player player;
 	static Character target;
@@ -76,85 +76,85 @@ public class Interface : MonoBehaviour
         return FindUtils.GetInterface().backgroundObjectsListDefault;
     }
 
-    public void Click()
+    public static void Click()
     {
         SoundManager.PlaySound(click);
     }
-    public void Cancel()
+    public static void Cancel()
     {
         SoundManager.PlaySound(cancel);
     }
-    public void OpenVendor()
+    public static void OpenVendor()
     {
         SoundManager.PlaySound(openVendor);
     }
-    public void CloseVendor()
+    public static void CloseVendor()
     {
         SoundManager.PlaySound(closeVendor);
     }
-    public void CoinSound()
+    public static void CoinSound()
     {
         SoundManager.PlaySound(coinSound);
     }
-    public void OpenWindow(bool playSound = true)
+    public static void OpenWindow(bool playSound = true)
     {
         if (playSound)
         {
             SoundManager.PlaySound(openWindow);
         }
     }
-    public void CloseWindow(bool playSound = true)
+    public static void CloseWindow(bool playSound = true)
     {
         if (playSound)
         {
             SoundManager.PlaySound(closeWindow);
         }
     }
-    public void OpenInventory()
+    public static void OpenInventory()
     {
         SoundManager.PlaySound(openInventory);
     }
-    public void CloseInventory()
+    public static void CloseInventory()
     {
         SoundManager.PlaySound(closeInventory);
     }
-    public void OpenSpellbook()
+    public static void OpenSpellbook()
     {
         SoundManager.PlaySound(openSpellBook);
     }
-    public void CloseSpellbook()
+    public static void CloseSpellbook()
     {
         SoundManager.PlaySound(closeSpellBook);
     }
-    public void OpenCharsheet()
+    public static void OpenCharsheet()
     {
         SoundManager.PlaySound(openCharSheet);
     }
-    public void CloseCharsheet()
+    public static void CloseCharsheet()
     {
         SoundManager.PlaySound(closeCharSheet);
     }
-    public void OpenQuestlog()
+    public static void OpenQuestlog()
     {
         SoundManager.PlaySound(openQuestLog);
     }
-    public void CloseQuestlog()
+    public static void CloseQuestlog()
     {
         SoundManager.PlaySound(closeQuestLog);
     }
-    public void QuestDone()
+    public static void QuestDone()
     {
         SoundManager.PlaySound(questDone);
     }
-    public void QuestAdded()
+    public static void QuestAdded()
     {
         SoundManager.PlaySound(questAdded);
     }
-    public void QuestReadyToTurnIn()
+    public static void QuestReadyToTurnIn()
     {
         SoundManager.PlaySound(questReady);
     }
-    public void LevelUp()
+    public static void LevelUp()
     {
         SoundManager.PlaySound(levelUp);
     }
@@ -188,13 +188,13 @@ public class Interface : MonoBehaviour
 
     public static void OpenMenu(bool playSound = true)
     {
-        FindUtils.GetInterface().OpenWindow(playSound);
+        Interface.OpenWindow(playSound);
         isMenuOpen = true;
     }
 
     public static void CloseMenu(bool playSound = true)
     {
-        FindUtils.GetInterface().CloseWindow(playSound);
+        Interface.CloseWindow(playSound);
         isMenuOpen = false;
     }
 

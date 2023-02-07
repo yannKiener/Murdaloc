@@ -34,13 +34,13 @@ public class SpellBook : MonoBehaviour, Slotable {
 
     void OnDisable()
     {
-        FindUtils.GetInterface().CloseSpellbook();
+        Interface.CloseSpellbook();
         doUpdate = true;
     }
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenSpellbook();
+        Interface.OpenSpellbook();
         if (doUpdate)
         {
             UpdateSpellBook();

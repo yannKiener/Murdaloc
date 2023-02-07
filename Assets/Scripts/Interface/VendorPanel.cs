@@ -23,12 +23,12 @@ public class VendorPanel : MonoBehaviour
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenVendor();
+        Interface.OpenVendor();
     }
 
     void OnDisable()
     {
-        FindUtils.GetInterface().CloseVendor();
+        Interface.CloseVendor();
     }
 
     private void clearChilds(Transform t)

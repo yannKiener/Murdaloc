@@ -10,12 +10,12 @@ public class QuestGrid : MonoBehaviour {
 
     void OnEnable()
     {
-        FindUtils.GetInterface().OpenQuestlog();
+        Interface.OpenQuestlog();
     }
 
     void OnDisable()
     {
-        FindUtils.GetInterface().CloseQuestlog();
+        Interface.CloseQuestlog();
     }
 
     public void ShowQuestDetails(string questStr)

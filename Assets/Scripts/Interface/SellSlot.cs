@@ -26,7 +26,7 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 if (inv.AddItem(item))
                 {
-                    FindUtils.GetInterface().CoinSound();
+                    Interface.CoinSound();
                     inv.RemoveCash((int)(item.GetSellPrice() * Constants.BuyPriceMultiplier));
                     if (!hasInfinite)
                         Destroy(this.gameObject);

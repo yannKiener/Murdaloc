@@ -46,7 +46,6 @@ public static class Items
         JSONObject equipment = DatabaseUtils.GetJsonEquipment(equipmentName);
         if (equipment == null)
         {
-            Debug.Log("Equipment is not found in DB : " + equipmentName);
             return null;
         }
         else

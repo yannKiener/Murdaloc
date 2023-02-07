@@ -98,6 +98,10 @@ public static class InterfaceUtils {
             HideVendorBox();
             return true;
         }
+        if (FindUtils.GetLoot().activeSelf)
+        {
+            HideLoot();
+        }
         return false;
     }
 
@@ -125,6 +129,10 @@ public static class InterfaceUtils {
     public static void HideVendorBox()
     {
         FindUtils.GetVendorBox().SetActive(false);
+    }
+    public static void HideLoot()
+    {
+        FindUtils.GetLoot().SetActive(false);
     }
 
 

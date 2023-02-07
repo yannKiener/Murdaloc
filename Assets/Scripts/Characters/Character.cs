@@ -233,7 +233,7 @@ public abstract class Character : MonoBehaviour
 
 	public virtual void LevelUp(){
         MessageUtils.Message("Level up !");
-        FindUtils.GetInterface().LevelUp();
+        Interface.LevelUp();
         level++;
 		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
         if(FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) == null)
@@ -674,7 +674,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void AddSpell(Spell spell)
     {
-        spellList.Add(spell.GetName(), spell);
+        spellList[spell.GetName()] =  spell;
     }
 
     public void CastSpell(string spellName)

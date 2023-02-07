@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class Consumable : Item
 {
 
     private int stacks;
+    [System.NonSerialized]
     private Spell spell;
+    private string spellName;
 
     public Consumable(string name, string description, Spell spell)
     {
@@ -16,8 +19,19 @@ public class Consumable : Item
         stacks = 1;
         this.itemName = name;
         this.spell = spell;
+        this.spellName = spell.GetName();
         this.description = description;
         this.image = InterfaceUtils.LoadSpriteForConsumable(itemName);
+    }
+
+    public override void LoadImage()
+    {
+        this.image = InterfaceUtils.LoadSpriteForConsumable(itemName);
+    }
+
+    public void LoadSpell()
+    {
+        this.spell = Spells.Get(spellName);
     }
 
     public override string GetDescription()
