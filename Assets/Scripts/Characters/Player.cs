@@ -11,6 +11,7 @@ public class Player : Character
 	private int enemyOffset = 0;
     private float experiencePercent;
     private Vector3 initialPosition;
+    private float xSpeed;
 
     private void Awake()
     {
@@ -55,6 +56,11 @@ public class Player : Character
         */
     }
 
+    public void SetXSpeed(float xSpd)
+    {
+        xSpeed = xSpd;
+    }
+
     void Controls()
     {
         if (Input.GetButtonDown("CycleTargets"))
@@ -94,6 +100,8 @@ public class Player : Character
         {
             InterfaceUtils.ShowHideQuestLog();
         }
+
+        SetXSpeed(Input.GetAxis("Horizontal"));
 
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -206,8 +214,6 @@ public class Player : Character
 
 	private void MovePlayer(Rigidbody2D player)
 	{
-		float xSpeed = Input.GetAxis("Horizontal");
-
         if(IsCasting() && (xSpeed > 0.1f || xSpeed < -0.1f))
         {
             CancelCast();
