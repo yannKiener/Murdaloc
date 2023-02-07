@@ -29,8 +29,10 @@ public abstract class Character : MonoBehaviour
 	protected bool autoAttackEnabled = true;
 	protected bool autoAttackIsCrit = false;
 	protected float autoAttackTime = 0f;
+    protected Dictionary<string, int> lootTable;
+    protected bool isElite;
 
-    public void Initialize(string name)
+    public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, int> lootTable = null)
 	{
 		if (resource == null) {
 			resource = new Mana ();
@@ -40,11 +42,52 @@ public abstract class Character : MonoBehaviour
 		currentResource = stats.MaxResource;
         this.charName = name;
 		casting = false;
+        this.level = level;
 		isDead = false;
 		castingSpell = null;
+        this.isElite = isElite;
+        if(lootTable == null)
+        {
+            //LootTable = GetDefaultLootTableForLevel 
+        }
+        this.lootTable = lootTable;
     }
 
-	public Stats GetStats(){
+    public List<Item> GetLoots()
+    {
+        List<Item> result = new List<Item>();
+        if( lootTable != null) { 
+            foreach(KeyValuePair<string, int> kv in lootTable)
+            {
+                if(Random.Range(0,101) < kv.Value)
+                {
+                    result.Add(Items.GetFromDB(kv.Key));
+                }
+            }
+        }
+        return result;
+    }
+
+    public void SetLootTable(Dictionary<string, int> lootTable)
+    {
+        this.lootTable = lootTable;
+    }
+
+    public Dictionary<string, int> GetLootTable()
+    {
+        return lootTable;
+    }
+
+    public void AddLootTable(Dictionary<string, int> lootTable)
+    {
+        foreach(KeyValuePair<string, int> kv in lootTable)
+        {
+            this.lootTable.Add(kv.Key, kv.Value);
+        }
+    }
+
+
+    public Stats GetStats(){
 		return stats;
     }
 

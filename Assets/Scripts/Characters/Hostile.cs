@@ -119,8 +119,17 @@ public class Hostile : Character
 		}
 	}
 
+    public override void kill()
+    {
+        foreach(Item item in this.GetLoots())
+        {
+            FindUtils.GetInventoryGrid().AddItem(item);
+        }
+        base.kill();
+    }
 
-	IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
+
+    IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
 	{
 		yield return new WaitForSeconds(delayTime);
 		Destroy(obj);

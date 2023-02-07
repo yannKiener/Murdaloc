@@ -8,7 +8,16 @@ public class WarlockGnoll : MonoBehaviour {
 	void Start () {
 
 		Hostile mob = gameObject.AddComponent<Hostile>();
-		mob.Initialize("Warlock Gnoll");
+        Dictionary<string, int> lootTable = new Dictionary<string, int>();
+        lootTable.Add("Torsoitem", 50);
+        lootTable.Add("Headitem", 20);
+        lootTable.Add("Legsitem", 20);
+        lootTable.Add("Beltitem", 20);
+        lootTable.Add("Handsitem", 20);
+        lootTable.Add("Ringitem", 20);
+        lootTable.Add("Feetitem", 20);
+        lootTable.Add("Weapon1item", 20);
+        mob.Initialize("Warlock Gnoll",2,false, lootTable);
 		mob.AddSpell (Spells.Get ("Corruption"));
 	}
 	

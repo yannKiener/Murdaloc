@@ -51,6 +51,11 @@ public static class InterfaceUtils {
 
     public static Sprite LoadSpriteForItem(string name)
     {
-        return Resources.Load<Sprite>("Images/Items/" + name) as Sprite;
+        Sprite result = Resources.Load<Sprite>("Images/Items/" + name) as Sprite; 
+        if(result == null)
+        {
+            result = Resources.Load<Sprite>("Images/Items/Default") as Sprite;
+        }
+        return result;
     }
 }

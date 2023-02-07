@@ -46,7 +46,7 @@ public class Player : Character
 			print ("LevelUp ! Testing...");
 			LevelUp ();
 			stats.displayStats ();
-            FindUtils.GetInventoryGrid().AddItem(new Item("Test","Item for testing", 3, new Stats(1,10,20,30,40,50,60,70,false),"Head"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetFromDB("Headitem"));
             AddSpell(Spells.Get("Icelance"));
         }
 

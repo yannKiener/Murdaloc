@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
 public class Item : Usable {
 
     protected string itemName;
@@ -25,7 +27,7 @@ public class Item : Usable {
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
         if (image == null)
         {
-            Debug.Log("Image null");
+            Debug.Log("Image null for "+ itemName);
         }
 
     }
