@@ -28,6 +28,7 @@ public abstract class Character : MonoBehaviour
 	protected Resource resource;
 	protected bool hasCasted = false;
 	protected Stats stats;
+	protected float gcd = 0;
 
     public void Initialize(string name)
 	{
@@ -157,6 +158,7 @@ public abstract class Character : MonoBehaviour
 		UpdateCombat();
 		UpdateRegen();
 		UpdateEffects ();
+		UpdateGCD ();
 	}
 		
 
@@ -212,6 +214,12 @@ public abstract class Character : MonoBehaviour
 				effect.Update ();
 			}
 
+		}
+	}
+
+	protected void UpdateGCD(){
+		if (gcd > 0) {
+			gcd -= Time.deltaTime;
 		}
 	}
 
@@ -285,7 +293,6 @@ public abstract class Character : MonoBehaviour
 
     public void AddSpell(Spell spell)
     {
-		//print(spell.GetName());
         spellList.Add(spell.GetName(), spell);
     }
 
@@ -298,13 +305,20 @@ public abstract class Character : MonoBehaviour
 		if(!casting) 
 		{
 			castingSpell = spell;
-			if (castingSpell.IsCastable(this,target)) {
+			if (GCDReady() && castingSpell.IsCastable(this,target)) {
 				casting = true;
+				gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
 			} else {
 				castingSpell = null;
 			}
 		}
+	}
 
+	protected bool GCDReady(){
+		bool isReady = gcd <= 0;
+		if (!isReady)
+			print ("GCD : " + gcd);
+		return isReady;
 	}
     
     protected void UpdateCast()

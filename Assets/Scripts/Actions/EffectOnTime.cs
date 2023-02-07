@@ -70,7 +70,7 @@ public class EffectOnTime
 		this.attachedCharacter = effect.attachedCharacter;
 		this.caster = effect.caster;
 		this.isStackable = effect.isStackable;
-		this.timePerTic = timePerTic - timePerTic * caster.GetStats ().Haste / 200; // pour prendre en compte la hate du caster
+		this.timePerTic = timePerTic - timePerTic * caster.GetStats ().Haste / Constants.hasteDivider; // pour prendre en compte la hate du caster
 	}
 		
 

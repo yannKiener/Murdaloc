@@ -32,8 +32,9 @@ public abstract class Spell
     protected List<EffectOnTime> effectsOnSelf;
     protected int damage;
 	protected bool isCrit = false;
+	protected float maxDistance;
 
-	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,float maxDistance,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
 	{
 		this.spellName = name.ToLower();
 		this.description = description;
@@ -44,9 +45,10 @@ public abstract class Spell
 		this.damage = damage;
 		this.effectsOnTarget = effectsOnTarget;
 		this.effectsOnSelf = effectsOnSelf;
+		this.maxDistance = maxDistance;
 	}
 
-	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
+	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,float maxDistance)
 	{
 		this.spellName = name.ToLower();
 		this.description = description;
@@ -55,12 +57,24 @@ public abstract class Spell
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
 		this.damage = damage;
+		this.maxDistance = maxDistance;
 	}
 
 
 	public virtual bool IsCastable(Character caster, Character target){
-		return (caster.GetCurrentResource () >= resourceCost); //TODO : Ajouter le level et la distance plus tard
+		return (caster.GetCurrentResource () >= resourceCost && checkDistance(caster,target)); //TODO : Ajouter le level 
 	}
+
+	protected bool checkDistance(Character caster, Character target){
+		bool isDistanceOK = Mathf.Abs ((caster.transform.position.x - target.transform.position.x)) < maxDistance;
+		if (!isDistanceOK) {
+			Debug.Log (target.name+" is too far");
+		}
+
+		return isDistanceOK;
+
+	}
+
 
     public string GetName() {
         return spellName;
@@ -83,7 +97,7 @@ public abstract class Spell
 
 
 	public float GetCastTime(Stats stats) {
-		return castTime - castTime * stats.Haste/200;
+		return castTime - castTime * stats.Haste/Constants.hasteDivider;
     }
 
     public int GetLevelRequirement()

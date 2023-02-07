@@ -18,4 +18,7 @@ public static class Constants {
 	public static readonly bool drawCastBar = true;
 	public static readonly float castBarwPercent = 22;
 	public static readonly float castBarhPercent = 4;
+
+	public static readonly float GlobalCooldown = 1f;
+	public static readonly int hasteDivider = 200;
 }

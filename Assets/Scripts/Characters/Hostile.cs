@@ -9,6 +9,8 @@ public class Hostile : Character
 	private int direction = 0;
 
 	void Start(){
+		this.gameObject.tag = "Enemy";
+		this.gameObject.layer = 9;
 		InvokeRepeating ("randomizeDirection", 1f, 1f);
 	}
 

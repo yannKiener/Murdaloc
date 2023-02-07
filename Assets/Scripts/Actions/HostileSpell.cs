@@ -6,12 +6,12 @@ using UnityEngine;
 [System.Serializable]
 public class HostileSpell : Spell
 {
-	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD){
+	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD, float minD) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD,minD){
 
 
 	}
 
-	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD,effectsOnTarget,effectsOnSelf){
+	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD, float minD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD,minD,effectsOnTarget,effectsOnSelf){
 
 
 	}
@@ -49,7 +49,7 @@ public class HostileSpell : Spell
 	}
 
 	public override bool IsCastable(Character caster, Character target){
-		return base.IsCastable (caster,target) && target != null;
+		return target != null && base.IsCastable (caster,target) ;
 	}
 
 }
