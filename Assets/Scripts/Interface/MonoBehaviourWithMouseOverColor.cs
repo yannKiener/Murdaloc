@@ -45,8 +45,4 @@ public class MonoBehaviourWithMouseOverColor : MonoBehaviour, IPointerEnterHandl
         }
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

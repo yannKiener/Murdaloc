@@ -34,9 +34,5 @@ public class FloatingText : MonoBehaviour {
 	public void setColor(Color color){
 		this.color = color;
 	}
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    
 }

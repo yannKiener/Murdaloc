@@ -13,11 +13,6 @@ public class ChoiceContainer : MonoBehaviourWithMouseOverColor, IPointerClickHan
         base.Start();
         transform.parent.position += new Vector3(0, Screen.height / 20, 0);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Initialize(Choice choice)
     {

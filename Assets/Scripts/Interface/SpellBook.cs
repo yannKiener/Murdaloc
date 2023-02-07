@@ -27,11 +27,6 @@ public class SpellBook : MonoBehaviour, Slotable {
         eventData.Use();
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
-
     void OnDisable()
     {
         Interface.CloseSpellbook();

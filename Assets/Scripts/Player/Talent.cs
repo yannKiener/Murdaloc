@@ -73,6 +73,7 @@ public class Talent
     {
         while (stacks > 0)
         {
+            FindUtils.GetPlayer().AddTalentPoint();
             RemoveEffect();
             stacks--;
         }

@@ -161,9 +161,8 @@ public abstract class Character : MonoBehaviour
                 } else if(kv.Value is string)
                 {
                     string stringValue = kv.Value.ToString();
-                    if (DialogStatus.GetStatus(stringValue + "Started") && !DialogStatus.GetStatus(stringValue + "Ready")) 
+                    if (DialogStatus.GetStatus(stringValue + "Started") && !DialogStatus.GetStatus(stringValue + "Ready") && !DialogStatus.GetStatus(stringValue + "Over")) 
                     {
-                        //TODOO : Vérifier par l'objectif de la quête avec un truc genre "GetObjectiveWithEquipment(string itemName)" si c'est lootable ou non
                         result.Add(Items.GetQuestEquipmentFromDB(kv.Key));
                     }
                 }
@@ -749,7 +748,12 @@ public abstract class Character : MonoBehaviour
         if (!this.GetName().Equals(FindUtils.GetPlayer().GetName()))
         {
            FindUtils.GetDps().AddDamageToDps(damage);
+            if (!IsInCombat())
+            {
+                AggroFrom(FindUtils.GetPlayer());
+            }
         }
+
 		if (damage > 0)
         {
             createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);

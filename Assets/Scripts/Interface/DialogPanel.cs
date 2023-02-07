@@ -23,12 +23,6 @@ public class DialogPanel : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public float Initialize(Dialog dialog)
     {
         clearChilds(transform.Find("ChoicesContainer"));

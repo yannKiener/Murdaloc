@@ -78,7 +78,6 @@ public class TalentSheet : MonoBehaviour
         ResetSpec(spec2);
         ResetSpec(spec3);
         ResetSlotText();
-        FindUtils.GetPlayer().ResetTalentPoints();
         UpdateTalentsPointsRemainingText();
     }
 
@@ -205,11 +204,5 @@ public class TalentSheet : MonoBehaviour
     public void SelectSpecThree()
     {
         LoadTalentsForSpec(spec3);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
