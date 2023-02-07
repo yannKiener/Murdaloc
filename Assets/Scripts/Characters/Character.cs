@@ -123,17 +123,13 @@ public class Player : AbstractCharacter
 
 
         //EnemyManagement
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+		if (Input.GetKeyDown(KeyCode.Alpha1))
         {
 			castSpell(actionBar[0]);
 		}
 		if (Input.GetKeyDown(KeyCode.Alpha2))
         {
 		    castSpell(actionBar[1]);
-		}
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-			attackTarget (target);
 		}
 		manageCombat ();
         MovePlayer(GetComponent<Rigidbody2D>()); 
@@ -201,14 +197,6 @@ public class Player : AbstractCharacter
 		//print ("-combat");
 		inCombat = false;
 		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
-	}
-
-	private void attackTarget (Character tar) {
-		enemyList.Remove (tar);
-        tar.kill();
-		if (enemyList.Count != 0) {
-            target = enemyList[0];
-		}
 	}
 
 	private void limitMapToCamera () {
