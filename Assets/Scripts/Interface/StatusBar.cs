@@ -31,9 +31,18 @@ public class StatusBar : MonoBehaviour {
 		if (!attachedCharacter.IsInCombat ()) {
 			removeSelf ();
 		}
-		
 	}
-		
+
+
+	void LateUpdate(){
+		Vector3 pos = GetComponent<RectTransform> ().localPosition;
+		if (pos.y < 1) {
+			pos.y = 1;
+		}
+		GetComponent<RectTransform> ().localPosition = new Vector3 (0, pos.y);
+
+	}
+
 	private void removeSelf(){
 		GameObject.Destroy(this.gameObject);
 	}
