@@ -111,8 +111,7 @@ public static class InputManager
     {
         if (updateShortCutFor(bindingsPlayer, actionName, shortcut) || updateShortCutFor(bindingsInterface, actionName, shortcut) || updateShortCutFor(bindingsActionBar, actionName, shortcut))
         {
-            LoadBindingsToGame();
-            //SaveBindings();
+            SaveBindings();
         }
         else
         {
