@@ -51,16 +51,19 @@ public class Hostile : Character
 			int i = 0;
 			while (i < hitColliders.Length)
 			{
-				if (hitColliders[i].tag == "Player")
-				{
-					Character player = hitColliders [i].gameObject.GetComponent<Character> ();
-					AggroTarget(player);
+                if (hitColliders[i].tag == "Player")
+                {
+                    Character player = hitColliders[i].gameObject.GetComponent<Character>();
+                    if (!player.IsDead())
+                    {
+                        AggroTarget(player);
 
-					//Todo : Supprimer ca plus tard c'est juste pour la déco
-					GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
-					aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
-					StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
-					AggroOthers (player);
+                        //Todo : Supprimer ca plus tard c'est juste pour la déco
+                        GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
+                        aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
+                        StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
+                        AggroOthers(player);
+                    }
 				}
 				i++;
 			}  
@@ -80,7 +83,7 @@ public class Hostile : Character
 
 
 	private void move(Rigidbody2D mob){
-		if (!casting) {
+		if (!casting && !IsDead()) {
 			if (inCombat) {
 				float targetPos = target.GetGameObject ().transform.position.x;
 				float selfPos = this.gameObject.transform.position.x;

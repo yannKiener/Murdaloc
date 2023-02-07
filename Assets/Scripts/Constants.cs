@@ -78,6 +78,7 @@ public static class Constants {
     public static readonly float AggroDistance = 2;
 	public static readonly float AggroOtherDistance = 2;
     public static readonly float LootMaxDistance = 3.2f;
+    public static readonly float TimeToFadeInOrOut = 1f;
 
 
     //Save

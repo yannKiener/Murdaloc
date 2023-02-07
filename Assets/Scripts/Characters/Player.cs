@@ -208,7 +208,10 @@ public class Player : Character
 	{
 		UpdateCharacter ();
         Controls();
-        MovePlayer(GetComponent<Rigidbody2D>()); 
+        if (!IsDead())
+        {
+            MovePlayer(GetComponent<Rigidbody2D>());
+        }
 	}
 
     public override void LevelUp()
@@ -294,8 +297,8 @@ public class Player : Character
             jumping = false;
         }*/
 		jumping = false;
-
-	}
+        anim.Play("Stand");
+    }
 
 	private void MovePlayer(Rigidbody2D player)
     {
@@ -326,7 +329,8 @@ public class Player : Character
 		{
 			ySpeed = Constants.JumpForce;
 			jumping = true;
-		}
+            anim.Play("Jump",-1,0f);
+        }
 
 		player.velocity = new Vector2(xSpeed * stats.MaxSpeed, ySpeed);
 

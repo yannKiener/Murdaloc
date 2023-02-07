@@ -49,7 +49,7 @@ public class StatusBar : MonoBehaviour {
             }
 		} 
 
-		if (!attachedCharacter.IsInCombat ()) {
+		if (!attachedCharacter.IsInCombat () || attachedCharacter.IsDead()) {
 			removeSelf ();
 		}
 	}

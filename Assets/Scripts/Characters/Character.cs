@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public abstract class Character : MonoBehaviour 
 {
@@ -415,17 +416,23 @@ public abstract class Character : MonoBehaviour
 
 
     protected void UpdateCharacter(){
-		UpdateCast();
-		UpdateCombat();
-		UpdateRegen();
-		UpdateEffects ();
-		UpdateGCD ();
-		UpdateAutoAttack ();
-		UpdateCoolDowns ();
-	}
+        if (!IsDead())
+        {
+            UpdateCast();
+            UpdateCombat();
+            UpdateRegen();
+            UpdateEffects();
+            UpdateGCD();
+            UpdateAutoAttack();
+            UpdateCoolDowns();
+        }
+    }
 
 	void OnMouseDown(){
-		FindUtils.GetPlayer().SetTarget (this);
+        if (!IsDead())
+        {
+            FindUtils.GetPlayer().SetTarget(this);
+        }
 	}
 		
 
@@ -488,9 +495,10 @@ public abstract class Character : MonoBehaviour
 		spellsOnCD.Add (s);
 	}
 
-    protected void PlayAutoAttackSound(bool isMainWeapon)
+    protected void PlayAutoAttackSoundAndAnim(bool isMainWeapon)
     {
-        string weapType = "Unarmed";
+        string unarmed = "Unarmed";
+        string weapType = unarmed;
         if (this is Player)
         {
             Equipment weap;
@@ -507,6 +515,31 @@ public abstract class Character : MonoBehaviour
             }
         }
 
+        if (anim != null)
+        {
+            if (weapType.Equals(unarmed)){
+
+                anim.Play("Attack");
+            } else {
+                string attackAnim = "Attack";
+
+                if (weapType.Contains("TwoHanded"))
+                {
+                    attackAnim += "2h";
+                } else
+                {
+                    attackAnim += "1h";
+                }
+
+                //Choose from two anims randomly
+                if(Random.Range(0,2) == 0)
+                {
+                    attackAnim += "2";
+                }
+                anim.Play(attackAnim);
+            } 
+        }
+
         SoundManager.PlaySound(DatabaseUtils.GetWeaponAudio(weapType)); 
     }
 
@@ -520,11 +553,7 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack1Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
-                    PlayAutoAttackSound(true);
-                    if(anim != null)
-                    {
-                        anim.SetTrigger("Attack");
-                    }
+                    PlayAutoAttackSoundAndAnim(true);
                     //Todo Animation Auto Attack 1
                 }
             }
@@ -536,12 +565,8 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack2Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
-                    PlayAutoAttackSound(false);
-
-                    if (anim != null)
-                    {
-                        anim.SetTrigger("Attack");
-                    }
+                    PlayAutoAttackSoundAndAnim(false);
+                    
                     //Todo Animation Auto Attack 2
                 }
             }
@@ -674,8 +699,36 @@ public abstract class Character : MonoBehaviour
         }
 
 		isDead = true;
-		gameObject.SetActive (false);
-        //GameObject.Destroy(this.gameObject);
+        CancelTarget();
+
+        cakeslice.Outline outline = this.GetComponent<cakeslice.Outline>();
+        if(outline != null)
+        {
+            Destroy(outline);
+        }
+
+        if (anim != null)
+        {
+            anim.Play("Death");
+            if(!(this is Player))
+            {
+                StartCoroutine("FadeOut");
+            }
+        } else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator FadeOut()
+    {
+        Color spriteColor = transform.GetComponent<SpriteRenderer>().color;
+        float alpha = spriteColor.a;
+        while (alpha > 0f) {
+            alpha -= Time.deltaTime / Constants.TimeToFadeInOrOut;
+            transform.GetComponent<SpriteRenderer>().color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+            yield return null;
+        }
     }
 
     public string GetName()
@@ -775,7 +828,7 @@ public abstract class Character : MonoBehaviour
         castingSpell.Cast (this, target);
         if (anim != null)
         {
-            anim.SetTrigger("Cast");
+            anim.Play("Cast");
         }
         castingTime = 0;
         casting = false;
