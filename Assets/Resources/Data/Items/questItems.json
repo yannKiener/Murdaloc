@@ -1,6 +1,6 @@
 {  
-   "Wedding Ring":{  
-      "description":"The friendly murloc's wedding ring",
+   "Gorkr's lucky ring":{  
+      "description":"Looks like a regular ring.",
       "levelRequirement":1,
       "type":"Ring",
       "stats":{  

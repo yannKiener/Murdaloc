@@ -20,6 +20,14 @@ public static class InterfaceUtils {
                 stackGo.GetComponent<Text>().text = ((Consumable)usable).GetStacks().ToString();
             }
         }
+        if (usable is Useless)
+        {
+            GameObject stackGo = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/UI/Stacks"), usableSlot.transform);
+            if (((Useless)usable).GetStacks() > 1)
+            {
+                stackGo.GetComponent<Text>().text = ((Useless)usable).GetStacks().ToString();
+            }
+        }
     }
 
     public static Texture2D GetTextureWithColor(Color col)
@@ -69,6 +77,10 @@ public static class InterfaceUtils {
     public static Sprite LoadSpriteForConsumable(string name)
     {
         return LoadSpriteForItem("Consumable/" + name);
+    }
+    public static Sprite LoadSpriteForUseless(string name)
+    {
+        return LoadSpriteForItem("Useless/" + name);
     }
     public static Sprite LoadSpriteForItem(string name)
     {

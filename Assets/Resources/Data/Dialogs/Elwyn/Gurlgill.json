@@ -1,36 +1,36 @@
 {  
-   "text":"Hello there.",
+   "text":"Hey %T.",
    "choices":[  
       {  
-         "condition":"!WeddingRingStarted",
-         "choice":"Is everything fine?",
+         "condition":"!KillGoreTusksStarted",
+         "choice":"You need something from me?",
          "dialog":{  
-            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp to the west. I don't want to talk about why, but could you please get it for me quickly? Be careful tho, west is dangerous and terribly balanced.",
+            "text":"Indeed. There is a wild boar family, east of here. We call them GoreTusks. I hear three of them every night. Could you explain them what silence is for me ?",
             "choices":[  
                {  
                   "choice":"Allright",
                   "dialog":{  
-                     "startQuest":"WeddingRing"
+                     "startQuest":"KillGoreTusks"
                   }
                },
                {  
-                  "choice":"Hell no. <Leave>"
+                  "choice":"Nope."
                }
             ]
          }
       },
       {  
-         "condition":"WeddingRingStarted&!WeddingRingOver",
-         "choice":"About the ring...",
+         "condition":"KillGoreTusksStarted&!KillGoreTusksOver",
+         "choice":"About those GoreTusks",
          "dialog":{  
-            "text":"Keep quiet ! Don't say that out loud. Do you have it ?",
+            "text":"Yeah? Are they dead ?",
             "choices":[  
                {
-				 "condition":"WeddingRingReady",
-				 "choice":"I have the ring!",
+				 "condition":"KillGoreTusksReady",
+				 "choice":"Yup.",
 				 "dialog":{  
 					"text":"Well done %T!",
-					"endQuest":"WeddingRing",
+					"endQuest":"KillGoreTusks",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>"
@@ -40,18 +40,6 @@
                },
                {  
                   "choice":"Not yet"
-               }
-            ]
-         }
-      },
-      {  
-         "condition":"WeddingRingOver",
-         "choice":"About the ring...",
-         "dialog":{  
-            "text":"<He winks>. It's a pretty one, right ? See you later.",
-            "choices":[  
-               {  
-                  "choice":"<Leave>"
                }
             ]
          }

@@ -216,13 +216,18 @@ public class Inventory : MonoBehaviour, Slotable {
             if (tempItem is Equipment)
                 ((Equipment)tempItem).isEquipped = false;
 
-            bool isConsumable = tempItem is Consumable;
-
-            if (isConsumable && GetSlotWith(tempItem.GetName()) != null && !isFromDrag)
+            if (tempItem is Consumable && GetSlotWith(tempItem.GetName()) != null && !isFromDrag)
             {
                 getConsumableWithName(tempItem.GetName()).AddOne();
+                Quests.UpdateTrackedQuests(null);
                 return true;
-            } else
+            }
+            else if (tempItem is Useless && GetSlotWith(tempItem.GetName()) != null && !isFromDrag)
+            {
+                getUselessWithName(tempItem.GetName()).AddOne();
+                Quests.UpdateTrackedQuests(null);
+                return true;
+            } else 
             {
                 InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempItem.GetImageAsSprite(), tempItem);
                 Quests.UpdateTrackedQuests(null);
@@ -239,9 +244,20 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == itemName)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName().Equals(itemName))
             {
-                count++;
+                Item item = (Item)slot.GetChild(0).GetComponent<Draggable>().usable;
+                if (item is Consumable)
+                {
+                    count += ((Consumable)item).GetStacks();
+                } else if (item is Useless)
+                {
+                    count += ((Useless)item).GetStacks();
+                } else
+                {
+                    count++;
+                }
+
             }
         }
 
@@ -285,9 +301,22 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName().Equals(name) && slot.GetChild(0).GetComponent<Draggable>().usable is Consumable)
             {
                 return (Consumable)slot.GetChild(0).GetComponent<Draggable>().usable;
+            }
+        }
+        return null;
+    }
+
+    private Useless getUselessWithName(string name)
+    {
+        for (int i = 0; i < slotNumber; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName().Equals(name) && slot.GetChild(0).GetComponent<Draggable>().usable is Useless)
+            {
+                return (Useless)slot.GetChild(0).GetComponent<Draggable>().usable;
             }
         }
         return null;
@@ -299,7 +328,7 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName().Equals(name))
             {
                 return slot.gameObject;
             }

@@ -1,0 +1,15 @@
+{  
+   "objectives":[  
+      {  
+         "loot":{  
+            "name":"Rabbit fur",
+            "count":5
+         }
+      }
+   ],
+   "rewards":[  
+      {  
+         "item":"Shortsword"
+      }
+   ]
+}

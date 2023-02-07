@@ -1,0 +1,35 @@
+{  
+   "text":"Hey !",
+   "choices":[  
+	{
+         "condition":"Blade for everyoneOver&!Murloc expressStarted",
+         "choice":"Why are you looking at me like that?",
+         "dialog":{  
+            "text":"Oh, sorry.. It's just that you have a sword too, but not me ! They say i'm too little. That's unfair !",
+            "choices":[  
+               {  
+                  "choice":"Looks like you need a hand.",
+                  "dialog":{  
+                     "text":"Not me ! My older brother.. I'm not allowed to leave the camp, the chief always refuse. But my brother ! His name is Gorkr, and he forgot his ring ! It's like a lucky charm for him, I don't want him to get hurt.. If you're allowed to leave, could you please give it to him ? Please ! ",
+                     "choices":[  
+                        {  
+                           "choice":"<Accept>",
+                           "dialog":{  
+							  "action":"GiveGorkrsRing",
+                              "startQuest":"Murloc express"
+                           }
+                        }
+                     ]
+                  }
+               },
+               {  
+                  "choice":"You'll get one when you grow up. Eventually."
+               }
+            ]
+         }
+      },
+      {  
+         "choice":"Nevermind"
+      }
+   ]
+}

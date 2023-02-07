@@ -1,53 +1,29 @@
 {  
-   "text":"Hey %T.",
+   "text":"Hello there.",
    "choices":[  
       {  
-         "condition":"!KillGoreTusksStarted",
-         "choice":"You need something from me?",
+         "condition":"Murloc expressStarted&Murloc expressReady&!Murloc expressOver",
+         "choice":"<Show him the 'lucky' ring>",
          "dialog":{  
-            "text":"Indeed. There is a wild boar family, east of here. We call them GoreTusks. I hear three of them every night. Could you explain them what silence is for me ?",
-            "choices":[  
-               {  
-                  "choice":"Allright",
-                  "dialog":{  
-                     "startQuest":"KillGoreTusks"
-                  }
-               },
-               {  
-                  "choice":"Nope."
-               }
-            ]
+            "text":"Hey ! This is my lucky ring ! Garkl sent you, right ? Thanks a lot.",
+			"endQuest":"Murloc express",
+			 "choices":[  
+				{  
+				   "choice":"<Leave>"
+				}
+			 ]
          }
       },
       {  
-         "condition":"KillGoreTusksStarted&!KillGoreTusksOver",
-         "choice":"About those GoreTusks",
+         "condition":"Murloc expressOver",
+         "choice":"About the ring...",
          "dialog":{  
-            "text":"Yeah? Are they dead ?",
+            "text":"<He winks>. It's a pretty one, right ?",
             "choices":[  
-               {
-				 "condition":"KillGoreTusksReady",
-				 "choice":"Yup.",
-				 "dialog":{  
-					"text":"Well done %T!",
-					"endQuest":"KillGoreTusks",
-					"choices":[  
-					   {  
-						  "choice":"<Leave>"
-					   }
-					]
-				 }
-               },
                {  
-                  "choice":"Not yet"
+                  "choice":"<Leave>"
                }
             ]
-         }
-      },
-      {  
-         "choice":"Do you have something to sell ?",
-         "dialog":{  
-            "action":"Vendor"
          }
       },
       {  

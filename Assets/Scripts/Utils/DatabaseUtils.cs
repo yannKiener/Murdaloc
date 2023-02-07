@@ -75,6 +75,21 @@ public static class DatabaseUtils {
         }   
     }
 
+    public static JSONObject GetJsonUseless(string uselessName)
+    {
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/useless").text).AsObject[uselessName].AsObject;
+
+        if (result == null || result.Count == 0)
+        {
+            return null;
+        }
+        else
+        {
+            result.Add("name", uselessName);
+            return result;
+        }
+    }
+
     public static Dialog GetDialog(string sceneName, string dialogName){
         TextAsset textAsset = Resources.Load<TextAsset>("Data/Dialogs/" + sceneName+ "/"+ dialogName);
         if(textAsset != null && !textAsset.Equals(""))

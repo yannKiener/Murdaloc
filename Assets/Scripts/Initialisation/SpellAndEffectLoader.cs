@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class SpellAndEffectLoader : MonoBehaviour {
 
@@ -27,22 +28,33 @@ public class SpellAndEffectLoader : MonoBehaviour {
      */
     private void CreateSpecialisations()
     {
-        Specialisation mage = new Specialisation("Mage");
-        
-        mage.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
-        mage.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
-        mage.SetTalent(5, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova")), (player, stacks) => player.RemoveSpell("Frost nova")));
-        mage.SetTalent(6, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
-        mage.SetTalent(7, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
-        Talent icelance = new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance")), (player, stacks) => player.RemoveSpell("Icelance"));
-        mage.SetTalent(10, icelance);
-        mage.SetTalent(11, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion")), (player, stacks) => player.RemoveSpell("Fire explosion")));
-        mage.SetTalent(12, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
-        mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }, icelance));
-        mage.SetTalent(15, new Talent("Critical ice", "Your Ice Lance freeze your target on critical.", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].SetActionOnCrit((pl, tar) => { EffectsOnTime.Get("Frozen").Apply(pl, tar); }); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveActionOnCrit(); } }, icelance));
-        mage.SetTalent(16, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
+        Specialisation mageFire = new Specialisation("Fire");
 
-        Specialisations.Add(mage);
+        mageFire.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
+        mageFire.SetTalent(3, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
+        mageFire.SetTalent(6, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
+        mageFire.SetTalent(7, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion")), (player, stacks) => player.RemoveSpell("Fire explosion")));
+        mageFire.SetTalent(11, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
+        mageFire.SetTalent(16, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
+
+        Specialisations.Add(mageFire);
+
+        Specialisation mageFrost = new Specialisation("Frost");
+        mageFrost.SetTalent(1, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova")), (player, stacks) => player.RemoveSpell("Frost nova")));
+        Talent icelance = new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance")), (player, stacks) => player.RemoveSpell("Icelance"));
+        mageFrost.SetTalent(2, icelance);
+        mageFrost.SetTalent(3, new Talent("Critical ice", "Your Ice Lance freeze your target on critical.", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].SetActionOnCrit((pl, tar) => { EffectsOnTime.Get("Frozen").Apply(pl, tar); }); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveActionOnCrit(); } }, icelance));
+        mageFrost.SetTalent(4, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }, icelance));
+        Specialisations.Add(mageFrost);
+
+
+
+        Specialisation mageArcane = new Specialisation("Arcane");
+        mageArcane.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
+        mageArcane.SetTalent(2, new Talent("Empowered Renovation", "add 20% heal to your Renovation spell", 5, (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").RemoveToNormalMultiplier(20)));
+
+        Specialisations.Add(mageArcane);
+
     }
 
     private void CreateEffectsOnTime()
@@ -383,7 +395,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
     private void CreateDialogActions()
     {
-        DialogActions.Add("vendor", () => {
+        DialogActions.Add("vendor", () =>
+        {
 
             FindUtils.GetDialogBox().SetActive(false);
             FindUtils.GetVendorBox().SetActive(true);
@@ -394,9 +407,27 @@ public class SpellAndEffectLoader : MonoBehaviour {
         {
             if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
             {
-                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Mage"));
-                DialogStatus.SetStatus("MageSpecAdded", true);
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
+                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
+                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
+                DialogStatus.SetStatus("TalentTreeSelected", true);
             }
+        });
+
+        DialogActions.Add("ActivateTeleporterInArea", () =>
+        {
+            List<LevelChanger> levelChangersInZone = Resources.FindObjectsOfTypeAll<LevelChanger>().ToList();
+
+            foreach(LevelChanger lvlChanger in levelChangersInZone)
+            {
+                lvlChanger.gameObject.SetActive(true);
+            }
+        });
+
+
+        DialogActions.Add("GiveGorkrsRing", () =>
+        {
+            FindUtils.GetInventoryGrid().AddItem(Items.GetQuestEquipmentFromDB("Gorkr's lucky ring"));
         });
     }
 }

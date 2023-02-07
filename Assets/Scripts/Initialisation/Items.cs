@@ -19,6 +19,10 @@ public static class Items
         Item result = GetEquipmentFromDB(itemName);
         if (result == null)
         {
+            result = GetUselessFromDB(itemName);
+        }
+        if (result == null)
+        {
             result = GetConsumableFromDB(itemName);
         }
         return result;
@@ -73,6 +77,19 @@ public static class Items
         } else
         {
             return new Consumable(GetStr(consumable, "name"), GetStr(consumable, "description"), Spells.Get(GetStr(consumable, "spell")));
+        }
+    }
+
+    public static Useless GetUselessFromDB(string uselessName)
+    {
+        JSONObject useless = DatabaseUtils.GetJsonUseless(uselessName);
+        if (useless == null)
+        {
+            return null;
+        }
+        else
+        {
+            return new Useless(GetStr(useless, "name"), GetStr(useless, "description"));
         }
     }
 

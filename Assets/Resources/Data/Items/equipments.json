@@ -133,6 +133,24 @@
 		 "autoAttackTime" : "2"
       }
    },
+   "Shortsword":{  
+      "description":"A short handcrafted sword, made with love. And sharper than the last one.",
+      "levelRequirement":2,
+      "type":"Sword",
+	  "quality":"Uncommon",
+      "stats":{  
+         "force":"0",
+         "agility":"0",
+         "intelligence":"0",
+         "stamina":"2",
+         "spirit":"0",
+         "critical":"0",
+         "haste":"0",
+         "power":"0",
+		 "autoAttackDamage" : "12",
+		 "autoAttackTime" : "1.6"
+      }
+   },
    "Weapon2item":{  
       "description":"Your first mace !",
       "levelRequirement":1,

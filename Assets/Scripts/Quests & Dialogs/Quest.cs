@@ -98,7 +98,12 @@ public class Quest{
             if(objective is LootObjective)
             {
                 LootObjective o = (LootObjective)objective;
-                FindUtils.GetInventoryGrid().RemoveItem(Items.GetQuestEquipmentFromDB(o.GetLootName()));
+                Item i = Items.GetQuestEquipmentFromDB(o.GetLootName());
+                if (i == null)
+                {
+                    i = Items.GetItemFromDB(o.GetLootName());
+                }
+                FindUtils.GetInventoryGrid().RemoveItem(i);
             }
         }    
     }

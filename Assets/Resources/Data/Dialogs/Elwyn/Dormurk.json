@@ -23,27 +23,6 @@
             ]
          }
       },
-	  {
-         "condition":"!MageSpecAdded",
-         "choice":"Can I have the Mage spec please ?",
-         "dialog":{   
-            "text":"How do you know this ?! Hmm, since this is only a Pre-Alpha and you cannot unlock it by any mean.. Well, I can cheat for you and give that mage spec if you really want it.",
-            "choices":[  
-               {  
-                  "choice":"Just DO IT !",
-                  "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"Allright fine ! It's done.",
-					"choices":[  
-					   {  
-						  "choice":"<Leave>"
-					   }
-					]
-                  }
-               }
-            ]
-         }
-	  },
       {  
          "choice":"Allright bye"
       }

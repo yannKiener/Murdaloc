@@ -1,0 +1,100 @@
+{  
+   "text":"Hey there, I'm Mrrky the blacksmith. What do you want?",
+   "choices":[  
+      {  
+         "condition":"Blade for everyoneStarted&!Blade for everyoneOver",
+         "choice":"The chief said you had a blade for me.",
+         "dialog":{  
+            "text":"So you too huh? Give a blade to everybody, FREE ! What a stupid order. There you go.",
+            "choices":[  
+               {  
+                  "choice":"Thanks.",
+                  "dialog":{  
+					"text":"Now you have a blade, could you help me a bit ? I have to work overtime for those crappy swords, and my stock of fur is empty. I don't have to time to refill it that mean no armor for anybody! I need some rabbit fur, could you get some from me ? I can give you a better blade if you do that.",
+					"endQuest":"Blade for everyone",
+					"choices":[  
+					   {  
+						  "choice":"<Accept>",
+						  "dialog":{ 
+						  	 "startQuest":"Refilling the stocks"
+						  }
+					   },
+					   {
+						  "choice":"<Refuse>"
+					   }
+					]
+                  }
+               }
+            ]
+         }
+      },
+	  {
+         "condition":"Blade for everyoneOver&!Refilling the stocksStarted",
+         "choice":"You spoke about furs?",
+         "dialog":{  
+            "text":"Yeah ! Could you get some for me ? You'll find rabbits west of here, they'll be good enough. I can reward you with a better blade !",
+            "choices":[  
+               {  
+                  "choice":"<Accept>",
+				  "dialog":{ 
+					"startQuest":"Refilling the stocks"
+				  }
+               },
+               {  
+                  "choice":"<Refuse>"
+               }
+            ]
+         }
+      },
+      {  
+         "condition":"Refilling the stocksStarted&!Refilling the stocksOver",
+         "choice":"About those furs..",
+         "dialog":{  
+            "text":"So what? You got them ?",
+            "choices":[  
+               {
+				 "condition":"Refilling the stocksReady",
+				 "choice":"There you go.",
+				 "dialog":{  
+					"text":"What's your name again ? %T right? Well thank you %T ! Here, take this sword,",
+					"endQuest":"Refilling the stocks",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+					]
+				 }
+               },
+               {  
+                  "choice":"Not yet"
+               }
+            ]
+         }
+      },
+      {  
+         "choice":"What do you have to sell ?",
+         "dialog":{  
+            "action":"Vendor"
+         }
+      },
+      {  
+         "choice":"You accept gold ? Why?",
+         "dialog":{  
+			"text":"Well of course! Sure we can use anything you like as currency, but those humans only have eyes for gold.",
+            "choices":[  
+               {  
+                  "choice":"You trade with humans ?!",
+                  "dialog":{  
+						"text":"Hah, you should see your face right now! Well.. Yeah ! But only with few of them in a small town named GoldSomething. They even name their town with that thing! Greedy freaks. I don't understand much, but when they see gold, everything gets clearer.",
+						"choices":[  
+						   {  
+							"choice":"<Leave>",
+						   }
+					   ]
+                  }
+               }
+            ]
+         }
+      }
+   ]
+}

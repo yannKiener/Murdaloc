@@ -1,22 +1,21 @@
 {  
-   "text":"Greetings %T! Come closer.",
+   "text":"Greetings young Murloc. Come closer.",
    "choices":[  
       {  
-         "condition":"!FirstQuestStarted",
+         "condition":"!Blade for everyoneStarted",
          "choice":"You asked for me ?",
          "dialog":{  
-            "startQuest":"FirstQuest",
-            "text":"Yes. As you may know, one of us saw a group of humanoids closing in our village. No one is safe with them around.",
+            "text":"Indeed. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
             "choices":[  
                {  
                   "choice":"What can I do ?",
                   "dialog":{  
-                     "text":"It's simple, if you see them, run as fast as you can to the village. If you can't, well... This is why you must accept this blade.",
+                     "text":"It's simple, if you see them, run as fast as you can to the village. Don't try to fight them. Still, no one is safe with them around. For your own sake, ask for a blade to the smith from me.",
                      "choices":[  
                         {  
-                           "choice":"Allright thanks",
+                           "choice":"Will do.",
                            "dialog":{  
-                              "endQuest":"FirstQuest"
+                              "startQuest":"Blade for everyone"
                            }
                         }
                      ]
@@ -25,12 +24,12 @@
                {  
                   "choice":"I will crush them !",
                   "dialog":{  
-                     "text":"Hmm, in this case, take this blade as a gift, it may save your foolish life.",
-                     "choices":[  
+                     "text":"Warrior spirit! I like that. Ask the smith for a blade, I feel you will quickly get used to it, and it may save your life. Still, don't look for those humanoids, it will only bring chaos. And that's an order.",
+                     "choices":[
                         {  
-                           "choice":"Thanks",
+                           "choice":"Will do.",
                            "dialog":{  
-                              "endQuest":"FirstQuest"
+                              "startQuest":"Blade for everyone"
                            }
                         }
                      ]
@@ -39,63 +38,40 @@
             ]
          }
       },
-      {  
-         "condition":"FirstQuestStarted&!FirstQuestOver",
-         "choice":"You spoke about humanoids?",
+	  {
+         "condition":"Blade for everyoneOver",
+         "choice":"You still need me ?",
          "dialog":{  
-            "text":"Yes ! No one is safe while they are near. Accept this blade, it may save your foolish life.",
-            "choices":[  
-               {  
-                  "choice":"Thanks",
-                  "dialog":{  
-                     "endQuest":"FirstQuest"
-                  }
-               }
-            ]
-         }
-      },
-      {  
-         "condition":"FirstQuestOver&!KillPrincessStarted",
-         "choice":"You still need me?",
-         "dialog":{  
-            "text":"Indeed %T. A huge pig is destroying our crops to the East. Since you have this sword, get rid of it. We call this one Princess.",
-            "choices":[  
-               {  
-                  "choice":"Consider this done",
-                  "dialog":{  
-                     "startQuest":"KillPrincess"
-                  }
-               }
-            ]
-         }
-      },
-      {  
-         "condition":"KillPrincessReady&!KillPrincessOver",
-         "choice":"Princess is dead!",
-         "dialog":{  
-            "text":"Nicely done, young %T! Here's a potion for you",
-            "choices":[  
-               {  
-                  "choice":"You're welcome.",
-                  "dialog":{  
-                     "endQuest":"KillPrincess"
-                  }
-               },
-               {  
-                  "choice":"And ?",
-                  "dialog":{  
-                     "text":"All my consideration.",
-                     "endQuest":"KillPrincess",
-                     "choices":[  
-                        {  
-                           "choice":"<Leave>"
-                        }
-                     ]
-                  }
-               }
-            ]
-         }
-      },
+            "text":"Indeed. I'm gathering a small expedition group to warn our friends in Redridge mountains. The group of humanoids were going this way.",
+			"choices":[  
+				{  
+				   "condition":"TalentTreeSelected",
+				   "choice":"I can help.",
+				   "dialog":{  
+						"text":"Hm, I sense more power in you.. Fine, let's move then. Meet me in Elwyn, east of here.",
+						"action":"ActivateTeleporterInArea",
+						"choices":[  
+							{  
+							   "choice":"<Leave>"
+							}
+						]
+				   }
+				},
+				{  
+				   "condition":"!TalentTreeSelected",
+				   "choice":"I can help.",
+				   "dialog":{  
+						"text":"Sorry young %T, I don't want to be slowed down. I don't feel the fighter spirit enough in you. Talk to Murlark, he may help you.",
+						 "choices":[  
+							{  
+							   "choice":"<Leave>"
+							}
+						 ]
+				   }
+				}
+			 ]
+		}
+	  },
       {  
          "choice":"Nevermind"
       }
