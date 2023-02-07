@@ -30,7 +30,7 @@ public class SoundManager
 
     public static void PlaySound(List<AudioClip> sounds)
     {
-        if (sounds != null)
+        if (sounds != null && sounds.Count > 0)
         {
             PlaySound(GetRandomClip(sounds));
         }

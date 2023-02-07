@@ -9,6 +9,8 @@ public class Friendly : Character
     public List<SellTable> SellTable;
     private Dictionary<Item, bool> sellTable = new Dictionary<Item, bool>();
 
+    public List<AudioClip> talkSounds;
+
 
     new void Start()
     {
@@ -27,6 +29,11 @@ public class Friendly : Character
         {
             sellTable = GetDefaultSellItems();
         }
+    }
+
+    public List<AudioClip> GetTalkSounds()
+    {
+        return talkSounds;
     }
 
     private Dictionary<Item, bool> GetDefaultSellItems()

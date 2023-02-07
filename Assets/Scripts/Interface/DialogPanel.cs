@@ -25,6 +25,8 @@ public class DialogPanel : MonoBehaviour
 
     public float Initialize(Dialog dialog)
     {
+
+        SoundManager.PlaySound(FindUtils.GetDialogBoxComponent().GetDialogOwner().GetTalkSounds());
         clearChilds(transform.Find("ChoicesContainer"));
         transform.Find("Text").GetComponent<Text>().text = dialog.GetText();
         Transform choicesContainer = transform.Find("ChoicesContainer");
