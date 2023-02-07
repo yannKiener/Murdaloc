@@ -292,6 +292,7 @@ public abstract class Character : MonoBehaviour
      {
          if (!inCombat)
 		{
+             StartAutoAttack();
              inCombat = true;
 			 createStatusBar ();
          }

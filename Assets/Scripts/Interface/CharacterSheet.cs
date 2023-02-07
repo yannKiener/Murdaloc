@@ -102,7 +102,7 @@ public class CharacterSheet : MonoBehaviour, Slotable {
                         EquipWeapon1(item);
                     } else
                     {
-                        if (GetItemForSlot(ItemSlot.Weapon1).GetItemSlot() != ItemSlot.TwoHanded)
+                        if (GetItemForSlot(ItemSlot.Weapon1) != null && GetItemForSlot(ItemSlot.Weapon1).GetItemSlot() != ItemSlot.TwoHanded)
                         {
                             ClearSlot(ItemSlot.Weapon2);
                             EquipWeapon2(item);
@@ -114,13 +114,13 @@ public class CharacterSheet : MonoBehaviour, Slotable {
                     }
                     break;
                 case ItemSlot.Weapon2:
-                    if(GetItemForSlot(ItemSlot.Weapon1).GetItemSlot() != ItemSlot.TwoHanded)
+                    if(GetItemForSlot(ItemSlot.Weapon1) != null && GetItemForSlot(ItemSlot.Weapon1).GetItemSlot() == ItemSlot.TwoHanded)
                     {
-                        ClearSlot(ItemSlot.Weapon2);
+                        ClearSlot(ItemSlot.Weapon1);
                         EquipWeapon2(item);
                     } else
                     {
-                        ClearSlot(ItemSlot.Weapon1);
+                        ClearSlot(ItemSlot.Weapon2);
                         EquipWeapon2(item);
                     }
                     break;

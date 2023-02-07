@@ -87,8 +87,14 @@ public class Item : Usable {
                     FindUtils.GetCharacterSheetGrid().EquipItem(this);
                 } else
                 {
-                    FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(this);
-                    FindUtils.GetInventoryGrid().AddItem(this);
+                    if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(1))
+                    {
+                        FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(this);
+                        FindUtils.GetInventoryGrid().AddItem(this);
+                    } else
+                    {
+                        MessageUtils.ErrorMessage("Not enough space in Inventory.");
+                    }
                 }
             }
         } else
