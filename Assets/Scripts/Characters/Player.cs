@@ -252,12 +252,14 @@ public class Player : Character
 
 		player.velocity = new Vector2(xSpeed * stats.MaxSpeed, ySpeed);
 
-		//Limit player to camera At ALL TIMES
-
-		Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-		pos.x = Mathf.Clamp01(pos.x);
-		pos.y = Mathf.Clamp01(pos.y);
-		transform.position = Camera.main.ViewportToWorldPoint(pos);
+        //Limit player to camera bounds At ALL TIMES
+        if(!(Camera.main.WorldToViewportPoint(transform.position).x > 1.2) && !(Camera.main.WorldToViewportPoint(transform.position).x < -0.2))
+        {
+            Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+            pos.x = Mathf.Clamp01(pos.x);
+            pos.y = Mathf.Clamp01(pos.y);
+            transform.position = Camera.main.ViewportToWorldPoint(pos);
+        }
 	}
 
 	protected override void EnterCombat(){
