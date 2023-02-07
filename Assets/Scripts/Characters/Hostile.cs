@@ -80,7 +80,7 @@ public class Hostile : Character
 	private void manageCombat(){
 		if (inCombat && spellList.Count != 0 && !casting) {
 			int castPercentage = getRandomPercentage ();
-			if (castPercentage < 1) { //1% de chance par frame de cast un spell random
+			if (castPercentage < 1) { //1% de chance par frame de cast un spell random*
 				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)),false);
 			}
 		}
@@ -154,6 +154,17 @@ public class Hostile : Character
 		}
 	}
 
+    protected override void EnterCombat()
+    {
+        if (!inCombat)
+        {
+            StartAutoAttack();
+            inCombat = true;
+            createStatusBar();  
+            AggroOthers(FindUtils.GetPlayer());
+        }
+    }
+
 
 	private void limitCombatMovements() {
 		if (inCombat)
@@ -185,7 +196,11 @@ public class Hostile : Character
             GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
             lootBox.GetComponent<Loot>().Initialize(itemsLoot, new Vector3(transform.position.x, transform.position.y,-2));
         }
-        CancelInvoke("randomizeDirection");
+
+        if (moveRandom)
+        {
+            CancelInvoke("randomizeDirection");
+        }
         CancelInvoke("AggroAroundSelf");
         direction = 0;
         Invoke("Respawn", Constants.RespawnTimer);

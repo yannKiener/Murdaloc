@@ -53,6 +53,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
+        CreateEffectOnTime("Enrage", "Hit harder & faster but moves slower.", true, 1, 8, 8, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f }, { Stat.haste, 20f }, { Stat.power, 20f } }), null);
 
 
         //Spells for consummables
@@ -61,7 +62,6 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Potion of cunning", "You feel 10% smarter !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.intelligence, 10 } }), null);
         CreateEffectOnTime("Potion of might", "You feel 10% stronger !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.force, 10 } }), null);
         CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
-
     }
 
     private void CreateSpells()
@@ -88,6 +88,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of cunning") });
         CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of might") });
         CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
+
+        //Spells for Mobs
+        CreateFriendlySpell("Enrage", "Hit harder & faster but move slower.", 50, 0, 5, 20, 2, null, "Bloodlust", null, new List<EffectOnTime>() { EffectsOnTime.Get("Enrage") });
     }
 
 
