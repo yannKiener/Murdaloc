@@ -10,19 +10,22 @@ public abstract class Spell : Usable
     protected int resourceCost;
     protected float castTime;
 	protected int levelRequirement;
-	protected int coolDown;
+	protected float coolDown;
 	protected float coolDownRemaing = 0;
     protected List<EffectOnTime> effectsOnTarget;
     protected List<EffectOnTime> effectsOnSelf;
 	protected float maxDistance;
-	protected Action<Character,Character> applySpellEffect;
+	protected Action<Character,Character, Spell> applySpellEffect;
 	protected bool isHostileSpell;
 	protected Image image;
     protected AudioClip preCastSound;
     protected List<AudioClip> castSounds;
     protected List<AudioClip> impactSounds;
+    float NormalMultiplier = 100;
+    float CritMultiplier = 100;
+    Action<Character, Character> actionOnCrit;
 
-    public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance, Action<Character,Character> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
+    public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown,float maxDistance, Action<Character,Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
 		this.spellName = name;
 		this.description = description;
@@ -154,7 +157,7 @@ public abstract class Spell : Usable
             SoundManager.PlaySound(castSounds);
 			caster.RemoveResource (resourceCost);
 			if (applySpellEffect != null) {
-				applySpellEffect (caster, target);
+				applySpellEffect (caster, target, this);
 			}
 			applyEffectsOn (caster, caster, effectsOnSelf);
 			applyEffectsOn (caster, target, effectsOnTarget);
@@ -176,4 +179,72 @@ public abstract class Spell : Usable
     {
         return preCastSound;
     }
+
+
+    public float GetCooldown()
+    {
+        return coolDown;
+    }
+
+    public float GetMaxDistance()
+    {
+        return maxDistance;
+    }
+
+    public void SetResourceCost(int rscCost)
+    {
+        this.resourceCost = rscCost;
+    }
+
+    public void SetCastTime(float cstTime)
+    {
+        this.castTime = cstTime;
+    }
+
+    public void SetCooldown(float cd)
+    {
+        this.coolDown = cd;
+    }
+
+    public void SetMaxDistance(float maxDist)
+    {
+        this.maxDistance = maxDist;
+    }
+
+
+
+    public void SetNormalMultiplier(float newNormalMultiplier)
+    {
+        NormalMultiplier = newNormalMultiplier;
+    }
+
+    public void SetCritMultiplier(float newCritMultiplier)
+    {
+        CritMultiplier = newCritMultiplier;
+    }
+
+    public float GetNormalMultiplier()
+    {
+        return NormalMultiplier;
+    }
+
+    public float GetCritMultiplier()
+    {
+        return CritMultiplier;
+    }
+
+    public void SetActionOnCrit(Action<Character,Character> act)
+    {
+        actionOnCrit = act;
+    }
+
+    public void OnCrit(Character caster, Character target, int damage)
+    {
+        actionOnCrit(caster, target);
+    }
+
+
+
+
+
 }

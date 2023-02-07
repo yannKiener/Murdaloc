@@ -19,7 +19,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Corruption","Damages over time.", 5,0.5f,0,0,5,null,"Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30),"Frost", null, null);
 
-        CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character>( ((Character arg1, Character arg2) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime> ());
+        CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>( ((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime> ());
 
         //Spells for consummables
         CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20,true));
@@ -46,48 +46,48 @@ public class SpellAndEffectLoader : MonoBehaviour {
         EffectsOnTime.Add(new EffectOnTime(name, description, isBuff, maxStacks, duration, timePerTic, applyOnce, tic));
     }
    
-    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
+    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
     {
         Spells.Add(new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf));
     }
 
-    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
+    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character,Spell> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
     {
         Spells.Add(new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf));
     }
 
 
 
-    private Action<Character, Character> AddLifePercent(int lifePercent)
+    private Action<Character, Character, Spell> AddLifePercent(int lifePercent)
     {
-        return ((Character arg1, Character arg2) => { arg1.ApplyHeal(arg1.GetMaxLife() * lifePercent / 100); });
+        return ((Character arg1, Character arg2, Spell sp) => { arg1.ApplyHeal(arg1.GetMaxLife() * lifePercent / 100); });
     }
 
-    private Action<Character, Character> RemoveLifePercent(int lifePercent)
+    private Action<Character, Character, Spell> RemoveLifePercent(int lifePercent)
     {
-        return ((Character arg1, Character arg2) => { arg1.ApplyDamage(arg1.GetMaxLife() * lifePercent / 100); });
+        return ((Character arg1, Character arg2, Spell sp) => { arg1.ApplyDamage(arg1.GetMaxLife() * lifePercent / 100); });
     }
 
-    private Action<Character, Character> AddManaPercent(int manaPercent)
+    private Action<Character, Character, Spell> AddManaPercent(int manaPercent)
     {
-        return ((Character arg1, Character arg2) => { if (arg1.GetResourceType() is Mana) { arg1.AddResource(arg1.GetMaxResource() * manaPercent / 100); } });
+        return ((Character arg1, Character arg2, Spell sp) => { if (arg1.GetResourceType() is Mana) { arg1.AddResource(arg1.GetMaxResource() * manaPercent / 100); } });
     }
 
-    private Action<Character, Character> RemoveManaPercent(int manaPercent)
+    private Action<Character, Character, Spell> RemoveManaPercent(int manaPercent)
     {
-        return ((Character arg1, Character arg2) => { if (arg1.GetResourceType() is Mana) { arg1.RemoveResource(arg1.GetMaxResource() * manaPercent / 100); } });
+        return ((Character arg1, Character arg2, Spell sp) => { if (arg1.GetResourceType() is Mana) { arg1.RemoveResource(arg1.GetMaxResource() * manaPercent / 100); } });
     }
 
-    private Action<Character, Character> newHeal(Dictionary<Stat, float> statWeight, int baseHeal){
+    private Action<Character, Character, Spell> newHeal(Dictionary<Stat, float> statWeight, int baseHeal){
 		return newAction (statWeight, baseHeal, true);
 	}
 
-	private Action<Character, Character> newDamage(Dictionary<Stat, float> statWeight, int baseDamage, float autoAttackMultiplier = 0)
+	private Action<Character, Character,Spell> newDamage(Dictionary<Stat, float> statWeight, int baseDamage, float autoAttackMultiplier = 0)
     {
 		return newAction (statWeight, baseDamage, false, autoAttackMultiplier);
 	}
 
-	private Action<Character, Character> newAction (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal, float autoAttackMultiplier = 0) {
+	private Action<Character, Character, Spell> newAction (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal, float autoAttackMultiplier = 0) {
 		float forceMultiplier = 0;
 		float agilityMultiplier = 0;
 		float intelligenceMultiplier = 0;
@@ -113,7 +113,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 			}
 		}
 		if (!isHeal) {
-			return ((Character arg1, Character arg2) => {
+			return ((Character arg1, Character arg2, Spell sp) => {
 				int damage = baseNumber;
                 damage += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
                 damage += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
@@ -126,13 +126,17 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				damage = damage + (damage * casterStats.Power / 100); //Applying power 
-				if (isCrit) { // Apply Crit
-					damage = damage * 2;
-				}
+                damage = (int)(sp.GetNormalMultiplier() * damage / 100);
+
+                if (isCrit) { // Apply Crit
+                    damage += (int)(sp.GetCritMultiplier() * damage / 100);
+                    sp.OnCrit(arg1, arg2, damage);
+
+                }
 				arg2.ApplyDamage ((int)(damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
 			});
 		} else {
-			return ((Character arg1, Character arg2) => {
+			return ((Character arg1, Character arg2, Spell sp) => {
 				int heal = baseNumber;
                 heal += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
                 heal += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
@@ -145,9 +149,11 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				heal = heal + (heal * casterStats.Power / 100); //Applying power 
-				if (isCrit) { // Apply Crit
-					heal = heal * 2;
-				}
+                heal = (int)(sp.GetNormalMultiplier() * heal / 100);
+                if (isCrit) { // Apply Crit
+                    heal += (int)(sp.GetCritMultiplier() * heal / 100);
+                    sp.OnCrit(arg1, arg2, heal);
+                }
 				arg2.ApplyHeal ((int)(heal + heal * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
 			});
 		}
