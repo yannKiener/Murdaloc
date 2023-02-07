@@ -131,8 +131,6 @@ public class MapGenerator : MonoBehaviour {
                 float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + yOffSet;
 
                 objToDraw.transform.localPosition = new Vector3(x, y, 0);
-                Debug.Log("Local : " + objToDraw.transform.localPosition);
-                Debug.Log(objToDraw.transform.position);
             } 
 		}
 	}
