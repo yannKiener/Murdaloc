@@ -9,7 +9,7 @@ public class ScrollingBackground : MonoBehaviour {
 
 	private Transform cameraTransform;
 	private Transform[] layers;
-	private float viewZone = 10;
+	private float viewZone = 8;
 	private int leftIndex;
 	private int rightIndex;
 	private float lastCameraX;
@@ -43,7 +43,7 @@ public class ScrollingBackground : MonoBehaviour {
 
 	private void ScrollLeft(){
 		int lastRight = rightIndex;
-		layers[rightIndex].position = new Vector3((layers[leftIndex].position.x - backgroundSize), 0, 0);
+		layers[rightIndex].position = new Vector3((layers[leftIndex].position.x - backgroundSize), layers[rightIndex].position.y, 0);
 		leftIndex = rightIndex;
 		rightIndex--;
 		if (rightIndex < 0 ){
@@ -53,7 +53,7 @@ public class ScrollingBackground : MonoBehaviour {
 
 	private void ScrollRight(){
 		int lastLeft = leftIndex;
-		layers[leftIndex].position = new Vector3((layers[rightIndex].position.x + backgroundSize), 0, 0);
+		layers[leftIndex].position = new Vector3((layers[rightIndex].position.x + backgroundSize), layers[leftIndex].position.y, 0);
 		rightIndex = leftIndex;
 		leftIndex++;
 		if (leftIndex == layers.Length){
