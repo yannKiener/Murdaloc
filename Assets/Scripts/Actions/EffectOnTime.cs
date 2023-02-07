@@ -2,35 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface EffectOnTime
-{
-	void Apply(Character target);
-    void Remove();
-    void Tic();
-    void Update();
-	string GetName();
-	string GetDescription();
 
+[System.Serializable]
+public static class EffectsOnTime
+{
+	private static Dictionary<string, EffectOnTime> effectList = new Dictionary<string, EffectOnTime>();
+
+	public static void Add(EffectOnTime effect)
+	{
+		effectList.Add(effect.GetName().ToLower(), effect);
+	}
+
+	public static EffectOnTime Get(string effectName)
+	{
+		return effectList[effectName.ToLower()];
+	}
 }
 
 
-
-public abstract class AbtractEffectOnTime : EffectOnTime
+public class EffectOnTime
 {
-    protected float duration;
-    protected float timeLeft;
-    protected float timePerTic;
-    protected float nextTic;
-    protected int totalDamage;
-    protected int totalHeal;
-    protected string name;
-    protected string description;
-	protected Character attachedCharacter;
-	protected int damagePerTic;
-	protected int healPerTic;
+	private float duration;
+	private float timePerTic;
+	//private int totalDamage;
+	//private int totalHeal;
+	private string name;
+	private string description;
+	private bool isBuff;
+
+	private Character attachedCharacter = null;
+	private int damagePerTic = 0;
+	private int healPerTic = 0;
+	private float timeLeft;
+	private float nextTic;
+	private bool toBeRemoved = false;
+
+	public EffectOnTime(string name, string description, bool isBuff, float duration, float timePerTic, float totalDamage, float totalHeal){
+		this.name = name;
+		this.description = description;
+		this.isBuff = isBuff;
+		this.timePerTic = timePerTic;
+		this.duration = duration;
+		this.damagePerTic = (int)((totalDamage/duration)*timePerTic);
+		this.healPerTic = (int)((totalHeal/duration)*timePerTic);
+
+
+	}
+
+	public bool IsBuff(){
+		return isBuff;
+	}
 
 	public string GetName(){
 		return name;
+	}
+
+	public float GetDuration(){
+		return duration;
 	}
 
 	public string GetDescription(){
@@ -40,18 +68,28 @@ public abstract class AbtractEffectOnTime : EffectOnTime
 	public void Apply(Character target)
     {
 		attachedCharacter = target;
-        timeLeft = duration;
+		attachedCharacter.AddEffectOnTime (this);
+		timeLeft = duration;
+		toBeRemoved = false;
         nextTic = duration - timePerTic;
     }
 
-    public void Remove()
+	public void Remove()
     {
-
+		this.toBeRemoved = true;
     }
+
+	public bool IsToBeRemoved()
+	{
+		return toBeRemoved;
+	}
+
 
     public void Tic()
     {
+		Debug.Log ("Effect tic : "+damagePerTic +" damage and "+healPerTic+" heal.");
 		attachedCharacter.ApplyDamage (damagePerTic);
+		attachedCharacter.ApplyHeal (healPerTic);
     }
 
     public void Update()
@@ -63,12 +101,13 @@ public abstract class AbtractEffectOnTime : EffectOnTime
         else
         {
             if (timeLeft < nextTic)
-            {
+			{
                 Tic();
                 nextTic -= timePerTic;
-                duration -= Time.deltaTime;
             }
         }
+
+		timeLeft -= Time.deltaTime;
 
     }
 

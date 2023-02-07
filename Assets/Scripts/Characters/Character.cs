@@ -55,8 +55,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected int level;
 	protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
-	protected List<Buff> buffList = new List<Buff>();
-	protected List<Debuff> debuffList = new List<Debuff>();
+	protected List<EffectOnTime> buffList = new List<EffectOnTime>();
+	protected List<EffectOnTime> debuffList = new List<EffectOnTime>();
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
@@ -81,11 +81,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 
 	public void AddEffectOnTime (EffectOnTime effect){
+		if (effect.IsBuff ()) {
+			buffList.Add (effect);
+		} else {
+			debuffList.Add (effect);
+		}
 		
 	}
 
 	public void RemoveEffectOnTime (EffectOnTime effect){
-
+		effect.Remove ();
 	}
 
 	public GameObject GetGameObject (){
@@ -147,12 +152,13 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	}
 
     
-    
-    void Update() {
-         UpdateCast();
-         UpdateCombat();
-		 UpdateRegen();
-    }
+
+	protected void UpdateCharacter(){
+		UpdateCast();
+		UpdateCombat();
+		UpdateRegen();
+		UpdateEffects ();
+	}
 		
 
      public void AggroTarget(Character aggroTarget)
@@ -191,6 +197,24 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
      {
          inCombat = false;
      }
+
+	protected void UpdateEffects(){
+		updateBufflist (buffList);
+		updateBufflist (debuffList);
+	}
+
+	protected void updateBufflist(List<EffectOnTime> effectList){
+		for (int i = effectList.Count - 1; i >= 0; i--) {
+			EffectOnTime effect = effectList [i];
+			if (effect.IsToBeRemoved()) {
+				effectList.RemoveAt (i);
+			}
+			else {
+				effect.Update ();
+			}
+
+		}
+	}
 
 	protected void UpdateRegen() {
 		currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat);
@@ -305,23 +329,29 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		
 	public void ApplyDamage (int damage)
 	{
-		this.currentLife -= damage;
-		createFloatingText(damage.ToString(), new Color(1,0,0));
+		if (damage > 0) {
+			
+			this.currentLife -= damage;
+			createFloatingText (damage.ToString (), new Color (1, 0, 0));
 
-		if (currentLife <= 0)
-			this.kill ();
+			if (currentLife <= 0)
+				this.kill ();
+		}
 	}
 
 	public void ApplyHeal (int heal)
 	{
-		this.currentLife += heal;
-		createFloatingText(heal.ToString(), new Color(0,1,0));
+		if (heal > 0) {
+			
+			this.currentLife += heal;
+			createFloatingText (heal.ToString (), new Color (0, 1, 0));
 
-		if (currentLife > maxLife) 
-			currentLife = maxLife;
+			if (currentLife > maxLife)
+				currentLife = maxLife;
 
-		if (currentLife <= 0)
-			this.kill ();
+			if (currentLife <= 0)
+				this.kill ();
+		}
 	}
 
 	protected void createFloatingText(string text, Color color){

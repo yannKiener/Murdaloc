@@ -14,9 +14,7 @@ public class Hostile : AbstractCharacter
 
 	void Update()
 	{
-		UpdateCombat ();
-		UpdateRegen ();
-		UpdateCast ();
+		UpdateCharacter ();
 
 		manageCombat ();
 		move (GetComponent<Rigidbody2D>());

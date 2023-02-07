@@ -5,6 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public class FriendlySpell : AbstractSpell
 {
+	public FriendlySpell() : base (){
+
+
+	}
+
+
+	public FriendlySpell(string name, string desc, int rsrcCost,  float castTime, int lvlReq, int cD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,0,lvlReq,cD,effectsOnTarget,effectsOnSelf){
+
+
+	}
 	public override void Cast(Character caster, Character target)
 	{
 		if (IsCastable(caster,target))
@@ -12,6 +22,7 @@ public class FriendlySpell : AbstractSpell
 			if (target != null) {
 				target = caster;
 			}
+			base.Cast (caster, target);
 			caster.AddResource (caster.GetMaxResource() - caster.GetCurrentResource ());
 			caster.ApplyHeal (100);
 		}

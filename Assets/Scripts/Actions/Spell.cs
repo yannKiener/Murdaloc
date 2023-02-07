@@ -55,6 +55,19 @@ public abstract class AbstractSpell : Spell
 		damage = 0;
 	}
 
+	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+	{
+		this.spellName = name.ToLower();
+		this.description = description;
+		this.resourceCost = resourceCost;
+		this.castTime = castTime;
+		this.levelRequirement = levelRequirement;
+		this.coolDown = coolDown;
+		this.damage = damage;
+		this.effectsOnTarget = effectsOnTarget;
+		this.effectsOnSelf = effectsOnSelf;
+	}
+
 	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
 	{
 		this.spellName = name.ToLower();
@@ -100,9 +113,21 @@ public abstract class AbstractSpell : Spell
 
     public virtual void Cast(Character caster, Character target)
     {
+		caster.RemoveResource (resourceCost);
+		applyEffectsOn (caster, effectsOnSelf);
+		applyEffectsOn (target, effectsOnTarget);
     }
 
 	protected int modifiedSpell(Character caster, Character target, int number){
 		return number + (int)(number * Random.Range (-30f, 30f) / 100);
+	}
+
+	protected void applyEffectsOn(Character character, List<EffectOnTime> effects){
+		if(character != null && effects != null && effects.Count > 0){
+			foreach (EffectOnTime effect in effects) {
+				effect.Apply (character);
+			}
+		}
+
 	}
 }

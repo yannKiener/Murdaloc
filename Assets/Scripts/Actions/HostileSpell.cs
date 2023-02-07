@@ -11,11 +11,16 @@ public class HostileSpell : AbstractSpell
 
 	}
 
+	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD,effectsOnTarget,effectsOnSelf){
+
+
+	}
+
 	public override void Cast(Character caster, Character target)
 	{
 		if (IsCastable(caster, target))
 		{
-			caster.RemoveResource (resourceCost);
+			base.Cast (caster, target);
 			target.ApplyDamage (modifiedSpell(caster, target, damage));
 		}
 		else

@@ -16,9 +16,7 @@ public class Player : AbstractCharacter
 
 	void Update() 
 	{
-		UpdateCombat ();
-		UpdateCast ();
-		UpdateRegen ();
+		UpdateCharacter ();
 
 		//EnemyManagement
 		if(Input.GetKeyUp(KeyCode.Tab)){
@@ -37,6 +35,12 @@ public class Player : AbstractCharacter
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			CastSpell (actionBar [2]);
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha4)) {
+			CastSpell (actionBar [3]);
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			CastSpell (actionBar [4]);
 		}
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
@@ -81,7 +85,7 @@ public class Player : AbstractCharacter
 		}
 
 		if (casting) {
-			int spellCastTime = (int)castingSpell.GetCastTime ();
+			float spellCastTime = castingSpell.GetCastTime ();
 			if (spellCastTime != 0) {
 				int castPercentage = (int)(100 * (castingTime / spellCastTime));
 
