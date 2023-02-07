@@ -153,15 +153,9 @@ public class Interface : MonoBehaviour
         SoundManager.PlaySound(levelUp);
     }
 
-
     // Use this for initialization
     void Start () {
-		nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0, 0, 0, 0.7f));
-		healthBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.1f, 0.8f, 0.1f));
-		resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
-		castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f,0.72f,0.41f));
-		toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.01f, 0, 0.1f, 0.7f));
-        expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f, 0, 0.5f, 1));
+
         if (menuStyle.normal.background == null)
         {
             menuStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.1f, 0.1f, 0.1f, 0.9f));
@@ -181,7 +175,7 @@ public class Interface : MonoBehaviour
         {
             CloseMenu();
         } else
-        {
+        { 
             OpenMenu();
         }
     }
@@ -237,10 +231,42 @@ public class Interface : MonoBehaviour
         toolTipPrice = 0;
     }
 
+    public void HealTrisomie21()
+    {
+
+        if (nameBarStyle.normal.background == null)
+        {
+            nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0, 0, 0, 0.7f));
+        }
+        if (healthBarStyle.normal.background == null)
+        {
+            healthBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.1f, 0.8f, 0.1f));
+        }
+        if (resourceBarStyle.normal.background == null)
+        {
+            resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
+        }
+        if (castBarStyle.normal.background == null)
+        {
+            castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f, 0.72f, 0.41f));
+        }
+        if (toolTipStyle.normal.background == null)
+        {
+            toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.01f, 0, 0.1f, 0.7f));
+        }
+        if (expBarStyle.normal.background == null)
+        {
+            expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f, 0, 0.5f, 1));
+        }
+    }
+
 
 	void OnGUI()
 	{
-		drawCharInfoAt (player, 2, 0);
+        HealTrisomie21();
+
+
+        drawCharInfoAt(player, 2, 0);
 
 		target = player.GetTarget ();
 		if (target != null && !target.IsDead()) {
