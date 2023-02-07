@@ -230,12 +230,11 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         if(!casting) 
         {
         	castingSpell = spellList [spellName];
-			int resCost = castingSpell.GetResourceCost ();
-			if (resCost <= currentResource) {
+			if (castingSpell.IsCastable(this,target)) {
 				casting = true;
 			} else {
+				print ("I can't cast "+ castingSpell.GetName() +" now.");
 				castingSpell = null;
-				print ("Not enough " + resource.GetName());
 			}
 		}
     }

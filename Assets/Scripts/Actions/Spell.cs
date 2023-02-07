@@ -16,8 +16,6 @@ public static class Spells
     {
 		return spellList[spellName.ToLower()];
     }
-    
-    
 }
 
 public interface Spell
@@ -27,10 +25,10 @@ public interface Spell
     int GetResourceCost();
     float GetCastTime();
     int GetLevelRequirement();
+	bool IsCastable (Character caster, Character target);
     void Cast(Character caster, Character target);
 
 }
-
 
 
 public abstract class AbstractSpell : Spell
@@ -56,6 +54,7 @@ public abstract class AbstractSpell : Spell
 		coolDown = 0;
 		damage = 0;
 	}
+
 	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
 	{
 		this.spellName = name.ToLower();
@@ -65,6 +64,11 @@ public abstract class AbstractSpell : Spell
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
 		this.damage = damage;
+	}
+
+
+	public bool IsCastable(Character caster, Character target){
+		return (caster.GetCurrentResource () >= resourceCost && target != null); //Ajouter le level et la distance.
 	}
 
 
@@ -96,82 +100,5 @@ public abstract class AbstractSpell : Spell
 
     public virtual void Cast(Character caster, Character target)
     {
-    }
-}
-
-
-
-[System.Serializable]
-public class HostileSpell : AbstractSpell
-{
-	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD){
-		
-
-	}
-
-    public override void Cast(Character caster, Character target)
-    {
-		if (CheckCondition(caster, target))
-        {
-			caster.RemoveResource (resourceCost);
-			target.ApplyDamage (damage);
-        }
-        else
-        {
-            //Impossible de lancer le sort
-        }
-
-    }
-
-    private void ApplyEffectsOnTarget(GameObject target)
-    {
-        foreach (EffectOnTime buff in effectsOnTarget)
-        {
-            //apply effects on target
-        }
-    }
-
-
-    private void ApplyEffectsOnSelf()
-    {
-        foreach (EffectOnTime buff in effectsOnTarget)
-        {
-
-            //apply effects
-        }
-    }
-
-	private bool CheckCondition(Character caster, Character target)
-    {
-		if (target != null) {
-			return true;
-		} else {
-			return false;
-		}
-
-    }
-}
-
-
-
-[System.Serializable]
-public class FriendlySpell : AbstractSpell
-{
-    public override void Cast(Character caster, Character target)
-    {
-        if (CheckCondition())
-        {
-			caster.AddResource (caster.GetMaxResource() - caster.GetCurrentResource ());
-        }
-        else
-        {
-            //Impossible de lancer le sort
-        }
-
-    }
-
-    private bool CheckCondition()
-    {
-        return true;
     }
 }
