@@ -70,8 +70,16 @@ public class Interface : MonoBehaviour {
 			drawCastBar (player, x,y,true,castBarWidth,castBarHeight);
 		}
         drawToolTip();
+        drawExperienceBar(FindUtils.GetPlayer());
 
-	}
+
+    }
+
+    private void drawExperienceBar(Player player)
+    {
+
+        GUI.Box(new Rect(Screen.width, Screen.width, barsWidth, barsHeight), player.GetExp().ToString(), backgroundStyle);
+    }
 
     private void drawToolTip()
     {

@@ -41,10 +41,10 @@ public class Choice {
     {
         if (inverseCondition)
         {
-            return (!QuestStatus.GetStatus(condition));
+            return (!DialogStatus.GetStatus(condition));
         } else
         {
-            return (QuestStatus.GetStatus(condition));
+            return (DialogStatus.GetStatus(condition));
         }
     }
 

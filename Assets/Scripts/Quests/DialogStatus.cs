@@ -6,7 +6,7 @@ using System;
 using System.IO;
 
 [Serializable]
-public static class QuestStatus{
+public static class DialogStatus{
 
 	static Dictionary<string, bool> status = new Dictionary<string, bool>();
 	
@@ -30,15 +30,15 @@ public static class QuestStatus{
 	
 	public static void Save(){
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create (Application.persistentDataPath + Constants.QuestStatusFile);
+		FileStream file = File.Create (Application.persistentDataPath + Constants.DialogStatusFile);
 		bf.Serialize(file, status);
 		file.Close ();
 	}
 	
 	public static void Load(){
-		if (File.Exists(Application.persistentDataPath + Constants.QuestStatusFile)) {
+		if (File.Exists(Application.persistentDataPath + Constants.DialogStatusFile)) {
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open (Application.persistentDataPath + Constants.QuestStatusFile, FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + Constants.DialogStatusFile, FileMode.Open);
 			Dictionary<string, bool> statusSave = (Dictionary<string, bool>)bf.Deserialize (file);
 			status = statusSave;
 			file.Close();

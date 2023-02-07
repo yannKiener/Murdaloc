@@ -62,7 +62,7 @@ public static class Constants {
 	
 	
 	//Save
-	public static readonly string QuestStatusFile = "/QuestStatus.dat";
+	public static readonly string DialogStatusFile = "/DialogStatus.dat";
 
 
 

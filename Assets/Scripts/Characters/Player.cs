@@ -9,6 +9,7 @@ public class Player : Character
 	private bool jumping = false;
 	private bool wantToJump = false;
 	private int enemyOffset = 0;
+    private float experiencePercent;
 
 	void Start(){
 
@@ -166,9 +167,23 @@ public class Player : Character
 		GameObject.Find("Main Camera").SendMessage("followPlayer");
 	}
 
-	public override void kill()	
+    public float GetExp()
+    {
+        return experiencePercent;
+    }
+    public void AddExp(float expPercent)
+    {
+        this.experiencePercent += expPercent;
+        if(experiencePercent >= 100)
+        {
+            LevelUp();
+            experiencePercent -= 100;
+        }
+    }
+
+	public override void die()	
 	{
-		base.kill ();
+		base.die ();
 		Instantiate (Resources.Load ("Wasted"));
 	}
 

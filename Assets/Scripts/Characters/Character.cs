@@ -459,7 +459,7 @@ public abstract class Character : MonoBehaviour
 	}
 
 
-    public virtual void kill()
+    public virtual void die()
     {
 		isDead = true;
 		gameObject.SetActive (false);
@@ -540,7 +540,7 @@ public abstract class Character : MonoBehaviour
 
 			if (currentLife <= 0) {
 				currentLife = 0;
-				this.kill ();
+				this.die();
 			}
 		}
 	}
@@ -556,7 +556,7 @@ public abstract class Character : MonoBehaviour
 				currentLife = stats.MaxLife;
 
 			if (currentLife <= 0)
-				this.kill ();
+				this.die();
 		}
 	}
 

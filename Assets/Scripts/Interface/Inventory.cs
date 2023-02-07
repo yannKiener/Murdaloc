@@ -9,7 +9,6 @@ public class Inventory : MonoBehaviour, Slotable {
     public GameObject slotPrefab;
     public int slotNumber;
 
-
     // Use this for initialization
     void Start()
     {

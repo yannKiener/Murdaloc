@@ -5,6 +5,7 @@ using UnityEngine;
 public static class Quests {
 
     static Dictionary<string, Quest> quests = new Dictionary<string, Quest>();
+    static Dictionary<string, Quest> trackedQuests = new Dictionary<string, Quest>();
 
     public static void StartQuest(string name) {
 
@@ -25,6 +26,11 @@ public static class Quests {
         }
 
         return null;
+    }
+
+    public static void UpdateTrackedQuests()
+    {
+        
     }
     
 

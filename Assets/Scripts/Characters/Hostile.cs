@@ -119,15 +119,18 @@ public class Hostile : Character
 		}
 	}
 
-    public override void kill()
+    public override void die()
     {
+        Player player = FindUtils.GetPlayer();
+        player.AddExp((level/(player.GetLevel()* player.GetLevel())) * (10 - (player.GetLevel() / Constants.MaxLevel)));
+
         List<Item> itemsLoot = GetLoots();
         if (itemsLoot != null && itemsLoot.Count > 0 && !itemsLoot.Contains(null))
         {
             GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
             lootBox.GetComponent<Loot>().Initialize(itemsLoot, transform.position);
         }
-        base.kill();
+        base.die();
     }
 
 
