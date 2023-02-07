@@ -45,7 +45,7 @@ public abstract class Character : MonoBehaviour
 			resource = new Mana ();
 		}
 		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
-
+        stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDamageMultiplier* Constants.BaseAutoAttackSpeed);
 
         if (isElite)
         {

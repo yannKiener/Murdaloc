@@ -9,10 +9,8 @@ public class BasherGnoll : MonoBehaviour {
 	void Start () {
         Hostile mob = gameObject.AddComponent<Hostile>();
         Dictionary<string, object> lootTable = new Dictionary<string, object>();
-        lootTable.Add("Weapon1item", 100);
-        lootTable.Add("Weapon2item", 100);
-        lootTable.Add("TwoHandeditem", 100);
-        mob.Initialize("Basher Gnoll",1,false, lootTable);
+        lootTable.Add("Random", 100);
+        mob.Initialize("Basher Gnoll",5,false, lootTable);
 		mob.AddSpell (Spells.Get ("Slam"));
 	}
 	

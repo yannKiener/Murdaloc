@@ -143,6 +143,19 @@ public class Stats {
         return result;
     }
 
+    public void MultiplyBy(float multiplier)
+    {
+        force = (int)(force * multiplier);
+        agility = (int)(agility * multiplier);
+        intelligence = (int)(intelligence * multiplier);
+        stamina = (int)(stamina * multiplier);
+        spirit = (int)(spirit * multiplier);
+        haste = (int)(haste * multiplier);
+        power = (int)(power * multiplier);
+        critical = (int)(critical * multiplier);
+        autoAttackDamage = (int)(autoAttackDamage * multiplier);
+    }
+
 	public float AddPercent(Stat stat, float percent){
 		float result;
 		switch (stat) {

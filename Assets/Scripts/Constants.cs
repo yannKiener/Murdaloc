@@ -55,7 +55,8 @@ public static class Constants {
     public static readonly float UncommonStatMultiplier = 0.7f;
     public static readonly float RareStatMultiplier = 1f;
     public static readonly float EpicStatMultiplier = 1.3f;
-    public static readonly int AutoAttackDamageMultiplier = 3;
+    public static readonly int AutoAttackDamageMultiplier = 1;
+    public static readonly float TwoHandedStatMultiplier = 1.6f;
 
     //Loot
     public static readonly int DeleteLootAfterSeconds = 120;

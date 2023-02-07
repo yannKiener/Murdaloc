@@ -73,6 +73,21 @@ public class Item : Usable {
         return (FindUtils.GetPlayer().GetLevel() >= levelRequirement);
     }
 
+    public void GetFromLootToInventory()
+    {
+
+        if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(1))
+        {
+            FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(this);
+            FindUtils.GetInventoryGrid().AddItem(this);
+        }
+        else
+        {
+            MessageUtils.ErrorMessage("Not enough space in Inventory.");
+        }
+    }
+
+
     public void Use(Character caster)
     {
         if (IsUsable())
@@ -87,17 +102,14 @@ public class Item : Usable {
                     FindUtils.GetCharacterSheetGrid().EquipItem(this);
                 } else
                 {
-                    if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(1))
-                    {
-                        FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(this);
-                        FindUtils.GetInventoryGrid().AddItem(this);
-                    } else
-                    {
-                        MessageUtils.ErrorMessage("Not enough space in Inventory.");
-                    }
+                    GetFromLootToInventory();
                 }
             }
-        } else
+        } else if (!isInInventory)
+        {
+            GetFromLootToInventory();
+        }
+        else 
         {
             MessageUtils.ErrorMessage("Can't use that yet.");
         }

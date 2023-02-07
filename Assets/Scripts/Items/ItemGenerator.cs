@@ -8,6 +8,8 @@ using System.Linq;
 public static class ItemGenerator  {
     private static List<ItemType> weaponTypes = new List<ItemType>() { ItemType.Axe, ItemType.TwoHandedAxe, ItemType.Sword, ItemType.TwoHandedSword, ItemType.Mace, ItemType.TwoHandedMace, ItemType.Dagger, ItemType.Staff };
 
+    private static List<ItemType> TwoHandedWeaponTypes = new List<ItemType>() {ItemType.TwoHandedAxe,ItemType.TwoHandedSword, ItemType.TwoHandedMace, ItemType.Staff};
+
     public static Item GenerateItem(int maxLevel)
     {
         //Quality multiplier : 
@@ -127,11 +129,16 @@ public static class ItemGenerator  {
         result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat2Multiplier / 100));
         result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat3Multiplier / 100));
 
-        if (weaponTypes.Contains(type))
+        if (IsWeapon(type))
         {
             float attackSpeed = (float)Math.Round(GetAttackSpeedForType(type), 1);
             result.AddStat(Stat.autoAttackDamage, attackDamage * attackSpeed);
             result.AddStat(Stat.autoAttackTime, attackSpeed);
+        }
+
+        if (IsTwoHanded(type))
+        {
+            result.MultiplyBy(Constants.TwoHandedStatMultiplier);
         }
         
         return result;
@@ -159,6 +166,16 @@ public static class ItemGenerator  {
                 return UnityEngine.Random.Range(2.5f, 4f);
         }
         return 5;
+    }
+
+    public static bool IsTwoHanded(ItemType itemType)
+    {
+        return TwoHandedWeaponTypes.Contains(itemType);
+    }
+
+    public static bool IsWeapon(ItemType itemType)
+    {
+        return weaponTypes.Contains(itemType);
     }
 
     private static List<Stat> GetMainStatList(ItemType type)
