@@ -12,6 +12,8 @@ public interface Character
     void castSpell(string spellName);
     void addSpell(Spell spell);
 	void ApplyDamage (int damage);
+	void AggroTarget(Character aggroTarget);
+	void AggroFrom(Character aggroFrom);
 
 }
 
@@ -29,6 +31,9 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected Character target;
 	protected bool isDead;
 	protected Spell castingSpell;
+	protected int level;
+	protected bool inCombat;
+	protected List<Character> enemyList = new List<Character>();
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 
     public void Initialize(string name)
@@ -45,10 +50,64 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     
     
     void Update() {
-    
-    
+         UpdateCast();
+         UpdateCombat();
     }
 
+     public void AggroTarget(Character aggroTarget)
+     {
+          AggroTarget.AggroFrom(this);
+          AddToEnemyList(aggroTarget);
+          EnterCombat();
+     }
+   
+   public void AggroFrom(Character aggroFrom)
+     {
+         AddToEnemyList(aggroFrom);
+         EnterCombat();
+     }
+     
+     protected void AddToEnemyList(Character enemy)
+     {
+          if (enemy != null && !enemyList.Contains (enemy)) {
+			     enemyList.Add (enemy);
+			     if (enemyList.Count == 1) {
+				     target = enemy;
+			     }
+		     }
+      }
+     
+     protected void EnterCombat()
+     {
+         inCombat = true;
+     }
+     
+     protected void LeaveCombat()
+     {
+         inCombat = false;
+     }
+     
+     protected void UpdateCombat (){
+		if (inCombat) {
+			ClearEnemyList ();
+			UpdateTarget ();
+		}
+	}
+
+	protected void ClearEnemyList (){
+	//todo : a appeller uniquement quand y'a un.mort
+		enemyList.RemoveAll (e => e.IsDead ());
+	}
+
+	protected void UpdateTarget(){
+		if (enemyList.Count >= 1)
+			target = enemyList [0];
+		else {
+			leaveCombat ();
+			target = null;
+		}
+	}
+   
 	public bool IsDead(){
 		return isDead;
 	}
@@ -145,8 +204,6 @@ public class Player : AbstractCharacter
     private float JUMPFORCE = 5f;
     private bool jumping = false;
     private bool wantToJump = false;
-	private bool inCombat = false;
-    private List<Character> enemyList = new List<Character>();
 	private string[] actionBar = new string[5];
 	
 	
@@ -157,7 +214,6 @@ public class Player : AbstractCharacter
     void Update()
     {
 
-
         //EnemyManagement
 		if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -167,33 +223,12 @@ public class Player : AbstractCharacter
         {
 		    castSpell(actionBar[1]);
 		}
-		manageCombat ();
+		UpdateCombat ();
         MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
 
-	private void manageCombat (){
-		if (inCombat) {
-			clearEnemyList ();
-			updateTarget ();
-		}
-	}
-
-	private void clearEnemyList (){
-		enemyList.RemoveAll (e => e.IsDead ());
-	}
-
-	private void updateTarget(){
-
-		if (enemyList.Count >= 1)
-			target = enemyList [0];
-		else {
-			leaveCombat ();
-			target = null;
-		}
-		
-	}
-    
+	
     
     public void SetActionBarSlot(int slot, string slotName)
     {
@@ -215,29 +250,16 @@ public class Player : AbstractCharacter
     }
 	
 
-	private void enterCombat (GameObject enemyGo) {
-        Character enemy = enemyGo.GetComponent<Character>();
+	private override void EnterCombat () {
 		if (!inCombat) {
-			inCombat = true;
+		    inCombat = true;
 			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
 		}
-		if (enemy != null && !enemyList.Contains (enemy)) {
-			enemyList.Add (enemy);
-			if (enemyList.Count == 1) {
-				target = enemy;
-			}
-		}
 	}
 
-	private void leaveCombat () {
-		//print ("-combat");
+	private override void LeaveCombat () {
 		inCombat = false;
 		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
-	}
-
-	private void limitMapToCamera () {
-		GameObject.Find ("Main Camera").SendMessage ("getBoundaries");
-		
 	}
 
     private void MovePlayer(Rigidbody2D player)
@@ -288,6 +310,24 @@ public class Hostile : AbstractCharacter
     void Update()
     {
         limitMovements();
+    }
+    
+    AggroAroundSelf()
+    {
+        if (!inCombat) 
+        {
+           //gerer la distance selon le level?
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);
+                int i = 0;
+             while (i < hitColliders.Length)
+            {
+                 if (hitColliders[i].tag == "Player")
+                 {
+                     AggroTarget(hitColliders[i].gameObject.GetComponent<Character>());
+                 }
+                 i++;
+             }  
+        }
     }
 	
 	void OnCollisionEnter2D(Collision2D collision){
