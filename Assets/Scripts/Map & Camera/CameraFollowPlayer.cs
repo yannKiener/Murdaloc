@@ -11,6 +11,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	private Vector3 cameraBasicPosition;
 	// Use this for initialization
 	void Start () {
+        Screen.SetResolution(1600,900,true);
 		cameraBasicPosition = transform.position;
         if(player == null)
         {
