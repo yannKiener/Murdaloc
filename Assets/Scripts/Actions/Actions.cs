@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Effect : MonoBehaviour {
+[System.Serializable]
+public class Actions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +58,7 @@ public class Effect : MonoBehaviour {
                 {
                     Tic();
                     nextTic -= timePerTic;
+                    duration -= Time.deltaTime;
                 }
             }
 
@@ -70,6 +72,7 @@ public class Effect : MonoBehaviour {
     }
 
 
+    [System.Serializable]
     public class buff : effectOnTime
     {
         buff(float duration, float timePerTic)
@@ -81,6 +84,7 @@ public class Effect : MonoBehaviour {
     
     }
 
+    [System.Serializable]
     public class debuff : effectOnTime
     {
         debuff()
