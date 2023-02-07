@@ -57,7 +57,7 @@ public static class Items
 
         List<Stat> offStatList = new List<Stat>();
 
-        foreach (JSONNode stat in data["possibleMainStats"])
+        foreach (JSONNode stat in data["possibleOffStats"])
         {
             offStatList.Add(ParseEnum<Stat>(stat));
         }

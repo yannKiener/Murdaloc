@@ -14,6 +14,13 @@ public static class DatabaseUtils {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
     }
 
+
+    public static JSONArray GetJsonStatNames(Stat stat)
+    {
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["statNames"].AsObject[stat.ToString()].AsArray;
+    }
+    
+
     public static Sprite[] LoadAllSpritesForType(ItemType type)
     {
        return Resources.LoadAll<Sprite>("Images/Items/" + type.ToString());

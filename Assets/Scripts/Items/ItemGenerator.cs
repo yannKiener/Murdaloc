@@ -43,9 +43,53 @@ public static class ItemGenerator  {
 
     private static string GetRandomNameForType (ItemType type, Stats stats)
     {
+        Stat mainStat = stats.GetMaxMainStat();
+        Stat offStat = stats.GetMaxOffStat();
+
+        string mainStatName = "";
+        if(stats.GetStat(mainStat) > 1)
+        {
+            JSONArray mainStatNames = DatabaseUtils.GetJsonStatNames(mainStat);
+            mainStatName = mainStatNames[UnityEngine.Random.Range(0, mainStatNames.Count)];
+        }
+
+        string offStatName = "";
+        if (stats.GetStat(offStat) > 1)
+        {
+            JSONArray offStatNames = DatabaseUtils.GetJsonStatNames(offStat);
+            offStatName = offStatNames[UnityEngine.Random.Range(0, offStatNames.Count)];
+        }
+
         JSONArray names = DatabaseUtils.GetJsonCategoryName(type);
-        return names[UnityEngine.Random.Range(0, names.Count)];
+        string name = names[UnityEngine.Random.Range(0, names.Count)];
+
+        string result = "";
+        if(offStatName.Length > 1)
+        {
+            result += offStatName + " ";
+        }
+
+
+        if (mainStatName.Length > 1)
+        {
+            bool mainStatNameFirst = UnityEngine.Random.Range(0,3) >= 1;
+            if (mainStatNameFirst)
+            {
+                result += mainStatName + "'s ";
+                result += name;
+            } else
+            {
+                result += name;
+                result += " of the " + mainStatName;
+            }
+        } else
+        {
+            result += name;
+
+        }
+        return result;
     }
+        
 
     private static ItemType GetRandomItemType()
     {
@@ -58,7 +102,6 @@ public static class ItemGenerator  {
     {
         Stats stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0);
         Stat stat = statList[UnityEngine.Random.Range(0, statList.Count)];
-
         stats.AddStat(stat, number);
         return stats;
     }
@@ -80,7 +123,7 @@ public static class ItemGenerator  {
         result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat1Multiplier / 100));
         result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat2Multiplier / 100));
         result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat3Multiplier / 100));
-
+        
         return result;
     }
 
@@ -91,6 +134,6 @@ public static class ItemGenerator  {
 
     private static List<Stat> GetOffStatList(ItemType type)
     {
-        return ItemCategories.GetCategory(type).GetPossibleMainStats();
+        return ItemCategories.GetCategory(type).GetPossibleOffStats();
     }
 }

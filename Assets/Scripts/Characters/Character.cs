@@ -89,10 +89,10 @@ public abstract class Character : MonoBehaviour
     protected virtual Dictionary<string, int> GetDefaultLootTableForLevel(int level)
     {
         Dictionary<string, int> result = new Dictionary<string, int>();
-        result.Add("Random", Random.Range(0, (int)((level / Constants.MaxLevel) * 100)));
+        result.Add("Random", (int)((level / Constants.MaxLevel) * 100));
         if (isElite)
         {
-            result.Add("Random", Random.Range(30,30+ (int)((level / Constants.MaxLevel) * 100)));
+            result.Add("Random",30+(int)((level / Constants.MaxLevel) * 100));
         }
         return result;
     }
@@ -242,8 +242,6 @@ public abstract class Character : MonoBehaviour
 
 
 	public void CancelCast(){
-
-        Debug.Log("canceling cast");
         gcd = 0;
 		castingTime = 0;
 		casting = false;

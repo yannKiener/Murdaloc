@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -276,6 +277,95 @@ public class Stats {
                     break;
                 }
         }
+    }
+
+
+    public float GetStat(Stat stat)
+    {
+
+        switch (stat)
+        {
+            case Stat.agility:
+                {
+                    return Agility;
+                }
+            case Stat.autoAttackDamage:
+                {
+                    return AutoAttackDamage;
+
+                }
+            case Stat.autoAttackTime:
+                {
+                    return AutoAttackTime;
+                }
+            case Stat.critical:
+                {
+                    return Critical;
+                }
+            case Stat.force:
+                {
+                    return Force;
+                }
+            case Stat.haste:
+                {
+                    return Haste;
+                }
+            case Stat.intelligence:
+                {
+                    return Intelligence;
+
+                }
+            case Stat.maxLife:
+                {
+                    return MaxLife;
+
+                }
+            case Stat.maxResource:
+                {
+                    return MaxResource;
+
+                }
+            case Stat.maxSpeed:
+                {
+                    return MaxSpeed;
+
+                }
+            case Stat.power:
+                {
+                    return Power;
+                }
+            case Stat.spirit:
+                {
+                    return Spirit;
+                }
+            case Stat.stamina:
+                {
+                    return Stamina;
+                }
+        }
+        return 0;
+    }
+
+    public Stat GetMaxMainStat()
+    {
+        Dictionary<Stat, int> statHolder = new Dictionary<Stat, int>();
+        statHolder.Add(Stat.force, force);
+        statHolder.Add(Stat.agility, agility);
+        statHolder.Add(Stat.intelligence, intelligence);
+        statHolder.Add(Stat.stamina, stamina);
+        statHolder.Add(Stat.spirit, spirit);
+        return statHolder.FirstOrDefault(x => x.Value == statHolder.Values.Max()).Key;
+
+    }
+
+    public Stat GetMaxOffStat()
+    {
+        Dictionary<Stat, int> statHolder = new Dictionary<Stat, int>();
+        statHolder.Add(Stat.critical, critical);
+        statHolder.Add(Stat.haste, haste);
+        statHolder.Add(Stat.power, power);
+
+        return statHolder.FirstOrDefault(x => x.Value == statHolder.Values.Max()).Key;
     }
 
 
