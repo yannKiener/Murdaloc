@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public abstract class Spell : Usable
+public abstract class Spell : Usable, Castable
 {
     protected string spellName;
     protected string description;
@@ -24,6 +24,7 @@ public abstract class Spell : Usable
     float NormalMultiplier = 100;
     float CritMultiplier = 100;
     Action<Character, Character> actionOnCrit;
+    Dictionary<Castable, float> procs;
 
     public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown,float maxDistance, Action<Character,Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
@@ -243,8 +244,29 @@ public abstract class Spell : Usable
         actionOnCrit(caster, target);
     }
 
+    public void AddProc(Castable procEffect, float chancePercent)
+    {
+        procs[procEffect] = chancePercent;
+    }
 
+    public void RemoveProc(Castable procEffect)
+    {
+        procs.Remove(procEffect);
+    }
 
+    private void CheckProcs(Character caster, Character target)
+    {
+        foreach (KeyValuePair<Castable, float> kv in procs)
+        {
+            if(UnityEngine.Random.Range(0, 100) <= kv.Value)
+            {
+                kv.Key.ApplyTo(caster, target);
+            }
+        }
+    }
 
-
+    public void ApplyTo(Character caster, Character target)
+    {
+        Cast(caster, target);
+    }
 }

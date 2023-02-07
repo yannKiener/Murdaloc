@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EffectOnTime
+public class EffectOnTime : Castable
 {
 	private float duration;
 	private float timePerTic;
@@ -162,7 +162,12 @@ public class EffectOnTime
     protected bool IsEffectOver()
     {
         return false;
-    }        
+    }
+
+    public void ApplyTo(Character caster, Character target)
+    {
+        Apply(caster, target);
+    }
 }
 
 
