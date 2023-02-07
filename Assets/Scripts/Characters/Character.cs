@@ -71,7 +71,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		isDead = false;
 		castingSpell = null;
 		if (resource == null) {
-			resource = new Energy ();
+			resource = new Mana ();
 		}
     }
 
@@ -165,20 +165,18 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		     }
       }
      
-     protected void EnterCombat() 
+	virtual protected void EnterCombat() 
      {
          if (!inCombat)
          {
              inCombat = true;
 			 createStatusBar ();
-             GameObject.Find("Main Camera").SendMessage("leavePlayer"); //TODO : Connerie mettre ca que au player et pas aux mobs..!!
          }
      }
      
-     protected void LeaveCombat()
+	virtual protected void LeaveCombat()
      {
          inCombat = false;
-		 GameObject.Find("Main Camera").SendMessage("followPlayer"); //TODO : Connerie mettre ca que au player et pas aux mobs..!!
      }
 
 	protected void UpdateRegen() {
@@ -232,7 +230,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	}
 
 
-    public void kill()
+    public virtual void kill()
     {
 		isDead = true;
         GameObject.Destroy(this.gameObject);

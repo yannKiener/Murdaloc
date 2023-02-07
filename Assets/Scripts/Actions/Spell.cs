@@ -101,4 +101,8 @@ public abstract class AbstractSpell : Spell
     public virtual void Cast(Character caster, Character target)
     {
     }
+
+	protected int modifiedSpell(Character caster, Character target, int number){
+		return number + (int)(number * Random.Range (-30f, 30f) / 100);
+	}
 }

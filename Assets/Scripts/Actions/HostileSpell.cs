@@ -16,7 +16,7 @@ public class HostileSpell : AbstractSpell
 		if (IsCastable(caster, target))
 		{
 			caster.RemoveResource (resourceCost);
-			target.ApplyDamage (damage);
+			target.ApplyDamage (modifiedSpell(caster, target, damage));
 		}
 		else
 		{

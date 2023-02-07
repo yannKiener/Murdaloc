@@ -67,7 +67,6 @@ public class Player : AbstractCharacter
 		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + maxResource);
 		GUI.Box(new Rect(0,40,currentResource*2,20), new Texture2D(1,1)); 
 
-
 		if (target != null && !target.IsDead()) {
 			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
 			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
@@ -150,6 +149,23 @@ public class Player : AbstractCharacter
 		pos.y = Mathf.Clamp01(pos.y);
 		transform.position = Camera.main.ViewportToWorldPoint(pos);
 	}
+
+	protected override void EnterCombat(){
+		base.EnterCombat();
+		GameObject.Find("Main Camera").SendMessage("leavePlayer");
+
+	}
+	protected override void LeaveCombat(){
+		base.LeaveCombat();
+		GameObject.Find("Main Camera").SendMessage("followPlayer");
+	}
+
+	public override void kill()	
+	{
+		base.kill ();
+		Instantiate (Resources.Load ("Wasted"));
+	}
+
 
 }
 

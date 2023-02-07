@@ -11,7 +11,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	private Vector3 cameraBasicPosition;
 	// Use this for initialization
 	void Start () {
-		cameraBasicPosition = transform.position;//- player.transform.position;
+		cameraBasicPosition = transform.position;
 	}
 	
 	// Update is called once per frame
