@@ -39,6 +39,14 @@ public class StatusBar : MonoBehaviour {
 			healthBar.fillAmount = attachedCharacter.GetHealthPercent ();
 			resourceBar.fillAmount = attachedCharacter.GetResourcePercent ();
 			castBar.fillAmount = attachedCharacter.GetCastPercent ();
+            if(attachedCharacter.transform.localScale.x < 0 && transform.localScale.x > 0)
+            {
+                FlipTransform();
+            }
+            if (attachedCharacter.transform.localScale.x > 0 && transform.localScale.x < 0)
+            {
+                FlipTransform();
+            }
 		} 
 
 		if (!attachedCharacter.IsInCombat ()) {
@@ -46,7 +54,12 @@ public class StatusBar : MonoBehaviour {
 		}
 	}
 
-	void UpdateTargeting(){
+    private void FlipTransform()
+    {
+        transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+    }
+
+    void UpdateTargeting(){
 		if (player.GetTarget () == attachedCharacter) {
 			SetTarget ();
 		} else {

@@ -92,8 +92,13 @@ public class Hostile : Character
 					direction = 0;
 				}
 			}
-			mob.velocity = new Vector2 (direction * stats.MaxSpeed/3, mob.velocity.y);
-		}
+
+            UpdateMoveAnimation(direction);
+            mob.velocity = new Vector2 (direction * stats.MaxSpeed/3, mob.velocity.y);
+		} else
+        {
+            UpdateMoveAnimation(0);
+        }
 	}
 		
 	private void randomizeDirection(){

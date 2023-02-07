@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class Player : Character
     private Vector3 initialPosition;
     private float xSpeed;
     private int talentPoints;
+
 
     private void Awake()
     {
@@ -82,6 +84,7 @@ public class Player : Character
 
     new void Start()
     {
+        anim = GetComponent<Animator>();
     }
 
     public void InitializeWith(string name, int lv, int tPoints, float expPercent, Resource rsrc, List<Spell> spellList)
@@ -295,14 +298,16 @@ public class Player : Character
 	}
 
 	private void MovePlayer(Rigidbody2D player)
-	{
-        if(IsCasting() && (xSpeed > 0.1f || xSpeed < -0.1f))
+    {
+        UpdateMoveAnimation(xSpeed);
+
+        if (IsCasting() && (xSpeed > 0.1f || xSpeed < -0.1f))
         {
             CancelCast();
             MessageUtils.ErrorMessage("Can't cast while walking");
         }
-        
-		if (Input.GetButtonDown("Jump"))
+
+        if (Input.GetButtonDown("Jump"))
 		{
 			wantToJump = true;
 		}

@@ -26,8 +26,29 @@ public class FloatingText : MonoBehaviour {
 		fontSize = 200;
 	}
 
+    private void Update()
+    {
+        if (transform.parent != null)
+        {
 
-	public void setText(string text){
+            if (transform.parent.localScale.x < 0 && transform.localScale.x > 0)
+            {
+                FlipTransform();
+            }
+            if (transform.parent.localScale.x > 0 && transform.localScale.x < 0)
+            {
+                FlipTransform();
+            }
+        }
+    }
+
+    private void FlipTransform()
+    {
+        transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+    }
+
+
+    public void setText(string text){
 		this.text = text;	
 	}
 

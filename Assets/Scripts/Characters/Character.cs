@@ -43,6 +43,9 @@ public abstract class Character : MonoBehaviour
     protected float timeSpendOutOfCombat = 0f;
 
 
+    protected Animator anim;
+
+
     public void Start()
     {
         gameObject.layer = 9;
@@ -76,6 +79,8 @@ public abstract class Character : MonoBehaviour
         casting = false;
         isDead = false;
         castingSpell = null;
+
+        anim = GetComponent<Animator>();
     }
 
     protected Stats GetBaseStatsForLevel(int lvl)
@@ -516,6 +521,10 @@ public abstract class Character : MonoBehaviour
                     autoAttack1Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
                     PlayAutoAttackSound(true);
+                    if(anim != null)
+                    {
+                        anim.SetTrigger("Attack");
+                    }
                     //Todo Animation Auto Attack 1
                 }
             }
@@ -720,6 +729,27 @@ public abstract class Character : MonoBehaviour
 			//print ("GCD : " + gcd.ToString("0.0"));
 		return isReady;
 	}
+
+    protected void UpdateMoveAnimation(float xSpeed)
+    {
+        if(xSpeed < 0 && transform.localScale.x > 0)
+        {
+            FlipSprite();
+        }
+        if(xSpeed > 0 && transform.localScale.x < 0)
+        {
+            FlipSprite();
+        }
+
+        if (anim != null)
+        {
+            anim.SetBool("IsMoving", xSpeed != 0);
+        }
+    }
+    private void FlipSprite()
+    {
+        transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+    }
     
     protected void UpdateCast()
 	{
@@ -738,6 +768,10 @@ public abstract class Character : MonoBehaviour
         hasCasted = true;
         SoundManager.StopSound(castingSpell.GetPreCastSound());
         castingSpell.Cast (this, target);
+        if (anim != null)
+        {
+            anim.SetTrigger("Cast");
+        }
         castingTime = 0;
         casting = false;
         castingSpell = null;
