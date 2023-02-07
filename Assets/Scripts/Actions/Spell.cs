@@ -58,8 +58,14 @@ public abstract class Spell : Usable
 
 
 	public virtual bool IsCastable(Character caster, Character target){
-		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(true)); //TODO : Ajouter le level 
+		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(true) && checkFriendlyTarget(target));
 	}
+
+    protected bool checkFriendlyTarget(Character target)
+    {
+        bool result = !(target is Friendly);
+        return result;
+    }
 
     protected bool checkLevel(Character caster) {
         bool levelOk = caster.GetLevel() >= levelRequirement;

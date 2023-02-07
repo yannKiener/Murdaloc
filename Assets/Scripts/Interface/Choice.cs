@@ -23,6 +23,7 @@ public class Choice {
     {
         this.condition = condition;
     }
+
     public void SetDialog(Dialog dialog)
     {
         this.dialog = dialog;

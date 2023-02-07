@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Dialog
 {
@@ -11,6 +12,16 @@ public class Dialog
     public Dialog()
     {
 
+    }
+
+    public string GetText()
+    {
+        return text;
+    }
+
+    public List<Choice> GetChoices()
+    {
+        return choices;
     }
 
     public void SetChoices (List<Choice> choices)

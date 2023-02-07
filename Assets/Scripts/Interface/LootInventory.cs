@@ -130,7 +130,6 @@ public class LootInventory : MonoBehaviour, Slotable
 
     public void OnDropIn(GameObject slot)
     {
-        GameObject tempGameObject = Draggable.currentItem;
         Usable tempUsable = Draggable.currentUsable;
 
         if (tempUsable is Item)

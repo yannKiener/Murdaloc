@@ -188,7 +188,14 @@ public abstract class Character : MonoBehaviour
 		this.target = target;
 	}
 
-	public Spell GetCastingSpell(){
+    public virtual void CancelTarget()
+    {
+        cakeslice.Outline outline = this.target.GetGameObject().GetComponent<cakeslice.Outline>();
+        Destroy(outline);
+        this.target = null;
+    }
+
+    public Spell GetCastingSpell(){
 		return castingSpell;
 	}
 
@@ -242,14 +249,15 @@ public abstract class Character : MonoBehaviour
 		return inCombat;
 	}
 
-
-
-	public void CancelCast(){
+	public bool CancelCast(){
         gcd = 0;
 		castingTime = 0;
+        bool wasCasting = casting;
 		casting = false;
 		castingSpell = null;
-	}
+        return wasCasting;
+
+    }
 
     
 
@@ -264,7 +272,7 @@ public abstract class Character : MonoBehaviour
 	}
 
 	void OnMouseDown(){
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ().SetTarget (this);
+		FindUtils.GetPlayer().SetTarget (this);
 	}
 		
 

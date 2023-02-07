@@ -8,7 +8,6 @@ public class GoreTusk : MonoBehaviour {
 	void Start () {
 		Hostile mob = gameObject.AddComponent<Hostile>();
         mob.Initialize("Goretusk",1,false);
-        mob.AddDialog("test");
 	}
 	
 	// Update is called once per frame

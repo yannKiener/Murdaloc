@@ -24,7 +24,10 @@ public class Player : Character
 			CycleTargets();
 		}
 		if (Input.GetButtonDown("Cancel")) {
-			CancelCast ();
+            if (!CancelCast())
+            {
+                FindUtils.GetPlayer().CancelTarget();
+            }
 		}
 		if (Input.GetButtonDown("AutoAttack")) {
 			SwitchAutoAttack ();
