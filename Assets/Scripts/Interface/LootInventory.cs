@@ -20,12 +20,12 @@ public class LootInventory : MonoBehaviour, Slotable
 
         if (slotContainer == null)
         {
-            slotContainer = Resources.Load<GameObject>("Prefab/SlotContainer");
+            slotContainer = Resources.Load<GameObject>("Prefab/UI/SlotContainer");
         }
 
         if (slotPrefab == null)
         {
-            slotPrefab = Resources.Load<GameObject>("Prefab/UsableSlot");
+            slotPrefab = Resources.Load<GameObject>("Prefab/UI/UsableSlot");
         }
 
         for (int i = 0; i < slotNumber; i++)

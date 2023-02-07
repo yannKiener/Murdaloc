@@ -14,6 +14,10 @@ public static class FindUtils  {
     private static GameObject characterSheet;
     private static Text characterSheetText;
     private static CharacterSheet characterSheetGrid;
+    private static GameObject dialogBox;
+    private static DialogBox dialogBoxComponent;
+    private static GameObject dialogPanel;
+    private static DialogPanel dialogPanelComponent;
 
     public static Player GetPlayer()
     {
@@ -95,5 +99,36 @@ public static class FindUtils  {
             lootGrid = GameObject.Find("LootGrid");
 
         return lootGrid;
+    }
+
+    public static GameObject GetDialogBox()
+    {
+        if(dialogBox == null)
+            dialogBox = GameObject.Find("DialogBox");
+
+        return dialogBox;
+    }
+
+    public static DialogBox GetDialogBoxComponent()
+    {
+        if (dialogBoxComponent == null)
+            dialogBoxComponent = GetDialogBox().GetComponent<DialogBox>();
+
+        return dialogBoxComponent;
+    }
+
+    public static GameObject GetDialogPanel()
+    {
+        if (dialogPanel == null)
+            dialogPanel = GameObject.Find("DialogPanel");
+        
+        return dialogPanel;
+    }
+    public static DialogPanel GetDialogPanelComponent()
+    {
+        if (dialogPanelComponent == null)
+            dialogPanelComponent = GetDialogPanel().GetComponent<DialogPanel>();
+            
+        return dialogPanelComponent;
     }
 }

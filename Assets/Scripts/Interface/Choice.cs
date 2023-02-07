@@ -19,14 +19,31 @@ public class Choice {
             this.choiceText = choiceText.Replace("%T", FindUtils.GetPlayer().GetName());
         }
     }
+
     public void SetCondition(bool condition)
     {
         this.condition = condition;
     }
 
+    
+    public bool GetCondition()
+    {
+        return condition;
+    }
+
     public void SetDialog(Dialog dialog)
     {
         this.dialog = dialog;
+    }
+
+    public Dialog GetDialog()
+    {
+        return dialog;
+    }
+
+    public string GetText()
+    {
+        return choiceText;
     }
 
 
