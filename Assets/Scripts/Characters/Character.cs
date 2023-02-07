@@ -215,7 +215,7 @@ public abstract class Character : MonoBehaviour
 
 	public virtual void LevelUp(){
         MessageUtils.Message("Level up !");
-        SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/LevelUpSound"));
+        FindUtils.GetInterface().LevelUp();
         level++;
 		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
         if(FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) == null)

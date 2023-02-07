@@ -8,6 +8,16 @@ public class QuestGrid : MonoBehaviour {
     public GameObject QuestContainer;
     public GameObject BackButton;
 
+    void OnEnable()
+    {
+        FindUtils.GetInterface().OpenQuestlog();
+    }
+
+    void OnDisable()
+    {
+        FindUtils.GetInterface().CloseQuestlog();
+    }
+
     public void ShowQuestDetails(string quest)
     {
         clearChilds(transform);

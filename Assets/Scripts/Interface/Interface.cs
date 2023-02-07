@@ -12,6 +12,22 @@ public class Interface : MonoBehaviour {
 	public GUIStyle toolTipStyle;
 	public GUIStyle textOverStyle;
     public GUIStyle expBarStyle;
+
+    public AudioClip click;
+    public AudioClip cancel;
+    public AudioClip openWindow;
+    public AudioClip closeWindow;
+    public AudioClip openInventory;
+    public AudioClip closeInventory;
+    public AudioClip openSpellBook;
+    public AudioClip closeSpellBook;
+    public AudioClip openCharSheet;
+    public AudioClip closeCharSheet;
+    public AudioClip openQuestLog;
+    public AudioClip closeQuestLog;
+    public AudioClip questDone;
+    public AudioClip levelUp;
+
     static Player player;
 	static Character target;
 	int barsWidth = (int)(Screen.width * Constants.characterBarswPercent / 100);
@@ -25,9 +41,66 @@ public class Interface : MonoBehaviour {
 	public static void LoadPlayer(){
 		player = FindUtils.GetPlayer();
 	}
-		
-	// Use this for initialization
-	void Start () {
+
+    public void Click()
+    {
+        SoundManager.PlaySound(click);
+    }
+    public void Cancel()
+    {
+        SoundManager.PlaySound(cancel);
+    }
+    public void OpenWindow()
+    {
+        SoundManager.PlaySound(openWindow);
+    }
+    public void CloseWindow()
+    {
+        SoundManager.PlaySound(closeWindow);
+    }
+    public void OpenInventory()
+    {
+        SoundManager.PlaySound(openInventory);
+    }
+    public void CloseInventory()
+    {
+        SoundManager.PlaySound(closeInventory);
+    }
+    public void OpenSpellbook()
+    {
+        SoundManager.PlaySound(openSpellBook);
+    }
+    public void CloseSpellbook()
+    {
+        SoundManager.PlaySound(closeSpellBook);
+    }
+    public void OpenCharsheet()
+    {
+        SoundManager.PlaySound(openCharSheet);
+    }
+    public void CloseCharsheet()
+    {
+        SoundManager.PlaySound(closeCharSheet);
+    }
+    public void OpenQuestlog()
+    {
+        SoundManager.PlaySound(openQuestLog);
+    }
+    public void CloseQuestlog()
+    {
+        SoundManager.PlaySound(closeQuestLog);
+    }
+    public void QuestDone()
+    {
+        SoundManager.PlaySound(questDone);
+    }
+    public void LevelUp()
+    {
+        SoundManager.PlaySound(levelUp);
+    }
+
+    // Use this for initialization
+    void Start () {
 		nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0, 0, 0, 0.7f));
 		healthBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.1f, 0.8f, 0.1f));
 		resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);

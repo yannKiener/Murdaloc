@@ -79,8 +79,7 @@ public class Quest{
 	
 	public void End()
     {
-        Debug.Log("Ending");
-        Debug.Log("Rewards : " + rewards.Count);
+        FindUtils.GetInterface().QuestDone();
         foreach(Item i in rewards)
         {
             Debug.Log(i.GetName());

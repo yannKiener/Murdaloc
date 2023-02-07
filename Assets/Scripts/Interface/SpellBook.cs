@@ -11,8 +11,8 @@ public class SpellBook : MonoBehaviour, Slotable {
     private bool doUpdate = false;
 	static int childCount = 40;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         UpdateSpellBook();
 	}
 
@@ -34,11 +34,13 @@ public class SpellBook : MonoBehaviour, Slotable {
 
     void OnDisable()
     {
+        FindUtils.GetInterface().CloseSpellbook();
         doUpdate = true;
     }
 
     void OnEnable()
     {
+        FindUtils.GetInterface().OpenSpellbook();
         if (doUpdate)
         {
             UpdateSpellBook();

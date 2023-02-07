@@ -10,6 +10,16 @@ public class CharacterSheet : MonoBehaviour, Slotable {
     public GameObject slotContainer;
     public GameObject slotPrefab;
 
+    void OnEnable()
+    {
+        FindUtils.GetInterface().OpenCharsheet();
+    }
+
+    void OnDisable()
+    {
+        FindUtils.GetInterface().CloseCharsheet();
+    }
+
     public void OnDragFrom(GameObject slot)
     {
         Equipment draggedEquipment = ((Equipment)Draggable.currentUsable);

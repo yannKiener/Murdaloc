@@ -13,6 +13,11 @@ public class LootInventory : MonoBehaviour, Slotable
     public int slotNumber;
     public Loot loot;
 
+    void OnEnable()
+    {
+        FindUtils.GetInterface().OpenInventory();
+    }
+    
 
     // Use this for initialization
     void Awake()
@@ -173,6 +178,7 @@ public class LootInventory : MonoBehaviour, Slotable
         {
             loot.isOpen = false;
         }
+        FindUtils.GetInterface().CloseInventory();
         Close();
     }
 

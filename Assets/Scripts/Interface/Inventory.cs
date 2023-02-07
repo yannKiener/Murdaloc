@@ -20,6 +20,16 @@ public class Inventory : MonoBehaviour, Slotable {
     private GameObject silverIcon;
     private GameObject goldIcon;
 
+    void OnEnable()
+    {
+        FindUtils.GetInterface().OpenInventory();
+    }
+
+    void OnDisable()
+    {
+        FindUtils.GetInterface().CloseInventory();
+    }
+
     // Use this for initialization
     void Start()
     {

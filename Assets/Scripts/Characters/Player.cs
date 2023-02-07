@@ -19,24 +19,24 @@ public class Player : Character
 
     }
 
-	void Update() 
-	{
-		UpdateCharacter ();
-
-		//EnemyManagement
-		if(Input.GetButtonDown("CycleTargets"))
+    void Controls()
+    {
+        //EnemyManagement
+        if (Input.GetButtonDown("CycleTargets"))
         {
-			CycleTargets();
-		}
-		if (Input.GetButtonDown("Cancel")) {
+            CycleTargets();
+        }
+        if (Input.GetButtonDown("Cancel"))
+        {
             if (!InterfaceUtils.CloseOpenWindows() && !CancelCast())
             {
                 FindUtils.GetPlayer().CancelTarget();
             }
-		}
-		if (Input.GetButtonDown("AutoAttack")) {
-			SwitchAutoAttack ();
-		}
+        }
+        if (Input.GetButtonDown("AutoAttack"))
+        {
+            SwitchAutoAttack();
+        }
         if (Input.GetButtonDown("ShowHideSpellBook"))
         {
             InterfaceUtils.ShowHideSpellBook();
@@ -54,9 +54,10 @@ public class Player : Character
             InterfaceUtils.ShowHideQuestLog();
         }
 
-        if (Input.GetKeyDown (KeyCode.X)) {
-			LevelUp ();
-            //FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            LevelUp();
+            FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of cunning"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of might"));
@@ -69,11 +70,21 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if(GetTarget() != null)
+            if (GetTarget() != null)
                 GetTarget().die();
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            FindUtils.GetInterface().Click();
+        }
 
+    }
+
+    void Update() 
+	{
+		UpdateCharacter ();
+        Controls();
         MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
