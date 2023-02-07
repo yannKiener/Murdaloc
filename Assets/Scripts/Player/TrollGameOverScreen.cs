@@ -10,7 +10,7 @@ public class TrollGameOverScreen : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         AudioClip deadMusic = (AudioClip)Resources.Load("Musics/Spirit");
-        MusicManager.playMusic(deadMusic);
+        MusicManager.PlayMusic(deadMusic);
         spRenderer = this.GetComponent<SpriteRenderer> ();
 		spRenderer.color = new Color(1,1,1,alpha);
 		transform.position = new Vector3 ( Camera.main.gameObject.transform.position.x, Camera.main.gameObject.transform.position.y,0);;

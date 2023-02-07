@@ -30,9 +30,7 @@ public static class Quests {
             List<Item> rewards = new List<Item>();
             foreach (JSONObject reward in questData["rewards"])
             {
-                Debug.Log(reward);
                 string itemName = reward["item"];
-                Debug.Log(itemName);
                 if (itemName != null && itemName.Length > 1)
                 {
                     rewards.Add(Items.GetEquipmentFromDB(itemName));

@@ -630,6 +630,11 @@ public abstract class Character : MonoBehaviour
 
     public virtual void die()
     {
+        if(castingSpell != null)
+        {
+            SoundManager.StopSound(castingSpell.GetPreCastSound());
+        }
+
 		isDead = true;
 		gameObject.SetActive (false);
         //GameObject.Destroy(this.gameObject);
@@ -665,7 +670,10 @@ public abstract class Character : MonoBehaviour
 			castingSpell = spell;
 			if (GCDReady() && castingSpell.IsCastable(this,target)) {
 				casting = true;
-                SoundManager.PlaySound(castingSpell.GetPreCastSound());
+                if (castingSpell.GetCastTime(stats) > 0)
+                {
+                    SoundManager.PlaySound(castingSpell.GetPreCastSound());
+                }
                 gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
 			} else {
 				castingSpell = null;

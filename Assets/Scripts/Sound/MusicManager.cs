@@ -15,12 +15,12 @@ public class MusicManager : MonoBehaviour {
         audioSource = gameObject.GetComponent<AudioSource>();
         instance = this;
 		if(StartingMusic != null){
-			playMusic(StartingMusic);
+			PlayMusic(StartingMusic);
 		}
     }
     
 
-	public static void playMusic(AudioClip music){
+	public static void PlayMusic(AudioClip music){
 
 		if (music != instance.audioSource.clip && instance.audioSource.isPlaying && !instance.isFading)
         {

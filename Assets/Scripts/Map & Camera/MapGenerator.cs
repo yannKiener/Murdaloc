@@ -37,47 +37,23 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public AudioClip GetMapMusic()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            MusicManager.playMusic(music);
-        }
-        
+        return music;
     }
 
-    void GenerateMap() {
-		float startingX = 0;
-		float startingY = 0;
-		
-		if(attachAtRight){
-			startingX = getUpperXBound(attachAtObject) + (width/2);
-			startingY = attachAtObject.transform.position.y + attachAtObject.GetComponent<BoxCollider2D> ().offset.y + attachAtObject.GetComponent<BoxCollider2D> ().bounds.size.y / 2 - mapPrefab.GetComponent<Renderer> ().bounds.size.y*mapPrefab.GetComponent<BoxCollider2D> ().size.y/2;
-		} else {
-			startingX = getLowerXBound(attachAtObject) - (width/2);
-			startingY = attachAtObject.transform.position.y + attachAtObject.GetComponent<BoxCollider2D> ().offset.y + attachAtObject.GetComponent<BoxCollider2D> ().bounds.size.y / 2 - mapPrefab.GetComponent<Renderer> ().bounds.size.y*mapPrefab.GetComponent<BoxCollider2D> ().size.y/2;
+    void GenerateMap()
+    {
+        Instantiate(mapPrefab, transform);
+        mapPrefab.AddComponent<MapComponent>();
+        mapPrefab = transform.GetChild(0).gameObject;
+        mapPrefab.transform.localScale = new Vector3(width, 1, 1);
+        float gap = getSideBoxColliderBound(attachAtObject, attachAtRight) - getSideBoxColliderBound(mapPrefab, !attachAtRight);
+        mapPrefab.transform.position += new Vector3(gap, getUpperBoxColliderBound(attachAtObject) - getUpperBoxColliderBound(mapPrefab), 0);
+
+        if (backgroundObjectsList.Count > 0) {
+			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
 		}
-		//TODO trouver un moyen plus clean pour coller les deux BoxCollider2D ensemble ! :D Voir plus bas.
-
-		//float startingRightX = getLowerXBound(attachAtObject);
-
-		mapPrefab.transform.position = new Vector3(startingX, startingY, 0);
-		mapPrefab.transform.localScale = new Vector3(width, 1, 1);
-		
-		Component[] components = mapPrefab.GetComponents<Component> ();
-		int i = 0;
-		foreach(Component co in components)
-		{
-			UnityEditorInternal.ComponentUtility.CopyComponent(components[i]);
-			UnityEditorInternal.ComponentUtility.PasteComponentAsNew(this.gameObject);
-			i++;
-		}
-			this.gameObject.transform.position = mapPrefab.transform.position;
-			this.gameObject.transform.localScale = mapPrefab.transform.localScale;
-
-			if (backgroundObjectsList.Count > 0) {
-				DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
-			}
 
 		if (enemyList.Count > 0) {
 			DrawObjectOnMap (enemyList ,mapPrefab, enemyDensity, true);
@@ -118,9 +94,31 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
+    private float getUpperBoxColliderBound(GameObject obj)
+    {
+        if (obj.GetComponent<BoxCollider2D>() == null)
+            obj = obj.transform.GetChild(0).gameObject;
 
-	//TODO Faire pareil avec les boxCollider2D a la place des Renderer ? Voir ligne dégueulasse au dessus.
-	private float getUpperYBound(GameObject obj){
+        return obj.GetComponent<BoxCollider2D>().bounds.max.y;
+    }
+
+    private float getSideBoxColliderBound(GameObject obj, bool isRight)
+    {
+        if (obj.GetComponent<BoxCollider2D>() == null)
+            obj = obj.transform.GetChild(0).gameObject;
+        if (isRight)
+        {
+            return obj.GetComponent<BoxCollider2D>().bounds.max.x;
+        }
+        else
+        {
+            return obj.GetComponent<BoxCollider2D>().bounds.min.x;
+        }
+    }
+
+
+    //TODO Faire pareil avec les boxCollider2D a la place des Renderer ? Voir ligne dégueulasse au dessus.
+    private float getUpperYBound(GameObject obj){
 		return getBounds(obj,true,"y");
 	}
 	private float getLowerYBound(GameObject obj){
@@ -148,8 +146,4 @@ public class MapGenerator : MonoBehaviour {
 		return upperRight? centerPosition + halfSize : centerPosition - halfSize;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

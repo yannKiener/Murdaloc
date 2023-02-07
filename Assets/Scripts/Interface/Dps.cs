@@ -17,7 +17,9 @@ public class Dps : MonoBehaviour {
     public void AddDamageToDps(float number)
     {
         damageDone += number;
-        StartCoroutine(RemoveDamageToDps(number, Constants.keepDpsDamageSeconds));
+        if (gameObject.activeInHierarchy) { 
+            StartCoroutine(RemoveDamageToDps(number, Constants.keepDpsDamageSeconds));
+        }
     }
 
     IEnumerator RemoveDamageToDps(float number, float delayTime)
