@@ -114,7 +114,7 @@ public class MapGenerator : MonoBehaviour {
 			if(pseudoRandom.Next(0,100) <= density){
 				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
 				float x = lowerxBound +  i * mapPortion;
-                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + 0.1f;
+                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + 0.5f;
 				if (isEnemy) {
 					y += objToDraw.GetComponent<Renderer> ().bounds.size.y/2 ;
 				}
