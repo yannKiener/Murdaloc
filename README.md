@@ -2,28 +2,23 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+### Introduction ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Murdaloc is a Unity Project under development. It's being made for the fun of it, with passion and nostaliga.
+It's a 2D scroller game, with a gameplay which may reminds some famous MMORPG. :)
 
-### How do I get set up? ###
+### Installation ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Download and install Unity's most recent version : https://unity3d.com/fr/get-unity/download
+* Checkout the project "git clone https://bitbucket.org/Gangrefear/murdaloc.git"
+* Open the project with Unity
+* The project cannot be run outside Unity at the moment, so don't try to release.. yet. :)
 
-### Contribution guidelines ###
+### Contribution ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Create an account on Asana : https://app.asana.com
+* Ask permission to the owner for the **Repository** and **Asana**
+* You will be able to check todo tasks on Asana
+* Pick a task, create a branche, and do your thing :)
+* Once you're done, create a Pull Request on the "develop" branch. (From bitbucket : https://bitbucket.org/Gangrefear/murdaloc/src)
+* Someone will review your code and eventually accept it.
