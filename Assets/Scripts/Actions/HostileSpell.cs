@@ -17,7 +17,10 @@ public class HostileSpell : Spell
 	public override void Cast (Character caster, Character target)
 	{
 		base.Cast (caster, target);
-		target.AggroTarget (caster);
+        if (target != null && caster != null)
+        {
+            target.AggroTarget(caster);
+        }
 	}
 
 	private void ApplyEffectsOnTarget(GameObject target)

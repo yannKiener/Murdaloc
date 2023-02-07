@@ -58,13 +58,21 @@ public abstract class Spell : Usable
 
 
 	public virtual bool IsCastable(Character caster, Character target){
-		return (caster.GetCurrentResource () >= resourceCost && checkDistance(caster,target) && checkCoolDown(true)); //TODO : Ajouter le level 
+		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(true)); //TODO : Ajouter le level 
 	}
 
+    protected bool checkLevel(Character caster) {
+        bool levelOk = caster.GetLevel() >= levelRequirement;
+        if (!levelOk && caster.GetName() == FindUtils.GetPlayer().name)
+        {
+            MessageUtils.ErrorMessage("Level " + levelRequirement + " required to cast " + spellName +".");
+        }
+        return levelOk;
+    }
 	protected bool checkDistance(Character caster, Character target){
 		bool isDistanceOK = Mathf.Abs ((caster.transform.position.x - target.transform.position.x)) < maxDistance;
-		if (!isDistanceOK) {
-            MessageUtils.ErrorMessage(target.name+" is too far");
+		if (!isDistanceOK && caster.GetName() == FindUtils.GetPlayer().name) {
+                MessageUtils.ErrorMessage(target.name+" is too far.");
 		}
 
 		return isDistanceOK;
