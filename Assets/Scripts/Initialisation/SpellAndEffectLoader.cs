@@ -50,11 +50,34 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
         Specialisation mageArcane = new Specialisation("Arcane");
+        /*
         mageArcane.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
         mageArcane.SetTalent(2, new Talent("Empowered Renovation", "add 20% heal to your Renovation spell", 5, (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").RemoveToNormalMultiplier(20)));
-        mageArcane.SetTalent(6, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"),stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
+        mageArcane.SetTalent(6, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"), stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
+        */
 
         Specialisations.Add(mageArcane);
+
+        Specialisation warArms = new Specialisation("Arms");
+        warArms.SetTalent(1, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"), stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
+        Specialisations.Add(warArms);
+
+        Specialisation furyWar = new Specialisation("Fury");
+        Specialisations.Add(furyWar);
+
+        Specialisation protWar = new Specialisation("Protection");
+        Specialisations.Add(protWar);
+
+
+        Specialisation rogueCombat = new Specialisation("Combat");
+        Specialisations.Add(rogueCombat);
+
+        Specialisation roguePoison = new Specialisation("Poison");
+        Specialisations.Add(roguePoison);
+
+        Specialisation rogueSubt = new Specialisation("Subtlety");
+        Specialisations.Add(rogueSubt);
+
 
     }
 
@@ -84,24 +107,27 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
     private void CreateSpells()
     {
-        CreateHostileSpell("Fireball", "A magic Fireball. That's it.", 10, 2, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
-        CreateHostileSpell("Slam", "Slap your target's face with your first", 20, 0, 0, 0, 2, newDamage(new Dictionary<Stat, float> { { Stat.force, 1f }, { Stat.agility, 0.5f } }, 10, 0.4f), "Default", null, null);
-        CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
-        CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
-        CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
-        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.6f } }, 30), "Frost", null, null);
-        CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 1, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } },60,5), "Fire", null, null);
-        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 1, 3, 2, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0.6f } }, 0, 2,true,1), "Fire", null, null);
-        CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
-
-
         //Rogue Spells
         CreateHostileSpell("Hemorrhage", "A fast attack with your main hand + 70% of your agility.", 35, 0, 0, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.7f } }, 10, 1f), "Default", null, null);
+        CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
 
+        //Warrior Spells
+        CreateHostileSpell("Slam", "Slap your target's face with your first", 20, 0, 0, 0, 2, newDamage(new Dictionary<Stat, float> { { Stat.force, 1f }, { Stat.agility, 0.5f } }, 10, 0.4f), "Default", null, null);
+        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 1, 3, 2, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0.6f } }, 0, 2, true, 1), "Fire", null, null);
 
-
+        //Mage spells
+        CreateHostileSpell("Fireball", "A magic Fireball. That's it.", 10, 2, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
+        CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
+        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.6f } }, 30), "Frost", null, null);
+        CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 1, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60, 5), "Fire", null, null);
+        
         //Base spells
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());
+
+        //Others ?
+        CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
+        CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
+
 
         //Spells for consummables
         CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, null, "Food", null, new List<EffectOnTime>() { EffectsOnTime.Get("Food") });
@@ -468,9 +494,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         {
             if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
             {
-                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
-                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
-                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Arms"));
+                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Fury"));
+                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Protection"));
             }
         });
 
@@ -478,9 +504,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         {
             if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
             {
-                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Fire"));
-                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Frost"));
-                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Arcane"));
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Combat"));
+                FindUtils.GetTalentSheetGrid().SetSpec2(Specialisations.Get("Poison"));
+                FindUtils.GetTalentSheetGrid().SetSpec3(Specialisations.Get("Subtlety"));
             }
         });
 
