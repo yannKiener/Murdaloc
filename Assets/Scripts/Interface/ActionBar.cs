@@ -14,34 +14,39 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     }
 
-    public List<string> GetSave()
+    public Dictionary<int, string> GetSave()
     {
-        List<string> shortCuts = new List<string>();
+        Dictionary<int, string> shortCuts = new Dictionary<int, string>();
 
+        int i = 0;
         foreach (Transform c in transform)
         {
             Slot s = c.GetComponent<Slot>();
             if (c.childCount != 0 && s != null && s.usable != null)
             {
-                shortCuts.Add(s.usable.GetName());
+                shortCuts.Add(i, s.usable.GetName());
             }
+
+            i++;
         }
 
         return shortCuts;
     }
 
 
-    public void Load(List<string> shortCuts) {
-
-        foreach(string spellName in shortCuts)
+    public void Load(Dictionary<int, string> shortCuts) {
+        int i = 0;
+        
+        if(shortCuts != null)
         {
-            Dictionary<string, Spell> playerSpells = FindUtils.GetPlayer().GetSpells();
-            if (playerSpells.ContainsKey(spellName))
+            foreach (Transform c in transform)
             {
-                Add(playerSpells[spellName]);
-            } else
-            {
-                Add(Spells.Get(spellName));
+                if (c.childCount == 0 && shortCuts.ContainsKey(i))
+                {
+                    Usable usable = Spells.Get(shortCuts[i]);
+                    InterfaceUtils.CreateUsableSlot(slotPrefab, c.gameObject.transform, usable.GetImageAsSprite(), usable);
+                }
+                i++;
             }
         }
     }

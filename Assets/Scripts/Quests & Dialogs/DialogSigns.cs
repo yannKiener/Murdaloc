@@ -51,30 +51,32 @@ public static class DialogSigns
      */
     private static int hasDialogMarkQuest(Dialog dialog)
     {
-        if (dialog.GetEndQuest() != null)
-        {
-            return 2;
-        }
-
-        if (dialog.GetStartQuest() != null)
-        {
-            return 1;
-        }
-
-        if (dialog.GetChoices() != null)
-        {
-            foreach (Choice choice in dialog.GetChoices())
+        if(dialog != null)
+        { 
+            if (dialog.GetEndQuest()!= null)
             {
-                if (choice.GetCondition())
+                return 2;
+            }
+
+            if (dialog.GetStartQuest() != null)
+            {
+                return 1;
+            }
+
+            if (dialog.GetChoices() != null)
+            {
+                foreach (Choice choice in dialog.GetChoices())
                 {
-                    int result = hasDialogMarkQuest(choice.GetDialog());
-                    if(result != 0)
+                    if (choice.GetCondition())
                     {
-                        return result;
+                        int result = hasDialogMarkQuest(choice.GetDialog());
+                        if(result != 0)
+                        {
+                            return result;
+                        }
                     }
                 }
             }
-
         }
         return 0;
 

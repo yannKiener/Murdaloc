@@ -23,7 +23,7 @@ public class SaveGame {
     Specialisation sp2;
     Specialisation sp3;
 
-    List<string> actionBarSpells;
+    Dictionary<int,string> actionBarSpells;
 
     public SaveGame()
     {
