@@ -4,18 +4,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Loot : MonoBehaviour  {
+public class Loot : MonoBehaviourWithMouseOverColor {
     List<Item> itemList;
 
     // Use this for initialization
-    void Start ()
+    new void Start ()
     {
-        foreach(Item item in itemList)
+        base.Start();
+        foreach (Item item in itemList)
         {
             item.isInInventory = false;
         }
 
         Destroy(this, Constants.DeleteLootAfterSeconds);
+    }
+
+    private void Update()
+    {
+        CloseWindowIfPlayerFar();
     }
 
     public void Initialize(List<Item> itemList, Vector3 position)
@@ -40,7 +46,31 @@ public class Loot : MonoBehaviour  {
         itemList.Remove(item);
 
     }
-    
+
+    void CloseWindowIfPlayerFar()
+    {
+        if (FindUtils.GetLoot().activeSelf && !IsPlayerNear())
+        {
+            FindUtils.GetLoot().SetActive(false);
+        }
+    }
+
+    bool IsPlayerNear()
+    {
+
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.LootMaxDistance);
+        int i = 0;
+        while (i < hitColliders.Length)
+        {
+            if (hitColliders[i].tag == "Player")
+            {
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
     void OnDestroy()
     {
         //FindUtils.GetLootGrid().GetComponent<LootInventory>().Close();
@@ -59,7 +89,4 @@ public class Loot : MonoBehaviour  {
         lootInventory.Initialize(itemList, this);
 
     }
-
-
-
 }

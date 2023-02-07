@@ -19,6 +19,7 @@ public static class Constants {
 	public static readonly float castBarwPercent = 22;
 	public static readonly float castBarhPercent = 4;
     public static readonly float expBarHeightPercent = 1;
+    public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
     
 
     //stats
@@ -62,10 +63,11 @@ public static class Constants {
     //Enemies 
     public static readonly float AggroDistance = 2;
 	public static readonly float AggroOtherDistance = 2;
-	
-	
-	//Save
-	public static readonly string DialogStatusFile = "/DialogStatus.dat";
+    public static readonly float LootMaxDistance = 3.2f;
+
+
+    //Save
+    public static readonly string DialogStatusFile = "/DialogStatus.dat";
 
 
 
