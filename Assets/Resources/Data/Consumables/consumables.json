@@ -1,0 +1,46 @@
+{  
+   "Minor health potion":{  
+      "description":"Drink it to instantly restore 25% of your health.",
+      "spell":"Potion25"
+   },
+   "Superior health potion":{  
+      "description":"Drink it to instantly restore 40% of your health.",
+      "spell":"Potion40"
+   },
+   "Exellent health potion":{  
+      "description":"Drink it to instantly restore 60% of your health.",
+      "spell":"Potion60"
+   },
+   "Potion of cunning":{  
+      "description":"Drink it to feel smarter. (10%)",
+      "spell":"PotionIntell10"
+   },
+   "Potion of might":{  
+      "description":"Drink it to become stronger. (10%)",
+      "spell":"PotionForce10"
+   },
+   "Potion of deftness":{  
+      "description":"Drink it to become more agile. (10%)",
+      "spell":"PotionAgi10"
+   },
+   "Haunch of Meat":{  
+      "description":"Eat to restore health.",
+      "spell":"Food"
+   },
+   "Longjaw Mud Snapper":{  
+      "description":"Eat to restore health.",
+      "spell":"Food"
+   },
+   "Boiled Clams":{  
+      "description":"Eat to restore health.",
+      "spell":"Food"
+   },
+   "Ice Cold Milk":{  
+      "description":"Drink to restore mana.",
+      "spell":"Bevrage"
+   },
+   "Refreshing Spring Water":{  
+      "description":"Drink to restore mana.",
+      "spell":"Bevrage"
+   }
+}

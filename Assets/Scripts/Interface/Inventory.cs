@@ -175,12 +175,13 @@ public class Inventory : MonoBehaviour, Slotable {
         return true;
     }
 
-    public bool RemoveItem(Item item)
+    public bool Remove(string name)
     {
-        GameObject slot = getSlotWithItem(item);
+        GameObject slot = getSlotWith(name);
+
         if (slot == null)
         {
-            MessageUtils.ErrorMessage("No item found : " + item.GetName());
+            MessageUtils.ErrorMessage("No item found : " + name);
             return false;
         }
         else
@@ -189,6 +190,19 @@ public class Inventory : MonoBehaviour, Slotable {
             slot.GetComponent<Slot>().usable = null;
             Quests.UpdateTrackedQuests(null);
             return true;
+        }
+    }
+
+    public bool RemoveItem(Item item)
+    {
+        if (item.isEquipped)
+        {
+            //Todo : On peut gérer le Swap ici ? 
+            MessageUtils.ErrorMessage(name + " is already equipped.");
+            return false;
+        } else
+        {
+            return Remove(item.GetName());
         }
     }
 
@@ -218,6 +232,31 @@ public class Inventory : MonoBehaviour, Slotable {
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempItem.GetImageAsSprite(), tempItem);
             Quests.UpdateTrackedQuests(null);
             return true;
+        }
+    }
+
+    public bool AddItem(Consumable consumable)
+    {
+        GameObject slot =  getSlotWith(consumable.GetName());
+        if (slot != null && slot.GetComponent<Draggable>().usable is Consumable)
+        {
+            Consumable cons = (Consumable)slot.GetComponent<Draggable>().usable;
+            cons.AddOne();
+            return true;
+        } else {
+            slot = getFirstFreeSlot();
+            if (slot == null)
+            {
+                MessageUtils.ErrorMessage("Inventory full");
+                return false;
+            }
+            else
+            {
+                Consumable tempConsumable = consumable;
+                InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempConsumable.GetImageAsSprite(), tempConsumable);
+                Quests.UpdateTrackedQuests(null);
+                return true;
+            }
         }
     }
 
@@ -260,6 +299,20 @@ public class Inventory : MonoBehaviour, Slotable {
             if (transform.GetChild(i).childCount == 0)
             {
                 return transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
+    }
+
+
+    private GameObject getSlotWith(string name)
+    {
+        for (int i = 0; i < slotNumber; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
+            {
+                return slot.gameObject;
             }
         }
         return null;

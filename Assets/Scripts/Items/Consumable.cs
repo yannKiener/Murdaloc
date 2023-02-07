@@ -8,26 +8,15 @@ public class Consumable : Usable
     private string consumableName;
     private string description;
     private int stacks;
-    private int maxStacks;
-    private bool isStackable;
     private Sprite image;
     private Spell spell;
 
-    public Consumable(string name, string description, Spell spell, int maxStacks = 0)
+    public Consumable(string name, string description, Spell spell)
     {
         stacks = 1;
         this.consumableName = name;
         this.spell = spell;
         this.description = description;
-        if (maxStacks <= 0)
-        {
-            this.maxStacks = maxStacks;
-            isStackable = true;
-        }
-        else
-        {
-            isStackable = false;
-        }
         this.image = InterfaceUtils.LoadSpriteForItem(consumableName);
         if (image == null)
         {
@@ -62,24 +51,20 @@ public class Consumable : Usable
 
     public bool RemoveOne()
     {
-        if (isStackable && stacks < 1)
+        if (stacks < 1)
         {
             stacks--;
-            return true;
+            return false;
         }
         //Remove from inventory
-        return false;
+        FindUtils.GetInventoryGrid().Remove(GetName());
+        return true;
     }
 
     public bool AddOne()
     {
-        if (isStackable && stacks < maxStacks)
-        {
-            stacks++;
-            return true;
-        }
-        //Add another to Inventory
-        return false;
+        stacks++;
+        return true;
     }
 
     public void Use(Character caster)
@@ -87,6 +72,7 @@ public class Consumable : Usable
         if (spell != null)
         {
             FindUtils.GetPlayer().CastSpell(spell);
+            RemoveOne();
         }
     }
 }

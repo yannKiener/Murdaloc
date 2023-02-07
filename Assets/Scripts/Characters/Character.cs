@@ -298,6 +298,11 @@ public abstract class Character : MonoBehaviour
 		return stats.MaxLife;
 	}
 
+    public Resource GetResourceType()
+    {
+        return resource;
+    }
+
 	public int GetCurrentResource(){
 		return currentResource;
 	}
