@@ -16,6 +16,7 @@ public class SaveGame {
     List<Item> inventoryItems;
     Dictionary<string, bool> status;
     string lastScene;
+    List<Quest> quests;
 
     public SaveGame()
     {
@@ -43,6 +44,7 @@ public class SaveGame {
         this.inventoryItems = inv.GetItems();
         this.status = DialogStatus.GetAllStatus();
         lastScene = SceneManager.GetActiveScene().name;
+        this.quests = Quests.GetQuests().Values.ToList<Quest>();
     }
 
     public string GetLastScene()
@@ -99,6 +101,9 @@ public class SaveGame {
             FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
         }
         FindUtils.GetPlayer().SetFullHealthAndMaxResource();
+
+        Quests.LoadQuests(quests);  
+        FindUtils.GetQuestGrid().UpdateQuestLog();
 
     }
 }

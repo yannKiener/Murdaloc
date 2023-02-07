@@ -11,6 +11,7 @@ public class QuestGrid : MonoBehaviour {
     void OnEnable()
     {
         Interface.OpenQuestlog();
+        UpdateQuestLog();
     }
 
     void OnDisable()

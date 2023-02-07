@@ -39,6 +39,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         } else
         {
             Destroy(currentItem);
+            Quests.UpdateTrackedQuests(null);
         }
 
         currentItem = null;

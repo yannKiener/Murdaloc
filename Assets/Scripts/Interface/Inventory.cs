@@ -178,8 +178,9 @@ public class Inventory : MonoBehaviour, Slotable {
                 ((Consumable)item).RemoveOne();
             } else
             {
-                clearChilds(slot.transform);
                 slot.GetComponent<Slot>().usable = null;
+                slot.GetComponentInChildren<Draggable>().usable = null;
+                clearChilds(slot.transform);
                 Quests.UpdateTrackedQuests(null);
             }
 
@@ -238,7 +239,7 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == itemName)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == itemName)
             {
                 count++;
             }

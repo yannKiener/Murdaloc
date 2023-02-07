@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Quest{
 
 	string questName;
@@ -47,27 +48,31 @@ public class Quest{
     
     public void Update(Hostile enemy)
     {
-        if (!isQuestReady)
+        int objectiveOverCounter = 0;
+        foreach (Objective objective in objectives)
         {
-            int objectiveOverCounter = 0;
-            foreach (Objective objective in objectives)
-            {
-                if (!objective.IsOver())
-                {
-                    objective.Update(enemy);
-                }
+            objective.Update(enemy);
 
-                if (objective.IsOver())
-                {
-                    objectiveOverCounter++;
-                }
-            }
-
-            if (objectives.Count == objectiveOverCounter)
+            if (objective.IsOver())
             {
-                SetReady();
+                objectiveOverCounter++;
             }
         }
+
+        if (objectives.Count == objectiveOverCounter)
+        {
+            SetReady();
+        } else
+        {
+            UnsetReady();
+        }
+    }
+
+    public void UnsetReady()
+    {
+    
+        DialogStatus.SetStatus(questName + "Ready", false);
+        isQuestReady = false;
     }
 	
 	public void SetReady()
@@ -75,7 +80,7 @@ public class Quest{
         Interface.QuestReadyToTurnIn(); 
         DialogStatus.SetStatus(questName + "Ready", true);
         isQuestReady = true;
-	}
+    }
 
     public bool IsReady()
     {

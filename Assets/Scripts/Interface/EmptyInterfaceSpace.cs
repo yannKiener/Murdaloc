@@ -16,6 +16,6 @@ public class EmptyInterfaceSpace : MonoBehaviour, IDropHandler{
 
     private Action DeleteItem(GameObject usableGameObject)
     {
-        return new Action(() => { if (usableGameObject != null) { usableGameObject.GetComponentInParent<Slot>().usable = null; Destroy(usableGameObject); } });
+        return new Action(() => { if (usableGameObject != null) { usableGameObject.GetComponentInParent<Slot>().usable = null; usableGameObject.GetComponent<Draggable>().usable = null; Destroy(usableGameObject); Quests.UpdateTrackedQuests(null); } });
     }
 }

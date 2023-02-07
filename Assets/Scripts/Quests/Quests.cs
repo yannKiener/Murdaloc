@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public static class Quests {
 
     static Dictionary<string, Quest> quests = new Dictionary<string, Quest>();
@@ -45,6 +46,14 @@ public static class Quests {
         }
     }
 
+    public static void LoadQuests(List<Quest> qusts)
+    {
+        foreach(Quest q in qusts)
+        {
+            quests[q.GetName()] = q;
+        }
+    }
+
     public static Dictionary<string, Quest> GetQuests()
     {
         return quests;
@@ -67,6 +76,8 @@ public static class Quests {
         {
             quest.Update(enemy);
         }
+
+        FindUtils.GetQuestGrid().UpdateQuestLog();
     }
     
 
