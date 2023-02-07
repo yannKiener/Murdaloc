@@ -515,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputText: {fileID: 797284685}
-  sceneName: StartingZone
+  sceneName: StartingHut
 --- !u!1 &524407280
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,11 @@
 {  
-   "text":"Greetings young Murloc. Come closer.",
+   "text":"Greetings young Murloc.",
    "choices":[  
       {  
          "condition":"!Blade for everyoneStarted",
          "choice":"You asked for me ?",
          "dialog":{  
-            "text":"Indeed. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
+            "text":"I haven't seen you yet... Are you the sleepy one ?. Yesterday, we saw a group of humanoids walking a mile away from our village. They were armed and Murlark is quite disturbed.",
             "choices":[  
                {  
                   "choice":"What can I do ?",

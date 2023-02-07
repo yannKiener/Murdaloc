@@ -30,10 +30,28 @@ public static class DialogStatus{
 
     public static Dictionary<string, bool> GetAllStatus()
     {
+        Debug.Log("Get All Status ! ");
+
+        foreach (KeyValuePair<string, bool> kv in status)
+        {
+            Debug.Log(kv.Key + " " + kv.Value);
+        }
         return status;
     }
+
+    public static void ResetAllStatus()
+    {
+        status = new Dictionary<string, bool>();
+    }
+
     public static void SetAllStatus(Dictionary<string, bool> st)
     {
+
+        Debug.Log("Set All Status ! ");
+        foreach (KeyValuePair<string, bool> kv in st)
+        {
+            Debug.Log(kv.Key + " " + kv.Value);
+        }
         status = st;
     }
 }

@@ -46,7 +46,11 @@
 		 "condition":"PlayerWokeUp",
          "choice":"What should I do ?",
 		 "dialog":{
-			"text":"Walk outside this room and report to the Chief. He have new orders for every Murloc around. Now go, young %T."
+			"text":"Walk outside this room and report to the Chief. He have new orders for every Murloc around. Now go, young %T.",
+			"choices":[
+			   {  
+				  "choice":"<Leave>"
+			   }
 		 }
 	  }
    ]

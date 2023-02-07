@@ -13,6 +13,7 @@ public class StartNewGameButton : MonoBehaviour {
         string text = inputText.GetComponent<Text>().text;
         if (text != null && text.Length > 1)
         {
+            DialogStatus.ResetAllStatus();
             GameUtils.SetPlayer(text);
             GameUtils.SetNewGame();
             GameUtils.LoadScene(sceneName);

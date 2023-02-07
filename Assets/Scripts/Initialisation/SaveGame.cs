@@ -97,6 +97,11 @@ public class SaveGame {
 
 
         DialogStatus.SetAllStatus(status);
+        foreach(KeyValuePair<string, bool> kv in status)
+        {
+            Debug.Log(kv.Key + " " + kv.Value);
+        }
+        Debug.Log(name);
         FindUtils.GetPlayer().InitializeWith(name, level, talentPoints, expPercent, r, sList);
 
         FindUtils.GetTalentSheetGrid().LoadSpecsSave(sp1, sp2, sp3);

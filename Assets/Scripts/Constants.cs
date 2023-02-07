@@ -94,14 +94,6 @@ public static class Constants {
     public static readonly float TimeBeforeSpawnOrDespawn = 5f;
     public static readonly float TimeToFadeInOrOutSpawnOrDespawn = 3f;
     public static readonly float RespawnTimer = 300;
-
-
-    //Save
-    public static readonly string DialogStatusFile = "/DialogStatus.dat";
-
-
-
-
 }
 
 public enum Stat {

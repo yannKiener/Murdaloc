@@ -1,0 +1,26 @@
+{  
+   "text":"Don't talk to me.",
+   "choices":[  
+	  {
+         "condition":"Blade for everyoneOver&!TalentTreeSelected",
+         "choice":"I want to be a rogue.",
+         "dialog":{   
+            "text":"Is that so ! You sure ?",
+            "choices":[  
+               {  
+                  "choice":"Sure !",
+                  "dialog":{  
+                    "action":"AddMageSpec",
+					"text":"Ok. But only mage is implemented yet lol. It's done, now leave.",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+					]
+                  }
+               }
+            ]
+         }
+	  }
+   ]
+}

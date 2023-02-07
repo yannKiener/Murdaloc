@@ -1,16 +1,16 @@
 {  
-   "text":"Hey.",
+   "text":"H-hi !!",
    "choices":[  
 	{
          "condition":"Blade for everyoneOver&!Murloc expressStarted",
          "choice":"Why are you looking at me like that?",
          "dialog":{  
-            "text":"Oh, sorry.. It's just that you have a sword too, but not me ! They say i'm too little. That's unfair !",
+            "text":"Oh, s-sorry.. It's just that you have a sword too, b-but not me ! They say i'm too little. That's.. That's unfair !",
             "choices":[  
                {  
                   "choice":"Looks like you need a hand.",
                   "dialog":{  
-                     "text":"Not me ! My older brother.. I'm not allowed to leave the camp, the chief always refuse. But my brother ! His name is Gorkr, and he forgot his ring ! It's like a lucky charm for him, I don't want him to get hurt.. If you're allowed to leave, could you please give it to him ? Please ! ",
+                     "text":"Not me ! My older brother.. They gave him a sword like you.. His name is Gorkr, he left and forgot his ring ! It's like a lucky charm for him, I don't want him to get hurt.. I'm not allowed to leave the camp, the chief always refuse. If you're allowed to leave, c-could you please give it to him ? Please ! ",
                      "choices":[  
                         {  
                            "choice":"<Accept>",

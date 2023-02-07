@@ -22,6 +22,7 @@ public class LevelChanger : MonoBehaviour {
         FindUtils.GetPlayer().gameObject.transform.position = positionAfterLoading;
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         camera.transform.position = new Vector3(positionAfterLoading.x, camera.transform.position.y, camera.transform.position.z);
+        SceneManager.sceneLoaded -= movePlayerToPosition;
     }
 
 
