@@ -102,8 +102,8 @@ public class SaveGame {
         }
         FindUtils.GetPlayer().SetFullHealthAndMaxResource();
 
-        Quests.LoadQuests(quests);  
-        FindUtils.GetQuestGrid().UpdateQuestLog();
+        Quests.LoadQuests(quests);
+        Quests.UpdateQuestLog();
 
     }
 }
