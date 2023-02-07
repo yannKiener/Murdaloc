@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 		player.AddSpell (Spells.Get ("slam"));
 		player.AddSpell (Spells.Get ("corruption"));
 		player.AddSpell (Spells.Get ("renovation"));
+		player.AddSpell (Spells.Get ("sprint"));
 		this.setSpellShortcut(player);
 
 		Interface.LoadPlayer ();
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 		player.SetActionBarSlot(1,"renovation");
 		player.SetActionBarSlot(2,"slam");
 		player.SetActionBarSlot(3,"corruption");
+		player.SetActionBarSlot(4,"sprint");
 	}
 	// Update is called once per frame
 	void Update () {

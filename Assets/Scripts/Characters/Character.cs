@@ -19,6 +19,7 @@ public abstract class Character : MonoBehaviour
 	protected List<EffectOnTime> buffList = new List<EffectOnTime>();
 	protected List<EffectOnTime> debuffList = new List<EffectOnTime>();
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
+	protected List<Spell> spellsOnCD = new List<Spell>();
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
 	protected Resource resource;
@@ -177,6 +178,7 @@ public abstract class Character : MonoBehaviour
 		UpdateEffects ();
 		UpdateGCD ();
 		UpdateAutoAttack ();
+		UpdateCoolDowns ();
 	}
 
 	void OnMouseDown(){
@@ -221,6 +223,20 @@ public abstract class Character : MonoBehaviour
 		CancelAutoAttack ();
         inCombat = false;
      }
+
+	protected void UpdateCoolDowns(){
+		for(int i = spellsOnCD.Count -1; i >= 0; i--){
+			Spell s = spellsOnCD [i];
+			s.UpdateCoolDown (Time.deltaTime);
+			if (s.checkCoolDown ()) {
+				spellsOnCD.Remove (s);
+			}
+		}
+	}
+
+	public void addSpellOnCD(Spell s){
+		spellsOnCD.Add (s);
+	}
 
 	protected virtual void UpdateAutoAttack(){
 		if (autoAttackEnabled && target != null && !casting) {

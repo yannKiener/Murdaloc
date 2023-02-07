@@ -153,6 +153,7 @@ public class EffectOnTime
 
     public void Tic()
     {
+		if(tic != null)
 		tic (caster, attachedCharacter,timePerTic/duration,stacks);
     }
 

@@ -42,8 +42,11 @@ public class Player : Character
 		if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			CastSpell (actionBar [3]);
 		}
-
 		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			CastSpell (actionBar [4]);
+		}
+
+		if (Input.GetKeyDown (KeyCode.Alpha9)) {
 			print ("LevelUp !");
 			LevelUp ();
 			stats.displayStats ();
