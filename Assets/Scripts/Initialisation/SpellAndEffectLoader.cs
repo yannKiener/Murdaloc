@@ -93,7 +93,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         //Spells for Mobs
         CreateFriendlySpell("Enrage", "Hit harder & faster but move slower.", 50, 0, 5, 20, 2, null, "Bloodlust", null, new List<EffectOnTime>() { EffectsOnTime.Get("Enrage") });
         CreateHostileSpell("Web", "Send a web to your target and prevent him from moving.", 20, 1.5f, 2, 15, 4, null, "Trap", new List<EffectOnTime>() { EffectsOnTime.Get("Webbed") }, null);
-    }
+    }   
 
 
     private void CreateEffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character, Character, EffectOnTime> tic)
