@@ -340,6 +340,11 @@ public abstract class Spell : Usable, Castable
         actionOnCrit = act;
     }
 
+    public void RemoveActionOnCrit()
+    {
+        actionOnCrit = null;
+    }
+
     public void OnCrit(Character caster, Character target, int damageOrHeal)
     {
         if (actionOnCrit != null)

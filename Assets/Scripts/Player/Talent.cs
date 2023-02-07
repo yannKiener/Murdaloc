@@ -13,8 +13,9 @@ public class Talent
     private int maxStacks;
     Action<Character, int> activateTalentOnPlayer;
     Action<Character, int> deactivateTalentOnPlayer;
+    Talent linkedTalent;
 
-    public Talent(string name, string description, int maxStacks, Action<Character, int> activationEffect, Action<Character, int> deactivationEffect)
+    public Talent(string name, string description, int maxStacks, Action<Character, int> activationEffect, Action<Character, int> deactivationEffect, Talent linkedTalent = null)
     {
         this.name = name;
         this.description = description;
@@ -22,6 +23,7 @@ public class Talent
         this.stacks = 0;
         activateTalentOnPlayer = activationEffect;
         deactivateTalentOnPlayer = deactivationEffect;
+        this.linkedTalent = linkedTalent;
     }
 
     public void LoadTalent()
@@ -30,6 +32,16 @@ public class Talent
         {
             ActivateEffect();
         }
+    }
+
+    public Talent GetLinkedTalent()
+    {
+        return linkedTalent;
+    }
+
+    public bool IsMaxed()
+    {
+        return stacks == maxStacks;
     }
 
     public void ActivateEffect()

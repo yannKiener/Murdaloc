@@ -41,7 +41,12 @@ public class TalentSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     private bool IsTalentClickable()
     {
-        return ((slotNumber - 1) / 4) <= (specialisation.GetPointsInSpec() / 5);
+        return ((slotNumber - 1) / 4) <= (specialisation.GetPointsInSpec() / 5) && LinkedTalentIsNullOrMaxed();
+    }
+    
+    private bool LinkedTalentIsNullOrMaxed()
+    {
+        return talent.GetLinkedTalent() == null || (specialisation.GetTalentTree().ContainsValue(talent.GetLinkedTalent()) && talent.GetLinkedTalent().IsMaxed());
     }
 
     public void SetTalent(Specialisation s, Talent t)
@@ -62,7 +67,7 @@ public class TalentSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         if(talent != null && specialisation != null && IsTalentClickable() && talent.AddOne())
         {
             specialisation.AddPointInSpec();
-            if(specialisation.GetPointsInSpec() % 5 == 0)
+            if(specialisation.GetPointsInSpec() % 5 == 0 || talent.IsMaxed())
             {
                 FindUtils.GetTalentSheetGrid().ResetSlotText();
             } else

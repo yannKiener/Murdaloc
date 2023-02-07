@@ -34,20 +34,12 @@ public class SpellAndEffectLoader : MonoBehaviour {
         mage.SetTalent(5, new Talent("Frost nova", "Learn new spell : Frost nova", 1, (player, stacks) => player.AddSpell(Spells.Get("Frost nova")), (player, stacks) => player.RemoveSpell("Frost nova")));
         mage.SetTalent(6, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
         mage.SetTalent(7, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
-        mage.SetTalent(10, new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance")), (player, stacks) => player.RemoveSpell("Icelance")));
+        Talent icelance = new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance")), (player, stacks) => player.RemoveSpell("Icelance"));
+        mage.SetTalent(10, icelance);
         mage.SetTalent(11, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion")), (player, stacks) => player.RemoveSpell("Fire explosion")));
         mage.SetTalent(12, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
-        mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }));
-        
-
-        /*
-        mage.SetTalent(10, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(13, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(18, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(23, new Talent("ICETEST", ".", 5));
-        mage.SetTalent(26, new Talent("ULTIMAAATE", "ULTI FROST", 1));
-        */
-
+        mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Hypothermia")); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Hypothermia"); } }, icelance));
+        mage.SetTalent(15, new Talent("Critical ice", "Your Ice Lance freeze your target on critical.", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].SetActionOnCrit((pl, tar) => { EffectsOnTime.Get("Frozen").Apply(pl, tar); }); } }, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveActionOnCrit(); } }, icelance));
 
         Specialisations.Add(mage);
     }
@@ -78,7 +70,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
         CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
-        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 1f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Frost", null, null);
+        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.6f } }, 30), "Frost", null, null);
         CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 5, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } },60,5), "Fire", null, null);
         CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 5, 3, 2, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0f } }, 0, 2,true,1), "Fire", null, null);
         CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "Frost", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
