@@ -54,6 +54,5 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     {
         Slotable tempSlotable = transform.GetComponentInParent<Slotable>();
         tempSlotable.OnDropIn(gameObject);
-        
     }
 }

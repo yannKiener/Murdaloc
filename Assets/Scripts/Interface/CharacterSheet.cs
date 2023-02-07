@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharacterSheet : MonoBehaviour, Slotable {
@@ -19,46 +20,51 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         Usable tempUsable = Draggable.currentUsable;
         if (tempUsable is Item)
         {
-            Item item = (Item)tempUsable;
-            switch (item.GetItemType())
-            {
-                case "Head":
-                    EquipHead(item);
-                    break;
-                case "Neck":
-                    EquipNeck(item);
-                    break;
-                case "Torso":
-                    EquipTorso(item);
-                    break;
-                case "Legs":
-                    EquipLegs(item);
-                    break;
-                case "Belt":
-                    EquipBelt(item);
-                    break;
-                case "Hands":
-                    EquipHands(item);
-                    break;
-                case "Ring":
-                    EquipRing(item);
-                    break;
-                case "Feet":
-                    EquipFeet(item);
-                    break;
-                case "TwoHanded":
-                    EquipWeapon1(item);
-                    //TODO remove weapon 2
-                    break;
-                case "Weapon1":
-                    EquipWeapon1(item);
-                    break;
-                case "Weapon2":
-                    EquipWeapon2(item);
-                    break;
-            }
-
+            EquipItem((Item)tempUsable);
         }
+    }
+
+    public void EquipItem(Item item)
+    {
+        switch (item.GetItemType())
+        {
+            case "Head":
+                EquipHead(item);
+                break;
+            case "Neck":
+                EquipNeck(item);
+                break;
+            case "Torso":
+                EquipTorso(item);
+                break;
+            case "Legs":
+                EquipLegs(item);
+                break;
+            case "Belt":
+                EquipBelt(item);
+                break;
+            case "Hands":
+                EquipHands(item);
+                break;
+            case "Ring":
+                EquipRing(item);
+                break;
+            case "Feet":
+                EquipFeet(item);
+                break;
+            case "TwoHanded":
+                EquipWeapon1(item);
+                //TODO remove weapon 2
+                break;
+            case "Weapon1":
+                EquipWeapon1(item);
+                break;
+            case "Weapon2":
+                EquipWeapon2(item);
+                break;
+        }
+
+
     }
 
     private void EquipHead(Item item)

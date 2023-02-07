@@ -45,9 +45,9 @@ public class Player : Character
 			print ("LevelUp !");
 			LevelUp ();
 			stats.displayStats ();
-            AddSpell(Spells.Get("Icelance"));
             FindUtils.GetInventory().GetComponent<Inventory>().AddItem(new Item("Test","Item for testing", 0, new Stats(0,0,0,0,0,0,0,0,false),"Head"));
-		}
+            AddSpell(Spells.Get("Icelance"));
+        }
 
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}

@@ -24,6 +24,23 @@ public class Inventory : MonoBehaviour, Slotable {
 
     }
 
+
+    public bool RemoveItem(Item item)
+    {
+        GameObject slot = getSlotWithItem(item);
+        if (slot == null)
+        {
+            MessageUtils.ErrorMessage("No item found : " + item.GetName());
+            return false;
+        }
+        else
+        {
+            clearChilds(slot.transform);
+            slot.GetComponent<Slot>().usable = null;
+            return true;
+        }
+    }
+
     public bool AddItem(Item item)
     {
         GameObject slot = getFirstFreeSlot();
@@ -60,6 +77,20 @@ public class Inventory : MonoBehaviour, Slotable {
             if (transform.GetChild(i).childCount == 0)
             {
                 return transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
+    }
+
+
+    private GameObject getSlotWithItem(Item item)
+    {
+        for (int i = 0; i < slotNumber; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable == item)
+            {
+               return slot.gameObject;
             }
         }
         return null;

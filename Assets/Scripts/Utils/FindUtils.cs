@@ -8,6 +8,7 @@ public static class FindUtils  {
     private static SpellBook spellBookGrid;
     private static GameObject inventory;
     private static GameObject characterSheet;
+    private static CharacterSheet characterSheetGrid;
 
     public static Player GetPlayer()
     {
@@ -48,5 +49,13 @@ public static class FindUtils  {
             characterSheet = GameObject.Find("CharacterSheet");
 
         return characterSheet;
+    }
+
+    public static CharacterSheet GetCharacterSheetGrid()
+    {
+        if (characterSheetGrid == null)
+            characterSheetGrid = GameObject.Find("CharacterSheetGrid").GetComponent<CharacterSheet>();
+
+        return characterSheetGrid;
     }
 }

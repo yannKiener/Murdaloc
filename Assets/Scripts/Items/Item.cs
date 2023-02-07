@@ -19,8 +19,7 @@ public class Item : Usable {
         this.levelRequirement = levelRequirement;
         this.stats = stats;
         this.type = type;
-
-        Debug.Log(itemName);
+        
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
         if (image == null)
         {
@@ -60,6 +59,7 @@ public class Item : Usable {
 
     public void Use(Character caster)
     {
-        Debug.Log("Equip : " + itemName);
+        FindUtils.GetCharacterSheetGrid().EquipItem(this);
+        FindUtils.GetInventory().GetComponent<Inventory>().RemoveItem(this);
     }
 }
