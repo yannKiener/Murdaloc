@@ -36,7 +36,6 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         if (slot != null && (Item)slot.GetComponent<Slot>().usable != null)
         {
             Item item = (Item)slot.GetComponent<Slot>().usable;
-            Debug.Log("removing item : " + slot.name);
             //On retire l'objet
             item.isEquipped = false;
             clearChilds(slot.transform);

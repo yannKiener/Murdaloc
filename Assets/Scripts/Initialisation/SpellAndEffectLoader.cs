@@ -12,7 +12,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		EffectsOnTime.Add (new EffectOnTime ("Sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null));
 
 		Spells.Add (new HostileSpell ("Fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null));
-		Spells.Add (new HostileSpell ("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},30),null,null));
+		Spells.Add (new HostileSpell ("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},10,0.8f),null,null));
 		Spells.Add (new FriendlySpell ("Renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") }));
 		Spells.Add (new FriendlySpell ("Sprint","Gain 60% movement speed for 2 seconds.", 10,0,0,15,1,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") }));
 		Spells.Add (new HostileSpell ("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>()));
@@ -25,11 +25,12 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		return newAction (statWeight, baseHeal, true);
 	}
 
-	private Action<Character, Character> newDamage(Dictionary<Stat, float> statWeight, int baseDamage){
-		return newAction (statWeight, baseDamage, false);
+	private Action<Character, Character> newDamage(Dictionary<Stat, float> statWeight, int baseDamage, float autoAttackMultiplier = 0)
+    {
+		return newAction (statWeight, baseDamage, false, autoAttackMultiplier);
 	}
 
-	private Action<Character, Character> newAction (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal) {
+	private Action<Character, Character> newAction (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal, float autoAttackMultiplier = 0) {
 		float forceMultiplier = 0;
 		float agilityMultiplier = 0;
 		float intelligenceMultiplier = 0;
@@ -57,6 +58,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		if (!isHeal) {
 			return ((Character arg1, Character arg2) => {
 				int damage = baseNumber;
+                damage += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
 
 				Stats casterStats = arg1.GetStats ();
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);

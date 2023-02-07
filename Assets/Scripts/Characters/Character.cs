@@ -88,6 +88,11 @@ public abstract class Character : MonoBehaviour
 	}
 
 
+    public int GetAutoAttack1Damage()
+    {
+        return autoAttack1Damage;
+    }
+
     //Used to display stats
     public int GetMinAutoAttack1Damage()
     {
@@ -449,6 +454,7 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack1Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
+                    //Todo play sound according to weapon type
                     //Todo Animation Auto Attack 1
                 }
             }
@@ -460,6 +466,7 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack2Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
+                    //Todo play sound according to weapon type
                     //Todo Animation Auto Attack 1
                 }
             }
