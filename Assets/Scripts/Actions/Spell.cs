@@ -33,11 +33,6 @@ public abstract class Spell
     protected int damage;
 	protected bool isCrit = false;
 
-
-	public Spell()
-    {
-	}
-
 	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
 	{
 		this.spellName = name.ToLower();

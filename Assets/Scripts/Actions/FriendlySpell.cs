@@ -5,10 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class FriendlySpell : Spell
 {
-	public FriendlySpell() : base (){
-	}
-
-
 	public FriendlySpell(string name, string desc, int rsrcCost,  float castTime, int lvlReq, int cD, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf) : base (name,desc,rsrcCost,castTime,0,lvlReq,cD,effectsOnTarget,effectsOnSelf){
 
 

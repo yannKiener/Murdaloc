@@ -78,6 +78,14 @@ public class EffectOnTime
 		return new EffectOnTime(this);
 	}
 
+	public float GetTimeLeft(){
+		return timeLeft;
+	}
+
+	public int GetStacks(){
+		return stacks;
+	}
+
 	public void refresh(){
 		this.timeLeft = this.duration;
 		this.nextTic = duration - timePerTic;

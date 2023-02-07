@@ -269,7 +269,8 @@ public abstract class Character : MonoBehaviour
     public virtual void kill()
     {
 		isDead = true;
-        GameObject.Destroy(this.gameObject);
+		gameObject.SetActive (false);
+        //GameObject.Destroy(this.gameObject);
     }
 
     public string GetName()
@@ -332,8 +333,10 @@ public abstract class Character : MonoBehaviour
 			this.currentLife -= damage;
 			createFloatingText (damage.ToString (), new Color (1, 0, 0), isCrit);
 
-			if (currentLife <= 0)
+			if (currentLife <= 0) {
+				currentLife = 0;
 				this.kill ();
+			}
 		}
 	}
 
