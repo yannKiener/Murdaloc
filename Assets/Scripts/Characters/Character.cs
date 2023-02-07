@@ -56,10 +56,31 @@ public class Player : AbstractCharacter
     private float JUMPFORCE = 5f;
     private bool jumping = false;
     private bool wantToJump = false;
+	private bool inCombat = false;
+	private List<GameObject> enemyList;
+	private GameObject target;
+	
+	
+	void Start(){
+		
+		
+		enemyList = new List<GameObject>();
+	}
 
     void Update()
     {
 
+
+        //EnemyManagement
+		if (Input.GetKeyDown ("1")){
+			attackTarget (target);
+		}
+		if (enemyList.Count == 0 && inCombat) {
+			leaveCombat ();
+		} 
+
+		
+		
         MovePlayer(GetComponent<Rigidbody2D>()); 
     }
 
@@ -73,6 +94,40 @@ public class Player : AbstractCharacter
         jumping = false;
 
     }
+	
+
+	private void enterCombat (GameObject enemy) {
+		if (!inCombat) {
+			print ("+combat");
+			inCombat = true;
+			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
+		}
+		if (!enemyList.Contains (enemy)) {
+			enemyList.Add (enemy);
+			if (enemyList.Count == 1) {
+				target = enemy;
+			}
+		}
+	}
+
+	private void leaveCombat () {
+		print ("-combat");
+		inCombat = false;
+		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
+	}
+
+	private void attackTarget (GameObject tar) {
+		enemyList.Remove (tar);
+		Destroy (tar);
+		if (enemyList.Count != 0) {
+            target = enemyList[0];
+		}
+	}
+
+	private void limitMapToCamera () {
+		GameObject.Find ("Main Camera").SendMessage ("getBoundaries");
+		
+	}
 
     private void MovePlayer(Rigidbody2D player)
     {
@@ -116,6 +171,68 @@ public class Player : AbstractCharacter
 [System.Serializable]
 public class Hostile : AbstractCharacter
 {
+	
+    private bool inCombat = false;
+	
+    void Update()
+    {
+
+        limitMovements();
+    }
+	
+	void OnCollisionEnter2D(Collision2D collision){
+		if (collision.gameObject.tag == "Player" && !inCombat) {
+            inCombat = true;
+            Aggro(collision);
+            AggroAroundSelf(collision);
+		}
+		
+	}
+	
+	
+    private void AggroAroundSelf(Collision2D collision)
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);        
+        int i = 0;
+        while (i < hitColliders.Length)
+        {
+            if (hitColliders[i].tag == "Enemy")
+            {
+                hitColliders[i].SendMessage("Aggro", collision);
+            }
+
+            i++;
+        }
+    }
+	
+
+    private void limitMovements() {
+        if (inCombat)
+        {
+            Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+            pos.x = Mathf.Clamp01(pos.x);
+            pos.y = Mathf.Clamp01(pos.y);
+            transform.position = Camera.main.ViewportToWorldPoint(pos);
+        }
+    }
+
+    private void Aggro(Collision2D collision)
+    {
+            inCombat = true;
+            collision.gameObject.SendMessage("enterCombat", this.gameObject);
+
+            //TODO : Supprimer ca et trouver un moyen plus classe pour afficher l'aggro :D
+            GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
+            aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
+            StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
+    }
+
+    IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        Destroy(obj);
+    }
+	
 }
 
 [System.Serializable]
