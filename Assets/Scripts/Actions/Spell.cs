@@ -9,12 +9,12 @@ public static class Spells
 
     public static void Add(Spell spell)
     {
-        spellList.Add(spell.GetName(), spell);
+		spellList.Add(spell.GetName().ToLower(), spell);
     }
     
     public static Spell Get(string spellName)
     {
-        return spellList[spellName];
+		return spellList[spellName.ToLower()];
     }
     
     
@@ -48,7 +48,7 @@ public abstract class AbstractSpell : Spell
 
 	public AbstractSpell()
     {
-        spellName = "Splash";
+        spellName = "splash";
         description = "A random magikarp splash attack.";
         resourceCost = 0;
         castTime = 1;
@@ -58,7 +58,7 @@ public abstract class AbstractSpell : Spell
 	}
 	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
 	{
-		this.spellName = name;
+		this.spellName = name.ToLower();
 		this.description = description;
 		this.resourceCost = resourceCost;
 		this.castTime = castTime;
@@ -104,16 +104,16 @@ public abstract class AbstractSpell : Spell
 [System.Serializable]
 public class HostileSpell : AbstractSpell
 {
-	public HostileSpell(string name, string desc, int rsrcCost, float castTime, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,lvlReq,cD){
+	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD){
 		
 
 	}
 
     public override void Cast(Character caster, Character target)
     {
-        if (CheckCondition())
+		if (CheckCondition(caster, target))
         {
-            //Cast Spell
+			target.ApplyDamage (this.damage);
         }
         else
         {
@@ -140,9 +140,14 @@ public class HostileSpell : AbstractSpell
         }
     }
 
-    private bool CheckCondition()
+	private bool CheckCondition(Character caster, Character target)
     {
-        return true;
+		if (target != null) {
+			return true;
+		} else {
+			return false;
+		}
+
     }
 }
 

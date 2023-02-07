@@ -7,9 +7,11 @@ public interface Character
     void kill();
     string GetName();
     void move();
+	void IsDead();
     void interact();
     void castSpell(string spellName);
     void addSpell(Spell spell);
+	void ApplyDamage (int damage);
 
 }
 
@@ -24,7 +26,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected string charName;
 	protected bool casting;
     protected Character target;
-	protected Dictionary<string, Spell> spellList;
+	protected bool isDead;
+	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 
     public void Initialize(string name)
     {
@@ -34,15 +37,26 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         currentMana = maxMana;
         this.charName = name;
 		casting = false;
+		isDead = false;
     }
+
+	public bool IsDead(){
+		return isDead;
+	}
 
     public void interact()
     {
 
     }
 
+	void OnDestroy(){
+		//Animate ?
+	}
+
+
     public void kill()
     {
+		isDead = true;
         GameObject.Destroy(this.gameObject);
     }
 
@@ -58,6 +72,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void addSpell(Spell spell)
     {
+		print(spell.GetName());
         spellList.Add(spell.GetName(), spell);
     }
 
@@ -65,6 +80,16 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     {
         spellList[spellName].Cast(this, target);
     }
+		
+	public void ApplyDamage (int damage)
+	{
+		print ("Applying damage : " + damage + " to : " + this.GetName());
+		this.currentLife -= damage;
+
+		if (currentLife <= 0)
+			this.kill ();
+	}
+
 
 }
 
@@ -80,7 +105,7 @@ public class Player : AbstractCharacter
     private bool wantToJump = false;
 	private bool inCombat = false;
     private List<Character> enemyList = new List<Character>();
-    private string[] actionBar;
+	private string[] actionBar = new string[5];
 	
 	
 	void Start(){
@@ -104,19 +129,31 @@ public class Player : AbstractCharacter
         {
 			attackTarget (target);
 		}
-		if (enemyList.Count == 0 && inCombat) {
-			leaveCombat ();
-		} 
-
-		
-		
+		if (inCombat) {
+			clearEnemyList ();
+			if (enemyList.Count == 0) {
+				leaveCombat ();
+			}
+		}
+			
         MovePlayer(GetComponent<Rigidbody2D>()); 
     }
+
+	private void clearEnemyList (){
+		foreach (Character en in enemyList) {
+			if (en.IsDead ()) {
+				enemyList.Remove (en);
+			}
+		}
+	}
     
     
     public void SetActionBarSlot(int slot, string slotName)
     {
-         actionBar[slot] = slotName;
+		if (actionBar.Length > slot)
+			actionBar [slot] = slotName;
+		else
+			print ("slotName too great");
     }
 
 
@@ -134,7 +171,6 @@ public class Player : AbstractCharacter
 	private void enterCombat (GameObject enemyGo) {
         Character enemy = enemyGo.GetComponent<Character>();
 		if (!inCombat) {
-			//print ("+combat");
 			inCombat = true;
 			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
 		}
@@ -212,7 +248,6 @@ public class Hostile : AbstractCharacter
 	
     void Update()
     {
-
         limitMovements();
     }
 	
@@ -222,7 +257,6 @@ public class Hostile : AbstractCharacter
             Aggro(collision);
             AggroAroundSelf(collision);
 		}
-		
 	}
 	
 	
