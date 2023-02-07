@@ -20,6 +20,7 @@ public class DialogBox : MonoBehaviour {
 
     public void Initialize(Friendly character)
     {
+        gameObject.SetActive(true);
         characterName = character.GetName();
         Vector3 characterPosition = character.gameObject.transform.position;
         Vector2 widthHeight = transform.Find("DialogPanel").GetComponent<DialogPanel>().Initialize(character.GetDialog());
