@@ -6,7 +6,8 @@ using System;
 public class SpellAndEffectLoader : MonoBehaviour {
 
 
-	void Awake (){
+	void Awake ()
+    {
         CreateEffectOnTime("Corruption","First DoT of the game",false,1,6,0.5f,null,newDamageOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},60));
 		CreateEffectOnTime("Renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50));
 		CreateEffectOnTime("Sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null);
@@ -272,6 +273,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetSpellBook().SetActive(false);
         FindUtils.GetLoot().SetActive(false);
         FindUtils.GetQuestLog().SetActive(false);
+        SoundManager.StopAll();
+        SoundManager.SetVolume(1);
     }
     // Update is called once per frame
     void Update () {

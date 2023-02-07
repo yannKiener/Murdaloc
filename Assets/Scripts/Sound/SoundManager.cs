@@ -6,12 +6,14 @@ using System.Linq;
 public class SoundManager 
 {
 
-
+    static int volume = 0;
+    
     public static void PlaySound(AudioClip sound)
     {
         if(sound != null)
         {
             AudioSource audioSource = FindUtils.GetSoundsGameObject().AddComponent<AudioSource>();
+            audioSource.volume = volume;
             audioSource.PlayOneShot(sound, 1);
             audioSource.clip = sound;
             GameObject.Destroy(audioSource, sound.length);
@@ -23,6 +25,20 @@ public class SoundManager
         if (sounds != null)
         {
             PlaySound(GetRandomClip(sounds));
+        }
+    }
+
+    public static void SetVolume(int vol)
+    {
+        volume = vol;
+    }
+
+    public static void StopAll()
+    {
+        GameObject sounds = FindUtils.GetSoundsGameObject();
+        foreach (AudioSource audio in sounds.GetComponents<AudioSource>())
+        {
+            GameObject.Destroy(audio);
         }
     }
 
