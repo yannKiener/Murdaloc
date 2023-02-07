@@ -43,7 +43,7 @@
          "condition":"FirstQuestStarted&!FirstQuestOver",
          "choice":"You spoke about humanoids?",
          "dialog":{  
-            "text":"Yes ! No one is safe while they are near. Accepct this blade, it may save your foolish life.",
+            "text":"Yes ! No one is safe while they are near. Accept this blade, it may save your foolish life.",
             "choices":[  
                {  
                   "choice":"Thanks",
