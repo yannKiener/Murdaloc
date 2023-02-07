@@ -62,7 +62,7 @@ public class Quest{
         if (objectives.Count == objectiveOverCounter)
         {
             SetReady();
-        } else
+        } else if(IsReady())
         {
             UnsetReady();
         }
@@ -70,7 +70,6 @@ public class Quest{
 
     public void UnsetReady()
     {
-    
         DialogStatus.SetStatus(questName + "Ready", false);
         isQuestReady = false;
     }

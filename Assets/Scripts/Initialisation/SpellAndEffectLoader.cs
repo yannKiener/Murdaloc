@@ -372,7 +372,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InitializeFindUtils();
+        StartCoroutine(LateStart(0.2f));
     }	
+    
+    IEnumerator LateStart(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Debug.Log("LateStartCalled");
+        DialogSigns.UpdateSigns();
+    }
 
     private void InitializeFindUtils()
     {

@@ -10,7 +10,7 @@ public static class Quests {
 
     public static void StartQuest(string name) {
 
-        if(!quests.ContainsKey(name))
+        if (!quests.ContainsKey(name))
         {
             JSONObject questData = DatabaseUtils.GetQuest(name);
             List<Objective> objectives = new List<Objective>();

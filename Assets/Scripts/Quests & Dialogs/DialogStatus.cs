@@ -26,7 +26,8 @@ public static class DialogStatus{
 	
 	public static void SetStatus(string name, bool boolean){
 		status[name] = boolean;
-	}
+        DialogSigns.UpdateSigns();
+    }
 
     public static Dictionary<string, bool> GetAllStatus()
     {   
