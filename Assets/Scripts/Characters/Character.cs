@@ -91,7 +91,8 @@ public class Player : AbstractCharacter
 
 
         //EnemyManagement
-		if (Input.GetKeyDown ("1")){
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
 			attackTarget (target);
 		}
 		if (enemyList.Count == 0 && inCombat) {

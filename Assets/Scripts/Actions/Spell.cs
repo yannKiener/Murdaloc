@@ -33,7 +33,7 @@ public interface Spell
 
 
 
-public abstract class AbstractSpell : MonoBehaviour, Spell
+public abstract class AbstractSpell : Spell
 {
     protected string spellName;
     protected string description;
