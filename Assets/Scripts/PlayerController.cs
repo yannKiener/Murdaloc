@@ -15,12 +15,11 @@ public class PlayerController : MonoBehaviour {
 		player.SetActionBarSlot(0,"fireball");
 		player.SetActionBarSlot(1,"splash");
         print(player.GetName()); 
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 	}
-
-
 }

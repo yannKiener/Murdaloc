@@ -6,6 +6,10 @@ public interface Character
 {
     void kill();
     string GetName();
+	int GetMaxLife();
+	int GetCurrentLife();
+	int GetMaxMana();
+	int GetCurrentMana();
     void move();
 	bool IsDead();
     void interact();
@@ -14,6 +18,8 @@ public interface Character
 	void ApplyDamage (int damage);
 	void AggroTarget(Character aggroTarget);
 	void AggroFrom(Character aggroFrom);
+	void CancelCast();
+	GameObject GetGameObject();
 
 }
 
@@ -47,6 +53,33 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		isDead = false;
 		castingSpell = null;
     }
+
+	public GameObject GetGameObject (){
+		return this.gameObject;
+	}
+
+	public int GetCurrentLife(){
+		return currentLife;
+	}
+
+	public int GetMaxLife(){
+		return maxLife;
+	}
+
+	public int GetCurrentMana(){
+		return currentMana;
+	}
+
+	public int GetMaxMana(){
+		return maxMana;
+	}
+
+	public void CancelCast(){
+		castingTime = 0;
+		casting = false;
+		castingSpell = null;
+	}
+
     
     
     void Update() {
@@ -105,8 +138,11 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	}
 
 	protected void UpdateTarget(){
-		if (enemyList.Count >= 1)
-			target = enemyList [0];
+		if (enemyList.Count >= 1) {
+			if (target == null || target.IsDead ()) {
+				target = enemyList [0];
+			}
+		}
 		else {
 			LeaveCombat ();
 			target = null;
@@ -163,21 +199,13 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         if (casting)
 		{
 			castingTime += Time.deltaTime;
-			print ("casting : " + castingSpell.GetName()+ ", castBar : "+castingTime);
             if(castingTime >= castingSpell.GetCastTime())
             {
                  DoneCasting();
             }
         }
     }
-    
-    protected void CancelCast()
-    { 
-    castingSpell = null;
-    castingTime = 0;
-    casting = false;
-    }
-    
+
     protected void DoneCasting()
     {
     if (target != null) {
@@ -211,7 +239,7 @@ public class Player : AbstractCharacter
     private bool jumping = false;
     private bool wantToJump = false;
 	private string[] actionBar = new string[5];
-	
+	private int enemyOffset = 0;
 	
 	void Start(){
 
@@ -221,6 +249,12 @@ public class Player : AbstractCharacter
     {
 
         //EnemyManagement
+		if(Input.GetKeyUp(KeyCode.Tab)){
+			CycleTargets();
+		}
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			CancelCast ();
+		}
 		if (Input.GetKeyDown(KeyCode.Alpha1))
         {
 			castSpell(actionBar[0]);
@@ -232,6 +266,57 @@ public class Player : AbstractCharacter
 		UpdateCombat ();
 		UpdateCast();
         MovePlayer(GetComponent<Rigidbody2D>()); 
+	}
+
+	private void CycleTargets(){
+		int count = enemyList.Count;
+		if (count > 1) {
+			enemyOffset += 1;
+
+			if (enemyOffset >= count) {
+				enemyOffset = 0;
+			}
+
+			cakeslice.Outline outline = target.GetGameObject ().GetComponent<cakeslice.Outline> ();
+			Destroy(outline);
+
+			target = enemyList[enemyOffset];
+		}
+
+	}
+
+	void OnGUI()
+	{
+		
+		GUI.Box (new Rect (0, 0, 200, 20), name);
+		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + maxLife);
+		GUI.Box(new Rect(0,20,currentLife*2,20), new Texture2D(1,1)); 
+		GUI.Box (new Rect (0, 40, 200, 20), currentMana + " / " + maxMana);
+		GUI.Box(new Rect(0,40,currentMana*2,20), new Texture2D(1,1)); 
+		if (target != null && !target.IsDead()) {
+			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
+			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
+			GUI.Box (new Rect (400, 20, target.GetCurrentLife()*2, 20), new Texture2D(1,1));
+			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentMana() + " / " + target.GetMaxMana());
+			GUI.Box(new Rect(400,40,target.GetCurrentMana()*2,20), new Texture2D(1,1)); 
+
+			//test outlining target
+			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
+				target.GetGameObject ().AddComponent<cakeslice.Outline> ();
+			}
+		}
+
+		if (casting) {
+			int spellCastTime = (int)castingSpell.GetCastTime ();
+			int castPercentage = (int)(100 * (castingTime/spellCastTime));
+
+			GUI.Box (new Rect (Screen.width/2, 93	*Screen.height/100, 100, 30), castingSpell.GetName() + " : " +castingTime.ToString("0.0") + " / " + spellCastTime);
+			GUI.Box(new Rect(Screen.width/2, 93*Screen.height/100,castPercentage,30), new Texture2D(1,1)); 
+		}
+		//GUI.BeginGroup(new Rect(400,400, 10,20));
+		//	GUI.EndGroup();
+		//GUI.EndGroup();
+
 	}
 
 
