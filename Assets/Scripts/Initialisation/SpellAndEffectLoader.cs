@@ -88,7 +88,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
     private void CreateEffectsOnTime()
     {
         CreateEffectOnTime("Corruption", "First DoT of the game", false, 1, 6, 1f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60));
-        CreateEffectOnTime("Burning", "Inflict fire damage every two seconds.", false, 3, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 0.5f } }, 10));
+        CreateEffectOnTime("Burning", "Inflict fire damage every two seconds.", false, 3, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 0.8f } }, 10));
         CreateEffectOnTime("Renovation", "First HoT of the game", true, 3, 10, 1, null, newHealOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 2f } }, 50));
         CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
@@ -132,9 +132,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.6f } }, 30), "Frost", null, null);
         CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 1, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60, 5), "Fire", null, null);
-        
+        CreateFriendlySpell("Blink", "Teleport you few meters in front of you", 20, 0, 5, 15, 1, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (c.IsFacingLeft()) { c.gameObject.transform.position += new Vector3(7, 0); } else { c.gameObject.transform.position -= new Vector3(7, 0); } }), "Blink", null, null);
         //Base spells
-        CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());
+        CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return !c.IsInCombat(); }));
 
         //Others ?
         CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
@@ -541,8 +541,10 @@ public class SpellAndEffectLoader : MonoBehaviour {
             Player player = FindUtils.GetPlayer();
             player.SetResourceType(new Mana());
             player.SetCurrentResource(0);
-            player.AddSpell(Spells.Get("Fireball"));
-           
+            player.AddSpell(Spells.Get("Fireball")); 
+            player.AddSpell(Spells.Get("Blink")); 
+
+
         });
 
         DialogActions.Add("AddWarriorSpells", () =>

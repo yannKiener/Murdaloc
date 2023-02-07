@@ -900,6 +900,11 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    public bool IsFacingLeft()
+    {
+        return transform.localScale.x > 0;
+    }
+
     protected void FlipSprite()
     {
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);

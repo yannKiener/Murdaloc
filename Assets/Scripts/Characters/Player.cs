@@ -337,6 +337,7 @@ public class Player : Character
 		player.velocity = new Vector2(xSpeed * stats.MaxSpeed, ySpeed);
 
         //Limit player to camera bounds At ALL TIMES
+
         if(!(Camera.main.WorldToViewportPoint(transform.position).x > 1.2) && !(Camera.main.WorldToViewportPoint(transform.position).x < -0.2))
         {
             Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
