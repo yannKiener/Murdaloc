@@ -365,6 +365,10 @@ public abstract class Character : MonoBehaviour
 
     }
 
+	public Dictionary<string, Spell> GetSpells(){
+		return this.spellList;
+	}
+
     public void AddSpell(Spell spell)
     {
         spellList.Add(spell.GetName(), spell);

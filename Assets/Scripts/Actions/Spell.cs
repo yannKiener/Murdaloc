@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 [System.Serializable]
 public static class Spells 
@@ -40,6 +41,7 @@ public abstract class Spell : Usable
 	protected float maxDistance;
 	protected Action<Character,Character> applySpellEffect;
 	protected bool isHostileSpell;
+	protected Image image;
 
 	public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance,Action<Character,Character> spellEffect,List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
@@ -54,9 +56,9 @@ public abstract class Spell : Usable
 		this.effectsOnSelf = effectsOnSelf;
 		this.maxDistance = maxDistance;
 		this.isHostileSpell = isHostile;
+		this.image = Interface.LoadImageFor (spellName);
 	}
-
-
+		
 	public Spell(Spell s){
 		this.spellName = s.spellName;
 		this.description = s.description;
@@ -68,6 +70,12 @@ public abstract class Spell : Usable
 		this.effectsOnTarget = s.effectsOnTarget;
 		this.effectsOnSelf = s.effectsOnSelf;
 		this.maxDistance = s.maxDistance;
+		this.image = Interface.LoadImageFor (spellName);
+	}
+
+	public void Use(Character caster, Character target){
+
+
 	}
 
 
@@ -129,12 +137,6 @@ public abstract class Spell : Usable
     {
         return levelRequirement;
     }
-
-	protected override void Use (Character caster, Character target)
-	{
-		base.Use (caster,target);
-		Cast (caster,target);
-	}
 
     public virtual void Cast(Character caster, Character target)
     {
