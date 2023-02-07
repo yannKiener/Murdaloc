@@ -15,6 +15,9 @@ public class DialogBox : MonoBehaviour {
 
     public void Initialize(Friendly character)
     {
+        if (FindUtils.GetVendorPanelGameObject().activeSelf)
+            FindUtils.GetVendorPanelGameObject().SetActive(false);
+
         this.friendly = character;
         gameObject.SetActive(true);
         characterName = character.GetName();
