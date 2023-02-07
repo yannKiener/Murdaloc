@@ -201,6 +201,12 @@ public abstract class Spell : Usable, Castable
         return levelRequirement;
     }
 
+    public void AddCooldownRemaining(Character caster)
+    {
+        caster.addSpellOnCD(this);
+        coolDownRemaing = coolDown;
+    }
+
     public virtual void Cast(Character caster, Character target)
     {
 		if (IsCastable (caster, target)) {
@@ -212,9 +218,9 @@ public abstract class Spell : Usable, Castable
 			applyEffectsOn (caster, caster, effectsOnSelf);
 			applyEffectsOn (caster, target, effectsOnTarget);
             CheckProcs(caster, target);
-            coolDownRemaing = coolDown;
-			caster.addSpellOnCD (this);
-		}
+            AddCooldownRemaining(caster);
+
+        }
     }
 
     public EffectOnTime GetEffectOnTarget(string name)

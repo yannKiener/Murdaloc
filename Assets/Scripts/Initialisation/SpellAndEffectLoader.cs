@@ -120,7 +120,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
     {
         //Rogue Spells
         CreateHostileSpell("Hemorrhage", "A fast attack with your main hand + 70% of your agility. Only usable with one handed weapons.", 35, 0, 0, 0, Constants.MaxAutoAttackDistance, true, newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.7f } }, 10, 1f), "Bloody", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) != null && !(FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1).GetEquipmentSlot() == EquipmentSlot.TwoHanded); }));
-        CreateHostileSpell("Kick", "A quick kick that interrupts spellcasting. Gain 15 enery on sucessful kick.", 25, 0, 0, 10, Constants.MaxAutoAttackDistance, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (t.CancelCast()) { c.AddResource(15); }; newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.4f } }, 10); }), "Default", null, null);
+        CreateHostileSpell("Kick", "A quick kick that interrupts spellcasting. Gain 15 enery on sucessful kick.", 25, 0, 0, 10, Constants.MaxAutoAttackDistance, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (t.CancelCast(true)) { c.AddResource(15); }; newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.4f } }, 10); }), "Default", null, null);
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, true, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
 
         //Warrior Spells

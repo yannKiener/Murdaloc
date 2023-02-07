@@ -435,7 +435,7 @@ public abstract class Character : InteractableBehaviour
 		return inCombat;
 	}
 
-	public bool CancelCast(){
+	public bool CancelCast(bool cancelCdOnSpell = false){
         gcd = 0;
 		castingTime = 0;
         bool wasCasting = casting;
@@ -443,6 +443,10 @@ public abstract class Character : InteractableBehaviour
         if(castingSpell != null)
         {
             SoundManager.StopSound(castingSpell.GetPreCastSound());
+            if (cancelCdOnSpell)
+            {
+                castingSpell.AddCooldownRemaining(this);
+            }
 		    castingSpell = null;
         }
         return wasCasting;
@@ -1016,7 +1020,13 @@ public abstract class Character : InteractableBehaviour
 
             if (damage > 0)
             {
-                createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
+                Color col = Color.white;
+                if (!isAutoAttack)
+                {
+                    col = new Color(1, 0, 0);
+                }
+
+                createFloatingText(damage.ToString(), col, isCrit);
 
                 this.currentLife -= damage;
                 if(this.GetResourceType() is Rage && isAutoAttack)
@@ -1058,7 +1068,7 @@ public abstract class Character : InteractableBehaviour
 		}
 	}
 
-	protected void createFloatingText (string text, Color color, bool isCrit, bool isAutoAttack = false)
+	protected void createFloatingText (string text, Color color, bool isCrit)
 	{
 		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("Prefab/UI/FloatingText"));
 		setObjectAboveAsChild (floatingTextGameObj, 1f);
@@ -1067,9 +1077,6 @@ public abstract class Character : InteractableBehaviour
 		floatingText.setColor (color);
 		if (isCrit) {
 			floatingText.SetCrit();
-		}
-		if (isAutoAttack) {
-			floatingText.setColor (Color.white);
 		}
     }
 
