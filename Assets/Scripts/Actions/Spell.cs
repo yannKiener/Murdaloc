@@ -21,18 +21,33 @@ public abstract class AbstractSpell : MonoBehaviour, Spell
     protected string description;
     protected int resourceCost;
     protected float castTime;
-    protected int levelRequirement;
+	protected int levelRequirement;
+	protected int coolDown;
     protected List<EffectOnTime> effectsOnTarget;
     protected List<EffectOnTime> effectsOnSelf;
 
-    public AbstractSpell()
+
+	public AbstractSpell()
     {
         spellName = "Splash";
         description = "A random magikarp splash attack.";
         resourceCost = 0;
         castTime = 1;
         levelRequirement = 1;
-    }
+		coolDown = 0;
+	}
+	public AbstractSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown)
+	{
+		this.spellName = name;
+		this.description = description;
+		this.resourceCost = resourceCost;
+		this.castTime = castTime;
+		this.levelRequirement = levelRequirement;
+		this.coolDown = coolDown;
+	}
+
+
+
 
     public string GetName() {
         return spellName;
@@ -68,6 +83,11 @@ public abstract class AbstractSpell : MonoBehaviour, Spell
 [System.Serializable]
 public class HostileSpell : AbstractSpell
 {
+	public HostileSpell(string name, string desc, int rsrcCost, float castTime, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,lvlReq,cD){
+		
+
+	}
+
     public override void Cast(GameObject target)
     {
         if (CheckCondition())

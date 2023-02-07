@@ -19,6 +19,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected int maxMana;
     protected int currentMana;
     protected string charName;
+	protected bool casting;
+	protected Spell[] spellList;
 
     public void Initialize(string name)
     {
@@ -27,6 +29,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         maxMana = 100;
         currentMana = maxMana;
         this.charName = name;
+		casting = false;
     }
 
     public void kill()
