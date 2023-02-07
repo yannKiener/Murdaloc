@@ -46,10 +46,7 @@ public static class InterfaceUtils {
 
     public static Image LoadImageForItem(string name)
     {
-        Image test = Resources.Load("Images/Items/" + name) as Image;
-        if (test == null)
-            Debug.Log("c'est mort");
-        return test; 
+         return Resources.Load("Images/Items/" + name) as Image;
     }
 
     public static Sprite LoadSpriteForItem(string name)
