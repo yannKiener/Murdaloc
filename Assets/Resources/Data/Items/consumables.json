@@ -37,10 +37,10 @@
    },
    "Ice Cold Milk":{  
       "description":"Drink to restore mana.",
-      "spell":"Bevrage"
+      "spell":"Drink"
    },
    "Refreshing Spring Water":{  
       "description":"Drink to restore mana.",
-      "spell":"Bevrage"
+      "spell":"Drink"
    }
 }

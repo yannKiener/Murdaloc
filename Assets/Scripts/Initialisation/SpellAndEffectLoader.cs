@@ -20,9 +20,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
         //Spells for consummables
         CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20,true));
-        CreateEffectOnTime("Bevrage", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));
+        CreateEffectOnTime("Drink", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));
         CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Food") });
-        CreateFriendlySpell("Bevrage", "Drink.", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Bevrage") });
+        CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Drink") });
         CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, AddLifePercent(25), null, null);
         CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, AddLifePercent(40), null, null);
         CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, AddLifePercent(60), null, null);

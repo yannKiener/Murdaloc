@@ -16,11 +16,7 @@ public class Consumable : Item
         this.itemName = name;
         this.spell = spell;
         this.description = description;
-        this.image = InterfaceUtils.LoadSpriteForItem(itemName);
-        if (image == null)
-        {
-            this.image = InterfaceUtils.LoadSpriteForItem("Default");
-        }
+        this.image = InterfaceUtils.LoadSpriteForConsumable(itemName);
     }
 
     public void SetImage(Sprite image)
