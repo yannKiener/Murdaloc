@@ -54,10 +54,10 @@ public class MapGenerator : MonoBehaviour {
 		for (int i = 0; i < width; i++){
 			if(pseudoRandom.Next(0,100) < density){
 				float x = getLowerXBound(map) + i;
-				float y = getUpperYBound(map) + objToDraw.GetComponent<Renderer>().bounds.size.y/2;
+				float y = getUpperYBound(map) -(float)0.1+ objToDraw.GetComponent<Renderer>().bounds.size.y/2 ;
 				objToDraw.transform.position = new Vector3(x,y,0);
 				Instantiate(objToDraw); //draw at position x
-			}
+			} 
 		}
 	}
 
