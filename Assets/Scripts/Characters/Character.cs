@@ -27,6 +27,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected bool casting;
     protected Character target;
 	protected bool isDead;
+	protected Spell castingSpell;
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 
     public void Initialize(string name)
@@ -38,6 +39,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         this.charName = name;
 		casting = false;
 		isDead = false;
+		castingSpell = null;
     }
 
 	public bool IsDead(){
@@ -78,7 +80,6 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void castSpell(string spellName)
     {
-
 		if (target != null) {
 			spellList [spellName].Cast (this, target);
 		} else {
