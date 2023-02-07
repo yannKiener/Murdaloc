@@ -99,7 +99,7 @@ public class MapGenerator : MonoBehaviour {
 				float x = getLowerXBound(map) + i;
 				float y = getUpperYBound(map) -(float)0.1+ objToDraw.GetComponent<Renderer>().bounds.size.y/2 ;
 				if (isEnemy) {
-					y += objToDraw.GetComponent<Renderer> ().bounds.size.y / 2;
+					y += objToDraw.GetComponent<Renderer> ().bounds.size.y ;
 				}
 				objToDraw.transform.position = new Vector3(x,y,0);
 				Instantiate(objToDraw); //draw at position x
