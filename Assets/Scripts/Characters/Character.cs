@@ -69,7 +69,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
       
      protected void AddToEnemyList(Character enemy)
      {
-          if (enemy != null && !enemyList.Contains (enemy)) {
+		if (enemy != null && !enemyList.Contains (enemy)) {
 			     enemyList.Add (enemy);
 			     if (enemyList.Count == 1) {
 				     target = enemy;
@@ -159,10 +159,11 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     }
     
     protected void UpdateCast()
-    {
+	{
         if (casting)
-        {
-            castingTime += Time.deltaTime;
+		{
+			castingTime += Time.deltaTime;
+			print ("casting : " + castingSpell.GetName()+ ", castBar : "+castingTime);
             if(castingTime >= castingSpell.GetCastTime())
             {
                  DoneCasting();
@@ -216,7 +217,7 @@ public class Player : AbstractCharacter
 
 	}
 
-    void Update()
+	void Update() 
     {
 
         //EnemyManagement
@@ -229,6 +230,7 @@ public class Player : AbstractCharacter
 		    castSpell(actionBar[1]);
 		}
 		UpdateCombat ();
+		UpdateCast();
         MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
@@ -318,6 +320,11 @@ public class Hostile : AbstractCharacter
                  if (hitColliders[i].tag == "Player")
                  {
                      AggroTarget(hitColliders[i].gameObject.GetComponent<Character>());
+
+					//Todo : Supprimer ca plus tard c'est juste pour la déco
+					GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
+					aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
+					StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
                  }
                  i++;
              }  
@@ -327,7 +334,7 @@ public class Hostile : AbstractCharacter
 	void OnCollisionEnter2D(Collision2D collision){
 		if (collision.gameObject.tag == "Player" && !inCombat) {
             inCombat = true;
-            Aggro(collision);
+            //Aggro(collision);
             AggroAroundSelf(collision);
 		}
 	}
@@ -359,6 +366,7 @@ public class Hostile : AbstractCharacter
         }
     }
 
+	/*
     private void Aggro(Collision2D collision)
     {
             inCombat = true;
@@ -368,7 +376,8 @@ public class Hostile : AbstractCharacter
             GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
             aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
             StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
-    }
+    } 
+    */
 
     IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
     {
