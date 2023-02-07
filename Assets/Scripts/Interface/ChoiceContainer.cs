@@ -44,7 +44,7 @@ public class ChoiceContainer : MonoBehaviourWithMouseOverColor, IPointerClickHan
             if (choice.GetDialog().GetAction().ToLower().Equals("vendor"))
             {
                 FindUtils.GetVendorBox().SetActive(true);
-                FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner().GetSellTable());
+                FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner());
             }
         } else
         {

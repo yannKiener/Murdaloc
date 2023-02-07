@@ -7,9 +7,12 @@ public class VendorPanel : MonoBehaviour
 {
 
     public GameObject sellSlotContainer;
+    public Friendly vendor;
 
-    public void Initialize(Dictionary<Item, bool> itemList)
+    public void Initialize(Friendly vendor)
     {
+        this.vendor = vendor;
+        Dictionary<Item, bool> itemList = vendor.GetSellTable();
         clearChilds(transform);
         if(itemList != null)
         {
@@ -19,6 +22,20 @@ public class VendorPanel : MonoBehaviour
                 sellContainer.GetComponentInChildren<SellSlot>().Initialize(item.Key, item.Value);
             }
         }
+        transform.parent.Find("Name").GetComponent<Text>().text = vendor.GetName();
+    }
+
+    public void RefreshSelf()
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            Initialize(vendor);
+        }
+    }
+
+    public Friendly GetVendor()
+    {
+        return vendor;
     }
 
     void OnEnable()

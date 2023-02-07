@@ -30,6 +30,8 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
             {
                 Item item = (Item)usable;
                 FindUtils.GetInventoryGrid().SellItem(item);
+                FindUtils.GetVendorPanel().GetVendor().AddItemToSellTable(item, false);
+
             }
         } else
         {

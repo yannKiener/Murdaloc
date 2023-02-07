@@ -48,6 +48,21 @@ public class Friendly : Character
         return sellTable;
     }
 
+    public void AddItemToSellTable(Item item, bool hasInfinite)
+    {
+        if (!sellTable.ContainsKey(item))
+        {
+            sellTable.Add(item, hasInfinite);
+        }
+        FindUtils.GetVendorPanel().RefreshSelf();
+    }
+
+    public void RemoveItemFromSellTable(Item item)
+    {
+        sellTable.Remove(item);
+        FindUtils.GetVendorPanel().RefreshSelf();
+    }
+
     void OnMouseDown()
     {
         FindUtils.GetPlayer().SetTarget(this);

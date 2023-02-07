@@ -30,6 +30,11 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                     inv.RemoveCash((int)(item.GetSellPrice() * Constants.BuyPriceMultiplier));
                     if (!hasInfinite)
                         Destroy(this.gameObject);
+
+                    if (!hasInfinite)
+                    {
+                        FindUtils.GetVendorPanel().GetVendor().RemoveItemFromSellTable(item);
+                    }
                 }
             }
 
