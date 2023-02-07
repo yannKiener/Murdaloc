@@ -11,5 +11,4 @@ public class SavesButton : MonoBehaviour {
         GameUtils.SetPlayer(saveName);
         GameUtils.LoadScene("LevelOne");
     }
-
 }

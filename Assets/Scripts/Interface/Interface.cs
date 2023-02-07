@@ -314,7 +314,6 @@ public class Interface : MonoBehaviour
             Rect windowRect = new Rect((Screen.width - optionMenuWidth) / 2, (Screen.height - optionMenuHeight) / 2, optionMenuWidth, optionMenuHeight);
 
             GUI.Window(2, windowRect, InGameOptionMenuWindow, "Options", menuStyle);
-
         }
 
     }
@@ -354,13 +353,11 @@ public class Interface : MonoBehaviour
 
     void InGameMenuWindow(int windowID)
     {
-
         if (GUI.Button(getRectForIngameMenuPosition(2), "Options", buttonStyle))
         {
             CloseMenu(false);
             OpenOptionMenu();
         }
-
         if (GUI.Button(getRectForIngameMenuPosition(4), "Main Menu", buttonStyle))
         {
             CloseMenu();
@@ -411,9 +408,8 @@ public class Interface : MonoBehaviour
         }
     }
 
-        private void drawExperienceBar(Player player, int xPercent, int yPercent)
+    private void drawExperienceBar(Player player, int xPercent, int yPercent)
     {
-
         int x = (int)(Screen.width * xPercent / 100);
         int y = (int)(Screen.height * yPercent / 100);
         GUI.Box(new Rect(x,y, Screen.width, expBarHeight), "", nameBarStyle);

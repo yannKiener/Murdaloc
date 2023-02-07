@@ -13,6 +13,7 @@ public class SaveGame {
     List<string> spellList;
     List<Equipment> charSheetItems;
     List<Item> inventoryItems;
+    Dictionary<string, bool> status;
 
     public SaveGame()
     {
@@ -38,6 +39,7 @@ public class SaveGame {
         this.spellList = player.GetSpells().Keys.ToList<string>();
         this.charSheetItems = chSheet.GetEquipments();
         this.inventoryItems = inv.GetItems();
+        this.status = DialogStatus.GetAllStatus();
     }
 
     public void Load()
@@ -79,6 +81,8 @@ public class SaveGame {
             }
             FindUtils.GetInventoryGrid().AddItem(item);
         }
+
+        DialogStatus.SetAllStatus(status);
         
     }
 }

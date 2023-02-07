@@ -282,8 +282,4 @@ public class SpellAndEffectLoader : MonoBehaviour {
         SoundManager.StopAll();
         SoundManager.SetVolume(1);
     }
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

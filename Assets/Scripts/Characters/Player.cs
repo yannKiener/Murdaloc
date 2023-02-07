@@ -12,9 +12,13 @@ public class Player : Character
     private float experiencePercent;
     private Vector3 initialPosition;
 
-    new void Start()
+    private void Awake()
     {
         Interface.LoadPlayer();
+    }
+
+    new void Start()
+    {
         base.Start();
         GetComponent<SpriteRenderer>().sortingOrder = 10;
         this.initialPosition = this.transform.position;

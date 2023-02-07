@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class CharacterSheet : MonoBehaviour, Slotable {
 
-    public GameObject slotContainer;
     public GameObject slotPrefab;
 
     void OnEnable()

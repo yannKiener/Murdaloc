@@ -27,21 +27,13 @@ public static class DialogStatus{
 	public static void SetStatus(string name, bool boolean){
 		status[name] = boolean;
 	}
-	
-	public static void Save(){
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create (Application.persistentDataPath + Constants.DialogStatusFile);
-		bf.Serialize(file, status);
-		file.Close ();
-	}
-	
-	public static void Load(){
-		if (File.Exists(Application.persistentDataPath + Constants.DialogStatusFile)) {
-			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open (Application.persistentDataPath + Constants.DialogStatusFile, FileMode.Open);
-			Dictionary<string, bool> statusSave = (Dictionary<string, bool>)bf.Deserialize (file);
-			status = statusSave;
-			file.Close();
-		}
-	}
+
+    public static Dictionary<string, bool> GetAllStatus()
+    {
+        return status;
+    }
+    public static void SetAllStatus(Dictionary<string, bool> st)
+    {
+        status = st;
+    }
 }

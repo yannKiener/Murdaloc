@@ -101,6 +101,7 @@ public static class InterfaceUtils {
         if (FindUtils.GetLoot().activeSelf)
         {
             HideLoot();
+            return true;
         }
         return false;
     }

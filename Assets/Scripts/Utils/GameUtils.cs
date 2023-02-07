@@ -11,6 +11,7 @@ public class GameUtils : MonoBehaviour {
 
     private static string scene = null;
     private static string playerName = null;
+    private static bool isNewGame = false;
     private GameObject loadingScreen;
     private Slider slider;
 
@@ -22,6 +23,11 @@ public class GameUtils : MonoBehaviour {
     public static void SetPlayer(string name)
     {
         playerName = name;
+    }
+
+    public static void SetNewGame()
+    {
+        isNewGame = true;
     }
 
     public static List<string> GetGameNames()
@@ -38,8 +44,18 @@ public class GameUtils : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
-            while (!InterfaceUtils.CloseOpenWindows())
+            if (!InterfaceUtils.CloseOpenWindows())
             {
+                Debug.Log("Closing Windows..");
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
+                InterfaceUtils.CloseOpenWindows();
                 InterfaceUtils.CloseOpenWindows();
             }
             SaveGame();
@@ -52,6 +68,11 @@ public class GameUtils : MonoBehaviour {
     {
         if (scene.name != "MainMenu")
         {
+            if (isNewGame)
+            {
+                FindUtils.GetPlayer().CharacterName = playerName;
+                SaveGame();
+            }
             if(playerName != null)
             {
                 LoadGame(playerName);
@@ -61,7 +82,6 @@ public class GameUtils : MonoBehaviour {
 
     public static void SaveGame()
     {
-        Debug.Log("Saving...");
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/"  + FindUtils.GetPlayer().GetName() + ".murk");
         bf.Serialize(file, new SaveGame());
@@ -70,7 +90,6 @@ public class GameUtils : MonoBehaviour {
 
     public static void LoadGame(string saveName)
     {
-        Debug.Log("Loading...");
         SaveGame save = new SaveGame();
         if (File.Exists(Application.persistentDataPath + "/" + saveName + ".murk"))
         {
@@ -103,16 +122,12 @@ public class GameUtils : MonoBehaviour {
     {
         AsyncOperation operation =  SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         loadingScreen.SetActive(true);
-        operation.allowSceneActivation = false;
 
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             slider.value = progress;
-            if (progress >= 1)
-            {
-                operation.allowSceneActivation = true;
-            }
+
             yield return null;
         }
     }
