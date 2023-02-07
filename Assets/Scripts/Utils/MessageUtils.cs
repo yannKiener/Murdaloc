@@ -14,4 +14,15 @@ public static class MessageUtils {
 
     }
 
+
+    public static void Message(string text)
+    {
+        GameObject floatingTextGameObj = (GameObject)UnityEngine.GameObject.Instantiate(Resources.Load("FloatingText"));
+        FloatingText floatingText = floatingTextGameObj.AddComponent<FloatingText>();
+        floatingText.setText(text);
+        floatingText.setColor(Color.white);
+        floatingText.transform.position += new Vector3(FindUtils.GetPlayer().transform.position.x, -1, 0);
+
+    }
+
 }

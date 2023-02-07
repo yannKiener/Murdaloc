@@ -32,13 +32,14 @@ public abstract class Character : MonoBehaviour
     protected Dictionary<string, int> lootTable;
     protected bool isElite;
 	protected Dialog dialog;
+    protected float timeSpendOutOfCombat = 0f;
 
     public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, int> lootTable = null)
 	{
 		if (resource == null) {
 			resource = new Mana ();
 		}
-		stats = new Stats (1, 1, 10, 10, 1, 1, 1, 1,resource.GetName() == Constants.Mana);
+		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
 		currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
         this.charName = name;
@@ -135,8 +136,10 @@ public abstract class Character : MonoBehaviour
 	}
 
 	public virtual void LevelUp(){
+        MessageUtils.Message("Level up !");
         level++;
-		this.stats.Add(new Stats(3,3,3,5,4,10,10,10,false));
+		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
+        this.currentLife = this.GetMaxLife();
 	}
 
     public int GetLevel()
@@ -290,7 +293,7 @@ public abstract class Character : MonoBehaviour
      
 	virtual protected void EnterCombat() 
      {
-         if (!inCombat)
+        if (!inCombat)
 		{
              StartAutoAttack();
              inCombat = true;
@@ -388,6 +391,27 @@ public abstract class Character : MonoBehaviour
 		if (hasCasted) {
 			hasCasted = false;
 		}
+        if (!inCombat)
+        {
+            timeSpendOutOfCombat += Time.deltaTime;
+            if(timeSpendOutOfCombat >= Constants.RegenLifeEvery)
+            {
+                timeSpendOutOfCombat -= Constants.RegenLifeEvery;
+                if(!(currentLife >= GetMaxLife()))
+                {
+                    currentLife += ((GetMaxLife() * Constants.RegenLifePercent)/100);
+                }
+
+                if (currentLife > GetMaxLife())
+                {
+                    currentLife = GetMaxLife();
+                }
+                if (currentLife < 0)
+                {
+                    currentLife = 0;
+                }
+            }
+        }
 	}
      
      protected void UpdateCombat (){

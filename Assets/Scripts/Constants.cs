@@ -31,9 +31,19 @@ public static class Constants {
 	public static readonly float RatioSpiritManaPerSecond = 1;
 	public static readonly int BaseManaPerSecond = 5;
 	public static readonly int RegenManaEvery = 1;
-	public static readonly int RegenEnergyEvery = 2;
+    public static readonly float RegenManaAfter = 5f;
+    public static readonly int RegenEnergyEvery = 2;
     public static readonly int MaxHaste = 90;
     public static readonly int MaxLevel = 60;
+    public static readonly int RegenLifeEvery = 3;
+    public static readonly int RegenLifePercent = 5;
+    //EquilibrageStats
+    public static readonly int ForceByLevel = 3;
+    public static readonly int AgilityByLevel = 3;
+    public static readonly int IntelligenceByLevel = 3;
+    public static readonly int StaminaByLevel = 5;
+    public static readonly int SpiritByLevel = 4;
+
 
     //Items
     public static readonly float MainStatMultiplier = 1.3f;

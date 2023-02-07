@@ -22,7 +22,7 @@ public class Mana : Resource {
 		if (hasCasted) {
 			localTime = Time.time;
 			counter = 0;
-		} else if(Time.time >= localTime + 5f){ //regen après 5s.
+		} else if(Time.time >= localTime + Constants.RegenManaAfter){ //regen après x secondes.
 			counter += timeElapsed;
 			if (counter >= Constants.RegenManaEvery) {
 				counter -= Constants.RegenManaEvery;
