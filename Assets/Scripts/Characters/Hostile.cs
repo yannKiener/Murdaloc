@@ -25,6 +25,7 @@ public class Hostile : Character
             stats.AddPercent(Stat.intelligence, 90);
             stats.AddPercent(Stat.spirit, 90);
             stats.AddPercent(Stat.autoAttackDamage, 90);
+            currentLife = stats.MaxLife;
         }
 
         autoAttack1Damage = stats.AutoAttackDamage;
