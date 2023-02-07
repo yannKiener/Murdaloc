@@ -64,7 +64,7 @@ public class Stats {
 		}
 	}
 
-	public float AddPercent(Stat stat, int percent){
+	public float AddPercent(Stat stat, float percent){
 		float result;
 		switch (stat) {
 		case Stat.agility:
@@ -88,7 +88,7 @@ public class Stats {
 			}
 		case Stat.critical:
 			{
-				critical += percent;
+				critical += (int)percent;
 				return percent;
 			}
 		case Stat.force:
@@ -99,7 +99,7 @@ public class Stats {
 			}
 		case Stat.haste:
 			{
-				haste += percent;
+				haste += (int)percent;
 				return percent;
 			}
 		case Stat.intelligence:
@@ -126,13 +126,13 @@ public class Stats {
 		case Stat.maxSpeed:
 			{
 				result = (maxSpeed * percent / 100);
-				maxSpeed += result;
+				MaxSpeed += result;
 				return result;
 
 			}
 		case Stat.power:
 			{
-				power += percent;
+				power += (int)percent;
 				return percent;
 			}
 		case Stat.spirit:
@@ -161,17 +161,26 @@ public class Stats {
 		get {
 			return this.autoAttackTime;
 		}
+		set {
+			autoAttackTime = value;
+		}
 	}
 
 	public float MaxSpeed {
 		get {
 			return this.maxSpeed;
 		}
+		set {
+			maxSpeed = value;
+		}
 	}
 
 	public int AutoAttackDamage {
 		get {
 			return this.autoAttackDamage;
+		}
+		set {
+			autoAttackDamage = value;
 		}
 	}
 

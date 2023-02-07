@@ -115,13 +115,14 @@ public class EffectOnTime
 
 		if(effect != null){
 			if(isStackable && effect.stacks < maxStacks){
+				removeEffectOnce ();
 				effect.stacks += 1;
 				applyEffectOnce ();
 			}	
 			effect.refresh ();
 		} else {
-			applyEffectOnce ();
 			attachedCharacter.AddEffectOnTime (new EffectOnTime(this));
+			applyEffectOnce ();
 		}
     }
 
@@ -133,15 +134,13 @@ public class EffectOnTime
 
 	private void applyEffectOnce(){
 		if(applyOnce != null)
-		applyOnce.apply (caster, attachedCharacter);
+			applyOnce.apply (caster, attachedCharacter, attachedCharacter.getEffect (this).GetStacks());
 
 	}
 
 	private void removeEffectOnce(){
 		if (applyOnce != null) {
-			for (int i = 0; i < stacks; i++) {
-				applyOnce.remove (caster, attachedCharacter);
-			}
+			applyOnce.remove (caster, attachedCharacter,  attachedCharacter.getEffect (this).GetStacks());
 		}
 
 	}

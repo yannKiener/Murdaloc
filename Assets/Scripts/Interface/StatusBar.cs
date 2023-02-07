@@ -23,7 +23,6 @@ public class StatusBar : MonoBehaviour {
 	void OnMouseDown(){
 		GameObject characterGameObject = transform.parent.gameObject;
 		if (characterGameObject.tag == "Enemy") {
-			Debug.Log ("true");
 			player.SetTarget(characterGameObject.GetComponent<Character>());
 		}
 	}
