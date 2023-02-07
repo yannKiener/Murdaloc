@@ -19,6 +19,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Corruption","Damages over time.", 5,0.5f,0,0,5,null,"Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30),"Frost", null, null);
 
+        CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character>( ((Character arg1, Character arg2) => arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition())), "Default", new List<EffectOnTime>(), new List<EffectOnTime> ());
+
         //Spells for consummables
         CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20,true));
         CreateEffectOnTime("Drink", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));

@@ -22,7 +22,6 @@ public abstract class Character : MonoBehaviour
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 	protected List<Spell> spellsOnCD = new List<Spell>();
 	protected Image healthBar;
-	protected bool isHealthBarDisplayed = false;
 	protected Resource resource;
 	protected bool hasCasted;
 	protected Stats stats;
@@ -42,6 +41,7 @@ public abstract class Character : MonoBehaviour
     protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
 
+
     public void Start()
     {
 
@@ -56,16 +56,13 @@ public abstract class Character : MonoBehaviour
         {
             lootTable.Add(qlt.itemName, qlt.questName);
         }
-        foreach(string spellName in SpellList)
-        {
-            this.AddSpell(Spells.Get(spellName));
-        }
+        addSpells(SpellList);
 
         if (resource == null)
         {
             resource = new Mana();
         }
-        stats = new Stats(10 + (Constants.ForceByLevel * (level - 1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0, resource.GetName() == Constants.Mana);
+        stats = GetBaseStatsForLevel(level);
 
         autoAttack1Damage = GetBasicAutoAttackDamage();
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
@@ -80,7 +77,20 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-	public void AddDialog(string dialogName){
+    protected Stats GetBaseStatsForLevel(int lvl)
+    {
+        return new Stats(10 + (Constants.ForceByLevel * (lvl - 1)), 10 + (Constants.AgilityByLevel * (lvl - 1)), 10 + (Constants.IntelligenceByLevel * (lvl - 1)), 10 + (Constants.StaminaByLevel * (lvl - 1)), 10 + (Constants.SpiritByLevel * (lvl - 1)), 5, 0, 0, resource.GetName() == Constants.Mana);
+    }
+
+    protected void addSpells(List<string> SpellList)
+    {
+        foreach (string spellName in SpellList)
+        {
+            this.AddSpell(Spells.Get(spellName));
+        }
+    }
+
+    public void AddDialog(string dialogName){
         this.dialog = DatabaseUtils.GetDialog(dialogName);
     }
 

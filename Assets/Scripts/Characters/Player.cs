@@ -10,13 +10,50 @@ public class Player : Character
 	private bool wantToJump = false;
 	private int enemyOffset = 0;
     private float experiencePercent;
+    private Vector3 initialPosition;
 
     new void Start()
     {
         Interface.LoadPlayer();
         base.Start();
         GetComponent<SpriteRenderer>().sortingOrder = 10;
+        this.initialPosition = this.transform.position;
+    }
 
+    public void InitializeWith(string name, int cash, int level, float expPercent, Resource rsrc, List<Spell> spellList, List<Equipment> charSheetItems, List<Item> inventoryItems)
+    {
+        this.CharacterName = name;
+        this.level = level;
+        this.experiencePercent = expPercent;
+
+        if (rsrc == null)
+        {
+            resource = new Mana();
+        }
+
+        ClearSpells();
+        foreach(Spell spell in spellList)
+        {
+            AddSpell(spell);
+        }
+        this.stats = GetBaseStatsForLevel(level);
+        foreach(Equipment item in charSheetItems)
+        {
+            FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
+        }
+        foreach(Item item in inventoryItems)
+        {
+            FindUtils.GetInventoryGrid().AddItem(item);
+        }
+
+        FindUtils.GetInventoryGrid().AddCash(cash);
+
+
+        /*
+         * Initialise player with this infos : 
+         actionBar
+         QuestsDoing
+        */
     }
 
     void Controls()
@@ -101,6 +138,17 @@ public class Player : Character
 
     }
 
+    public void ClearSpells()
+    {
+        spellList.Clear();
+    }
+
+    public Vector3 GetInitialPosition()
+    {
+        return initialPosition;
+    }
+
+
     public override void AddSpell(Spell spell)
     {
         base.AddSpell(spell);
@@ -112,11 +160,6 @@ public class Player : Character
             FindUtils.GetActionBar().Add(spell);
         }
 
-    }
-
-    public void initializeSpell(Spell spell)
-    {
-        base.AddSpell(spell);
     }
 
 	private void CycleTargets(){
