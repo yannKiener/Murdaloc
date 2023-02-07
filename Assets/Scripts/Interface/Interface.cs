@@ -424,7 +424,17 @@ public class Interface : MonoBehaviour
             string tooltipContent = string.Concat(toolTipName,":\n", toolTipText);
             GUIContent tooltip = new GUIContent(tooltipContent);
             Vector2 size = toolTipStyle.CalcSize(tooltip);
-            Rect labelRect = new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y + cashIconSize), size.x, size.y);
+
+            Rect labelRect;
+            if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                labelRect = new Rect(getToolTipPositionX(Screen.width / 2.5f, size.x), getToolTipPositionY(Screen.height / 2.5f, size.y + cashIconSize), size.x, size.y);
+            }
+            else
+            {
+                labelRect = new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y + cashIconSize), size.x, size.y);
+            }
+            
             GUI.Label(labelRect, tooltipContent, toolTipStyle);
             if(toolTipPrice > 0)
             {
@@ -606,18 +616,10 @@ public class Interface : MonoBehaviour
 
     private float getToolTipPositionY(float y, float toolTipSizeY)
     {
-        int bonusForAndroid = 0;
-        if (SystemInfo.deviceType == DeviceType.Handheld)
-        {
-            bonusForAndroid = 128;
-        }
-
-        y += bonusForAndroid;
-
         float result = Screen.height - y - toolTipSizeY;
         if (result < 0)
         {
-            return result + toolTipSizeY + 64 + bonusForAndroid;
+            return result + toolTipSizeY + 64 ;
         } else
         {
             return result;

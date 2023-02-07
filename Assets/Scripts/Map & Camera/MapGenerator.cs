@@ -113,22 +113,26 @@ public class MapGenerator : MonoBehaviour {
         for (int i = 0; i < width; i++){
 			if(pseudoRandom.Next(0,100) <= density){
 				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
+                Vector3 OriginalSize = objToDraw.transform.localScale;
+                float yOffSet = 0;
                 if (!isEnemy)
                 {
                     float sizeMultiplier = UnityEngine.Random.Range(1, 3f);
-                    Debug.Log(sizeMultiplier);
-                    //objToDraw.transform.localScale += new Vector3(sizeMultiplier, sizeMultiplier);
+                    objToDraw.transform.localScale += new Vector3(sizeMultiplier, sizeMultiplier);
+                    objToDraw.GetComponent<SpriteRenderer>().sortingOrder = (int)Math.Round(sizeMultiplier);
+                    yOffSet = 0.6f - (sizeMultiplier / 3f)*0.2f;
+                } else
+                {
+                    objToDraw.GetComponent<SpriteRenderer>().sortingOrder = 10;
                 }
 
                 float x = lowerxBound +  i * mapPortion;
-                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + 0.5f;
-				if (isEnemy) {
-					y += objToDraw.GetComponent<Renderer> ().bounds.size.y/2 ;
-				}
-				Instantiate(objToDraw, transform); //draw at position x
+                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + yOffSet;
+
                 objToDraw.transform.position = new Vector3(x, y, 0);
-                objToDraw.GetComponent<SpriteRenderer>().sortingOrder = isEnemy? 10 : UnityEngine.Random.Range(0,3);
-			} 
+                Instantiate(objToDraw, transform); //draw at position x
+                objToDraw.transform.localScale = OriginalSize;
+            } 
 		}
 	}
 
