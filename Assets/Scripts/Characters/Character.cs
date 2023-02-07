@@ -56,7 +56,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
      public void AggroTarget(Character aggroTarget)
      {
-          AggroTarget.AggroFrom(this);
+          aggroTarget.AggroFrom(this);
           AddToEnemyList(aggroTarget);
           EnterCombat();
      }
@@ -66,7 +66,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
          AddToEnemyList(aggroFrom);
          EnterCombat();
      }
-     
+      
      protected void AddToEnemyList(Character enemy)
      {
           if (enemy != null && !enemyList.Contains (enemy)) {
@@ -79,12 +79,17 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
      
      protected void EnterCombat()
      {
-         inCombat = true;
+         if (!inCombat)
+         {
+             inCombat = true;
+             GameObject.Find("Main Camera").SendMessage("leavePlayer");
+         }
      }
      
      protected void LeaveCombat()
      {
          inCombat = false;
+         GameObject.Find("Main Camera").SendMessage("followPlayer");
      }
      
      protected void UpdateCombat (){
@@ -103,7 +108,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		if (enemyList.Count >= 1)
 			target = enemyList [0];
 		else {
-			leaveCombat ();
+			LeaveCombat ();
 			target = null;
 		}
 	}
@@ -248,19 +253,6 @@ public class Player : AbstractCharacter
         jumping = false;
 
     }
-	
-
-	private override void EnterCombat () {
-		if (!inCombat) {
-		    inCombat = true;
-			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
-		}
-	}
-
-	private override void LeaveCombat () {
-		inCombat = false;
-		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
-	}
 
     private void MovePlayer(Rigidbody2D player)
     {
@@ -305,14 +297,16 @@ public class Player : AbstractCharacter
 public class Hostile : AbstractCharacter
 {
 	
-    private bool inCombat = false;
-	
     void Update()
     {
         limitMovements();
+        if (!inCombat)
+        {
+            AggroAroundSelf();
+        }
     }
     
-    AggroAroundSelf()
+    void AggroAroundSelf()
     {
         if (!inCombat) 
         {
