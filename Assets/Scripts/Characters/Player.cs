@@ -40,7 +40,7 @@ public class Player : Character
         ClearSpells();
         foreach(Spell spell in spellList)
         {
-            base.AddSpell(spell);
+            AddSpell(spell, true);
         }
 
         FindUtils.GetSpellBookGrid().UpdateSpellBook();
@@ -155,16 +155,18 @@ public class Player : Character
     }
 
 
-    public override void AddSpell(Spell spell)
+    public override void AddSpell(Spell spell, bool addToActionBar = false)
     {
         base.AddSpell(spell);
         if(FindUtils.GetSpellBookGrid() != null)
             FindUtils.GetSpellBookGrid().UpdateSpellBook();
 
-        if (FindUtils.GetActionBar() != null)
+        if (addToActionBar)
         {
-            Debug.Log("Adding new spell in acionBar");
-            FindUtils.GetActionBar().Add(spell);
+            if (FindUtils.GetActionBar() != null)
+            {
+                FindUtils.GetActionBar().Add(spell);
+            }
         }
 
     }

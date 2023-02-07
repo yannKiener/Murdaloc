@@ -671,11 +671,11 @@ public abstract class Character : MonoBehaviour
 		return this.spellList;
 	}
 
-    public virtual void AddSpell(Spell spell)
+    public virtual void AddSpell(Spell spell, bool addToActionBar = false)
     {
         spellList[spell.GetName()] =  spell;
     }
-
+        
     public void CastSpell(string spellName)
     {
 		CastSpell (spellList [spellName]);
