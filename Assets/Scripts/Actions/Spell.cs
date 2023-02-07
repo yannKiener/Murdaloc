@@ -56,7 +56,7 @@ public abstract class Spell : Usable
 		this.effectsOnSelf = effectsOnSelf;
 		this.maxDistance = maxDistance;
 		this.isHostileSpell = isHostile;
-		this.image = InterfaceUtils.LoadImageFor (spellName);
+		this.image = InterfaceUtils.LoadImageForSpell (spellName);
 	}
 		
 	public Spell(Spell s){
@@ -70,7 +70,7 @@ public abstract class Spell : Usable
 		this.effectsOnTarget = s.effectsOnTarget;
 		this.effectsOnSelf = s.effectsOnSelf;
 		this.maxDistance = s.maxDistance;
-		this.image = InterfaceUtils.LoadImageFor (spellName);
+		this.image = InterfaceUtils.LoadImageForSpell (spellName);
 	}
 
 	public void Use(Character caster){

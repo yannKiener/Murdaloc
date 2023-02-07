@@ -32,12 +32,21 @@ public class Player : Character
         {
             ShowHideSpellBook();
         }
+        if (Input.GetButtonDown("ShowHideInventory"))
+        {
+            ShowHideInventory();
+        }
+        if (Input.GetButtonDown("ShowHideCharacterSheet"))
+        {
+            ShowHideCharacterSheet();
+        }
 
         if (Input.GetKeyDown (KeyCode.X)) {
 			print ("LevelUp !");
 			LevelUp ();
 			stats.displayStats ();
             AddSpell(Spells.Get("Icelance"));
+            FindUtils.GetInventory().GetComponent<Inventory>().AddItem(new Item("Test","Item for testing", 0, new Stats(0,0,0,0,0,0,0,0,false),"Head"));
 		}
 
 		MovePlayer(GetComponent<Rigidbody2D>()); 
@@ -159,7 +168,14 @@ public class Player : Character
     private void ShowHideSpellBook()
     {
         FindUtils.GetSpellBook().SetActive(!FindUtils.GetSpellBook().activeSelf);
-
+    }
+    private void ShowHideInventory()
+    {
+        FindUtils.GetInventory().SetActive(!FindUtils.GetInventory().activeSelf);
+    }
+    private void ShowHideCharacterSheet()
+    {
+        FindUtils.GetCharacterSheet().SetActive(!FindUtils.GetCharacterSheet().activeSelf);
     }
 
 

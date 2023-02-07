@@ -31,7 +31,6 @@ public class SpellBook : MonoBehaviour, Slotable {
 		
 	}
 
-
 	public void UpdateSpellBook(){
         Dictionary<string, Spell> spellList = FindUtils.GetPlayer().GetSpells();
 
@@ -52,11 +51,10 @@ public class SpellBook : MonoBehaviour, Slotable {
                     clearChilds(slot);
                 }
 
-                InterfaceUtils.CreateUsableSlot(usablePrefab, slot, InterfaceUtils.LoadSpriteFor(slots[i].GetName()), slots[i]);
+                InterfaceUtils.CreateUsableSlot(usablePrefab, slot, InterfaceUtils.LoadSpriteForSpell(slots[i].GetName()), slots[i]);
             }
         }
     }
-
 
     private void clearChilds(Transform t){
 		foreach (Transform c in t) {

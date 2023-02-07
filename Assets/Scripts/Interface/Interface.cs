@@ -121,7 +121,7 @@ public class Interface : MonoBehaviour {
 
 	private void drawEffects(List<EffectOnTime> effects,int x, int y, int w, int h){ //Todo Refacto ca proprement je pars manger ;)
 		foreach (EffectOnTime effect in effects) {
-			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureFor(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + effect.GetTimeLeft ().ToString ("0.0"));
+			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureForSpell(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + effect.GetTimeLeft ().ToString ("0.0"));
 			GUI.Box (new Rect (x, y, h, w), content);
 			int stacks = effect.GetStacks();
 			if(stacks > 1){
@@ -147,7 +147,7 @@ public class Interface : MonoBehaviour {
 			GUI.Box (new Rect (x, y, c.GetCastPercent()*castBarW, castBarH),"",castBarStyle); 
 			GUI.Box (new Rect (x, y, castBarW, castBarH), castingSpell.GetName () + " : " + c.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
 			if (drawIcon) {
-				GUI.Box (new Rect (x - castBarH, y, castBarH, castBarH), InterfaceUtils.LoadTextureFor(castingSpell.GetName ()));
+				GUI.Box (new Rect (x - castBarH, y, castBarH, castBarH), InterfaceUtils.LoadTextureForSpell(castingSpell.GetName ()));
 			}
 		}
 	}

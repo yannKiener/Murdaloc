@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler{
 
     public Usable usable;
+
+    void Start()
+    {
+        GetComponent<Image>().color = new Color(1,1,1,0.5f);
+
+    }
     
     public void Use()
     {

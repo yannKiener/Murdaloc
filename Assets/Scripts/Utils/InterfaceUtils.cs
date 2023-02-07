@@ -24,19 +24,36 @@ public static class InterfaceUtils {
         return texture;
     }
 
-    public static Texture LoadTextureFor(string name)
+    public static Texture LoadTextureForSpell(string name)
     {
-        return Resources.Load("Images/SpellIcons/" + name) as Texture;
+        return Resources.Load<Texture>("Images/SpellIcons/" + name) as Texture;
     }
 
-    public static Image LoadImageFor(string name)
+    public static Image LoadImageForSpell(string name)
     {
-        return Resources.Load("Images/SpellIcons/" + name) as Image;
+        return Resources.Load<Image>("Images/SpellIcons/" + name) as Image;
     }
 
-    public static Sprite LoadSpriteFor(string name)
+    public static Sprite LoadSpriteForSpell(string name)
     {
         return Resources.Load<Sprite>("Images/SpellIcons/" + name) as Sprite;
     }
-    
+
+    public static Texture2D LoadTextureForItem(string name)
+    {
+        return Resources.Load<Texture>("Images/Items/" + name) as Texture2D;
+    }
+
+    public static Image LoadImageForItem(string name)
+    {
+        Image test = Resources.Load("Images/Items/" + name) as Image;
+        if (test == null)
+            Debug.Log("c'est mort");
+        return test; 
+    }
+
+    public static Sprite LoadSpriteForItem(string name)
+    {
+        return Resources.Load<Sprite>("Images/Items/" + name) as Sprite;
+    }
 }
