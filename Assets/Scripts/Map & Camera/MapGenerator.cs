@@ -19,14 +19,20 @@ public class MapGenerator : MonoBehaviour {
 	public bool useRandomSeed;
     public AudioClip music;
 
+    public GameObject mapToAttach;
+
 	private bool isGenerated;
 
 
 	// Use this for initialization
 	void Start () {
         gameObject.tag = "Map";
-		isGenerated = false;
-		if (attachAtObject.GetComponent<SpriteRenderer> () != null) {
+        if(mapToAttach != null)
+        {
+            mapToAttach.tag = "MovingMap";
+        }
+        isGenerated = false;
+		if (attachAtObject.GetComponent<SpriteRenderer> () != null && attachAtObject.tag == "Map") {
 			GenerateMap ();
 		}
 	}
@@ -42,14 +48,21 @@ public class MapGenerator : MonoBehaviour {
         return music;
     }
 
+    private void stickBoxColliders(GameObject anchor, GameObject toMove, bool isAtRight)
+    {
+        float gapX = getSideBoxColliderBound(anchor, isAtRight) - getSideBoxColliderBound(toMove, !isAtRight);
+        float gapY = getUpperBoxColliderBound(anchor) - getUpperBoxColliderBound(toMove);
+        toMove.transform.position += new Vector3(gapX, gapY, 0);
+    }
+
     void GenerateMap()
     {
         Instantiate(mapPrefab, transform);
-        mapPrefab.AddComponent<MapComponent>();
         mapPrefab = transform.GetChild(0).gameObject;
+        mapPrefab.AddComponent<MapMusic>();
         mapPrefab.transform.localScale = new Vector3(width, 1, 1);
-        float gap = getSideBoxColliderBound(attachAtObject, attachAtRight) - getSideBoxColliderBound(mapPrefab, !attachAtRight);
-        mapPrefab.transform.position += new Vector3(gap, getUpperBoxColliderBound(attachAtObject) - getUpperBoxColliderBound(mapPrefab), 0);
+
+        stickBoxColliders(attachAtObject, mapPrefab, attachAtRight);
 
         if (backgroundObjectsList.Count > 0) {
 			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
@@ -63,11 +76,20 @@ public class MapGenerator : MonoBehaviour {
 
 	private void  EndGeneration(){
 		isGenerated = true;
+        if(mapToAttach != null)
+        {
+            mapToAttach.tag = "Map";
+            stickBoxColliders(gameObject, mapToAttach, attachAtRight);
+        }
 
 		GameObject[] gameobjects = GameObject.FindGameObjectsWithTag ("Map");
 		foreach (GameObject go in gameobjects) {
 			if (go.GetComponent<MapGenerator> () != null) {
 				go.SendMessage ("mapReady", this.gameObject.name);
+                if(mapToAttach != null)
+                {
+                    go.SendMessage("mapReady", mapToAttach.gameObject.name);
+                }
 			}
 		}
 

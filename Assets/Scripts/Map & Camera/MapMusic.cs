@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapComponent : MonoBehaviour {
+public class MapMusic : MonoBehaviour {
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
