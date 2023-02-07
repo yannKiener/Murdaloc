@@ -21,16 +21,21 @@ public class Player : Character
 
     void Controls()
     {
-        //EnemyManagement
         if (Input.GetButtonDown("CycleTargets"))
         {
             CycleTargets();
         }
         if (Input.GetButtonDown("Cancel"))
         {
-            if (!InterfaceUtils.CloseOpenWindows() && !CancelCast())
+            if (!Interface.CloseModalDialog() && !InterfaceUtils.CloseOpenWindows() && !CancelCast())
             {
-                FindUtils.GetPlayer().CancelTarget();
+                if(FindUtils.GetPlayer().GetTarget() != null)
+                {
+                    FindUtils.GetPlayer().CancelTarget();
+                } else
+                {
+                    Interface.OpenCloseMenu();
+                }
             }
         }
         if (Input.GetButtonDown("AutoAttack"))

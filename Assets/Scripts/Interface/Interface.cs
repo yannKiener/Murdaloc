@@ -19,6 +19,8 @@ public class Interface : MonoBehaviour
 	public GUIStyle buffStackStyle;
     public GUIStyle buffTimerStyle;
     public GUIStyle expBarStyle;
+    public GUIStyle menuStyle;
+    public GUIStyle buttonStyle;
 
     public AudioClip click;
     public AudioClip cancel;
@@ -47,6 +49,12 @@ public class Interface : MonoBehaviour
 	int castBarWidth = (int)(Screen.width * Constants.castBarwPercent / 100);
 	int castBarHeight = (int)(Screen.height * Constants.castBarhPercent / 100);
     int expBarHeight = (int)(Screen.height* Constants.expBarHeightPercent / 100);
+    int mainMenuWidth = (int)(Screen.width * Constants.mainMenuSizeXPercent / 100);
+    int mainMenuHeight = (int)(Screen.width * Constants.mainMenuSizeYPercent / 100);
+    int modalDialogWidth = (int)(Screen.width * Constants.modalDialogSizeXPercent / 100);
+    int modalDialogHeight = (int)(Screen.width * Constants.modalDialogSizeYPercent / 100);
+    int optionMenuWidth = (int)(Screen.width * Constants.optionMenuSizeXPercent / 100);
+    int optionMenuHeight = (int)(Screen.width * Constants.optionMenuSizeYPercent / 100);
     private static string toolTipText;
     private static string toolTipName;
     private static int toolTipPrice;
@@ -54,6 +62,8 @@ public class Interface : MonoBehaviour
 
     private static string ModalText;
     private static Action ModalButtonAction;
+    private static bool isMenuOpen = false;
+    private static bool isOptionMenuOpen = false;
 
 
     public static void LoadPlayer(){
@@ -80,13 +90,19 @@ public class Interface : MonoBehaviour
     {
         SoundManager.PlaySound(coinSound);
     }
-    public void OpenWindow()
+    public void OpenWindow(bool playSound = true)
     {
-        SoundManager.PlaySound(openWindow);
+        if (playSound)
+        {
+            SoundManager.PlaySound(openWindow);
+        }
     }
-    public void CloseWindow()
+    public void CloseWindow(bool playSound = true)
     {
-        SoundManager.PlaySound(closeWindow);
+        if (playSound)
+        {
+            SoundManager.PlaySound(closeWindow);
+        }
     }
     public void OpenInventory()
     {
@@ -145,10 +161,53 @@ public class Interface : MonoBehaviour
 		resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
 		castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f,0.72f,0.41f));
 		toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.01f, 0, 0.1f, 0.7f));
-        expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f,0,0.5f,1));
+        expBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.3f, 0, 0.5f, 1));
+        if (menuStyle.normal.background == null)
+        {
+            menuStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.1f, 0.1f, 0.1f, 0.9f));
+        }
+
+        if (buttonStyle.normal.background == null)
+        {
+            buttonStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.7f, 0.1f, 0.1f, 0.9f));
+        }
 
         cashIconSize = (int)(Screen.height * 4 / 100);
+    }   
+
+    public static void OpenCloseMenu()
+    {
+        if (isMenuOpen)
+        {
+            CloseMenu();
+        } else
+        {
+            OpenMenu();
+        }
     }
+
+    public static void OpenMenu(bool playSound = true)
+    {
+        FindUtils.GetInterface().OpenWindow(playSound);
+        isMenuOpen = true;
+    }
+
+    public static void CloseMenu(bool playSound = true)
+    {
+        FindUtils.GetInterface().CloseWindow(playSound);
+        isMenuOpen = false;
+    }
+
+    public static void OpenOptionMenu()
+    {
+        isOptionMenuOpen = true;
+    }
+
+    public static void CloseOptionMenu()
+    {
+        isOptionMenuOpen = false;
+    }
+
 
     public static void DrawModalDialog(string modalText, Action modalButtonAction)
     {
@@ -156,10 +215,12 @@ public class Interface : MonoBehaviour
         ModalButtonAction = modalButtonAction;
     }
 
-    public static void CloseModalDialog()
+    public static bool CloseModalDialog()
     {
+        bool result = ModalText != null;
         ModalText = null;
         ModalButtonAction = null;
+        return result;
     }
 
     public static void DrawToolTip(string name, string description, int price = 0)
@@ -200,34 +261,119 @@ public class Interface : MonoBehaviour
 		}
         drawToolTip();
         drawExperienceBar(FindUtils.GetPlayer(),0,99);
-        drawModalDialog(20, 20);
+        drawModalDialog();
+        drawMenus();
 
 
     }
 
-    private void drawModalDialog(int xSizePercent, int ySizePercent)
+    private void drawMenus()
     {
-        if (ModalText != null && ModalButtonAction != null)
+        if (isMenuOpen)
         {
-            int x = (int)(Screen.width * xSizePercent / 100);
-            int y = (int)(Screen.height * ySizePercent / 100);
+            CloseOptionMenu();
+            CloseModalDialog();
+            Rect windowRect = new Rect((Screen.width - mainMenuWidth) / 2, (Screen.height - mainMenuHeight) / 2, mainMenuWidth, mainMenuHeight);
 
-            Rect windowRect = new Rect((Screen.width - x) / 2, (Screen.height - y) / 2, x, y);
-            GUI.Window(0, windowRect, DoMyWindow, "");
+            GUI.Window(1, windowRect, InGameMenuWindow, "Menu", menuStyle);
+        }
+        if (isOptionMenuOpen)
+        {
+            Rect windowRect = new Rect((Screen.width - optionMenuWidth) / 2, (Screen.height - optionMenuHeight) / 2, optionMenuWidth, optionMenuHeight);
+
+            GUI.Window(2, windowRect, InGameOptionMenuWindow, "Options", menuStyle);
 
         }
 
     }
 
-    void DoMyWindow(int windowID)
+    private Rect getRectForIngameOptionMenuPosition(int position)
     {
-        GUI.Label(new Rect(10, 10, 150, 60), ModalText);
-        if(GUI.Button(new Rect(20, 60, 40, 20), "Yes"))
+        int paddingX = optionMenuWidth / 10;
+        int paddingY = optionMenuHeight / 10;
+        int buttonSizeX = optionMenuWidth;
+        int buttonSizeY = optionMenuHeight / 10;
+        return new Rect(paddingX, paddingY + (position - 1) * (buttonSizeY), buttonSizeX - paddingX * 2, buttonSizeY);
+    }
+
+    void InGameOptionMenuWindow(int windowID)
+    {
+        float soundVolumeLevel = SoundManager.GetVolume();
+        GUI.Label(getRectForIngameOptionMenuPosition(1), "Sound effects volume:");
+        SoundManager.SetVolume(GUI.HorizontalScrollbar(getRectForIngameOptionMenuPosition(2), soundVolumeLevel, 0.1f, 0, 1));
+        float musicVolumeLevel = MusicManager.GetVolume();
+        GUI.Label(getRectForIngameOptionMenuPosition(4), "Music volume:");
+        MusicManager.SetVolume(GUI.HorizontalScrollbar(getRectForIngameOptionMenuPosition(5), musicVolumeLevel, 0.1f, 0, 1));
+
+        if (GUI.Button(getRectForIngameOptionMenuPosition(8), "Return", buttonStyle))
+        {
+            OpenMenu(false);
+        }
+    }
+
+    private Rect getRectForIngameMenuPosition(int position)
+    {
+        int paddingX = mainMenuWidth / 10;
+        int paddingY = mainMenuHeight / 10;
+        int buttonSizeX = mainMenuWidth;
+        int buttonSizeY = mainMenuHeight / 10;
+        return new Rect(paddingX, paddingY + (position - 1) * (buttonSizeY), buttonSizeX - paddingX * 2, buttonSizeY);
+    }
+
+    void InGameMenuWindow(int windowID)
+    {
+
+        if (GUI.Button(getRectForIngameMenuPosition(2), "Options", buttonStyle))
+        {
+            CloseMenu(false);
+            OpenOptionMenu();
+        }
+
+        if (GUI.Button(getRectForIngameMenuPosition(4), "Main Menu", buttonStyle))
+        {
+            CloseMenu();
+            Debug.Log("Main Menu clicked");
+        }
+
+        if (GUI.Button(getRectForIngameMenuPosition(5), "Exit", buttonStyle))
+        {
+            CloseMenu();
+            Action quitAction = new Action(() => Application.Quit());
+            DrawModalDialog("Are you sure you want to quit ? ", quitAction);
+        }
+
+
+        if (GUI.Button(getRectForIngameMenuPosition(8), "Return", buttonStyle))
+        {
+            CloseMenu();
+        }
+    }
+
+        private void drawModalDialog()
+    {
+        if (ModalText != null && ModalButtonAction != null)
+        {
+            Rect windowRect = new Rect((Screen.width - modalDialogWidth) / 2, (Screen.height - modalDialogHeight) / 2, modalDialogWidth, modalDialogHeight);
+            GUI.Window(0, windowRect, YesNoWindow, "", menuStyle);
+
+        }
+
+    }
+
+    void YesNoWindow(int windowID)
+    {
+        int buttonXSize = modalDialogWidth / 6;
+        int buttonYSize = modalDialogWidth / 6;
+        int textXSize = modalDialogWidth - 20;
+        int testYSize = modalDialogHeight - 15 - buttonYSize;
+        GUI.Label(new Rect(10, 5, textXSize, testYSize), ModalText);
+
+        if (GUI.Button(new Rect(modalDialogWidth/3 - buttonXSize/2, 4* modalDialogHeight/5 - buttonYSize / 2, buttonXSize, buttonYSize), "Yes", buttonStyle))
         {
             ModalButtonAction();
             CloseModalDialog();
         }
-        if(GUI.Button(new Rect(80, 60, 40, 20), "No"))
+        if(GUI.Button(new Rect(2* modalDialogWidth/3 - buttonXSize/2, 4 * modalDialogHeight / 5 - buttonYSize/2, buttonXSize, buttonYSize), "No", buttonStyle))
         {
             CloseModalDialog();
         }

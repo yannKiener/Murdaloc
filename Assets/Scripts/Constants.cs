@@ -21,7 +21,13 @@ public static class Constants {
     public static readonly float expBarHeightPercent = 1;
     public static readonly Color MouseOverColor = new Color(0.82f, 0.82f, 0.82f, 0.9f);
     public static readonly float keepDpsDamageSeconds = 5;
-    
+    public static readonly float mainMenuSizeXPercent = 20;
+    public static readonly float mainMenuSizeYPercent = 30;
+    public static readonly float optionMenuSizeXPercent = 40;
+    public static readonly float optionMenuSizeYPercent = 30;
+    public static readonly float modalDialogSizeXPercent = 20;
+    public static readonly float modalDialogSizeYPercent = 10;
+
 
     //stats
     public static readonly float GlobalCooldown = 1f;

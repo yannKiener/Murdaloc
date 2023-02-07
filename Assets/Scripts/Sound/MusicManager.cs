@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour {
 	public AudioClip StartingMusic;
 
     private bool isFading = false;
+    private static float maxVolume = 1;
 
     public void Start()
     {
@@ -18,9 +19,21 @@ public class MusicManager : MonoBehaviour {
 			PlayMusic(StartingMusic);
 		}
     }
-    
 
-	public static void PlayMusic(AudioClip music){
+
+    public static void SetVolume(float vol)
+    {
+        maxVolume = vol;
+        instance.audioSource.volume = maxVolume;
+    }
+
+    public static float GetVolume()
+    {
+        return maxVolume;
+    }
+
+
+    public static void PlayMusic(AudioClip music){
 
 		if (music != instance.audioSource.clip && instance.audioSource.isPlaying && !instance.isFading)
         {
@@ -46,7 +59,7 @@ public class MusicManager : MonoBehaviour {
         {
             instance.audioSource.Play();
         }
-        while (!instance.isFading && instance.audioSource.volume < 1f)
+        while (!instance.isFading && instance.audioSource.volume < maxVolume)
         {
             instance.audioSource.volume +=  Time.deltaTime / fadeTime;
 
@@ -57,9 +70,9 @@ public class MusicManager : MonoBehaviour {
 
     private static IEnumerator fadeOutThenFadeIn(AudioClip music, float fadeTime)
     {
-        while (instance.isFading && instance.audioSource.volume > 0.1)
+        while (instance.isFading && instance.audioSource.volume > 0.1 * maxVolume)
         {
-            instance.audioSource.volume -= Time.deltaTime / fadeTime;
+            instance.audioSource.volume -= Time.deltaTime / fadeTime * maxVolume;
 
             yield return null;
         }

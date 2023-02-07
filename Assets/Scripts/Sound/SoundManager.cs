@@ -6,7 +6,7 @@ using System.Linq;
 public class SoundManager 
 {
 
-    static int volume = 0;
+    static float volume = 0;
     
     public static void PlaySound(AudioClip sound)
     {
@@ -28,9 +28,14 @@ public class SoundManager
         }
     }
 
-    public static void SetVolume(int vol)
+    public static void SetVolume(float vol)
     {
         volume = vol;
+    }
+
+    public static float GetVolume()
+    {
+        return volume;
     }
 
     public static void StopAll()
