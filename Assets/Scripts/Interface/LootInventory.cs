@@ -37,12 +37,17 @@ public class LootInventory : MonoBehaviour, Slotable
 
     public void Initialize(List<Item> itemList, Loot loot)
     {
+        if(this.loot != null)
+        {
+            this.loot.isOpen = false;
+        }
         this.loot = null;
         clean();
 
         
         AddItems(itemList);
         this.loot = loot;
+        loot.isOpen = true;
     }
 
     void Update()
@@ -160,7 +165,11 @@ public class LootInventory : MonoBehaviour, Slotable
 
     void OnDisable()
     {
-       Close();
+        if(loot != null)
+        {
+            loot.isOpen = false;
+        }
+        Close();
     }
 
     public void Close()

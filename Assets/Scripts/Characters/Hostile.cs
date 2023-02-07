@@ -12,16 +12,15 @@ public class Hostile : Character
 		this.gameObject.tag = "Enemy";
 		this.gameObject.layer = 9;
 		InvokeRepeating ("randomizeDirection", 1f, 1f);
-	}
+        InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
+    }
 
 	void Update()
 	{
 		UpdateCharacter ();
-
 		manageCombat ();
 		move (GetComponent<Rigidbody2D>());
 		limitCombatMovements();
-		AggroAroundSelf();
 	}
 
 	void AggroAroundSelf()

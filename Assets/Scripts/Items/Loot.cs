@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Loot : MonoBehaviourWithMouseOverColor {
     List<Item> itemList;
+    public bool isOpen = false;
+    bool checkStarted = false;
 
     // Use this for initialization
     new void Start ()
@@ -21,7 +23,11 @@ public class Loot : MonoBehaviourWithMouseOverColor {
 
     private void Update()
     {
-        CloseWindowIfPlayerFar();
+        if (isOpen && !checkStarted)
+        {
+            InvokeRepeating("CloseWindowIfPlayerFar", 1f, 1f);
+            checkStarted = true;
+        }
     }
 
     public void Initialize(List<Item> itemList, Vector3 position)
@@ -51,6 +57,8 @@ public class Loot : MonoBehaviourWithMouseOverColor {
     {
         if (FindUtils.GetLoot().activeSelf && !IsPlayerNear())
         {
+            checkStarted = false;
+            CancelInvoke();
             FindUtils.GetLoot().SetActive(false);
         }
     }
@@ -68,25 +76,24 @@ public class Loot : MonoBehaviourWithMouseOverColor {
             }
             i++;
         }
-        return false;
-    }
 
-    void OnDestroy()
-    {
-        //FindUtils.GetLootGrid().GetComponent<LootInventory>().Close();
+        MessageUtils.ErrorMessage("It's too far away !");
+        return false;
     }
 
     void OnMouseDown()
     {
-        LootInventory lootInventory = FindUtils.GetLootGrid().GetComponent<LootInventory>();
-
-        if (FindUtils.GetLoot().activeSelf)
+        if (IsPlayerNear())
         {
-            lootInventory.Close();
+            LootInventory lootInventory = FindUtils.GetLootGrid().GetComponent<LootInventory>();
+
+            if (FindUtils.GetLoot().activeSelf)
+            {
+                lootInventory.Close();
+            }
+
+            FindUtils.GetLoot().SetActive(true);
+            lootInventory.Initialize(itemList, this);
         }
-
-        FindUtils.GetLoot().SetActive(true);
-        lootInventory.Initialize(itemList, this);
-
     }
 }
