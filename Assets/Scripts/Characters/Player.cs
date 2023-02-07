@@ -40,6 +40,12 @@ public class Player : AbstractCharacter
 			CastSpell (actionBar [3]);
 		}
 
+		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			print ("LevelUp !");
+			LevelUp ();
+			stats.displayStats ();
+		}
+
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
@@ -64,17 +70,17 @@ public class Player : AbstractCharacter
 	{
 
 		GUI.Box (new Rect (0, 0, 200, 20), name);
-		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + maxLife);
-		GUI.Box(new Rect(0,20,currentLife*2,20), new Texture2D(1,1)); 
-		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + maxResource);
-		GUI.Box(new Rect(0,40,currentResource*2,20), new Texture2D(1,1)); 
+		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + stats.MaxLife);
+		GUI.Box(new Rect(0,20,(int) ((float)currentLife/(float)stats.MaxLife*200),20), new Texture2D(1,1)); 
+		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + stats.MaxResource);
+		GUI.Box(new Rect(0,40,(int) ((float)currentResource/(float)stats.MaxResource*200),20), new Texture2D(1,1)); 
 
 		if (target != null && !target.IsDead()) {
 			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
 			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
-			GUI.Box (new Rect (400, 20, target.GetCurrentLife()*2, 20), new Texture2D(1,1));
+			GUI.Box (new Rect (400, 20, (int) ((float)target.GetCurrentLife()/(float)target.GetMaxLife()*200), 20), new Texture2D(1,1));
 			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentResource() + " / " + target.GetMaxResource());
-			GUI.Box(new Rect(400,40,target.GetCurrentResource()*2,20), new Texture2D(1,1)); 
+			GUI.Box(new Rect(400,40,(int) ((float)target.GetCurrentResource()/(float)target.GetMaxResource()*200),20), new Texture2D(1,1)); 
 
 			//test outlining target
 			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
@@ -83,7 +89,7 @@ public class Player : AbstractCharacter
 		}
 
 		if (casting) {
-			float spellCastTime = castingSpell.GetCastTime ();
+			float spellCastTime = castingSpell.GetCastTime (stats);
 			if (spellCastTime != 0) {
 				int castPercentage = (int)(100 * (castingTime / spellCastTime));
 

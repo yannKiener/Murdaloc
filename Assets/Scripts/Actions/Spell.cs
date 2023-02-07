@@ -23,7 +23,7 @@ public interface Spell
     string GetName();
     string GetDescription();
     int GetResourceCost();
-    float GetCastTime();
+	float GetCastTime(Stats stats);
     int GetLevelRequirement();
 	bool IsCastable (Character caster, Character target);
     void Cast(Character caster, Character target);
@@ -95,8 +95,8 @@ public abstract class AbstractSpell : Spell
         return resourceCost;
     }
 
-    public float GetCastTime() {
-        return castTime;
+	public float GetCastTime(Stats stats) {
+		return castTime - castTime * stats.Haste/100;
     }
 
     public int GetLevelRequirement()

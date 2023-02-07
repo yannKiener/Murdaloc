@@ -32,6 +32,7 @@ public interface Character
 	GameObject GetGameObject();
 	void AddEffectOnTime (EffectOnTime effect);
 	void RemoveEffectOnTime (EffectOnTime effect);
+	void LevelUp();
 
 }
 
@@ -42,10 +43,9 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected float MAXSPEED = 8f;	
 	protected float JUMPFORCE = 5f;
 
-    protected int maxLife;
+
     protected int currentLife;
     protected int currentResource;
-	protected int maxResource;
     protected string charName;
 	protected bool casting;
 	protected float castingTime;
@@ -67,21 +67,25 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 
     public void Initialize(string name)
-    {
-        maxLife = 100;
-        currentLife = maxLife;
-        maxResource = 100;
-        currentResource = maxResource;
+	{
+		if (resource == null) {
+			resource = new Mana ();
+		}
+		stats = new Stats (1, 1, 10, 10, 1, 1, 1, 1,resource.GetName() == Constants.Mana);
+
+		currentLife = stats.MaxLife;
+		currentResource = stats.MaxResource;
         this.charName = name;
 		casting = false;
 		isDead = false;
 		castingSpell = null;
-		if (resource == null) {
-			resource = new Mana ();
-		}
     }
 
-
+	public void LevelUp(){
+		this.stats.Add(new Stats(1,1,10,10,1,1,1,1,false));
+	
+	}
+		
 	public void AddEffectOnTime (EffectOnTime effect){
 		if (effect.IsBuff ()) {
 			buffList.Add (effect);
@@ -104,7 +108,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	}
 
 	public int GetMaxLife(){
-		return maxLife;
+		return stats.MaxLife;
 	}
 
 	public int GetCurrentResource(){
@@ -112,7 +116,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	}
 
 	public int GetMaxResource(){
-		return maxResource;
+		return stats.MaxResource;
 	}
 
 
@@ -127,14 +131,14 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 
 	public float GetHealthPercent (){
-		return (float)currentLife / (float)maxLife;
+		return (float)currentLife / (float)stats.MaxLife;
 	}
 	public float GetResourcePercent (){
-		return (float)currentResource / (float)maxResource;
+		return (float)currentResource / (float)stats.MaxResource;
 	}
 	public float GetCastPercent (){
 		if (casting && castingSpell != null) {
-			return (castingTime / castingSpell.GetCastTime ());
+			return (castingTime / castingSpell.GetCastTime (stats));
 		} 
 		return 0f;
 	}
@@ -220,8 +224,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
 	protected void UpdateRegen() {
 		currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat);
-		if (currentResource > maxResource) {
-			currentResource = maxResource;
+		if (currentResource > stats.MaxResource) {
+			currentResource = stats.MaxResource;
 		}
 		if (currentResource < 0 ) {
 			currentResource = 0;
@@ -303,7 +307,6 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 			if (castingSpell.IsCastable(this,target)) {
 				casting = true;
 			} else {
-				print ("I can't cast "+ castingSpell.GetName() +" now.");
 				castingSpell = null;
 			}
 		}
@@ -315,7 +318,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         if (casting)
 		{
 			castingTime += Time.deltaTime;
-            if(castingTime >= castingSpell.GetCastTime())
+            if(castingTime >= castingSpell.GetCastTime(stats))
             {
                  DoneCasting();
             }
@@ -348,8 +351,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 			this.currentLife += heal;
 			createFloatingText (heal.ToString (), new Color (0, 1, 0));
 
-			if (currentLife > maxLife)
-				currentLife = maxLife;
+			if (currentLife > stats.MaxLife)
+				currentLife = stats.MaxLife;
 
 			if (currentLife <= 0)
 				this.kill ();
