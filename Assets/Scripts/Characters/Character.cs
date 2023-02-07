@@ -491,7 +491,7 @@ public abstract class Character : MonoBehaviour
 
      public void AggroTarget(Character aggroTarget)
      {
-        if(aggroTarget != this && !IsDead() && !IsInCombat())
+        if(aggroTarget != this && !IsDead() && !IsInCombat() && !aggroTarget.IsDead())
         {
             aggroTarget.AggroFrom(this);
             AddToEnemyList(aggroTarget);
@@ -872,13 +872,16 @@ public abstract class Character : MonoBehaviour
 		if(!casting && !IsDead()) 
 		{
 			castingSpell = spell;
-			if (GCDReady() && castingSpell.IsCastable(this,target, displayText)) {
+			if (((spell.HasGcd() && GCDReady()) || !spell.HasGcd()) && castingSpell.IsCastable(this,target, displayText)) {
 				casting = true;
                 if (castingSpell.GetCastTime(stats) > 0)
                 {
                     SoundManager.PlaySound(castingSpell.GetPreCastSound());
                 }
-                gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
+                if (spell.HasGcd())
+                {
+                    gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
+                }
 			} else {
 				castingSpell = null;
 			}
@@ -954,7 +957,7 @@ public abstract class Character : MonoBehaviour
                FindUtils.GetDps().AddDamageToDps(damage);
                 if (!IsInCombat())
                 {
-                    AggroFrom(FindUtils.GetPlayer());
+                    AggroTarget(FindUtils.GetPlayer());
                 }
             }
 

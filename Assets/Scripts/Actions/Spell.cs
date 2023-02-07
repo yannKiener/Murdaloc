@@ -17,6 +17,7 @@ public abstract class Spell : Usable, Castable
 	protected float maxDistance;
 	protected Action<Character,Character, Spell> applySpellEffect;
     protected Func<Character, Character, Spell, bool> spellCondition;
+    bool hasGcd;
 	protected bool isHostileSpell;
 	protected Image image;
     protected AudioClip preCastSound;
@@ -28,7 +29,7 @@ public abstract class Spell : Usable, Castable
     Action<Character, Character> actionOnCrit;
     Dictionary<Castable, float> procs = new Dictionary<Castable, float>();
 
-    public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown,float maxDistance, Action<Character,Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
+    public Spell(bool isHostile, string name, string description, int resourceCost, float castTime, int levelRequirement, float coolDown, float maxDistance, Action<Character, Character, Spell> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null, bool hasGcd = true)
 	{
 		this.spellName = name;
 		this.description = description;
@@ -37,6 +38,7 @@ public abstract class Spell : Usable, Castable
 		this.levelRequirement = levelRequirement;
 		this.coolDown = coolDown;
 		this.applySpellEffect = spellEffect;
+        this.hasGcd = hasGcd;
 
         if (effectsOnTarget != null)
         {
@@ -75,6 +77,15 @@ public abstract class Spell : Usable, Castable
     {
         spellCondition = null;
     }
+
+    public bool HasGcd()
+    {
+        return hasGcd;
+    }
+    public void SetHasGcd(bool hasGcd)
+    {
+        this.hasGcd = hasGcd;
+    }
 		
 	public Spell(Spell s){
         this.isHostileSpell = s.isHostile();
@@ -93,6 +104,7 @@ public abstract class Spell : Usable, Castable
         this.castSounds = s.castSounds;
         this.impactSounds = s.impactSounds;
         this.spellCondition = s.GetSpellCondition();
+        this.hasGcd = s.HasGcd();
     }
 
     public Sprite GetImageAsSprite()

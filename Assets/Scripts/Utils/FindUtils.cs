@@ -41,7 +41,7 @@ public static class FindUtils  {
 
     public static Interface GetInterface()
     {
-        if (intrface == null)
+        if (intrface == null && GameObject.Find("Interface") != null)
             intrface = GameObject.Find("Interface").GetComponent<Interface>();
 
         return intrface;

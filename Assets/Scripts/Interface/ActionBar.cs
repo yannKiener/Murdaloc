@@ -164,13 +164,16 @@ public class ActionBar : MonoBehaviour, Slotable {
     {
         Player p = FindUtils.GetPlayer();
         Spell spell = (Spell)slotGameObject.GetComponent<Draggable>().usable;
-
-        if (spell.IsCastable(p, p.GetTarget(), false))
+        if(spell != null)
         {
-            slotGameObject.GetComponent<Image>().color = Color.white;
-        } else
-        {
-            slotGameObject.GetComponent<Image>().color =  new Color(1,1,1,0.5f);
+            if (spell.IsCastable(p, p.GetTarget(), false))
+            {
+                slotGameObject.GetComponent<Image>().color = Color.white;
+            }
+            else
+            {
+                slotGameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            }
         }
     }
     

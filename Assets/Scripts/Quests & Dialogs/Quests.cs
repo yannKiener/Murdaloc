@@ -42,7 +42,7 @@ public static class Quests {
             quest.Start();
             Interface.QuestAdded();
             quests.Add(name, quest);
-            UpdateQuestLog();
+            UpdateTrackedQuests(null);
         } else
         {
             Debug.Log("Unknown quest : " + name);
@@ -92,7 +92,7 @@ public static class Quests {
             {
                 quests.Remove(questName);
                 FindUtils.GetPlayer().AddExp(Constants.expPerQuestPercent);
-                UpdateQuestLog();
+                UpdateTrackedQuests(null);
             }
         }
     }

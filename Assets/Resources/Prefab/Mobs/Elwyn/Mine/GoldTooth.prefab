@@ -98,7 +98,7 @@ MonoBehaviour:
   CharacterName: GoldTooth
   level: 4
   isElite: 1
-  statPercent: 100
+  statPercent: 80
   LootTable:
   - itemName: Random
     dropRatePercent: 100
