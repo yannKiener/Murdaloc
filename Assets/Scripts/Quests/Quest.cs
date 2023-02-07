@@ -52,7 +52,7 @@ public class Quest{
             int objectiveOverCounter = 0;
             foreach (Objective objective in objectives)
             {
-                if (!objective.IsOver() && enemy != null )
+                if (!objective.IsOver())
                 {
                     objective.Update(enemy);
                 }

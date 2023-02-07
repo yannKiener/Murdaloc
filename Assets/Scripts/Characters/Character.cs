@@ -7,14 +7,15 @@ public abstract class Character : MonoBehaviour
 {
     protected int currentLife;
     protected int currentResource;
-    protected string charName;
+    public string CharacterName;
 	protected bool casting;
 	protected float castingTime;
     protected Character target;
 	protected bool isDead;
 	protected Spell castingSpell;
-	protected int level;
-	protected bool inCombat;
+	public int level;
+    public bool isElite;
+    protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
 	protected List<EffectOnTime> buffList = new List<EffectOnTime>();
 	protected List<EffectOnTime> debuffList = new List<EffectOnTime>();
@@ -34,37 +35,51 @@ public abstract class Character : MonoBehaviour
     protected int autoAttack2Damage = 0;
     protected float autoAttack2Time = 0f;
     protected float autoAttack2Speed = 0f;
-    protected Dictionary<string, object> lootTable;
-    protected bool isElite;
-	protected Dialog dialog;
+    private Dictionary<string, object> lootTable;
+    public List<LootTable> LootTable;
+    public List<QuestLootTable> QuestLootTable;
+    public List<string> SpellList;
+    protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
 
-    public virtual void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
-	{
+    public void Start()
+    {
+
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 9;
-		if (resource == null) {
-			resource = new Mana ();
-		}
-		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
-       
+        lootTable = new Dictionary<string, object>();
+        foreach(LootTable lt in LootTable)
+        {
+            lootTable.Add(lt.itemName, lt.dropRatePercent);
+        }
+        foreach (QuestLootTable qlt in QuestLootTable)
+        {
+            lootTable.Add(qlt.itemName, qlt.questName);
+        }
+        foreach(string spellName in SpellList)
+        {
+            this.AddSpell(Spells.Get(spellName));
+        }
+
+        if (resource == null)
+        {
+            resource = new Mana();
+        }
+        stats = new Stats(10 + (Constants.ForceByLevel * (level - 1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0, resource.GetName() == Constants.Mana);
+
         autoAttack1Damage = GetBasicAutoAttackDamage();
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
         currentLife = stats.MaxLife;
-		currentResource = stats.MaxResource;
-        this.charName = name;
-		casting = false;
-        this.level = level;
-		isDead = false;
-		castingSpell = null;
-        this.isElite = isElite;
-        if(lootTable == null)
+        currentResource = stats.MaxResource;
+        casting = false;
+        isDead = false;
+        castingSpell = null;
+        if (lootTable == null || lootTable.Count == 0)
         {
             lootTable = GetDefaultLootTableForLevel(level);
         }
-        this.lootTable = lootTable;
     }
-	
+
 	public void AddDialog(string dialogName){
         this.dialog = DatabaseUtils.GetDialog(dialogName);
     }
@@ -591,7 +606,7 @@ public abstract class Character : MonoBehaviour
 
     public string GetName()
     {
-        return charName;
+        return CharacterName;
     }
 
     public void move()

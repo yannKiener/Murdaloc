@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour, Slotable {
@@ -39,7 +40,6 @@ public class Inventory : MonoBehaviour, Slotable {
 
     public void OnDragFrom(GameObject slot)
     {
-
     }
 
     public void UpdateGoldGui()
@@ -237,7 +237,7 @@ public class Inventory : MonoBehaviour, Slotable {
         return count;
     }
 
-    public void OnDropIn(GameObject slot)
+    public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
         GameObject tempGameObject = Draggable.currentItem;
         Usable tempUsable = Draggable.currentUsable;
@@ -286,5 +286,11 @@ public class Inventory : MonoBehaviour, Slotable {
         {
             GameObject.Destroy(c.gameObject);
         }
+    }
+
+    public void ResetDrag(GameObject slot)
+    {
+        slot.GetComponent<Slot>().usable = Draggable.currentUsable;
+        Draggable.currentItem.transform.position = Draggable.originalPosition;
     }
 }

@@ -1,20 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ActionBar : MonoBehaviour, Slotable {
 
 	public GameObject slotPrefab;
         
-
-	// Use this for initialization
-	void Start () {
-        foreach(KeyValuePair<string, Spell> kv in FindUtils.GetPlayer().GetSpells())
-        {
-            Add(kv.Value);
-        }
-	}
 
     public void OnDragFrom(GameObject slot)
     {
@@ -41,9 +34,9 @@ public class ActionBar : MonoBehaviour, Slotable {
         }
     }
 
-    public void OnDropIn(GameObject slot)
+    public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
-        if(Draggable.currentItem != null)
+        if(Draggable.currentItem != null && !(Draggable.currentUsable is Item))
         {
             GameObject tempGameObject = Draggable.currentItem;
             Usable tempUsable = Draggable.currentUsable;
@@ -107,4 +100,11 @@ public class ActionBar : MonoBehaviour, Slotable {
 			GameObject.Destroy (c.gameObject);
 		}
 	}
+
+    public void ResetDrag(GameObject slot)
+    {
+        slot.GetComponent<Slot>().usable = Draggable.currentUsable;
+        Draggable.currentItem.transform.position = Draggable.originalPosition;
+
+    }
 }

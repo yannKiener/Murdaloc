@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SpellBook : MonoBehaviour, Slotable {
@@ -21,7 +22,7 @@ public class SpellBook : MonoBehaviour, Slotable {
         InterfaceUtils.CreateUsableSlot(usablePrefab, slot.transform, Draggable.currentItem.GetComponent<Image>().sprite, Draggable.currentUsable);
     }
 
-    public void OnDropIn(GameObject slot)
+    public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
         
     }
@@ -75,4 +76,9 @@ public class SpellBook : MonoBehaviour, Slotable {
 			GameObject.Destroy (c.gameObject);
 		}
 	}
+
+    public void ResetDrag(GameObject slot)
+    {
+        Destroy(Draggable.currentItem);
+    }
 }

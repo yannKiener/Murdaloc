@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LootInventory : MonoBehaviour, Slotable
@@ -132,7 +133,7 @@ public class LootInventory : MonoBehaviour, Slotable
         }
     }
 
-    public void OnDropIn(GameObject slot)
+    public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
         Usable tempUsable = Draggable.currentUsable;
 
@@ -193,5 +194,12 @@ public class LootInventory : MonoBehaviour, Slotable
         {
             GameObject.Destroy(c.gameObject);
         }
+    }
+
+    public void ResetDrag(GameObject slot)
+    {
+        loot.AddItem((Item)Draggable.currentUsable);
+        slot.GetComponent<Slot>().usable = Draggable.currentUsable;
+        Draggable.currentItem.transform.position = Draggable.originalPosition;
     }
 }

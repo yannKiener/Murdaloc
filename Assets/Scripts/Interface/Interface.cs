@@ -25,7 +25,7 @@ public class Interface : MonoBehaviour {
 
 
 	public static void LoadPlayer(){
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
+		player = FindUtils.GetPlayer();
 	}
 		
 	// Use this for initialization

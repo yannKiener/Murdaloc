@@ -11,8 +11,10 @@ public class Player : Character
 	private int enemyOffset = 0;
     private float experiencePercent;
 
-	void Start()
+    new void Start()
     {
+        Interface.LoadPlayer();
+        base.Start();
         GetComponent<SpriteRenderer>().sortingOrder = 10;
 
     }

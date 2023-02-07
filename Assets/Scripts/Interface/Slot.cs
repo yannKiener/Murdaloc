@@ -43,6 +43,11 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
         Interface.RemoveToolTip();
     }
 
+    public void ResetDrag()
+    {
+        transform.GetComponentInParent<Slotable>().ResetDrag(gameObject);
+    }
+
 
     public void OnDragFrom()
     {
@@ -53,6 +58,6 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     public void OnDrop(PointerEventData eventData)
     {
         Slotable tempSlotable = transform.GetComponentInParent<Slotable>();
-        tempSlotable.OnDropIn(gameObject);
+        tempSlotable.OnDropIn(gameObject, eventData);
     }
 }

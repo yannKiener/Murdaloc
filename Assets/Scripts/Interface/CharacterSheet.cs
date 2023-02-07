@@ -12,15 +12,25 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     public void OnDragFrom(GameObject slot)
     {
-        ((Item)Draggable.currentUsable).isEquipped = false;
+        Item draggedItem = ((Item)Draggable.currentUsable);
+        draggedItem.isEquipped = false;
+        FindUtils.GetPlayer().GetStats().Remove(draggedItem.GetStats());
     }
 
-    public void OnDropIn(GameObject slot)
+    public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
         Usable tempUsable = Draggable.currentUsable;
         if (tempUsable is Item)
         {
-            EquipItem((Item)tempUsable);
+            Item tempItem = (Item)tempUsable;
+            if (tempItem.IsUsable())
+            {
+                EquipItem(tempItem);
+            } else
+            {
+                MessageUtils.ErrorMessage("Can't equip that yet.");
+                eventData.Use();
+            }
         }
     }
 
@@ -320,6 +330,15 @@ public class CharacterSheet : MonoBehaviour, Slotable {
     public static T ParseEnum<T>(string value)
     {
         return (T)Enum.Parse(typeof(T), value, true);
+    }
+
+    public void ResetDrag(GameObject slot)
+    {
+        Item draggedItem = ((Item)Draggable.currentUsable);
+        draggedItem.isEquipped = true;
+        FindUtils.GetPlayer().GetStats().Add(draggedItem.GetStats());
+        slot.GetComponent<Slot>().usable = Draggable.currentUsable;
+        Draggable.currentItem.transform.position = Draggable.originalPosition;
     }
 }
 

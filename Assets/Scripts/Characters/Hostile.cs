@@ -8,16 +8,12 @@ public class Hostile : Character
 {
 	private int direction = 0;
 
-	void Start(){
+    new void Start(){
+        base.Start();
 		this.gameObject.tag = "Enemy";
-		this.gameObject.layer = 9;
 		InvokeRepeating ("randomizeDirection", 1f, 1f);
         InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
-    }
 
-    public override void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
-    {
-        base.Initialize(name, level, isElite, lootTable);
         stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDPSPerLevel * Constants.BaseAutoAttackSpeed);
 
         if (isElite)
@@ -34,9 +30,9 @@ public class Hostile : Character
         autoAttack1Damage = stats.AutoAttackDamage;
         autoAttack1Speed = stats.AutoAttackTime;
 
-        this.autoAttack1Damage = (int)(autoAttack1Damage*Constants.MobAutoAttackMultiplier);
+        this.autoAttack1Damage = (int)(autoAttack1Damage * Constants.MobAutoAttackMultiplier);
     }
-
+    
     void Update()
 	{
 		UpdateCharacter ();
