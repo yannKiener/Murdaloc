@@ -253,6 +253,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
     private void InitializeFindUtils()
     {
+        FindUtils.GetInterface();
         FindUtils.GetDialogPanel();
         FindUtils.GetDialogPanelComponent();
         FindUtils.GetCharacterSheetGrid();

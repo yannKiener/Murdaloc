@@ -5,12 +5,8 @@ using SimpleJSON;
 using System.Linq;
 
 public static class DatabaseUtils {
-    public static string GetJsonItems()
-    {
-        return Resources.Load<TextAsset>("Data/Items/items").text;
-    }
 
-    public static JSONArray GetJsonCategoryName(ItemType type)
+    public static JSONArray GetJsonCategoryName(EquipmentType type)
     {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
     }
@@ -20,25 +16,22 @@ public static class DatabaseUtils {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Quests/" + questName).text).AsObject;
     }
 
-
     public static JSONArray GetJsonStatNames(Stat stat)
     {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["statNames"].AsObject[stat.ToString()].AsArray;
     }
     
-
-    public static Sprite[] LoadAllSpritesForType(ItemType type)
+    public static Sprite[] LoadAllSpritesForType(EquipmentType type)
     {
        return Resources.LoadAll<Sprite>("Images/Items/" + type.ToString());
     }
-
 
     public static JSONArray GetJsonCategories()
     {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["categories"].AsArray;
     }
 
-    public static JSONObject GetJsonQuestItem(string itemName)
+    public static JSONObject GetJsonQuestEquipment(string itemName)
     {
         JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/questItems").text).AsObject[itemName].AsObject;
 
@@ -53,9 +46,9 @@ public static class DatabaseUtils {
         }
     }
 
-    public static JSONObject GetJsonItem(string itemName)
+    public static JSONObject GetJsonEquipment(string itemName)
     {
-        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/items").text).AsObject[itemName].AsObject;
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/equipments").text).AsObject[itemName].AsObject;
         
         if (result == null || result.Count == 0)
         {
@@ -66,9 +59,23 @@ public static class DatabaseUtils {
             return result;
         }
     }
-	
-	
-	public static Dialog GetDialog(string dialogName){
+
+    public static JSONObject GetJsonConsumable(string consumableName)
+    {
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/consumables").text).AsObject[consumableName].AsObject;
+
+        if (result == null || result.Count == 0)
+        {
+            return null;
+        }
+        else
+        {
+            result.Add("name", consumableName);
+            return result;
+        }
+    }
+
+    public static Dialog GetDialog(string dialogName){
         JSONObject data = JSON.Parse(Resources.Load<TextAsset>("Data/Dialogs/"+dialogName).text).AsObject;
 		return createDialog(data);
 	}
@@ -106,7 +113,6 @@ public static class DatabaseUtils {
 		}
 		return result;
 	}
-	
 	
     private static string GetStr(JSONObject jsonO, string s)
     {

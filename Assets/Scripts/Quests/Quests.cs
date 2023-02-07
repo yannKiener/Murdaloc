@@ -35,7 +35,7 @@ public static class Quests {
                 Debug.Log(itemName);
                 if (itemName != null && itemName.Length > 1)
                 {
-                    rewards.Add(Items.GetItemFromDB(itemName));
+                    rewards.Add(Items.GetEquipmentFromDB(itemName));
                 }
             }
             

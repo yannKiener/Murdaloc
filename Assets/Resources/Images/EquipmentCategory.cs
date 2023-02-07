@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemCategory {
-    ItemType type;
-    ItemSlot slot;
+public class EquipmentCategory {
+    EquipmentType type;
+    EquipmentSlot slot;
     List<Stat> possibleMainStats = new List<Stat>();
     List<Stat> possibleOffStats = new List<Stat>();
 
-    public ItemCategory(ItemType type, ItemSlot slot, List<Stat> possibleMainStats, List<Stat> possibleOffStats)
+    public EquipmentCategory(EquipmentType type, EquipmentSlot slot, List<Stat> possibleMainStats, List<Stat> possibleOffStats)
     {
         this.type = type;
         this.slot = slot;
@@ -16,7 +16,7 @@ public class ItemCategory {
         this.possibleOffStats = possibleOffStats;
     }
 
-    public ItemType GetCategoryType()
+    public EquipmentType GetCategoryType()
     {
         return type;
     }
@@ -30,7 +30,7 @@ public class ItemCategory {
         return possibleOffStats;
     }
 
-    public ItemSlot GetSlot()
+    public EquipmentSlot GetSlot()
     {
         return slot;
     }

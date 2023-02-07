@@ -2,36 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Consumable : Usable
+public class Consumable : Item
 {
 
-    private string consumableName;
-    private string description;
     private int stacks;
-    private Sprite image;
     private Spell spell;
+    private static float coolDown = 0;
 
     public Consumable(string name, string description, Spell spell)
     {
+        isInInventory = false;
         stacks = 1;
-        this.consumableName = name;
+        this.itemName = name;
         this.spell = spell;
         this.description = description;
-        this.image = InterfaceUtils.LoadSpriteForItem(consumableName);
+        this.image = InterfaceUtils.LoadSpriteForItem(itemName);
         if (image == null)
         {
             this.image = InterfaceUtils.LoadSpriteForItem("Default");
         }
-    }
-
-    public string GetName()
-    {
-        return consumableName;
-    }
-
-    public string GetDescription()
-    {
-        return description;
     }
 
     public void SetImage(Sprite image)
@@ -39,9 +28,13 @@ public class Consumable : Usable
         this.image = image;
     }
 
-    public Sprite GetImageAsSprite()
+    public override string GetDescription()
     {
-        return image;
+        if(stacks > 1)
+        {
+            return description + "\n" + "(" + stacks + ")";
+        }
+        return description;
     }
 
     public int GetStacks()
@@ -51,13 +44,15 @@ public class Consumable : Usable
 
     public bool RemoveOne()
     {
-        if (stacks < 1)
+        if (stacks > 1)
         {
             stacks--;
             return false;
+        } else
+        {
+            FindUtils.GetInventoryGrid().RemoveItem(this);
         }
         //Remove from inventory
-        FindUtils.GetInventoryGrid().Remove(GetName());
         return true;
     }
 
@@ -67,12 +62,18 @@ public class Consumable : Usable
         return true;
     }
 
-    public void Use(Character caster)
+    public override void Use(Character caster)
     {
-        if (spell != null)
+        if (isInInventory)
         {
-            FindUtils.GetPlayer().CastSpell(spell);
-            RemoveOne();
+            if (spell != null)
+            {
+                FindUtils.GetPlayer().CastSpell(spell);
+                RemoveOne();
+            }
+        } else
+        {
+            GetFromLootToInventory();
         }
     }
 }

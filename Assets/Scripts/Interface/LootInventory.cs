@@ -119,6 +119,9 @@ public class LootInventory : MonoBehaviour, Slotable
         else
         {
             Item tempItem = item;
+            if (tempItem is Equipment)
+                ((Equipment)tempItem).isEquipped = false;
+
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempItem.GetImageAsSprite(), tempItem);
             return true;
         }

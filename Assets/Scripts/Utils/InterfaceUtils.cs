@@ -7,11 +7,19 @@ public static class InterfaceUtils {
     
     public static void CreateUsableSlot(GameObject prefab, Transform attachTo, Sprite sprite, Usable usable)
     {
-        GameObject usableSlot = UnityEngine.GameObject.Instantiate(prefab, attachTo);
+        GameObject usableSlot = GameObject.Instantiate(prefab, attachTo);
         Image image = usableSlot.GetComponent<Image>();
         image.sprite = sprite;
         usableSlot.GetComponent<Draggable>().usable = usable;
         attachTo.GetComponent<Slot>().usable = usable;
+        if(usable is Consumable)
+        {
+            int stacks = ((Consumable)usable).GetStacks();
+            if (stacks > 1)
+            {
+                GUI.Label(new Rect(usableSlot.transform.position, new Vector2(1,1)), stacks.ToString(), FindUtils.GetInterface().textOverStyle);
+            }
+        }
     }
 
     public static Texture2D GetTextureWithColor(Color col)

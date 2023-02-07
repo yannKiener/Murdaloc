@@ -22,8 +22,6 @@ public class Interface : MonoBehaviour {
     static string toolTipText;
     static string toolTipName;
 
-
-
 	public static void LoadPlayer(){
 		player = FindUtils.GetPlayer();
 	}

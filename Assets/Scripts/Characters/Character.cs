@@ -141,7 +141,7 @@ public abstract class Character : MonoBehaviour
                     {
                         if (kv.Key.Equals("Random"))
                         {
-                            result.Add(ItemGenerator.GenerateItem(level));
+                            result.Add(EquipmentGenerator.GenerateEquipment(level));
                         } else { 
                             result.Add(Items.GetItemFromDB(kv.Key));
                         }
@@ -151,8 +151,8 @@ public abstract class Character : MonoBehaviour
                     string stringValue = kv.Value.ToString();
                     if (DialogStatus.GetStatus(stringValue + "Started") && !DialogStatus.GetStatus(stringValue + "Ready")) 
                     {
-                        //TODOO : Vérifier par l'objectif de la quête avec un truc genre "GetObjectiveWithItem(string itemName)" si c'est lootable ou non
-                        result.Add(Items.GetQuestItemFromDB(kv.Key));
+                        //TODOO : Vérifier par l'objectif de la quête avec un truc genre "GetObjectiveWithEquipment(string itemName)" si c'est lootable ou non
+                        result.Add(Items.GetQuestEquipmentFromDB(kv.Key));
                     }
                 }
             }
@@ -218,7 +218,7 @@ public abstract class Character : MonoBehaviour
         SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/LevelUpSound"));
         level++;
 		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
-        if(FindUtils.GetCharacterSheetGrid().GetItemForSlot(ItemSlot.Weapon1) == null)
+        if(FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) == null)
         {
             autoAttack1Damage = GetBasicAutoAttackDamage();
         }

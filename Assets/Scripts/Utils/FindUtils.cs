@@ -24,6 +24,7 @@ public static class FindUtils  {
     private static GameObject questLog;
     private static GameObject dpsBar;
     private static Dps dps;
+    private static Interface intrface;
 
     public static Player GetPlayer()
     {
@@ -33,6 +34,13 @@ public static class FindUtils  {
         return player;
     }
 
+    public static Interface GetInterface()
+    {
+        if (intrface == null)
+            intrface = GameObject.Find("Interface").GetComponent<Interface>();
+
+        return intrface;
+    }
 
     public static GameObject GetSpellBook()
     {

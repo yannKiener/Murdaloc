@@ -56,7 +56,7 @@ public class Player : Character
 
         if (Input.GetKeyDown (KeyCode.X)) {
 			LevelUp ();
-            FindUtils.GetInventoryGrid().AddItem(ItemGenerator.GenerateItem(level));
+            FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
         }
 
         if (Input.GetKeyDown(KeyCode.W))

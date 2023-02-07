@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public static class ItemGenerator  {
-    private static List<ItemType> weaponTypes = new List<ItemType>() { ItemType.Axe, ItemType.TwoHandedAxe, ItemType.Sword, ItemType.TwoHandedSword, ItemType.Mace, ItemType.TwoHandedMace, ItemType.Dagger, ItemType.Staff };
+public static class EquipmentGenerator  {
+    private static List<EquipmentType> weaponTypes = new List<EquipmentType>() { EquipmentType.Axe, EquipmentType.TwoHandedAxe, EquipmentType.Sword, EquipmentType.TwoHandedSword, EquipmentType.Mace, EquipmentType.TwoHandedMace, EquipmentType.Dagger, EquipmentType.Staff };
 
-    private static List<ItemType> TwoHandedWeaponTypes = new List<ItemType>() {ItemType.TwoHandedAxe,ItemType.TwoHandedSword, ItemType.TwoHandedMace, ItemType.Staff};
+    private static List<EquipmentType> TwoHandedWeaponTypes = new List<EquipmentType>() {EquipmentType.TwoHandedAxe,EquipmentType.TwoHandedSword, EquipmentType.TwoHandedMace, EquipmentType.Staff};
 
-    public static Item GenerateItem(int maxLevel)
+    public static Equipment GenerateEquipment(int maxLevel)
     {
         //Quality multiplier : 
         //Green = 0.7
@@ -21,19 +21,19 @@ public static class ItemGenerator  {
         //Make a random type
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;
-        ItemType itemType = GetRandomItemType();
+        EquipmentType itemType = GetRandomEquipmentType();
         int damagePerSecondOnWeapon = Constants.BaseAutoAttackDPS + Constants.AutoAttackDPSPerLevel * maxLevel;
 
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon);
         string name = GetRandomNameForType(itemType, stats);
         Sprite sprite = GetRandomSpriteForType(itemType);
 
-        Item result = new Item(name,"",maxLevel,stats,itemType);
+        Equipment result = new Equipment(name,"",maxLevel,stats,itemType);
         result.SetImage(sprite);
         return result;
     }
 
-    private static Sprite GetRandomSpriteForType(ItemType type)
+    private static Sprite GetRandomSpriteForType(EquipmentType type)
     {
         Sprite[] sprites = DatabaseUtils.LoadAllSpritesForType(type);
         Sprite result;
@@ -46,7 +46,7 @@ public static class ItemGenerator  {
     }
 
 
-    private static string GetRandomNameForType (ItemType type, Stats stats)
+    private static string GetRandomNameForType (EquipmentType type, Stats stats)
     {
         Stat mainStat = stats.GetMaxMainStat();
         Stat offStat = stats.GetMaxOffStat();
@@ -96,11 +96,11 @@ public static class ItemGenerator  {
     }
         
 
-    private static ItemType GetRandomItemType()
+    private static EquipmentType GetRandomEquipmentType()
     {
-        Array values = Enum.GetValues(typeof(ItemType));
+        Array values = Enum.GetValues(typeof(EquipmentType));
         System.Random random = new System.Random();
-        return (ItemType)values.GetValue(random.Next(values.Length));
+        return (EquipmentType)values.GetValue(random.Next(values.Length));
     }
 
     private static Stats AddStatFromEnumRandomly(List<Stat> statList, float number)
@@ -111,7 +111,7 @@ public static class ItemGenerator  {
         return stats;
     }
 
-    private static Stats GenerateStatsForType(ItemType type, float maxMainStats, float maxOffStats, int attackDamage)
+    private static Stats GenerateStatsForType(EquipmentType type, float maxMainStats, float maxOffStats, int attackDamage)
     {
         float stat1Multiplier = UnityEngine.Random.Range(30,51) ;
         float stat2Multiplier = UnityEngine.Random.Range(30,51) ;
@@ -144,47 +144,47 @@ public static class ItemGenerator  {
         return result;
     }
 
-    private static float GetAttackSpeedForType(ItemType t)
+    private static float GetAttackSpeedForType(EquipmentType t)
     {
         switch (t)
         {
-            case ItemType.Sword:
+            case EquipmentType.Sword:
                 return UnityEngine.Random.Range(1.5f,2.5f);
-            case ItemType.TwoHandedSword:
+            case EquipmentType.TwoHandedSword:
                 return UnityEngine.Random.Range(2.5f, 4f);
-            case ItemType.Axe:
+            case EquipmentType.Axe:
                 return UnityEngine.Random.Range(1.5f, 2.5f);
-            case ItemType.TwoHandedAxe:
+            case EquipmentType.TwoHandedAxe:
                 return UnityEngine.Random.Range(2.5f, 4f);
-            case ItemType.Mace:
+            case EquipmentType.Mace:
                 return UnityEngine.Random.Range(1.5f, 2.5f);
-            case ItemType.TwoHandedMace:
+            case EquipmentType.TwoHandedMace:
                 return UnityEngine.Random.Range(2.5f, 4f);
-            case ItemType.Dagger:
+            case EquipmentType.Dagger:
                 return UnityEngine.Random.Range(0.8f, 2f);
-            case ItemType.Staff:
+            case EquipmentType.Staff:
                 return UnityEngine.Random.Range(2.5f, 4f);
         }
         return 5;
     }
 
-    public static bool IsTwoHanded(ItemType itemType)
+    public static bool IsTwoHanded(EquipmentType itemType)
     {
         return TwoHandedWeaponTypes.Contains(itemType);
     }
 
-    public static bool IsWeapon(ItemType itemType)
+    public static bool IsWeapon(EquipmentType itemType)
     {
         return weaponTypes.Contains(itemType);
     }
 
-    private static List<Stat> GetMainStatList(ItemType type)
+    private static List<Stat> GetMainStatList(EquipmentType type)
     {
-        return ItemCategories.GetCategory(type).GetPossibleMainStats();
+        return EquipmentCategories.GetCategory(type).GetPossibleMainStats();
     }
 
-    private static List<Stat> GetOffStatList(ItemType type)
+    private static List<Stat> GetOffStatList(EquipmentType type)
     {
-        return ItemCategories.GetCategory(type).GetPossibleOffStats();
+        return EquipmentCategories.GetCategory(type).GetPossibleOffStats();
     }
 }

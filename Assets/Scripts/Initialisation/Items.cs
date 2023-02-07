@@ -7,48 +7,61 @@ using System;
 [System.Serializable]
 public static class Items
 {
-    private static Dictionary<string, Item> itemList = new Dictionary<string, Item>();
-
-    public static void Add(Item item)
-    {
-        itemList.Add(item.GetName(), item);
-    }
-
-    public static Item Get(string itemName)
-    {
-        return itemList[itemName];
-    }
-
-    public static Item GetQuestItemFromDB(string itemName)
-    {
-
-        JSONObject item = DatabaseUtils.GetJsonQuestItem(itemName);
-        if (item == null)
-        {
-            Debug.Log("Quest item is not found in DB : " + itemName);
-            return null;
-        }
-        else
-        {
-            JSONObject s = item["stats"].AsObject;
-            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
-            return new Item(GetStr(item, "name"), GetStr(item, "description"), item["levelRequirement"].AsInt, stats, ParseEnum<ItemType>(GetStr(item, "type")));
-        }
-    }
 
     public static Item GetItemFromDB(string itemName)
     {
-        JSONObject item = DatabaseUtils.GetJsonItem(itemName);
-        if (item == null)
+        Item result = GetEquipmentFromDB(itemName);
+        if (result == null)
         {
-            Debug.Log("Item is not found in DB : " + itemName);
+            result = GetConsumableFromDB(itemName);
+        }
+        return result;
+    }
+
+
+    public static Equipment GetQuestEquipmentFromDB(string EquipmentName)
+    {
+
+        JSONObject Equipment = DatabaseUtils.GetJsonQuestEquipment(EquipmentName);
+        if (Equipment == null)
+        {
+            Debug.Log("Quest Equipment is not found in DB : " + EquipmentName);
             return null;
         }
         else
         {
-            JSONObject s = item["stats"].AsObject;
+            JSONObject s = Equipment["stats"].AsObject;
             Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
-            return new Item(GetStr(item,"name"), GetStr(item,"description"), item["levelRequirement"].AsInt, stats, ParseEnum<ItemType>(GetStr(item,"type")));
+            return new Equipment(GetStr(Equipment, "name"), GetStr(Equipment, "description"), Equipment["levelRequirement"].AsInt, stats, ParseEnum<EquipmentType>(GetStr(Equipment, "type")));
+        }
+    }
+
+    public static Equipment GetEquipmentFromDB(string equipmentName)
+    {
+        JSONObject equipment = DatabaseUtils.GetJsonEquipment(equipmentName);
+        if (equipment == null)
+        {
+            Debug.Log("Equipment is not found in DB : " + equipmentName);
+            return null;
+        }
+        else
+        {
+            JSONObject s = equipment["stats"].AsObject;
+            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
+            return new Equipment(GetStr(equipment, "name"), GetStr(equipment, "description"), equipment["levelRequirement"].AsInt, stats, ParseEnum<EquipmentType>(GetStr(equipment, "type")));
+        }
+    }
+
+    public static Consumable GetConsumableFromDB(string consumableName)
+    {
+        JSONObject consumable = DatabaseUtils.GetJsonConsumable(consumableName);
+        if (consumable == null)
+        {
+            Debug.Log("Consumable is not found in DB : " + consumableName);
+            return null;
+        } else
+        {
+            return new Consumable(GetStr(consumable, "name"), GetStr(consumable, "description"), Spells.Get(GetStr(consumable, "spell")));
         }
     }
 
@@ -60,11 +73,11 @@ public static class Items
 
         foreach(JSONObject category in data)
         {
-            ItemCategories.AddCategory(createItemCategory(category)); 
+            EquipmentCategories.AddCategory(createEquipmentCategory(category)); 
         }
     }
 
-    private static ItemCategory createItemCategory(JSONObject data)
+    private static EquipmentCategory createEquipmentCategory(JSONObject data)
     {
         List<Stat> mainStatList = new List<Stat>();
         foreach(JSONNode stat in data["possibleMainStats"])
@@ -79,7 +92,7 @@ public static class Items
             offStatList.Add(ParseEnum<Stat>(stat));
         }
 
-        return new ItemCategory(ParseEnum<ItemType>(GetStr(data, "type")), ParseEnum<ItemSlot>(GetStr(data, "slot")), mainStatList, offStatList);
+        return new EquipmentCategory(ParseEnum<EquipmentType>(GetStr(data, "type")), ParseEnum<EquipmentSlot>(GetStr(data, "slot")), mainStatList, offStatList);
     }
 
     private static string GetStr(JSONObject jsonO, string s)

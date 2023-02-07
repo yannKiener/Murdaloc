@@ -1,61 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-[Serializable]
-public class Item : Usable {
+public abstract class Item : Usable {
 
     protected string itemName;
-    protected string description;
-    protected int levelRequirement;
-    protected Sprite image;
-    protected Stats stats;
-    protected ItemType type;
-    public bool isEquipped;
+    protected string description = "MissingDesc";
     public bool isInInventory;
+    protected Sprite image;
 
-    public Item(string itemName, string description, int levelRequirement, Stats stats, ItemType type)
+    public virtual string GetDescription()
     {
-        this.itemName = itemName;
-        this.description = description;
-        this.levelRequirement = levelRequirement;
-        this.stats = stats;
-        this.type = type;
-        isEquipped = false;
-        isInInventory = true;
-        
-        this.image = InterfaceUtils.LoadSpriteForItem(itemName);
-        if (image == null)
-        {
-            this.image = InterfaceUtils.LoadSpriteForItem("Default");
-        }
-    }
-
-    public string GetDescription()
-    {
-        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
-    }
-
-    public void SetImage(Sprite image)
-    {
-        this.image = image;
-    }
-
-    public ItemSlot GetItemSlot()
-    {
-        return ItemCategories.GetCategory(type).GetSlot();
-    }
-
-    public string GetName()
-    {
-        return itemName;
-    }
-
-    public int GetLevelRequirement()
-    {
-        return levelRequirement;
+        return description;
     }
 
     public Sprite GetImageAsSprite()
@@ -63,14 +19,9 @@ public class Item : Usable {
         return image;
     }
 
-    public Stats GetStats()
+    public string GetName()
     {
-        return stats;
-    }
-
-    public bool IsUsable()
-    {
-        return (FindUtils.GetPlayer().GetLevel() >= levelRequirement);
+        return itemName;
     }
 
     public void GetFromLootToInventory()
@@ -87,31 +38,5 @@ public class Item : Usable {
         }
     }
 
-
-    public void Use(Character caster)
-    {
-        if (IsUsable())
-        {
-            if (isEquipped)
-            {
-                FindUtils.GetCharacterSheetGrid().RemoveItem(this);
-            } else
-            {
-                if (isInInventory)
-                {
-                    FindUtils.GetCharacterSheetGrid().EquipItem(this);
-                } else
-                {
-                    GetFromLootToInventory();
-                }
-            }
-        } else if (!isInInventory)
-        {
-            GetFromLootToInventory();
-        }
-        else 
-        {
-            MessageUtils.ErrorMessage("Can't use that yet.");
-        }
-    }
+    public abstract void Use(Character caster);
 }

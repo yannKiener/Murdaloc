@@ -53,7 +53,7 @@ public static class Constants {
     public static readonly int SpiritByLevel = 4;
     public static readonly float RandomDamageRange = 30f;
 
-    //Items
+    //Equipments
     public static readonly float MainStatMultiplier = 1.3f;
     public static readonly float OffStatMultiplier = 0.2f;
     public static readonly float CommonStatMultiplier = 0f;
@@ -96,7 +96,7 @@ public enum Stat {
 	maxLife
 }
 
-public enum ItemType
+public enum EquipmentType
 {
     PlateHead,
     PlateTorso,
@@ -130,7 +130,7 @@ public enum ItemType
     Shield
 }
 
-public enum ItemSlot
+public enum EquipmentSlot
 {
     Head,
     Neck,
