@@ -337,8 +337,7 @@ public class Player : Character
 		player.velocity = new Vector2(xSpeed * stats.MaxSpeed, ySpeed);
 
         //Limit player to camera bounds At ALL TIMES
-
-        if(!(Camera.main.WorldToViewportPoint(transform.position).x > 1.2) && !(Camera.main.WorldToViewportPoint(transform.position).x < -0.2))
+        if (isOutOfRightBound() || isOutOfLeftBound() || isOutOfUpDownBounds())
         {
             Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
             pos.x = Mathf.Clamp01(pos.x);
@@ -347,7 +346,22 @@ public class Player : Character
         }
 	}
 
-	protected override void EnterCombat(){
+    private bool isOutOfUpDownBounds()
+    {
+        return Camera.main.WorldToViewportPoint(transform.position).y > 1 || Camera.main.WorldToViewportPoint(transform.position).y < 0;
+    }
+
+    private bool isOutOfRightBound()
+    {
+        return Camera.main.WorldToViewportPoint(transform.position).x > 1;
+    }
+
+    private bool isOutOfLeftBound()
+    {
+        return Camera.main.WorldToViewportPoint(transform.position).x < 0;
+    }
+
+    protected override void EnterCombat(){
 		base.EnterCombat();
 		GameObject.Find("Main Camera").SendMessage("leavePlayer");
 	}

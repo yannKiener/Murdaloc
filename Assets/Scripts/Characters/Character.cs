@@ -290,6 +290,16 @@ public abstract class Character : MonoBehaviour
 		return debuffList;
 	}
 
+    public bool HasEffect(string effectName)
+    {
+        return HasEffect(EffectsOnTime.Get(effectName));
+    }
+
+    public bool HasEffect(EffectOnTime effect)
+    {
+        return GetEffect(effect) != null;
+    }
+
 	public EffectOnTime GetEffect(EffectOnTime effect){
 		if (effect.IsBuff ()) {
 			return buffList.Find (b => b.GetName() == effect.GetName()) ;
@@ -416,7 +426,6 @@ public abstract class Character : MonoBehaviour
 		    castingSpell = null;
         }
         return wasCasting;
-
     }
 
     public void SetAutoAttack1(int damage, float speed)

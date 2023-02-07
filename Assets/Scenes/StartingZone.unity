@@ -4086,7 +4086,7 @@ PrefabInstance:
     - target: {fileID: 224487171085165688, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00000081457625
+      value: -0.0000010863205
       objectReference: {fileID: 0}
     - target: {fileID: 224836550732518792, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
@@ -4741,6 +4741,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: CharacterName
+      value: Slarky
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: DialogName
+      value: Slarky
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: isElite
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: statPercent
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: Title
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 212708766642961996, guid: 3171b50d25accba47af617bff814fc30,
         type: 3}
       propertyPath: m_Size.x
@@ -4785,36 +4815,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.x
       value: 0.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: CharacterName
-      value: Slarky
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: DialogName
-      value: Slarky
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: isElite
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: level
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: statPercent
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
-        type: 3}
-      propertyPath: Title
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3171b50d25accba47af617bff814fc30, type: 3}
