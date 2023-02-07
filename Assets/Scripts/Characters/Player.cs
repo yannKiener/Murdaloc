@@ -18,17 +18,22 @@ public class Player : Character
 		UpdateCharacter ();
 
 		//EnemyManagement
-		if(Input.GetKeyUp(KeyCode.Tab)){
+		if(Input.GetButtonDown("CycleTargets"))
+        {
 			CycleTargets();
 		}
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.GetButtonDown("Cancel")) {
 			CancelCast ();
 		}
-		if (Input.GetKeyDown (KeyCode.T)) {
+		if (Input.GetButtonDown("AutoAttack")) {
 			SwitchAutoAttack ();
 		}
+        if (Input.GetButtonDown("ShowHideSpellBook"))
+        {
+            ShowHideSpellBook();
+        }
 
-		if (Input.GetKeyDown (KeyCode.Alpha9)) {
+        if (Input.GetKeyDown (KeyCode.X)) {
 			print ("LevelUp !");
 			LevelUp ();
 			stats.displayStats ();
@@ -83,11 +88,11 @@ public class Player : Character
 	private void MovePlayer(Rigidbody2D player)
 	{
 		float xSpeed = Input.GetAxis("Horizontal");
-		if (Input.GetKeyDown("space"))
+		if (Input.GetButtonDown("Jump"))
 		{
 			wantToJump = true;
 		}
-		if (Input.GetKeyUp("space"))
+		if (Input.GetButtonUp("Jump"))
 		{
 			wantToJump = false;
 		}
@@ -129,6 +134,14 @@ public class Player : Character
 		base.kill ();
 		Instantiate (Resources.Load ("Wasted"));
 	}
+
+
+    //Controles d'interfaces
+    private void ShowHideSpellBook()
+    {
+        FindUtils.GetSpellBook().SetActive(!FindUtils.GetSpellBook().activeSelf);
+
+    }
 
 
 }
