@@ -78,7 +78,12 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void castSpell(string spellName)
     {
-        spellList[spellName].Cast(this, target);
+
+		if (target != null) {
+			spellList [spellName].Cast (this, target);
+		} else {
+			print ("NO TARGET");
+		}
     }
 		
 	public void ApplyDamage (int damage)
@@ -129,22 +134,31 @@ public class Player : AbstractCharacter
         {
 			attackTarget (target);
 		}
+		manageCombat ();
+        MovePlayer(GetComponent<Rigidbody2D>()); 
+	}
+
+
+	private void manageCombat (){
 		if (inCombat) {
 			clearEnemyList ();
-			if (enemyList.Count == 0) {
-				leaveCombat ();
-			}
+			updateTarget ();
 		}
-			
-        MovePlayer(GetComponent<Rigidbody2D>()); 
-    }
+	}
 
 	private void clearEnemyList (){
-		foreach (Character en in enemyList) {
-			if (en.IsDead ()) {
-				enemyList.Remove (en);
-			}
+		enemyList.RemoveAll (e => e.IsDead ());
+	}
+
+	private void updateTarget(){
+
+		if (enemyList.Count >= 1)
+			target = enemyList [0];
+		else {
+			leaveCombat ();
+			target = null;
 		}
+		
 	}
     
     
