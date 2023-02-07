@@ -443,7 +443,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
             player.SetResourceType(new Energy());
             player.SetCurrentResource(0); 
             player.AddSpell(Spells.Get("Sprint"));
-            player.AddSpell(Spells.Get("Hemorrage"));
+            player.AddSpell(Spells.Get("Hemorrhage"));
         });
 
         DialogActions.Add("AddMageSpec", () =>
