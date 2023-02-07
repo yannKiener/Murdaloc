@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SaveGame {
@@ -14,6 +15,7 @@ public class SaveGame {
     List<Equipment> charSheetItems;
     List<Item> inventoryItems;
     Dictionary<string, bool> status;
+    string lastScene;
 
     public SaveGame()
     {
@@ -40,9 +42,15 @@ public class SaveGame {
         this.charSheetItems = chSheet.GetEquipments();
         this.inventoryItems = inv.GetItems();
         this.status = DialogStatus.GetAllStatus();
+        lastScene = SceneManager.GetActiveScene().name;
     }
 
-    public void Load()
+    public string GetLastScene()
+    {
+        return lastScene;
+    }
+
+    public void LoadData()
     {
         Resource r;
         if(rsrc == 1)

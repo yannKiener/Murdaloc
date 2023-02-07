@@ -60,8 +60,10 @@ public class GameUtils : MonoBehaviour {
             }
             SaveGame();
             playerName = FindUtils.GetPlayer().GetName();
-        }
+        } 
+
         scene = sceneName;
+        
     }
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -75,7 +77,7 @@ public class GameUtils : MonoBehaviour {
             }
             if(playerName != null)
             {
-                LoadGame(playerName);
+                LoadSave(playerName).LoadData();
             }
         }
     }
@@ -88,9 +90,9 @@ public class GameUtils : MonoBehaviour {
         file.Close();
     }
 
-    public static void LoadGame(string saveName)
+    public static SaveGame LoadSave(string saveName)
     {
-        SaveGame save = new SaveGame();
+        SaveGame save = null;
         if (File.Exists(Application.persistentDataPath + "/" + saveName + ".murk"))
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -99,7 +101,7 @@ public class GameUtils : MonoBehaviour {
             file.Close();
         }
 
-        save.Load();
+        return save;
     }
 
     private void Start()
@@ -112,7 +114,10 @@ public class GameUtils : MonoBehaviour {
     {
         if(scene != null)
         {
-            StartCoroutine(LoadSceneAsync(scene));
+            if (SceneManager.GetActiveScene().name != scene)
+            {
+                StartCoroutine(LoadSceneAsync(scene));
+            }
             scene = null;
         }
 

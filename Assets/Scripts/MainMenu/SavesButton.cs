@@ -9,6 +9,6 @@ public class SavesButton : MonoBehaviour {
     public void StartGame()
     {
         GameUtils.SetPlayer(saveName);
-        GameUtils.LoadScene("LevelOne");
+        GameUtils.LoadScene(GameUtils.LoadSave(saveName).GetLastScene());
     }
 }

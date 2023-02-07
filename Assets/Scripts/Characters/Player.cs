@@ -223,7 +223,7 @@ public class Player : Character
 			wantToJump = false;
 		}
 		if (Input.GetKey(KeyCode.LeftShift))
-		{ //Si c'est maintenu. On pourrait changer les sauts aussi pour ca.
+		{ 
 			xSpeed = xSpeed * 2;
 		}
 			
