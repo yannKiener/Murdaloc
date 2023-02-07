@@ -2,6 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class Spells
+{
+    private Dictionnary<string,Spell> spellList;
+
+    public static void Initialize()
+    {
+         spellList = new Dictionnary<string,Spell>();
+    }
+    
+    public static void AddSpell(Spell spell)
+    {
+         spellList.add(spell.GetName(),spell);
+    }
+    
+    public static Spell GetSpell(string spellName)
+    {
+         return spellList[spellName];
+    }
+    
+    
+}
+
 public interface Spell
 {
     string GetName();
