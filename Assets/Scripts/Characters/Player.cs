@@ -15,7 +15,6 @@ public class Player : Character
 
     private void Awake()
     {
-        Debug.Log("Awake on player");
         Interface.LoadPlayer();
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 10;
@@ -44,12 +43,10 @@ public class Player : Character
 
     new void Start()
     {
-        Debug.Log("Start on player");
     }
 
     public void InitializeWith(string name, int lv, float expPercent, Resource rsrc, List<Spell> spellList)
     {
-        Debug.Log("Init on player");
         this.CharacterName = name;
         this.level = lv;
         this.experiencePercent = expPercent;
