@@ -56,6 +56,7 @@ public abstract class Character : MonoBehaviour
     {
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 9;
+        GetComponent<Rigidbody2D>().freezeRotation = true;
         lootTable = new Dictionary<string, object>();
         foreach(LootTable lt in LootTable)
         {
