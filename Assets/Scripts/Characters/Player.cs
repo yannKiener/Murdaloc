@@ -43,10 +43,7 @@ public class Player : Character
         }
 
         if (Input.GetKeyDown (KeyCode.X)) {
-			print ("LevelUp ! Testing...");
 			LevelUp ();
-			//stats.displayStats ();
-            FindUtils.GetInventoryGrid().AddItem(Items.GetFromDB("Headitem"));
             FindUtils.GetInventoryGrid().AddItem(ItemGenerator.GenerateItem(level));
         }
 

@@ -19,11 +19,10 @@ public static class ItemGenerator  {
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;
         ItemType itemType = GetRandomItemType();
 
-
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats);
         string name = GetRandomNameForType(itemType);
 
-        Item result = new Item(name,"",maxLevel,stats,itemType);//new Item();
+        Item result = new Item(name,"",maxLevel,stats,itemType);
         return result;
     }
 
@@ -52,21 +51,26 @@ public static class ItemGenerator  {
 
     private static Stats GenerateStatsForType(ItemType type, float maxMainStats, float maxOffStats)
     {
-        int stat1Multiplier = UnityEngine.Random.Range(30,71);
-        int stat2Multiplier = UnityEngine.Random.Range(20, 31);
-        int stat3Multiplier = UnityEngine.Random.Range(0, 100-(stat1Multiplier+stat2Multiplier));
-        int offStat1Multiplier = UnityEngine.Random.Range(30, 71);
-        int offStat2Multiplier = UnityEngine.Random.Range(20, 31);
-        int offStat3Multiplier = UnityEngine.Random.Range(0, 100-(offStat1Multiplier+offStat2Multiplier));
+        float stat1Multiplier = UnityEngine.Random.Range(30,51) ;
+        float stat2Multiplier = UnityEngine.Random.Range(30,51) ;
+        float stat3Multiplier = UnityEngine.Random.Range(0, 100-(stat1Multiplier+stat2Multiplier)) ;
+        float offStat1Multiplier = UnityEngine.Random.Range(30, 71) ;
+        float offStat2Multiplier = UnityEngine.Random.Range(20, 31) ;
+        float offStat3Multiplier = UnityEngine.Random.Range(0, 100-(offStat1Multiplier+offStat2Multiplier)) ;
         List<Stat> mainStatList = GetMainStatList(type);
         List<Stat> offStatList = GetOffStatList(type);
 
-        Stats result = AddStatFromEnumRandomly(mainStatList, maxMainStats*stat1Multiplier);
-        result.Add(AddStatFromEnumRandomly(mainStatList, maxMainStats * stat2Multiplier));
-        result.Add(AddStatFromEnumRandomly(mainStatList, maxMainStats * stat3Multiplier));
-        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat1Multiplier));
-        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat2Multiplier));
-        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat3Multiplier));
+
+        Debug.Log(stat1Multiplier);
+        Debug.Log(stat2Multiplier);
+        Debug.Log(stat3Multiplier);
+
+        Stats result = AddStatFromEnumRandomly(mainStatList, maxMainStats * stat1Multiplier / 100);
+        result.Add(AddStatFromEnumRandomly(mainStatList, maxMainStats * stat2Multiplier / 100));
+        result.Add(AddStatFromEnumRandomly(mainStatList, maxMainStats * stat3Multiplier / 100));
+        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat1Multiplier / 100));
+        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat2Multiplier / 100));
+        result.Add(AddStatFromEnumRandomly(offStatList, maxOffStats * offStat3Multiplier / 100));
 
         return result;
     }
