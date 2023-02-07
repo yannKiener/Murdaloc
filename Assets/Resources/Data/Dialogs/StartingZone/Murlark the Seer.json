@@ -3,20 +3,12 @@
    "choices":[  
 	  {
          "condition":"Blade for everyoneOver&!TalentTreeSelected",
-         "choice":"The chief send me.",
+         "choice":"I have a blade now.",
          "dialog":{   
-            "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a MAAAAAAAAAAAAGE, right ?",
+            "text":"Hah, you still have much to learn. You should follow one of our new ways. Some Murlocs around here are able to teach you, mostly Ergle, Gurblarg or Slarky. You should talk to them.",
             "choices":[  
                {  
-                  "choice":"Sure !",
-                  "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"It is done. Leave now, as a mage.",
-					"choices":[  
-					   {  
-						  "choice":"<Leave>"
-					   }
-					]
+                  "choice":"<Leave>"
                   }
                }
             ]
@@ -26,11 +18,11 @@
          "condition":"!Blade for everyoneStarted",
 		 "choice":"What should I do again ?",
 		 "dialog":{
-		 "text":"Report to the chief, few steps east of here. He'll know what to do.",
-		 "choices":[
-			{
-				"choice":"<Leave>"
-			}
+			 "text":"Report to the chief, few steps east of here. He'll know what to do.",
+			 "choices":[
+				{
+					"choice":"<Leave>"
+				}
 			]
 		 }
 	  }

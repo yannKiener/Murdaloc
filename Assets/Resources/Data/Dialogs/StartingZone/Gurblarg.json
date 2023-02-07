@@ -3,7 +3,7 @@
    "choices":[  
 	  {
          "condition":"Blade for everyoneOver&!TalentTreeSelected",
-         "choice":"I need help pls.",
+         "choice":"I want to be a Warrior.",
          "dialog":{   
             "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a MAGE, right ?",
             "choices":[  

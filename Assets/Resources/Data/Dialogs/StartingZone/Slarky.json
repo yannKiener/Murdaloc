@@ -1,9 +1,9 @@
 {  
-   "text":"Don't talk to me.",
+   "text":"Don't waste my time.",
    "choices":[  
 	  {
          "condition":"Blade for everyoneOver&!TalentTreeSelected",
-         "choice":"I want to be a rogue.",
+         "choice":"I want to be a Rogue.",
          "dialog":{   
             "text":"Is that so ! You sure ?",
             "choices":[  
