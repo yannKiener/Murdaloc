@@ -34,10 +34,16 @@ public static class Constants {
 	public static readonly int RegenEnergyEvery = 2;
     public static readonly int maxHaste = 90;
 
+    //Items
+    public static readonly float MainStatMultiplier = 1.3f;
+    public static readonly float OffStatMultiplier = 0.2f;
+    public static readonly float CommonStatMultiplier = 0f;
+    public static readonly float UncommonStatMultiplier = 0.7f;
+    public static readonly float RareStatMultiplier = 1f;
+    public static readonly float EpicStatMultiplier = 1.3f;
 
-
-	//Enemies 
-	public static readonly float AggroDistance = 2;
+    //Enemies 
+    public static readonly float AggroDistance = 2;
 	public static readonly float AggroOtherDistance = 2;
 	
 	

@@ -27,13 +27,18 @@ public class Item : Usable {
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
         if (image == null)
         {
-            Debug.Log("Image null for "+ itemName);
+            this.image = InterfaceUtils.LoadSpriteForItem("Default");
         }
 
     }
     public string GetDescription()
     {
         return description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
+    }
+
+    public void SetImage(Sprite image)
+    {
+        this.image = image;
     }
 
     public string GetItemType()

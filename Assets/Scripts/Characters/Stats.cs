@@ -201,7 +201,85 @@ public class Stats {
 	}
 
 
-	public void SetAutoAttack(int damage, float time){
+    public void AddStat(Stat stat, float number)
+    {
+        switch (stat)
+        {
+            case Stat.agility:
+                {
+                    Agility += (int)number;
+                    break;
+                }
+            case Stat.autoAttackDamage:
+                {
+                    AutoAttackDamage += (int)number;
+                    break;
+
+                }
+            case Stat.autoAttackTime:
+                {
+                    AutoAttackTime += number;
+                    break;
+                }
+            case Stat.critical:
+                {
+                    Critical += (int)number;
+                    break;
+                }
+            case Stat.force:
+                {
+                    Force += (int)number;
+                    break;
+                }
+            case Stat.haste:
+                {
+                    Haste += (int)number;
+                    break;
+                }
+            case Stat.intelligence:
+                {
+                    Intelligence += (int)number;
+                    break;
+
+                }
+            case Stat.maxLife:
+                {
+                    MaxLife += (int)number;
+                    break;
+
+                }
+            case Stat.maxResource:
+                {
+                    MaxResource += (int)number;
+                    break;
+
+                }
+            case Stat.maxSpeed:
+                {
+                    MaxSpeed += number;
+                    break;
+
+                }
+            case Stat.power:
+                {
+                    Power += (int)number;
+                    break;
+                }
+            case Stat.spirit:
+                {
+                    Spirit += (int)number;
+                    break;
+                }
+            case Stat.stamina:
+                {
+                    Stamina += (int)number;
+                    break;
+                }
+        }
+    }
+
+
+    public void SetAutoAttack(int damage, float time){
 		this.autoAttackDamage = damage;
 		this.autoAttackTime = time;
 	}

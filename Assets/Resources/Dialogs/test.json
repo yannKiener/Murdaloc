@@ -5,7 +5,7 @@
          "condition":"!QuestStarted",
          "choice":"Is everything fine?",
          "dialog":{  
-            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp, please don't ask why. Could you get it for me quickly?",
+            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp to the west. I don't want to talk about why, but could you please get it for me quickly?",
             "choices":[  
                {  
                   "choice":"Allright",
