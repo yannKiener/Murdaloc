@@ -1422,7 +1422,7 @@ MonoBehaviour:
   - {fileID: 1034399215571694, guid: 0887553f014d4ac4289708ffda5c68a6, type: 3}
   seed: ItWorks!!
   useRandomSeed: 1
-  music: {fileID: 8300000, guid: 7d320e261c86d7740b862240e6f5d8f1, type: 3}
+  music: {fileID: 8300000, guid: adfc24b0369aa0f419f29482a26c9a09, type: 3}
   mapToAttach: {fileID: 677822541}
 --- !u!1 &266774567
 GameObject:
@@ -5029,7 +5029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f56599c97cf1e4597dfff1286d0885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 8300000, guid: adfc24b0369aa0f419f29482a26c9a09, type: 3}
+  music: {fileID: 8300000, guid: 116ec10f9154256468acbf4902ba5edf, type: 3}
 --- !u!61 &677822544
 BoxCollider2D:
   m_ObjectHideFlags: 0

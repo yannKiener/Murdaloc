@@ -106,7 +106,7 @@ MonoBehaviour:
     dropRatePercent: 60
   QuestLootTable: []
   SpellList:
-  - Fire explosion
+  - Whirlwind
   aggroSounds:
   - {fileID: 8300000, guid: eac5fa120c98ae2479106c7cb11236a6, type: 3}
   attackSounds:
@@ -121,7 +121,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 119cb013d9313b9499a4e98d73d4d50c, type: 3}
   deathSounds:
   - {fileID: 8300000, guid: da71eebbbd66e674aba19eb31a5275cb, type: 3}
-  moveRandom: 1
+  moveRandom: 0
 --- !u!61 &7157468694639957986
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -33,10 +33,10 @@ public class SpellAndEffectLoader : MonoBehaviour {
         mageFire.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
         mageFire.SetTalent(3, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
         mageFire.SetTalent(6, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
-        mageFire.SetTalent(7, new Talent("Fire explosion", "Learn new spell : Fire explosion", 1, (player, stacks) => player.AddSpell(Spells.Get("Fire explosion")), (player, stacks) => player.RemoveSpell("Fire explosion")));
+        mageFire.SetTalent(10, new Talent("Pyroblast", "Learn new spell : Pyroblast", 1, (player, stacks) => player.AddSpell(Spells.Get("Pyroblast")), (player, stacks) => player.RemoveSpell("Pyroblast")));
         mageFire.SetTalent(11, new Talent("Meteor storm", "Learn new spell : Meteor storm", 1, (player, stacks) => player.AddSpell(Spells.Get("Meteor storm")), (player, stacks) => player.RemoveSpell("Meteor storm")));
         mageFire.SetTalent(16, new Talent("Hasty criticals", "Add 1% crit and 1% haste. Stackable.", 5, (player, stacks) => { player.GetStats().AddStat(Stat.critical, 1); player.GetStats().AddStat(Stat.haste, 1); }, (player, stacks) => { player.GetStats().AddStat(Stat.critical, -1); player.GetStats().AddStat(Stat.haste, -1); }));
-
+       
         Specialisations.Add(mageFire);
 
         Specialisation mageFrost = new Specialisation("Frost");
@@ -60,9 +60,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
         Specialisation warArms = new Specialisation("Arms");
         warArms.SetTalent(1, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"), stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
+        warArms.SetTalent(4, new Talent("Empowered Rend", "add 15% damage to your rend ability.", 3, (player, stacks) => player.GetSpells()["Rend"].GetEffectOnTarget("Rend").AddToNormalMultiplier(15), (player, stacks) => player.GetSpells()["Rend"].GetEffectOnTarget("Rend").RemoveToNormalMultiplier(15)));
+        warArms.SetTalent(6, new Talent("Whirlwind", "Learn new spell : Whirlwind", 1, (player, stacks) => player.AddSpell(Spells.Get("Whirlwind")), (player, stacks) => player.RemoveSpell("Whirlwind")));
+        warArms.SetTalent(7, new Talent("Hamstring", "Learn new spell : Hamstring", 1, (player, stacks) => player.AddSpell(Spells.Get("Hamstring")), (player, stacks) => player.RemoveSpell("Hamstring")));
         Specialisations.Add(warArms);
 
         Specialisation furyWar = new Specialisation("Fury");
+        furyWar.SetTalent(1, new Talent("Execute", "Learn new spell : Execute", 1, (player, stacks) => player.AddSpell(Spells.Get("Execute")), (player, stacks) => player.RemoveSpell("Execute")));
         Specialisations.Add(furyWar);
 
         Specialisation protWar = new Specialisation("Protection");
@@ -89,9 +93,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
-        CreateEffectOnTime("Enrage", "Hit harder & faster but moves slower.", true, 1, 8, 8, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f }, { Stat.haste, 20f }, { Stat.power, 20f } }), null);
+        CreateEffectOnTime("Enrage", "Hit harder & faster.", true, 1, 6, 6, new StatEffect(new Dictionary<Stat, float> { { Stat.haste, 30f }, { Stat.power, 30f } }), null);
         CreateEffectOnTime("Webbed", "Can't move", false, 1, 3.5f, 3, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
-        CreateEffectOnTime("Stun", "Stunned. Can't move or attack.", false, 1, 5, 5, new StunEffect(), null);
+        CreateEffectOnTime("Stun", "Stunned. Can't move or attack.", false, 1, 3, 5, new StunEffect(), null);
+
+        //Warrior
+        CreateEffectOnTime("Rend", "Damages over time.", false, 1, 12, 3f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.force, 1.4f } }, 10));
+        CreateEffectOnTime("Hamstring", "Slows movement by 50%.", false, 1, 15, 15f, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f } }), null);
 
 
         //Spells for consummables
@@ -113,10 +121,14 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
         //Warrior Spells
         CreateHostileSpell("Slam", "Slap your target's face with your first", 20, 0, 0, 0, 2, newDamage(new Dictionary<Stat, float> { { Stat.force, 1f }, { Stat.agility, 0.5f } }, 10, 0.4f), "Default", null, null);
-        CreateHostileSpell("Fire explosion", "A terrible Fire explosion based on your WEAPON damage (yeah testing purpose)", 50, 0, 1, 3, 2, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0.6f } }, 0, 2, true, 1), "Fire", null, null);
+        CreateHostileSpell("Whirlwind", "In a Whirlwind of steel, you attack every enemy close to you, causing them your weapon damage.", 30, 0, 1, 10, Constants.MaxAutoAttackDistance, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 0.4f } }, 0, Constants.MaxAutoAttackDistance, true, 1), "whirlwind", null, null);
+        CreateHostileSpell("Rend", "Wounds the target causing them to bleed over 9 seconds.", 10, 0f, 2, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.force, 0.4f } }, 1), "Bloody", new List<EffectOnTime> { EffectsOnTime.Get("Rend") }, null);
+        CreateHostileSpell("Hamstring", "Maims the enemy, inflicting damage and slowing the enemy's movement by 50% for 15 sec.", 10, 0f, 2, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.force, 0.3f } }, 1), "Hamstring", new List<EffectOnTime> { EffectsOnTime.Get("Hamstring") }, null);
+        CreateHostileSpell("Execute", "Attempt to finish off a wounded foe, causing damage and converting extra rage into damage. Only usable on enemies that have 20% or less health", 15, 0f, 5, 0, Constants.MaxAutoAttackDistance, newExecuteDamage(new Dictionary<Stat, float> { { Stat.force, 1f } }, 1, 0.03f, 0.8f), "Bloody", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return t.GetHealthPercent() <= 0.2f ; }));
 
         //Mage spells
         CreateHostileSpell("Fireball", "A magic Fireball. That's it.", 10, 2, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
+        CreateHostileSpell("Pyroblast", "Hurls an immense fiery boulder that causes a lot of damage to your target.", 50, 6, 5, 10, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 4f } }, 70), "Fire", null, null);
         CreateHostileSpell("Frost nova", "A frost nova imported from WOW", 50, 0, 5, 12, 3, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", new List<EffectOnTime>() { EffectsOnTime.Get("Frozen") }, null);
         CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.6f } }, 30), "Frost", null, null);
         CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 1, 8, 8, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60, 5), "Fire", null, null);
@@ -140,7 +152,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
 
         //Spells for Mobs
-        CreateFriendlySpell("Enrage", "Hit harder & faster but move slower.", 50, 0, 5, 20, 2, null, "Bloodlust", null, new List<EffectOnTime>() { EffectsOnTime.Get("Enrage") });
+        CreateFriendlySpell("Enrage", "Hit harder & faster.", 50, 0, 5, 20, 2, null, "Bloodlust", null, new List<EffectOnTime>() { EffectsOnTime.Get("Enrage") });
         CreateHostileSpell("Web", "Send a web to your target and prevent him from moving.", 20, 1.5f, 2, 15, 4, null, "Trap", new List<EffectOnTime>() { EffectsOnTime.Get("Webbed") }, null);
     }   
 
@@ -160,6 +172,19 @@ public class SpellAndEffectLoader : MonoBehaviour {
         Spells.Add(new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf));
     }
 
+    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition)
+    {
+        HostileSpell spell = new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf);
+        spell.SetSpellCondition(specialCondition);
+        Spells.Add(spell);
+    }
+
+    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character, Spell> spellEffect, string soundType, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf, Func<Character, Character, Spell, bool> specialCondition)
+    {
+        FriendlySpell spell =  new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf);
+        spell.SetSpellCondition(specialCondition);
+        Spells.Add(spell);
+    }
 
 
     private Action<Character, Character, Spell> AddLifePercent(int lifePercent)
@@ -292,6 +317,67 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		}
 	}
 
+
+
+    private Action<Character, Character, Spell> newExecuteDamage(Dictionary<Stat, float> statWeight, int baseNumber, float ragePointMultiplier, float autoAttackMultiplier)
+    {
+        float forceMultiplier = 0;
+        float agilityMultiplier = 0;
+        float intelligenceMultiplier = 0;
+        float staminaMultiplier = 0;
+        float spiritMultiplier = 0;
+
+        //TODO pas très joli, trouver plus propre.
+        foreach (KeyValuePair<Stat, float> p in statWeight)
+        {
+            if (p.Key == Stat.force)
+            {
+                forceMultiplier = p.Value;
+            }
+            if (p.Key == Stat.agility)
+            {
+                agilityMultiplier = p.Value;
+            }
+            if (p.Key == Stat.intelligence)
+            {
+                intelligenceMultiplier = p.Value;
+            }
+            if (p.Key == Stat.stamina)
+            {
+                staminaMultiplier = p.Value;
+            }
+            if (p.Key == Stat.spirit)
+            {
+                spiritMultiplier = p.Value;
+            }
+    }
+        return ((Character arg1, Character arg2, Spell sp) => {
+            int damage = baseNumber;
+            damage += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
+            damage += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
+            damage += (int)(arg1.GetStats().Force * forceMultiplier);
+            damage += (int)(arg1.GetStats().Agility * agilityMultiplier);
+            damage += (int)(arg1.GetStats().Stamina * staminaMultiplier);
+            damage += (int)(arg1.GetStats().Spirit * spiritMultiplier);
+
+            damage += damage * (int)(arg1.GetCurrentResource() * ragePointMultiplier);
+            arg1.RemoveResource(arg1.GetCurrentResource());
+
+            Stats casterStats = arg1.GetStats();
+            bool isCrit = casterStats.Critical > UnityEngine.Random.Range(1, 101);
+
+            damage = damage + (damage * casterStats.Power / 100); //Applying power 
+            damage = (int)(sp.GetNormalMultiplier() * damage / 100);
+
+            if (isCrit)
+            { // Apply Crit
+                damage += (int)(sp.GetCritMultiplier() * damage / 100);
+                sp.OnCrit(arg1, arg2, damage);
+
+            }
+            arg2.ApplyDamage((int)(damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
+        });
+    }
 
     //EffectsOnTime
 
@@ -467,6 +553,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
             player.SetResourceType(new Rage());
             player.SetCurrentResource(0);
             player.AddSpell(Spells.Get("Slam"));
+            player.AddSpell(Spells.Get("Rend"));
         });
 
         DialogActions.Add("AddRogueSpells", () =>

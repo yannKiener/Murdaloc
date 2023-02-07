@@ -16,6 +16,7 @@ public abstract class Spell : Usable, Castable
     protected Dictionary<string, EffectOnTime> effectsOnSelf = new Dictionary<string, EffectOnTime>();
 	protected float maxDistance;
 	protected Action<Character,Character, Spell> applySpellEffect;
+    protected Func<Character, Character, Spell, bool> spellCondition;
 	protected bool isHostileSpell;
 	protected Image image;
     protected AudioClip preCastSound;
@@ -60,6 +61,20 @@ public abstract class Spell : Usable, Castable
         this.castSounds = DatabaseUtils.GetCastSound(soundType);
         this.impactSounds = DatabaseUtils.GetIImpactSound(soundType);
     }
+
+    public void SetSpellCondition(Func<Character, Character, Spell, bool> spCondition)
+    {
+        spellCondition = spCondition;
+    }
+
+    public Func<Character, Character, Spell, bool> GetSpellCondition()
+    {
+        return spellCondition;
+    }
+    public void RemoveSpellCondition()
+    {
+        spellCondition = null;
+    }
 		
 	public Spell(Spell s){
         this.isHostileSpell = s.isHostile();
@@ -77,6 +92,7 @@ public abstract class Spell : Usable, Castable
         this.preCastSound = s.preCastSound;
         this.castSounds = s.castSounds;
         this.impactSounds = s.impactSounds;
+        this.spellCondition = s.GetSpellCondition();
     }
 
     public Sprite GetImageAsSprite()
@@ -97,7 +113,12 @@ public abstract class Spell : Usable, Castable
 
 
 	public virtual bool IsCastable(Character caster, Character target, bool displayCDText = true){
-		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(displayCDText));
+        bool specialCondition = true;
+
+        if (spellCondition != null) {
+            specialCondition = spellCondition(caster, target, this);
+        } 
+		return (caster != null && target != null && caster.GetCurrentResource () >= resourceCost && specialCondition && checkLevel(caster) && checkDistance(caster,target) && checkCoolDown(displayCDText));
 	}
 
 
