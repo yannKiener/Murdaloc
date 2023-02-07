@@ -296,6 +296,8 @@ public class Player : AbstractCharacter
 		GUI.Box(new Rect(0,20,currentLife*2,20), new Texture2D(1,1)); 
 		GUI.Box (new Rect (0, 40, 200, 20), currentMana + " / " + maxMana);
 		GUI.Box(new Rect(0,40,currentMana*2,20), new Texture2D(1,1)); 
+
+
 		if (target != null && !target.IsDead()) {
 			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
 			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
