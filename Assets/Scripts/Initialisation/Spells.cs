@@ -15,13 +15,6 @@ public static class Spells
     public static Spell Get(string spellName)
     {
         Spell s = spellList[spellName];
-        if (s.isHostile())
-        {
-            return new HostileSpell(s);
-        }
-        else
-        {
-            return new FriendlySpell(s);
-        }
+        return s.Clone();
     }
 }

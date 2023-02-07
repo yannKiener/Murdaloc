@@ -681,7 +681,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void AddSpell(Spell spell, bool addToActionBar = false)
     {
-        spellList[spell.GetName()] =  spell;
+        spellList[spell.GetName()] = spell.Clone();
     }
 
     public virtual void RemoveSpell(string spellname)

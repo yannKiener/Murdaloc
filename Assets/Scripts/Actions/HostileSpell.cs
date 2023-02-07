@@ -13,8 +13,12 @@ public class HostileSpell : Spell
 
 	public HostileSpell (Spell s) : base (s){}
 
+    public override Spell Clone()
+    {
+        return new HostileSpell(this);
+    }
 
-	public override void Cast (Character caster, Character target)
+    public override void Cast (Character caster, Character target)
 	{
 		base.Cast (caster, target);
         if (target != null && caster != null)

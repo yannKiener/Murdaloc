@@ -27,10 +27,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
     private void CreateSpecialisations()
     {
         Specialisation mage = new Specialisation("Mage");
-        mage.SetTalent(2, new Talent("FireBurn", "Add 10% chance to burn your target with Fireball", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
-        mage.SetTalent(4, new Talent("SHADOW BURST", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
-        mage.SetTalent(6, new Talent("FIRE BURST", "add 20% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(20)));
-        mage.SetTalent(10, new Talent("ICETEST", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance"),true), (player, stacks) => player.RemoveSpell("Icelance")));
+        mage.SetTalent(2, new Talent("Burning bolts", "Add 10% chance to burn your target with a Fireball. Stackable.", 5, (player, stacks) => player.GetSpells()["Fireball"].SetProc(EffectsOnTime.Get("Burning"),stacks*10), (player, stacks) => player.GetSpells()["Fireball"].RemoveProc(EffectsOnTime.Get("Burning"))));
+        mage.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
+        mage.SetTalent(6, new Talent("Overpowered Firebolt", "add 10% damage to your Fireball spell", 5, (player, stacks) => player.GetSpells()["Fireball"].AddToNormalMultiplier(10), (player, stacks) => player.GetSpells()["Fireball"].RemoveToNormalMultiplier(10)));
+        mage.SetTalent(7, new Talent("Fast Firebolt", "Reduce FireBall's casting time by 0,1s.", 5, (player, stacks) => player.GetSpells()["Fireball"].RemoveCastTime(0.1f), (player, stacks) => player.GetSpells()["Fireball"].AddCastTime(0.1f)));
+        mage.SetTalent(10, new Talent("Ice Lance", "Learn new spell : IceLance", 1, (player, stacks) => player.AddSpell(Spells.Get("Icelance"),true), (player, stacks) => player.RemoveSpell("Icelance")));
+        mage.SetTalent(14, new Talent("Freezing Lance", "Your Ice Lance slow target by 60%", 1, (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")){ player.GetSpells()["Icelance"].AddEffectOnTarget(EffectsOnTime.Get("Frozen")); } } , (player, stacks) => { if (player.GetSpells().ContainsKey("Icelance")) { player.GetSpells()["Icelance"].RemoveEffectOnTarget("Frozen"); }}));
+
 
         /*
         mage.SetTalent(10, new Talent("ICETEST", ".", 5));
@@ -50,6 +53,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Burning", "Inflict fire damage every two seconds.", false, 3, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 0.5f } }, 10));
         CreateEffectOnTime("Renovation", "First HoT of the game", true, 3, 10, 1, null, newHealOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 2f } }, 50));
         CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
+        CreateEffectOnTime("Frozen", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
 
 
         //Spells for consummables
@@ -68,7 +72,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("Renovation", "Heal over time.", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Renovation") });
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(), new List<EffectOnTime> { EffectsOnTime.Get("Sprint") });
         CreateHostileSpell("Corruption", "Damages over time.", 5, 0.5f, 0, 0, 5, null, "Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") }, new List<EffectOnTime>());
-        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Frost", null, null);
+        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 1f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Frost", null, null);
 
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", new List<EffectOnTime>(), new List<EffectOnTime>());
 

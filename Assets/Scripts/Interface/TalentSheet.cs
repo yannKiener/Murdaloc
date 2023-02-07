@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TalentSheet : MonoBehaviour
 {
@@ -93,7 +94,7 @@ public class TalentSheet : MonoBehaviour
     {
         if(spec != null)
         {
-            foreach (KeyValuePair<int, Talent> kv in spec.GetTalentTree())
+            foreach (KeyValuePair<int, Talent> kv in spec.GetTalentTree().Reverse())
             {
                 kv.Value.Reset();
             }

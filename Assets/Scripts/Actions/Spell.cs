@@ -62,7 +62,8 @@ public abstract class Spell : Usable, Castable
     }
 		
 	public Spell(Spell s){
-		this.spellName = s.spellName;
+        this.isHostileSpell = s.isHostile();
+        this.spellName = s.spellName;
 		this.description = s.description;
 		this.resourceCost = s.resourceCost;
 		this.castTime = s.castTime;
@@ -76,7 +77,6 @@ public abstract class Spell : Usable, Castable
         this.preCastSound = s.preCastSound;
         this.castSounds = s.castSounds;
         this.impactSounds = s.impactSounds;
-
     }
 
     public Sprite GetImageAsSprite()
@@ -89,6 +89,11 @@ public abstract class Spell : Usable, Castable
 
 
 	}
+
+    public virtual Spell Clone()
+    {
+        return null;
+    }
 
 
 	public virtual bool IsCastable(Character caster, Character target){
@@ -186,7 +191,11 @@ public abstract class Spell : Usable, Castable
 
     public EffectOnTime GetEffectOnTarget(string name)
     {
-        return effectsOnTarget[name];
+        if (effectsOnTarget.ContainsKey(name))
+        {
+            return effectsOnTarget[name];
+        }
+        return null;
     }
 
     public void RemoveEffectOnTarget(string name)
@@ -243,6 +252,16 @@ public abstract class Spell : Usable, Castable
         this.resourceCost = rscCost;
     }
 
+    public void AddCastTime(float cstTime)
+    {
+        this.castTime += cstTime;
+    }
+
+    public void RemoveCastTime(float cstTime)
+    {
+        this.castTime -= cstTime;
+    }
+
     public void SetCastTime(float cstTime)
     {
         this.castTime = cstTime;
@@ -253,9 +272,29 @@ public abstract class Spell : Usable, Castable
         this.coolDown = cd;
     }
 
+    public void AddCooldown(float cd)
+    {
+        this.coolDown += cd;
+    }
+
+    public void RemoveCooldown(float cd)
+    {
+        this.coolDown -= cd;
+    }
+
     public void SetMaxDistance(float maxDist)
     {
         this.maxDistance = maxDist;
+    }
+
+    public void AddMaxDistance(float maxDist)
+    {
+        this.maxDistance += maxDist;
+    }
+
+    public void RemoveMaxDistance(float maxDist)
+    {
+        this.maxDistance -= maxDist;
     }
 
 

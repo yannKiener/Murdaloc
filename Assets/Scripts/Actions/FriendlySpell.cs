@@ -28,7 +28,12 @@ public class FriendlySpell : Spell
 
 	}
 
-	public override bool IsCastable(Character caster, Character target){
+    public override Spell Clone()
+    {
+        return new FriendlySpell(this);
+    }
+
+    public override bool IsCastable(Character caster, Character target){
 		if (targetIsNullOrEnemy(target)) {
 			target = caster;
 		}
