@@ -193,7 +193,13 @@ public class Player : Character
             Interface.Click();
         }
 
-        //Cheat
+        //Cheats
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (GetTarget() != null && GetTarget() is Hostile)
+                GetTarget().ApplyDamage(999999, true, true);
+        }
+
         if (Input.GetKeyDown(KeyCode.F2))
         {
             LevelUp();
@@ -210,13 +216,11 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
             */
         }
-
-        //Cheat
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
-            if (GetTarget() != null && GetTarget() is Hostile)
-                GetTarget().ApplyDamage(999999, true, true);
+            die();
         }
+        //End Cheats
 
 
     }
@@ -404,12 +408,15 @@ public class Player : Character
 
     }
 
-	public override void die()	
-	{
-		base.die ();
-        SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/wasted"));
-		Instantiate (Resources.Load ("Wasted"));
-	}
+	public override void die()
+    {
+        if (!isDead)
+        { 
+            base.die ();
+            SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/wasted"));
+	        Instantiate (Resources.Load ("Wasted"));
+        }
+    }
 }
 
 

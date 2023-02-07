@@ -855,29 +855,32 @@ public abstract class Character : InteractableBehaviour
 
     public virtual void die()
     {
-        SoundManager.PlaySound(deathSounds);
-        if(castingSpell != null)
-        {
-            SoundManager.StopSound(castingSpell.GetPreCastSound());
-        }
-
-		isDead = true;
-        CancelTarget();
-        CancelCast();
-        RemoveBuffsAndDebuffs();
-        LeaveCombat();
-        target = null;
-
-        if (anim != null)
-        {
-            anim.Play("Death");
-            if(!(this is Player))
+        if (!isDead)
+        { 
+            SoundManager.PlaySound(deathSounds);
+            if(castingSpell != null)
             {
-                StartCoroutine("FadeOut");
+                SoundManager.StopSound(castingSpell.GetPreCastSound());
             }
-        } else
-        {
-            gameObject.SetActive(false);
+
+	        isDead = true;
+            CancelTarget();
+            CancelCast();
+            RemoveBuffsAndDebuffs();
+            LeaveCombat();
+            target = null;
+
+            if (anim != null)
+            {
+                anim.Play("Death");
+                if(!(this is Player))
+                {
+                    StartCoroutine("FadeOut");
+                }
+            } else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 

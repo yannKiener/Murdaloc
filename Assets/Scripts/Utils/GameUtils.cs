@@ -14,6 +14,7 @@ public class GameUtils : MonoBehaviour {
     private static bool isNewGame = false;
     private GameObject loadingScreen;
     private Slider slider;
+    private static bool forceReloading = false;
 
     private void OnEnable()
     {
@@ -44,25 +45,39 @@ public class GameUtils : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
-            if (!InterfaceUtils.CloseOpenWindows())
-            {
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-                InterfaceUtils.CloseOpenWindows();
-            }
+            ForceCloseOpenedWindows();
             SaveGame();
             playerName = FindUtils.GetPlayer().GetName();
         } 
 
         scene = sceneName;
         
+    }
+
+    private static void ForceCloseOpenedWindows()
+    {
+        if (!InterfaceUtils.CloseOpenWindows())
+        {
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+            InterfaceUtils.CloseOpenWindows();
+        }
+    }
+
+    public static void ReloadScene()
+    {
+        Debug.Log("reload scene called");
+        ForceCloseOpenedWindows();
+        SaveGame();
+        scene = SceneManager.GetActiveScene().name;
+        forceReloading = true;
     }
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -115,7 +130,7 @@ public class GameUtils : MonoBehaviour {
     {
         if(scene != null)
         {
-            if (SceneManager.GetActiveScene().name != scene)
+            if (SceneManager.GetActiveScene().name != scene || forceReloading)
             {
                 StartCoroutine(LoadSceneAsync(scene));
             }
@@ -126,6 +141,7 @@ public class GameUtils : MonoBehaviour {
 
     IEnumerator LoadSceneAsync(string sceneName)
     {
+        forceReloading = false;
         AsyncOperation operation =  SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         loadingScreen.SetActive(true);
 
