@@ -116,10 +116,10 @@ public static class EquipmentGenerator  {
     {
         float stat1Multiplier = UnityEngine.Random.Range(30,51) ;
         float stat2Multiplier = UnityEngine.Random.Range(30,51) ;
-        float stat3Multiplier = UnityEngine.Random.Range(0, 100-(stat1Multiplier+stat2Multiplier)) ;
+        float stat3Multiplier = UnityEngine.Random.Range(0, 101-(stat1Multiplier+stat2Multiplier)) ;
         float offStat1Multiplier = UnityEngine.Random.Range(30, 71) ;
         float offStat2Multiplier = UnityEngine.Random.Range(20, 31) ;
-        float offStat3Multiplier = UnityEngine.Random.Range(0, 100-(offStat1Multiplier+offStat2Multiplier)) ;
+        float offStat3Multiplier = UnityEngine.Random.Range(0, 101-(offStat1Multiplier+offStat2Multiplier)) ;
         List<Stat> mainStatList = GetMainStatList(type);
         List<Stat> offStatList = GetOffStatList(type);
 

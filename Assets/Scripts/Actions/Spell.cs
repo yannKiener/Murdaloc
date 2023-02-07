@@ -318,7 +318,7 @@ public abstract class Spell : Usable, Castable
     {
         foreach (KeyValuePair<Castable, float> kv in procs)
         {
-            if(UnityEngine.Random.Range(0, 100) <= kv.Value)
+            if(UnityEngine.Random.Range(0, 101) <= kv.Value)
             {
                 kv.Key.ApplyTo(caster, target);
             }
