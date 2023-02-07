@@ -16,6 +16,7 @@ public class Stats {
 	private int critical;
 	private int haste;
 	private int power;
+	private int manaPerSecond;
 	private int autoAttackDamage = Constants.BaseAutoAttackDamage;
 	private float autoAttackTime = Constants.BaseAutoAttackTime;
 	private float maxSpeed = Constants.MaxSpeed;
@@ -38,6 +39,7 @@ public class Stats {
 		this.critical = critical;
 		this.haste = haste;
 		this.power = power;
+		this.manaPerSecond = (int)(Constants.BaseManaPerSecond + spirit * Constants.RatioSpiritManaPerSecond);
 	}
 
 	public void displayStats(){
@@ -64,62 +66,66 @@ public class Stats {
 		}
 	}
 
+	public int GetManaPerSec(){
+		return manaPerSecond;
+	}
+
 	public float AddPercent(Stat stat, float percent){
 		float result;
 		switch (stat) {
 		case Stat.agility:
 			{
 				result = (float)((int)(agility * percent / 100));
-				agility += (int)result;
+				Agility += (int)result;
 				return result;
 			}
 		case Stat.autoAttackDamage:
 			{
 				result = (float)((int)(autoAttackDamage * percent / 100));
-				autoAttackDamage += (int)result;
+				AutoAttackDamage += (int)result;
 				return result;
 
 			}
 		case Stat.autoAttackTime:
 			{
 				result = (float)((int)(autoAttackTime * percent / 100));
-				autoAttackTime += (int)result;
+				AutoAttackTime += (int)result;
 				return result;
 			}
 		case Stat.critical:
 			{
-				critical += (int)percent;
+				Critical += (int)percent;
 				return percent;
 			}
 		case Stat.force:
 			{
 				result = (float)((int)(force * percent / 100));
-				force += (int)result;
+				Force += (int)result;
 				return result;
 			}
 		case Stat.haste:
 			{
-				haste += (int)percent;
+				Haste += (int)percent;
 				return percent;
 			}
 		case Stat.intelligence:
 			{
 				result = (float)((int)(intelligence * percent / 100));
-				intelligence += (int)result;
+				Intelligence += (int)result;
 				return result;
 
 			}
 		case Stat.maxLife:
 			{
 				result = (float)((int)(maxLife * percent / 100));
-				maxLife += (int)result;
+				MaxLife += (int)result;
 				return result;
 
 			}
 		case Stat.maxResource:
 			{
 				result = (float)((int)(maxResource * percent / 100));
-				maxResource += (int)result;
+				MaxResource += (int)result;
 				return result;
 
 			}
@@ -132,19 +138,19 @@ public class Stats {
 			}
 		case Stat.power:
 			{
-				power += (int)percent;
+				Power += (int)percent;
 				return percent;
 			}
 		case Stat.spirit:
 			{
 				result = (float)((int)(spirit * percent / 100));
-				spirit += (int)result;
+				Spirit += (int)result;
 				return result;
 			}
 		case Stat.stamina:
 			{
 				result = (float)((int)(stamina * percent / 100));
-				stamina += (int)result;
+				Stamina += (int)result;
 				return result;
 			}
 		}
@@ -257,7 +263,11 @@ public class Stats {
 		}
 		set {
 			spirit = value;
+			updateRegenPerSec ();
 		}
+	}
+	private void updateRegenPerSec(){
+		manaPerSecond = (int)(Constants.BaseManaPerSecond + spirit * Constants.RatioSpiritManaPerSecond);
 	}
 
 	public int Critical {

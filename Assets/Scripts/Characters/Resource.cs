@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Resource 
-{
-	int Regen(float timeElapsed, bool hasCasted, bool inCombat);
-	string GetName();
-
-}
-
-
-public abstract class AbstractResource : Resource {
+public abstract class Resource  {
 	protected float localTime = 0;
 
 	public string GetName() {	
 		return(this.ToString());
 	}
 
-	public virtual int Regen(float timeElapsed, bool hasCasted, bool inCombat){
+	public virtual int Regen(float timeElapsed, bool hasCasted, bool inCombat, Character caster){
 		return 1;	
 	}
 }
 
 [System.Serializable]
-public class Mana : AbstractResource {
+public class Mana : Resource {
+	float counter = 0;
 
-	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat, Character caster){
 		if (hasCasted) {
 			localTime = Time.time;
+			counter = 0;
 		} else if(Time.time >= localTime + 5f){ //regen après 5s.
-			return 1;
+			counter += timeElapsed;
+			if (counter >= Constants.RegenManaEvery) {
+				counter -= Constants.RegenManaEvery;
+				return caster.GetStats().GetManaPerSec() * Constants.RegenManaEvery;
+			}
+			return 0;
+
 		}
 
 
@@ -39,13 +39,13 @@ public class Mana : AbstractResource {
 		
 
 [System.Serializable]
-public class Energy : AbstractResource {
+public class Energy : Resource {
 
-	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat, Character caster){
 		localTime += timeElapsed;
 
-		if (localTime >= 2f) {
-			localTime -= 2f;
+		if (localTime >= Constants.RegenEnergyEvery) {
+			localTime -= Constants.RegenEnergyEvery;
 			return 20;
 		}
 		return 0;
@@ -54,9 +54,9 @@ public class Energy : AbstractResource {
 
 
 [System.Serializable]
-public class Rage : AbstractResource {
+public class Rage : Resource {
 
-	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat){
+	public override int Regen(float timeElapsed, bool hasCasted, bool inCombat, Character caster){
 		localTime += timeElapsed;
 
 		if (localTime >= 1f) {

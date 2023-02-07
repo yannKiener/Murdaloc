@@ -120,9 +120,7 @@ public abstract class Spell
 	public bool isHostile(){
 		return isHostileSpell;
 	}
-
-
-
+		
 	public float GetCastTime(Stats stats) {
 		return castTime - castTime * stats.Haste/Constants.hasteDivider;
     }

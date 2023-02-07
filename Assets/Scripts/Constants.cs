@@ -28,6 +28,12 @@ public static class Constants {
 	public static readonly int BaseAutoAttackDamage = 10;
 	public static readonly float BaseAutoAttackTime = 2;
 	public static readonly float MaxAutoAttackDistance = 2;
+	public static readonly float RatioSpiritManaPerSecond = 1;
+	public static readonly int BaseManaPerSecond = 5;
+	public static readonly int RegenManaEvery = 1;
+	public static readonly int RegenEnergyEvery = 2;
+
+
 
 	//Enemies 
 	public static readonly float AggroDistance = 2;

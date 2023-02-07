@@ -23,7 +23,7 @@ public abstract class Character : MonoBehaviour
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
 	protected Resource resource;
-	protected bool hasCasted = false;
+	protected bool hasCasted;
 	protected Stats stats;
 	protected float gcd = 0;
 	protected bool autoAttackEnabled = true;
@@ -296,8 +296,10 @@ public abstract class Character : MonoBehaviour
 	}
 
 	protected void UpdateRegen() {
-		currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat);
-		if (currentResource > stats.MaxResource) {
+		if (!(currentResource >= stats.MaxResource)) {
+			currentResource += resource.Regen (Time.deltaTime, hasCasted, inCombat, this);
+		} 
+		if (currentResource > stats.MaxResource){
 			currentResource = stats.MaxResource;
 		}
 		if (currentResource < 0 ) {

@@ -13,6 +13,13 @@ public class HostileSpell : Spell
 
 	public HostileSpell (Spell s) : base (s){}
 
+
+	public override void Cast (Character caster, Character target)
+	{
+		base.Cast (caster, target);
+		target.AggroTarget (caster);
+	}
+
 	private void ApplyEffectsOnTarget(GameObject target)
 	{
 		foreach (EffectOnTime buff in effectsOnTarget)
