@@ -19,7 +19,7 @@ public class Player : Character
     private void Awake()
     {
         Interface.LoadPlayer();
-        gameObject.layer = 10;
+        gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 10;
         casting = false;
         isDead = false;
