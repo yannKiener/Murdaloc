@@ -10,6 +10,8 @@ public class Hostile : Character
     public bool moveRandom = true;
     public bool isPassive = false;
 
+    private float timeBetweenCast = 0;
+
     new void Start(){
         base.Start();
 		this.gameObject.tag = "Enemy";
@@ -90,15 +92,28 @@ public class Hostile : Character
 		} 
 	}
 
-
+    private bool HasWaitedEnoughTimeToCast()
+    {
+        return timeBetweenCast >= Constants.MinimumTimeBetweenCast;
+    }
+    
+    private Spell GetRandomSpell()
+    {
+        string randomSpellName = spellList.Keys.ElementAt(Random.Range(0, spellList.Count));
+        return spellList[randomSpellName];
+    }
 
 	private void manageCombat()
     {
-        if (inCombat && spellList.Count != 0 && !casting) {
+        timeBetweenCast += Time.deltaTime;
+
+        if (inCombat && spellList.Count != 0 && !casting && HasWaitedEnoughTimeToCast()) {
 			int castPercentage = getRandomPercentage ();
 			if (castPercentage < 1) { //1% de chance par frame de cast un spell random*
-				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)),false);
-			}
+                Spell spellToCast = GetRandomSpell();
+                CastSpell(spellToCast, false);
+                timeBetweenCast = 0 - spellToCast.GetCastTime(stats);
+            }
 		}
 	}
 
@@ -125,6 +140,7 @@ public class Hostile : Character
             mob.velocity = new Vector2 (direction * speed, mob.velocity.y);
 		} else
         {
+            mob.velocity = new Vector2(0, mob.velocity.y);
             UpdateMoveAnimation(0);
         }
 	}

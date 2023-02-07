@@ -49,6 +49,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -60,6 +61,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -124,17 +126,30 @@ MonoBehaviour:
   CharacterName: Dragon Whelp
   level: 2
   isElite: 0
+  resourceType: 
   statPercent: 100
+  speedPercent: 100
   LootTable: []
   QuestLootTable: []
   SpellList:
   - Fireball
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  aggroSounds:
+  - {fileID: 8300000, guid: 8f31ce5cfc33a9642b534cb75fd1e6a2, type: 3}
+  - {fileID: 8300000, guid: 9943ce3e90dc386438f31a7e4062af86, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: 7e6215c67abbd564983d4d478a701f16, type: 3}
+  - {fileID: 8300000, guid: beb51fe537425d44692b3077b4af3963, type: 3}
+  - {fileID: 8300000, guid: 0d03aef8020d5774e977bc24f4e32de9, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 2a923940a4b312b4fa337f9999acd3e9, type: 3}
+  - {fileID: 8300000, guid: 8638c358ffccf6d43ac6153d0b33e162, type: 3}
+  - {fileID: 8300000, guid: e6c4e1f0cd7147c4c99354638db023ef, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: 0acfe7d63cf27664287b19a8257a4dae, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: a0748a2ff1a0e3f4bbeda6ab5410f80b, type: 3}
   moveRandom: 1
+  isPassive: 0
 --- !u!50 &4885941738788455024
 Rigidbody2D:
   serializedVersion: 4

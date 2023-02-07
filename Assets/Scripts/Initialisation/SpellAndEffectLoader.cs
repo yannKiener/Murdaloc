@@ -92,17 +92,17 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Corruption", "First DoT of the game", false, 1, 6, 1f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60));
         CreateEffectOnTime("Burning", "Inflict fire damage every two seconds.", false, 3, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 0.8f } }, 10));
         CreateEffectOnTime("Renovation", "First HoT of the game", true, 3, 10, 1, null, newHealOnTime(new Dictionary<Stat, float> { { Stat.intelligence, 2f } }, 50));
-        CreateEffectOnTime("Sprint", "+60% moveSpeed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
+        CreateEffectOnTime("Sprint", "+60% movement speed", true, 1, 5, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, 60f } }), null);
         CreateEffectOnTime("Hypothermia", "Slower movement speed.", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
         CreateEffectOnTime("Enrage", "Hit harder & faster.", true, 1, 6, 6, new StatEffect(new Dictionary<Stat, float> { { Stat.haste, 30f }, { Stat.power, 30f } }), null);
         CreateEffectOnTime("Webbed", "Can't move", false, 1, 3.5f, 3, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
         CreateEffectOnTime("Stun", "Stunned. Can't move or attack.", false, 1, 3, 5, new StunEffect(), null);
-        CreateEffectOnTime("Charge stun", "Stunned. Can't move or attack.", false, 1, 1, 1, new StunEffect(), null);
+        CreateEffectOnTime("Charge stun", "Stunned. Can't move or attack.", false, 1, 2, 1, new StunEffect(), null);
 
         //Warrior
-        CreateEffectOnTime("Rend", "Damages over time.", false, 1, 12, 3f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.force, 1.4f } }, 10));
-        CreateEffectOnTime("Hamstring", "Slows movement by 50%.", false, 1, 15, 15f, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f } }), null);
+        CreateEffectOnTime("Rend", "Damages over time.", false, 1, 12, 3f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.force, 1.8f } }, 10));
+        CreateEffectOnTime("Hamstring", "Slows movement by 70%.", false, 1, 15, 15f, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -70f } }), null);
 
         //Rogue
         CreateEffectOnTime("Combo point", "Use your combo point stacks for special moves.", true, 5, 12, 1, null, null);
@@ -162,10 +162,10 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Rend", "Wounds the target causing them to bleed over 9 seconds.", 10, 0f, 2, 0, Constants.MaxAutoAttackDistance, true, newDamage(new Dictionary<Stat, float> { { Stat.force, 0.4f } }, 1), "Bloody", getEffect("Rend"), null);
         CreateHostileSpell("Hamstring", "Maims the enemy, inflicting damage and slowing the enemy's movement by 50% for 15 sec.", 10, 0f, 2, 0, Constants.MaxAutoAttackDistance, true, newDamage(new Dictionary<Stat, float> { { Stat.force, 0.3f } }, 1), "Hamstring", getEffect("Hamstring"), null);
         CreateHostileSpell("Execute", "Attempt to finish off a wounded foe, causing damage and converting extra rage into damage. Only usable on enemies that have 20% or less health", 15, 0f, 5, 0, Constants.MaxAutoAttackDistance, true, newExecuteDamage(new Dictionary<Stat, float> { { Stat.force, 1.5f } }, 1, 0.03f, 0.8f), "Bloody", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return t.GetHealthPercent() <= 0.2f && FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) != null; }));
-        CreateHostileSpell("Charge", "Charge an enemy, generate 9 rage and stun it for 1 sec. Cannot be used in combat.", 0, 0f, 1, 12, 6, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (c.transform.position.x > t.transform.position.x) { c.gameObject.transform.position = new Vector3(t.transform.position.x + Constants.MaxAutoAttackDistance / 2, c.transform.position.y); } else { c.gameObject.transform.position = new Vector3(t.transform.position.x - Constants.MaxAutoAttackDistance / 2, c.transform.position.y); } ; c.AddResource(9); newDamage(new Dictionary<Stat, float> { { Stat.force, 0.3f } }, 10)(c, t, s); }), "Charge", new List<EffectOnTime> { EffectsOnTime.Get("Charge stun") }, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return !c.IsInCombat(); }));
+        CreateHostileSpell("Charge", "Charge at an enemy stunning it and generating rage. Cannot be used in combat.", 0, 0f, 1, 12, 6, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (c.transform.position.x > t.transform.position.x) { c.gameObject.transform.position = new Vector3(t.transform.position.x + Constants.MaxAutoAttackDistance / 2, c.transform.position.y); } else { c.gameObject.transform.position = new Vector3(t.transform.position.x - Constants.MaxAutoAttackDistance / 2, c.transform.position.y); } ; c.AddResource(12); newDamage(new Dictionary<Stat, float> { { Stat.force, 0.3f } }, 10)(c, t, s); }), "Charge", new List<EffectOnTime> { EffectsOnTime.Get("Charge stun") }, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return !c.IsInCombat(); }));
 
         //Mage spells
-        CreateHostileSpell("Fireball", "Hurls a fiery ball that damages your target.", 20, 2.5f, 0, 0, 7, true, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
+        CreateHostileSpell("Fireball", "Hurls a fiery ball that damages your target.", 20, 3f, 0, 0, 7, true, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), "Fire", null, null);
         CreateHostileSpell("Fire Blast", "Blasts the target with fire damage.", 30, 0, 0, 8, 5, true, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.2f } }, 20), "Fire", null, null);
         CreateHostileSpell("Pyroblast", "Hurls an immense fiery boulder that causes a lot of damage to your target.", 50, 6, 5, 10, 8, true, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 4f } }, 70), "Fire", null, null);
         CreateHostileSpell("Frost nova", "Inflicts frost damage to nearby enemies, immobilizing them for " + EffectsOnTime.Get("Frozen").GetDuration() + " sec.", 50, 0, 5, 12, 3, true, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", getEffect("Frozen"), null);

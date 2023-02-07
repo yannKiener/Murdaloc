@@ -123,6 +123,8 @@ public static class Constants {
     public static readonly float TimeBeforeSpawnOrDespawn = 5f;
     public static readonly float TimeToFadeInOrOutSpawnOrDespawn = 3f;
     public static readonly float RespawnTimer = 300;
+    public static readonly float MinimumTimeBetweenCast = 3;
+
 }
 
 public enum Stat {
