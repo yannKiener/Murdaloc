@@ -170,6 +170,7 @@ public abstract class Character : MonoBehaviour
 	virtual protected void LeaveCombat()
      {
          inCombat = false;
+		 CancelInvoke("AutoAttack");
      }
 
 	protected void UpdateEffects(){
