@@ -13,7 +13,7 @@ public class FriendlySpell : Spell
 
 	public override void Cast(Character caster, Character target)
 	{
-		if (targetIsNullOrEnemy(target)) {
+		if (IsTargetNullOrEnemy(target)) {
 			target = caster;
 		}
 
@@ -35,14 +35,14 @@ public class FriendlySpell : Spell
 
     public override bool IsCastable(Character caster, Character target, bool displayCDText = true)
     {
-		if (targetIsNullOrEnemy(target)) {
+		if (IsTargetNullOrEnemy(target)) {
 			target = caster;
 		}
 
 		return base.IsCastable (caster, target, displayCDText);
 	}
 
-	private bool targetIsNullOrEnemy(Character target){
-		return (target == null || target.tag == "Enemy");
+	private bool IsTargetNullOrEnemy(Character target){
+		return (target == null || target is Hostile);
 	}
 }

@@ -21,7 +21,7 @@ public class HostileSpell : Spell
     public override void Cast (Character caster, Character target)
 	{
 		base.Cast (caster, target);
-        if (target != null && caster != null)
+        if (IsCastable(caster,target,false) && caster != null)
         {
             target.AggroTarget(caster);
         }
@@ -29,7 +29,7 @@ public class HostileSpell : Spell
 
 	public override bool IsCastable(Character caster, Character target, bool displayCDText = true)
     {
-		return target != null && base.IsCastable (caster,target, displayCDText) ;
+		return target != null && target is Hostile && base.IsCastable (caster,target, displayCDText) ;
 	}
 
 }

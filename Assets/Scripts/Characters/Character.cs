@@ -668,7 +668,10 @@ public abstract class Character : MonoBehaviour
         ClearEnemyList();
         if (inCombat) {
 			UpdateTarget ();
-		}
+		} else if (target != null && target.IsDead())
+        {
+            target = null;
+        }
 	}
 
 	protected void ClearEnemyList (){ 
