@@ -36,7 +36,7 @@ public class SaveGame {
             rsrc = 2;
         } else
         {
-            rsrc = 1;
+            rsrc = 3;
         }
         this.spellList = player.GetSpells().Keys.ToList<string>();
         this.charSheetItems = chSheet.GetEquipments();

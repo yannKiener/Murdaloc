@@ -264,8 +264,9 @@ public class Player : Character
 		GameObject.Find("Main Camera").SendMessage("leavePlayer");
 	}
 
-	protected override void LeaveCombat(){
-		base.LeaveCombat();
+	protected override void LeaveCombat()
+    {
+        base.LeaveCombat();
 		GameObject.Find("Main Camera").SendMessage("followPlayer");
 	}
 
