@@ -59,7 +59,7 @@ public class MapGenerator : MonoBehaviour {
 
     void GenerateMap()
     {
-        Instantiate(mapPrefab, transform);
+        mapPrefab = Instantiate(mapPrefab, transform);
         mapPrefab = transform.GetChild(0).gameObject;
         mapPrefab.AddComponent<MapMusic>();
         mapPrefab.transform.localScale = new Vector3(width, 1, 1);
@@ -79,7 +79,7 @@ public class MapGenerator : MonoBehaviour {
 			DrawObjectOnMap (enemyList ,mapPrefab, enemyDensity, true);
 		}
 			EndGeneration ();
-		}
+	}
 
 	private void  EndGeneration(){
 		isGenerated = true;
@@ -109,11 +109,12 @@ public class MapGenerator : MonoBehaviour {
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());
         float mapPortion = map.GetComponent<Renderer>().bounds.size.x / width;
         float lowerxBound = getLowerXBound(map);
+        float lowerYBound = getUpperYBound(map);
 
         for (int i = 0; i < width; i++){
 			if(pseudoRandom.Next(0,100) <= density){
 				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
-                Vector3 OriginalSize = objToDraw.transform.localScale;
+                objToDraw = Instantiate(objToDraw, transform); //draw at position x
                 float yOffSet = 0;
                 if (!isEnemy)
                 {
@@ -129,9 +130,9 @@ public class MapGenerator : MonoBehaviour {
                 float x = lowerxBound +  i * mapPortion;
                 float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + yOffSet;
 
-                objToDraw.transform.position = new Vector3(x, y, 0);
-                Instantiate(objToDraw, transform); //draw at position x
-                objToDraw.transform.localScale = OriginalSize;
+                objToDraw.transform.localPosition = new Vector3(x, y, 0);
+                Debug.Log("Local : " + objToDraw.transform.localPosition);
+                Debug.Log(objToDraw.transform.position);
             } 
 		}
 	}
