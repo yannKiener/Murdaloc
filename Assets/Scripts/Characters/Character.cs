@@ -28,7 +28,12 @@ public abstract class Character : MonoBehaviour
 	protected float gcd = 0;
 	protected bool autoAttackEnabled = true;
 	protected bool autoAttackIsCrit = false;
-	protected float autoAttackTime = 0f;
+    protected int autoAttack1Damage = 0;
+    protected float autoAttack1Time = 0f;
+    protected float autoAttack1Speed = 0f;
+    protected int autoAttack2Damage = 0;
+    protected float autoAttack2Time = 0f;
+    protected float autoAttack2Speed = 0f;
     protected Dictionary<string, object> lootTable;
     protected bool isElite;
 	protected Dialog dialog;
@@ -40,7 +45,8 @@ public abstract class Character : MonoBehaviour
 			resource = new Mana ();
 		}
 		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
-       
+
+
         if (isElite)
         {
             stats.Add(stats);
@@ -51,6 +57,9 @@ public abstract class Character : MonoBehaviour
             stats.AddPercent(Stat.spirit, 90);
             stats.AddPercent(Stat.autoAttackDamage, 90);
         }
+
+        autoAttack1Damage = stats.AutoAttackDamage;
+        autoAttack1Speed = stats.AutoAttackTime;
 
         currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
@@ -291,9 +300,37 @@ public abstract class Character : MonoBehaviour
 
     }
 
-    
+    public void SetAutoAttack1(int damage, float speed)
+    {
+        autoAttack1Damage = damage;
+        autoAttack1Speed = speed;
+    }
 
-	protected void UpdateCharacter(){
+    public void SetAutoAttack2(int damage, float speed)
+    {
+        autoAttack2Damage = damage;
+        autoAttack2Speed = speed;
+    }
+
+    public void ResetAutoAttacks()
+    {
+        ResetAutoAttack1();
+        ResetAutoAttack2();
+    }
+    public void ResetAutoAttack1()
+    {
+        autoAttack1Damage = Constants.BaseAutoAttackDamage;
+        autoAttack1Speed = Constants.BaseAutoAttackSpeed;
+    }
+    public void ResetAutoAttack2()
+    {
+        autoAttack2Damage = 0;
+        autoAttack2Speed = 0;
+    }
+
+
+
+    protected void UpdateCharacter(){
 		UpdateCast();
 		UpdateCombat();
 		UpdateRegen();
@@ -362,13 +399,29 @@ public abstract class Character : MonoBehaviour
 	}
 
 	protected virtual void UpdateAutoAttack(){
-		if (autoAttackEnabled && target != null && !casting) {
-			autoAttackTime += Time.deltaTime;
-			if (autoAttackTime >= modifiedAutoAttackTime () && autoAttackDistanceOK()) {
-				autoAttackTime = 0;
-				target.ApplyDamage (modifiedAutoAttackDamage (), autoAttackIsCrit,true);
-				//Todo Animation Auto Attack
-			}
+		if (autoAttackEnabled && target != null && !casting)
+        {
+            if (autoAttack1Damage > 0 && autoAttack1Speed > 0f)
+            {
+                autoAttack1Time += Time.deltaTime;
+                if (autoAttack1Time >= modifiedAutoAttackTime(autoAttack1Speed) && autoAttackDistanceOK())
+                {
+                    autoAttack1Time = 0;
+                    target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
+                    //Todo Animation Auto Attack 1
+                }
+            }
+
+            if(autoAttack2Damage > 0 && autoAttack2Speed > 0f)
+            {
+                autoAttack2Time += Time.deltaTime;
+                if (autoAttack2Time >= modifiedAutoAttackTime(autoAttack2Speed) && autoAttackDistanceOK())
+                {
+                    autoAttack2Time = 0;
+                    target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
+                    //Todo Animation Auto Attack 1
+                }
+            }
 		}
 	}
 
@@ -377,20 +430,19 @@ public abstract class Character : MonoBehaviour
 	}
 
 
-	protected int modifiedAutoAttackDamage(){
-		int damage = stats.AutoAttackDamage;
-		this.autoAttackIsCrit = stats.Critical > Random.Range (1, 101);
+	protected int modifiedAutoAttackDamage(int autoAttackDamage){
+        this.autoAttackIsCrit = stats.Critical > Random.Range (1, 101);
 
-		damage = damage + (damage * stats.Power / 100); //Applying power 
+        autoAttackDamage = autoAttackDamage + (autoAttackDamage * stats.Power / 100); //Applying power 
 		if (this.autoAttackIsCrit) { // Apply Crit
-			damage = damage * 2;
+            autoAttackDamage = autoAttackDamage * 2;
 		}
-		return (int)(damage + damage * Random.Range (-30f, 30f) / 100);
+		return (int)(autoAttackDamage + autoAttackDamage * Random.Range (-30f, 30f) / 100);
 
 	}
 
-	protected float modifiedAutoAttackTime(){
-		return (stats.AutoAttackTime - (stats.AutoAttackTime * stats.Haste/Constants.hasteDivider));
+	protected float modifiedAutoAttackTime(float autoAttackTime){
+		return (autoAttackTime - (autoAttackTime * stats.Haste/Constants.hasteDivider));
 
 	}
 

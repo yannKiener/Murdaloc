@@ -20,13 +20,15 @@ public class Stats {
 	private int haste;
 	private int power;
 	private int manaPerSecond;
-	private int autoAttackDamage = Constants.BaseAutoAttackDamage;
-	private float autoAttackTime = Constants.BaseAutoAttackTime;
+	private int autoAttackDamage = 0;
+	private float autoAttackTime = 0;
 	private float maxSpeed = Constants.MaxSpeed;
 
 
 	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana = true)
 	{
+        AutoAttackDamage = Constants.BaseAutoAttackDamage;
+        autoAttackTime = Constants.BaseAutoAttackSpeed;
 		isResourceMana = isMana;
 		this.maxLife = Constants.BaseLife + stamina*Constants.StaminaLifeMultiplier;
 		if (isResourceMana) {
@@ -59,7 +61,7 @@ public class Stats {
         this.power = power;
     }
 
-	public void Add(Stats stats){
+	public void Add(Stats stats, bool isWeapon2 = false){
 		this.Force += stats.Force;
 		this.Agility += stats.Agility;
 		this.Intelligence += stats.Intelligence;
@@ -89,15 +91,6 @@ public class Stats {
         this.Critical -= stats.Critical;
         this.Haste -= stats.Haste;
         this.Power -= stats.Power;
-
-        if (stats.autoAttackDamage != 0)
-        {
-            this.AutoAttackDamage = Constants.BaseAutoAttackDamage;
-        }
-        if (stats.autoAttackTime != 0)
-        {
-            this.AutoAttackTime = Constants.BaseAutoAttackTime;
-        }
     }
 
     public int GetManaPerSec(){

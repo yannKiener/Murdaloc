@@ -34,7 +34,6 @@ public class MapGenerator : MonoBehaviour {
 		if (!isGenerated && attachAtObject.name == id) {
 			GenerateMap ();
 		}
-
 	}
 
     private void OnCollisionEnter2D(Collision2D collision)

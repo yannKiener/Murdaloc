@@ -192,13 +192,16 @@ public class CharacterSheet : MonoBehaviour, Slotable {
                 RemoveItemSlot(transform.Find("Feet").gameObject);
                 break;
             case ItemSlot.TwoHanded:
+                FindUtils.GetPlayer().ResetAutoAttacks();
                 RemoveItemSlot(transform.Find("Weapon1").gameObject);
                 RemoveItemSlot(transform.Find("Weapon2").gameObject);
                 break;
             case ItemSlot.Weapon1:
+                FindUtils.GetPlayer().ResetAutoAttack1();
                 RemoveItemSlot(transform.Find("Weapon1").gameObject);
                 break;
             case ItemSlot.Weapon2:
+                FindUtils.GetPlayer().ResetAutoAttack2();
                 RemoveItemSlot(transform.Find("Weapon2").gameObject);
                 break;
         }
@@ -246,18 +249,23 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     private void EquipWeapon1(Item item, bool isTwoHanded = false)
     {
+        FindUtils.GetPlayer().SetAutoAttack1(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
         Equip(transform.Find("Weapon1").gameObject, item);
     }
 
     private void EquipWeapon2(Item item)
     {
+        FindUtils.GetPlayer().SetAutoAttack2(item.GetStats().AutoAttackDamage, item.GetStats().AutoAttackTime);
         Equip(transform.Find("Weapon2").gameObject,item);
     }
 
     private void Equip(GameObject slot, Item item)
     {
         item.isEquipped = true;
-        FindUtils.GetInventoryGrid().RemoveItem(item);
+        if (!FindUtils.GetInventoryGrid().RemoveItem(item))
+        {
+            FindUtils.GetLootGrid().GetComponent<LootInventory>().RemoveItem(item);
+        }
         FindUtils.GetPlayer().GetStats().Add(item.GetStats());
         InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, item.GetImageAsSprite(), item);
     }
