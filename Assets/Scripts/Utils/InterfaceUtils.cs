@@ -59,6 +59,31 @@ public static class InterfaceUtils {
         return result;
     }
 
+    public static bool CloseOpenWindows()
+    {
+        if (FindUtils.GetInventory().activeSelf)
+        {
+            ShowHideInventory();
+            return true;
+        }
+        if (FindUtils.GetCharacterSheet().activeSelf)
+        {
+            ShowHideCharacterSheet();
+            return true;
+        }
+        if (FindUtils.GetSpellBook().activeSelf)
+        {
+            ShowHideSpellBook();
+            return true;
+        }
+        if (FindUtils.GetQuestLog().activeSelf)
+        {
+            ShowHideQuestLog();
+            return true;
+        }
+        return false;
+    }
+
     //Controles d'interfaces
     public static void ShowHideSpellBook()
     {

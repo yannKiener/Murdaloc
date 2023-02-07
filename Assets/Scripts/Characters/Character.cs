@@ -41,6 +41,8 @@ public abstract class Character : MonoBehaviour
 
     public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
 	{
+        gameObject.layer = 9;
+        GetComponent<SpriteRenderer>().sortingOrder = 9;
 		if (resource == null) {
 			resource = new Mana ();
 		}

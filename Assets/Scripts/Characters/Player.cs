@@ -11,9 +11,11 @@ public class Player : Character
 	private int enemyOffset = 0;
     private float experiencePercent;
 
-	void Start(){
+	void Start()
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = 10;
 
-	}
+    }
 
 	void Update() 
 	{
@@ -25,7 +27,7 @@ public class Player : Character
 			CycleTargets();
 		}
 		if (Input.GetButtonDown("Cancel")) {
-            if (!CancelCast())
+            if (!InterfaceUtils.CloseOpenWindows() && !CancelCast())
             {
                 FindUtils.GetPlayer().CancelTarget();
             }
