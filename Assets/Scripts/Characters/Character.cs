@@ -937,6 +937,11 @@ public abstract class Character : InteractableBehaviour
         RemoveSpell(spell.GetName());
     }
 
+    public bool CanCastSpell(Spell spell, bool displayText)
+    {
+        return ((spell.HasGcd() && GCDReady()) || !spell.HasGcd()) && spell.IsCastable(this, target, displayText);
+    }
+
     public void CastSpell(string spellName, bool displayText = true)
     {
         if (spellList.ContainsKey(spellName))
@@ -948,12 +953,13 @@ public abstract class Character : InteractableBehaviour
         }
     }
 
+
 	public void CastSpell(Spell spell, bool displayText = true)
     {
 		if(!casting && !IsDead()) 
 		{
 			castingSpell = spell;
-			if (((spell.HasGcd() && GCDReady()) || !spell.HasGcd()) && castingSpell.IsCastable(this,target, displayText)) {
+			if (CanCastSpell(castingSpell, displayText)) {
 				casting = true;
                 if (castingSpell.GetCastTime(stats) > 0)
                 {

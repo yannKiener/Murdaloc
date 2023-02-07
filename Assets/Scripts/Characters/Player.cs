@@ -331,11 +331,16 @@ public class Player : Character
         }
     }
 
+    private bool isCastingInstant()
+    {
+        return castingSpell.GetCastTime(stats) < 0.1f;
+    }
+
 	private void MovePlayer(Rigidbody2D player)
     {
         UpdateMoveAnimation(xSpeed);
 
-        if (IsCasting() && (xSpeed > 0.1f || xSpeed < -0.1f))
+        if (IsCasting() && !isCastingInstant() && (xSpeed > 0.1f || xSpeed < -0.1f))
         {
             CancelCast();
             MessageUtils.ErrorMessage("Can't cast while walking");
