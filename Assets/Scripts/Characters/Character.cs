@@ -375,7 +375,7 @@ public abstract class Character : MonoBehaviour
     }
 
     public void CastSpell(string spellName)
-    {	
+    {
 		CastSpell (spellList [spellName]);
     }
 

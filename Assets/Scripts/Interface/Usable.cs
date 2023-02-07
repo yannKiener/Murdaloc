@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface Usable {
 
-	void Use (Character caster, Character target);
+	void Use (Character caster);
 	string GetName ();
 
 

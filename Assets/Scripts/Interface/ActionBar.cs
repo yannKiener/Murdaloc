@@ -8,8 +8,8 @@ public class ActionBar : MonoBehaviour {
 	public GameObject slotPrefab;
 
 	Player player;
-	Usable[] slots;
-	int childCount;
+	static Usable[] slots;
+	static int childCount;
 
 	// Use this for initialization
 	void Start () {
@@ -17,19 +17,63 @@ public class ActionBar : MonoBehaviour {
 		childCount = transform.childCount;
 		slots = new Usable[childCount];
 
-		UpdateActionBar (player.GetSpells());
+		InitializeActionBarWith (player.GetSpells());
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetButtonDown ("")) {
-			//TODO
-		}
-		
-	}
+		if (Input.GetButtonDown ("ActionBar1")) {
+            slots[0].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar2"))
+        {
+            slots[1].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar3"))
+        {
+            slots[2].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar4"))
+        {
+            slots[3].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar5"))
+        {
+            slots[4].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar6"))
+        {
+            slots[5].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar7"))
+        {
+            slots[6].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar8"))
+        {
+            slots[7].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar9"))
+        {
+            slots[8].Use(player);
+        }
+        if (Input.GetButtonDown("ActionBar10"))
+        {
+            slots[9].Use(player);
+        }
 
-	public void UpdateActionBar(){
+    }
+
+    public void SwapSlots(int pos1, int pos2)
+    {
+        Usable temp = slots[pos1];
+        slots[pos1] = slots[pos2];
+        slots[pos2] = temp;
+
+    }
+
+	public void InitializeActionBar(){
 		for(int i = 0;i < childCount; i++){
 			Transform slot = transform.GetChild (i);
 			if (slots [i] != null) {
@@ -39,7 +83,6 @@ public class ActionBar : MonoBehaviour {
 
 				GameObject usableSlot = Instantiate (slotPrefab, slot);
 				Image image = usableSlot.GetComponent<Image> ();
-				Debug.Log (slots [i].GetName ());
 				image.sprite = Interface.LoadSpriteFor (slots [i].GetName ());
 
 				/*
@@ -52,15 +95,15 @@ public class ActionBar : MonoBehaviour {
 		}
 	}
 
-	public void UpdateActionBar(Usable[] slots){
-		this.slots = slots;
-		UpdateActionBar ();
+    public void InitializeActionBarWith(Usable[] slotz){
+		slots = slotz;
+        InitializeActionBar();
 	}
 
-	public void UpdateActionBar(Dictionary<string, Spell> spellList){
+	public void InitializeActionBarWith(Dictionary<string, Spell> spellList){
 		Spell[] spells = new Spell[childCount];
 		spellList.Values.CopyTo (spells, 0);
-		UpdateActionBar (spells);
+        InitializeActionBarWith(spells);
 	}
 
 	private void clearChilds(Transform t){

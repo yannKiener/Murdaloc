@@ -73,7 +73,8 @@ public abstract class Spell : Usable
 		this.image = Interface.LoadImageFor (spellName);
 	}
 
-	public void Use(Character caster, Character target){
+	public void Use(Character caster){
+        caster.CastSpell(this.spellName);
 
 
 	}

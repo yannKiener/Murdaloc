@@ -7,7 +7,6 @@ public class Player : Character
 {
 	private bool jumping = false;
 	private bool wantToJump = false;
-	private string[] actionBar = new string[5];
 	private int enemyOffset = 0;
 
 	void Start(){
@@ -27,23 +26,6 @@ public class Player : Character
 		}
 		if (Input.GetKeyDown (KeyCode.T)) {
 			SwitchAutoAttack ();
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			CastSpell(actionBar[0]);
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			CastSpell(actionBar[1]);
-		}
-		if (Input.GetKeyDown (KeyCode.Alpha3)) {
-			CastSpell (actionBar [2]);
-		}
-		if (Input.GetKeyDown (KeyCode.Alpha4)) {
-			CastSpell (actionBar [3]);
-		}
-		if (Input.GetKeyDown (KeyCode.Alpha5)) {
-			CastSpell (actionBar [4]);
 		}
 
 		if (Input.GetKeyDown (KeyCode.Alpha9)) {
@@ -87,19 +69,6 @@ public class Player : Character
 		target.GetGameObject ().AddComponent<cakeslice.Outline> ();
 		base.SetTarget (target);
 	}
-
-
-
-
-
-	public void SetActionBarSlot(int slot, string slotName)
-	{
-		if (actionBar.Length > slot)
-			actionBar [slot] = slotName;
-		else
-			print ("slotName too great");
-	}
-
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
