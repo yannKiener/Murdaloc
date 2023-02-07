@@ -100,8 +100,8 @@ public static class EquipmentGenerator  {
     private static EquipmentType GetRandomEquipmentType()
     {
         Array values = Enum.GetValues(typeof(EquipmentType));
-        System.Random random = new System.Random();
-        return (EquipmentType)values.GetValue(random.Next(values.Length));
+        
+        return (EquipmentType)values.GetValue(UnityEngine.Random.Range(0, values.Length));
     }
 
     private static Stats AddStatFromEnumRandomly(List<Stat> statList, float number)

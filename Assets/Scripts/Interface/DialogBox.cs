@@ -25,8 +25,5 @@ public class DialogBox : MonoBehaviour {
         transform.Find("DialogPanel").GetComponent<DialogPanel>().Initialize(character.GetDialog());
         transform.Find("Name").GetComponent<Text>().text = characterName;
 
-
-        //Debug.Log(height);
-        //TODO : Mettre a la bonne position le gameObject & a la bonne taille
     }
 }

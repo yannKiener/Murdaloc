@@ -22,10 +22,11 @@ public class SellSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         Inventory inv = FindUtils.GetInventoryGrid();
         if (item != null)
         {
-            if (inv.HasEnoughCash(item.GetSellPrice()*5))
+            if (inv.HasEnoughCash(item.GetSellPrice() * 5))
             {
                 if (inv.AddItem(item))
                 {
+                    FindUtils.GetInterface().CoinSound();
                     inv.RemoveCash(item.GetSellPrice() * 5);
                     if (!hasInfinite)
                         Destroy(this.gameObject);

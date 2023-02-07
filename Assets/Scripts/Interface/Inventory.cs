@@ -28,10 +28,9 @@ public class Inventory : MonoBehaviour, Slotable {
         FindUtils.GetInterface().CloseInventory();
     }
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
-        for(int i=0; i < slotNumber; i++)
+        for (int i = 0; i < slotNumber; i++)
         {
             Instantiate(slotContainer, transform);
         }
@@ -74,6 +73,16 @@ public class Inventory : MonoBehaviour, Slotable {
             goldIcon.SetActive(false);
 
         }
+    }
+
+    public void SellItem(Item item)
+    {
+        if (RemoveItem(item))
+        {
+            FindUtils.GetInterface().CoinSound();
+            AddCash(item.GetSellPrice());
+        }
+
     }
 
 
@@ -145,9 +154,16 @@ public class Inventory : MonoBehaviour, Slotable {
         }
         else
         {
-            clearChilds(slot.transform);
-            slot.GetComponent<Slot>().usable = null;
-            Quests.UpdateTrackedQuests(null);
+            if(item is Consumable && ((Consumable)item).GetStacks() > 1)
+            {
+                ((Consumable)item).RemoveOne();
+            } else
+            {
+                clearChilds(slot.transform);
+                slot.GetComponent<Slot>().usable = null;
+                Quests.UpdateTrackedQuests(null);
+            }
+
             return true;
         }
     }
