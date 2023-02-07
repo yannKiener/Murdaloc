@@ -25,6 +25,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
     protected int currentMana;
     protected string charName;
 	protected bool casting;
+	protected float castingTime;
     protected Character target;
 	protected bool isDead;
 	protected Spell castingSpell;
@@ -40,6 +41,12 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		casting = false;
 		isDead = false;
 		castingSpell = null;
+    }
+    
+    
+    void Update() {
+    
+    
     }
 
 	public bool IsDead(){
@@ -80,11 +87,40 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void castSpell(string spellName)
     {
-		if (target != null) {
-			spellList [spellName].Cast (this, target);
+        if(!casting) 
+        {
+        castingSpell = spellList [spellName];
+        casting = true;
+		}
+    }
+    
+    protected void UpdateCast()
+    {
+        if (casting)
+        {
+            castingTime += Time.deltaTime;
+            if(castingTime >= castingSpell.GetCastTime())
+            {
+                 DoneCasting();
+            }
+        }
+    }
+    
+    protected void CancelCast()
+    { 
+    castingSpell = null;
+    castingTime = 0;
+    casting = false;
+    }
+    
+    protected void DoneCasting()
+    {
+    if (target != null) {
+			castingSpell.Cast (this, target);
 		} else {
 			print ("NO TARGET");
 		}
+		CancelCast();
     }
 		
 	public void ApplyDamage (int damage)
