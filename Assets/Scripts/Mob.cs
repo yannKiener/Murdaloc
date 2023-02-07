@@ -16,7 +16,6 @@ public class Mob : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision){
 		if (collision.gameObject.tag == "Player") {
-			print ("COLLISION WITH PLAYER, ENTERING COMBAT ZONE");
 			collision.gameObject.SendMessage ("enterCombat", this.gameObject);
 		}
 		

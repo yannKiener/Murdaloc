@@ -21,10 +21,11 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        //EnemyManagement
 		if (Input.GetKeyDown ("a")){
 			attackTarget (target);
 		}
-
 		if (enemyList.Count == 0 && inCombat) {
 			leaveCombat ();
 		} 
@@ -66,6 +67,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		player.velocity = new Vector2 (xSpeed * MAXSPEED, ySpeed);
+
+        //Limit player to camera At ALL TIMES
+
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp01(pos.x);
+        pos.y = Mathf.Clamp01(pos.y);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
 	}
 
 	public void enterCombat (GameObject enemy) {
@@ -88,13 +96,11 @@ public class PlayerController : MonoBehaviour {
 		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
 	}
 
-	public void attackTarget (GameObject target) {
-		print (target);
-		print (enemyList.ToString());
-		enemyList.Remove (target);
-		Destroy (target);
+	public void attackTarget (GameObject tar) {
+		enemyList.Remove (tar);
+		Destroy (tar);
 		if (enemyList.Count != 0) {
-			target = enemyList[0];
+            target = enemyList[0];
 		}
 	}
 

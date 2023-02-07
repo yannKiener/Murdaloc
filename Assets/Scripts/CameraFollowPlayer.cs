@@ -18,9 +18,9 @@ public class CameraFollowPlayer : MonoBehaviour {
 	void Update () {
 		if (follow) {
 			if (timer < 1) {
-				timer = timer + 0.02f;
+				timer = timer + 0.01f;
 			}
-			transform.position = Vector3.Lerp (cameraBasicPosition, new Vector3 (player.transform.position.x, cameraBasicPosition.y, cameraBasicPosition.z), timer);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(player.transform.position.x, cameraBasicPosition.y, cameraBasicPosition.z), timer);
 		}
 	}
 
@@ -32,6 +32,8 @@ public class CameraFollowPlayer : MonoBehaviour {
 	public void followPlayer() {
 		follow = true;
 	}
+
+
 
 
 
