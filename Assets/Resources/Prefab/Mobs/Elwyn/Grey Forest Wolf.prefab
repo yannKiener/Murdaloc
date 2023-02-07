@@ -142,9 +142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterName: Wolf
+  CharacterName: Grey Forest Wolf
   level: 3
   isElite: 0
+  resourceType: 
   statPercent: 90
   LootTable: []
   QuestLootTable: []
@@ -168,6 +169,7 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 41433e2a383a6ea4fb997e69d5ccb346, type: 3}
   moveRandom: 1
+  isPassive: 0
 --- !u!95 &1056690523331628116
 Animator:
   serializedVersion: 3

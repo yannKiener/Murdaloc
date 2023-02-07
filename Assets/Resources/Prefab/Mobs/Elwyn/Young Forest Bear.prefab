@@ -145,7 +145,8 @@ MonoBehaviour:
   CharacterName: Young Forest Bear
   level: 3
   isElite: 0
-  statPercent: 100
+  resourceType: 
+  statPercent: 105
   LootTable: []
   QuestLootTable: []
   SpellList: []
@@ -165,6 +166,7 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 4e2e4275ea0f19248baa919748b8f856, type: 3}
   moveRandom: 1
+  isPassive: 0
 --- !u!95 &1056690523331628116
 Animator:
   serializedVersion: 3

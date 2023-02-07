@@ -146,7 +146,7 @@ MonoBehaviour:
   level: 5
   isElite: 0
   resourceType: 
-  statPercent: 100
+  statPercent: 90
   LootTable: []
   QuestLootTable: []
   SpellList:

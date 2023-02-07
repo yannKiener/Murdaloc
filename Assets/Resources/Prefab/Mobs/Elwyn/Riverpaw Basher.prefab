@@ -146,7 +146,7 @@ MonoBehaviour:
   level: 6
   isElite: 0
   resourceType: Rage
-  statPercent: 100
+  statPercent: 90
   LootTable: []
   QuestLootTable: []
   SpellList:
