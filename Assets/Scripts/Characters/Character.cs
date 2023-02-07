@@ -30,6 +30,8 @@ public interface Character
 	float GetResourcePercent ();
 	float GetCastPercent ();
 	GameObject GetGameObject();
+	void AddEffectOnTime (EffectOnTime effect);
+	void RemoveEffectOnTime (EffectOnTime effect);
 
 }
 
@@ -53,6 +55,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected int level;
 	protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
+	protected List<Buff> buffList = new List<Buff>();
+	protected List<Debuff> debuffList = new List<Debuff>();
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
@@ -74,6 +78,15 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 			resource = new Mana ();
 		}
     }
+
+
+	public void AddEffectOnTime (EffectOnTime effect){
+		
+	}
+
+	public void RemoveEffectOnTime (EffectOnTime effect){
+
+	}
 
 	public GameObject GetGameObject (){
 		return this.gameObject;

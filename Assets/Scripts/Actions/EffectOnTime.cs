@@ -4,10 +4,13 @@ using UnityEngine;
 
 public interface EffectOnTime
 {
-    void Apply();
+	void Apply(Character target);
     void Remove();
     void Tic();
     void Update();
+	string GetName();
+	string GetDescription();
+
 }
 
 
@@ -22,9 +25,21 @@ public abstract class AbtractEffectOnTime : EffectOnTime
     protected int totalHeal;
     protected string name;
     protected string description;
+	protected Character attachedCharacter;
+	protected int damagePerTic;
+	protected int healPerTic;
+
+	public string GetName(){
+		return name;
+	}
+
+	public string GetDescription(){
+		return description;
+	}
         
-    public void Apply()
+	public void Apply(Character target)
     {
+		attachedCharacter = target;
         timeLeft = duration;
         nextTic = duration - timePerTic;
     }
@@ -36,7 +51,7 @@ public abstract class AbtractEffectOnTime : EffectOnTime
 
     public void Tic()
     {
-
+		attachedCharacter.ApplyDamage (damagePerTic);
     }
 
     public void Update()
@@ -65,22 +80,3 @@ public abstract class AbtractEffectOnTime : EffectOnTime
 
 
 
-[System.Serializable]
-public class Buff : AbtractEffectOnTime
-{
-    public Buff(float duration, float timePerTic)
-    {
-        this.timePerTic = timePerTic;
-        this.duration = duration;
-    }
-}
-
-
-
-[System.Serializable]
-public class Debuff : AbtractEffectOnTime
-{
-    public Debuff()
-    {
-    }
-}
