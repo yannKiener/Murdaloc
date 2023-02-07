@@ -12,6 +12,10 @@ public class CameraFollowPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cameraBasicPosition = transform.position;
+        if(player == null)
+        {
+            player = FindUtils.GetPlayer().gameObject;
+        }
 	}
 	
 	// Update is called once per frame
