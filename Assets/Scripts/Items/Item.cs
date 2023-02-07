@@ -31,7 +31,7 @@ public class Item : Usable {
     }
     public string GetDescription()
     {
-        return description;
+        return description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
     }
 
     public string GetItemType()
@@ -59,16 +59,27 @@ public class Item : Usable {
         return stats;
     }
 
+    public bool IsUsable()
+    {
+        return (FindUtils.GetPlayer().GetLevel() >= levelRequirement);
+    }
+
     public void Use(Character caster)
     {
-        if (isEquipped)
+        if (IsUsable())
         {
-            FindUtils.GetCharacterSheetGrid().RemoveItem(this);
-            FindUtils.GetInventory().GetComponent<Inventory>().AddItem(this);
+            if (isEquipped)
+            {
+                FindUtils.GetCharacterSheetGrid().RemoveItem(this);
+              //  FindUtils.GetInventory().GetComponent<Inventory>().AddItem(this);
+            } else
+            {
+                FindUtils.GetCharacterSheetGrid().EquipItem(this);
+                    // FindUtils.GetInventory().GetComponent<Inventory>().RemoveItem(this);
+            }
         } else
         {
-            FindUtils.GetCharacterSheetGrid().EquipItem(this);
-            FindUtils.GetInventory().GetComponent<Inventory>().RemoveItem(this);
+            MessageUtils.ErrorMessage("Can't use that yet.");
         }
     }
 }

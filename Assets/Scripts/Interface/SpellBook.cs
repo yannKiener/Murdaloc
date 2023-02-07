@@ -8,11 +8,10 @@ public class SpellBook : MonoBehaviour, Slotable {
 	public GameObject usablePrefab;
     
     private bool doUpdate = false;
-	static int childCount;
+	static int childCount = 40;
 
 	// Use this for initialization
 	void Start () {
-		childCount = transform.childCount;
         UpdateSpellBook();
 	}
 

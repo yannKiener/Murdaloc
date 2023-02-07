@@ -22,7 +22,7 @@ public class Stats {
 	private float maxSpeed = Constants.MaxSpeed;
 
 
-	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana)
+	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana = true)
 	{
 		isResourceMana = isMana;
 		this.maxLife = Constants.BaseLife + stamina*Constants.StaminaLifeMultiplier;
@@ -55,20 +55,61 @@ public class Stats {
 		this.Critical += stats.Critical;
 		this.Haste += stats.Haste;
 		this.Power += stats.Power;
-		if (this.Critical > 90) {
-			this.Critical = 90;
-		}
-		if (this.Haste > 90) {
-			this.Haste = 90;
-		}
-		if (this.Power > 90) {
-			this.Power = 90;
-		}
 	}
 
-	public int GetManaPerSec(){
+    public void Remove(Stats stats)
+    {
+        this.Force -= stats.Force;
+        this.Agility -= stats.Agility;
+        this.Intelligence -= stats.Intelligence;
+        this.Stamina -= stats.Stamina;
+        this.Spirit -= stats.Spirit;
+        this.Critical -= stats.Critical;
+        this.Haste -= stats.Haste;
+        this.Power -= stats.Power;
+    }
+
+    public int GetManaPerSec(){
 		return manaPerSecond;
 	}
+
+    public string GetStatsDetail()
+    {
+        string result = "";
+        if(Force > 0)
+        {
+            result += "\nForce : " + Force;
+        }
+        if (Agility > 0)
+        {
+            result += "\nAgility : " + Agility;
+        }
+        if (Intelligence > 0)
+        {
+            result += "\nIntelligence : " + Intelligence;
+        }
+        if (Stamina > 0)
+        {
+            result += "\nStamina : " + Stamina;
+        }
+        if (Spirit > 0)
+        {
+            result += "\nSpirit : " + Spirit;
+        }
+        if (Critical > 0)
+        {
+            result += "\nCritical : " + Critical;
+        }
+        if (Haste > 0)
+        {
+            result += "\nHaste : " + Haste;
+        }
+        if (Power > 0)
+        {
+            result += "\nPower : " + Power;
+        }
+        return result;
+    }
 
 	public float AddPercent(Stat stat, float percent){
 		float result;

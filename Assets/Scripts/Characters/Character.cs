@@ -46,9 +46,14 @@ public abstract class Character : MonoBehaviour
 
 	public Stats GetStats(){
 		return stats;
-	}
+    }
 
-	public void SwitchAutoAttack(){
+    public void SetStats(Stats s)
+    {
+         stats = s;
+    }
+
+    public void SwitchAutoAttack(){
 		autoAttackEnabled = !autoAttackEnabled;
 	}
 
@@ -62,9 +67,15 @@ public abstract class Character : MonoBehaviour
 		}
 	}
 
-	public void LevelUp(){
+	public virtual void LevelUp(){
+        level++;
 		this.stats.Add(new Stats(3,3,3,5,4,10,10,10,false));
 	}
+
+    public int GetLevel()
+    {
+        return level; 
+    }
 
 	public List<EffectOnTime> GetBuffs(){
 		return buffList;

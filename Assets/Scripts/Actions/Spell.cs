@@ -131,6 +131,10 @@ public abstract class Spell : Usable
 	}
 		
 	public float GetCastTime(Stats stats) {
+        if(stats.Haste > Constants.maxHaste)
+        {
+            stats.Haste = Constants.maxHaste;
+        }
 		return castTime - castTime * stats.Haste/Constants.hasteDivider;
     }
 

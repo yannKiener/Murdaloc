@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class FindUtils  {
     private static Player player;
     private static GameObject spellBook;
     private static SpellBook spellBookGrid;
     private static GameObject inventory;
+    private static Inventory inventoryGrid;
     private static GameObject characterSheet;
+    private static Text characterSheetText;
     private static CharacterSheet characterSheetGrid;
 
     public static Player GetPlayer()
@@ -43,12 +46,28 @@ public static class FindUtils  {
         return inventory;
     }
 
+    public static Inventory GetInventoryGrid()
+    {
+        if (inventoryGrid == null)
+            inventoryGrid = GetInventory().GetComponent<Inventory>();
+
+        return inventoryGrid;
+    }
+
     public static GameObject GetCharacterSheet()
     {
         if (characterSheet == null)
             characterSheet = GameObject.Find("CharacterSheet");
 
         return characterSheet;
+    }
+
+    public static Text GetCharacterSheetText()
+    {
+        if (characterSheetText == null)
+            characterSheetText = GameObject.Find("CharacterSheetText").GetComponent<Text>();
+
+        return characterSheetText;
     }
 
     public static CharacterSheet GetCharacterSheetGrid()

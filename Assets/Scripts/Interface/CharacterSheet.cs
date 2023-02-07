@@ -16,7 +16,6 @@ public class CharacterSheet : MonoBehaviour, Slotable {
     
     public void OnDropIn(GameObject slot)
     {
-        GameObject tempGameObject = Draggable.currentItem;
         Usable tempUsable = Draggable.currentUsable;
         if (tempUsable is Item)
         {
@@ -29,9 +28,12 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         GameObject slot = getSlotWithItem(item);
         if(slot != null)
         {
+            //On retire l'objet
             item.isEquipped = false;
             clearChilds(slot.transform);
             slot.GetComponent<Slot>().usable = null;
+            FindUtils.GetInventoryGrid().AddItem(item);
+            FindUtils.GetPlayer().GetStats().Remove(item.GetStats());
             return true;
         }
         return false;
@@ -133,17 +135,33 @@ public class CharacterSheet : MonoBehaviour, Slotable {
     private void Equip(GameObject slot, Item item)
     {
         item.isEquipped = true;
-        //Si le slot a déjà un contenu, on le supprime 
+        //Si le slot a déjà un contenu, on le supprime (On remove l'ancien item)
         if (slot.transform.childCount > 0)
         {
-            clearChilds(slot.transform);
+            RemoveItem((Item)slot.GetComponent<Slot>().usable);
         }
+        FindUtils.GetInventoryGrid().RemoveItem(item);
+        FindUtils.GetPlayer().GetStats().Add(item.GetStats());
         InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, item.GetImageAsSprite(), item);
+    }
+
+    public Stats GetStuffStats()
+    {
+       Stats stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0);
+       foreach(Transform child in transform)
+        {
+            Item i = (Item)child.gameObject.GetComponent<Slot>().usable;
+            if(i != null)
+            {
+                stats.Add(i.GetStats());
+            }
+        }
+
+        return stats;
     }
 
     private void clearChilds(Transform t)
     {
-
         foreach (Transform c in t)
         {
             GameObject.Destroy(c.gameObject);

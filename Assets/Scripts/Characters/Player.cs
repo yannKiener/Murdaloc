@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Player : Character
@@ -42,15 +43,22 @@ public class Player : Character
         }
 
         if (Input.GetKeyDown (KeyCode.X)) {
-			print ("LevelUp !");
+			print ("LevelUp ! Testing...");
 			LevelUp ();
 			stats.displayStats ();
-            FindUtils.GetInventory().GetComponent<Inventory>().AddItem(new Item("Test","Item for testing", 0, new Stats(0,0,0,0,0,0,0,0,false),"Head"));
+            FindUtils.GetInventoryGrid().AddItem(new Item("Test","Item for testing", 3, new Stats(1,10,20,30,40,50,60,70,false),"Head"));
             AddSpell(Spells.Get("Icelance"));
         }
 
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
+
+    public override void LevelUp()
+    {
+        base.LevelUp();
+        FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
+
+    }
 
     public override void AddSpell(Spell spell)
     {

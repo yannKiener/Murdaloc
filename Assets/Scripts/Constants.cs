@@ -32,6 +32,7 @@ public static class Constants {
 	public static readonly int BaseManaPerSecond = 5;
 	public static readonly int RegenManaEvery = 1;
 	public static readonly int RegenEnergyEvery = 2;
+    public static readonly int maxHaste = 90;
 
 
 
