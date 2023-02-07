@@ -74,7 +74,7 @@
          }
       },
       {  
-         "condition":"KillPrincessReady&!FirstQuestOver",
+         "condition":"KillPrincessReady&!KillPrincessOver",
          "choice":"The Princess is dead!",
          "dialog":{  
             "text":"Nicely done, young %T! Here's a potion for you",
