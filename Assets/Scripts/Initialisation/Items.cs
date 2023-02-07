@@ -93,8 +93,6 @@ public static class Items
         }
     }
 
-
-
     public static void InitializeCategories()
     {
         JSONArray data = DatabaseUtils.GetJsonCategories();

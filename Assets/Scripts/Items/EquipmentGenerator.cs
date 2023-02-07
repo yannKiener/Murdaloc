@@ -12,6 +12,11 @@ public static class EquipmentGenerator  {
 
     private static List<EquipmentType> heldInOffhand = new List<EquipmentType>() {EquipmentType.Shield, EquipmentType.OffHand};
 
+    private static Dictionary<Stat, JSONArray> statNames = null;
+    private static Dictionary<EquipmentType, JSONArray> typeNames = null;
+    private static Dictionary<EquipmentType, Sprite[]> typeSprites = null;
+
+
     public static Equipment GenerateEquipment(int maxLevel)
     {
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
@@ -20,7 +25,7 @@ public static class EquipmentGenerator  {
         EquipmentQuality quality = GetRandomQualityForLevel(maxLevel);
         float damagePerSecondOnWeapon = GetRandomAutoAttackDPSForLevel(maxLevel);
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon, quality);
-        string name = GetRandomNameForType(itemType, stats);
+        string name = GetRandomNameForTypeAndStats(itemType, stats);
         Sprite sprite = GetRandomSpriteForType(itemType);
 
         Equipment result = new Equipment(name,"",maxLevel,stats,itemType, quality);
@@ -57,20 +62,90 @@ public static class EquipmentGenerator  {
 
     }
 
-    private static Sprite GetRandomSpriteForType(EquipmentType type)
+
+    private static Sprite[] GetSpritesForType(EquipmentType equipType)
     {
-        Sprite[] sprites = DatabaseUtils.LoadAllSpritesForType(type);
-        Sprite result;
-        if(sprites != null && sprites.Length > 0){
-            result = sprites[UnityEngine.Random.Range(0, sprites.Length-1)];
-        } else {
-            result = InterfaceUtils.LoadSpriteForItem("Default");
+        if(typeSprites == null)
+        {
+            typeSprites = new Dictionary<EquipmentType, Sprite[]>();
+            foreach (EquipmentType type in Enum.GetValues(typeof(EquipmentType)))
+            {
+                typeSprites.Add(type, DatabaseUtils.LoadAllSpritesForType(type));
+            }
         }
-        return result;
+        if (!typeSprites.ContainsKey(equipType))
+        {
+            Debug.Log("NO SPRITES FOR ITEM TYPE : " + equipType);
+            return null;
+        } else
+        {
+            return typeSprites[equipType];
+        }
     }
 
 
-    private static string GetRandomNameForType (EquipmentType type, Stats stats)
+    private static Sprite GetRandomSpriteForType(EquipmentType type)
+    {
+        Sprite[] sprites = GetSpritesForType(type);
+        if (sprites != null && sprites.Length > 0){
+            return sprites[UnityEngine.Random.Range(0, sprites.Length-1)];
+        } else {
+           return InterfaceUtils.LoadSpriteForItem("Default");
+        }
+    }
+
+
+    private static Dictionary<EquipmentType, JSONArray> GetTypeNames()
+    {
+        if(typeNames == null)
+        {
+            typeNames = new Dictionary<EquipmentType, JSONArray>();
+            JSONObject jsonObjectCategoryNames = DatabaseUtils.GetJsonCategoryNames();
+            foreach (EquipmentType type in Enum.GetValues(typeof(EquipmentType)))
+            {
+                typeNames.Add(type, jsonObjectCategoryNames.AsObject[type.ToString()].AsArray);
+            }
+        }
+        return typeNames;
+    }
+
+    private static string GetRandomTypeName(EquipmentType type)
+    {
+        JSONArray names = GetTypeNames()[type];
+        return names[UnityEngine.Random.Range(0, names.Count)];
+    }
+
+
+    private static Dictionary<Stat, JSONArray> GetStatNames()
+    {
+        if (statNames == null)
+        {
+            statNames = new Dictionary<Stat, JSONArray>();
+            JSONObject jsonObjectStatNames = DatabaseUtils.GetJsonStatNames();
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                statNames.Add(stat, jsonObjectStatNames.AsObject[stat.ToString()].AsArray);
+            }
+        }
+        return statNames;
+    }
+
+    private static string GetRandomStatName(Stat stat)
+    {
+        JSONArray names = GetStatNames()[stat];
+        string result = names[UnityEngine.Random.Range(0, names.Count)];
+        if(result == null)
+        {
+            Debug.Log("No names found for stat : " + stat);
+            return "";
+        } else
+        {
+            return result;
+        }
+    }
+
+
+    private static string GetRandomNameForTypeAndStats (EquipmentType type, Stats stats)
     {
         Stat mainStat = stats.GetMaxMainStat();
         Stat offStat = stats.GetMaxOffStat();
@@ -78,19 +153,16 @@ public static class EquipmentGenerator  {
         string mainStatName = "";
         if(stats.GetStat(mainStat) > 1)
         {
-            JSONArray mainStatNames = DatabaseUtils.GetJsonStatNames(mainStat);
-            mainStatName = mainStatNames[UnityEngine.Random.Range(0, mainStatNames.Count)];
+            mainStatName = GetRandomStatName(mainStat);
         }
 
         string offStatName = "";
         if (stats.GetStat(offStat) > 1)
         {
-            JSONArray offStatNames = DatabaseUtils.GetJsonStatNames(offStat);
-            offStatName = offStatNames[UnityEngine.Random.Range(0, offStatNames.Count)];
+            offStatName = GetRandomStatName(offStat);
         }
 
-        JSONArray names = DatabaseUtils.GetJsonCategoryName(type);
-        string name = names[UnityEngine.Random.Range(0, names.Count)];
+        string name = GetRandomTypeName(type);
 
         string result = "";
         if(offStatName.Length > 1)

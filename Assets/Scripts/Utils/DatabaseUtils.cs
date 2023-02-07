@@ -5,11 +5,17 @@ using SimpleJSON;
 using System.Linq;
 
 public static class DatabaseUtils {
-
-    public static JSONArray GetJsonCategoryName(EquipmentType type)
+    
+    public static JSONObject GetJsonCategoryNames()
     {
-        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject;
     }
+
+    public static JSONObject GetJsonStatNames()
+    {
+        return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["statNames"].AsObject;
+    }
+
 
     public static JSONObject GetQuest(string questName)
     {
