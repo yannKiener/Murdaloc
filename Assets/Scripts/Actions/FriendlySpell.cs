@@ -22,7 +22,7 @@ public class FriendlySpell : AbstractSpell
 			}
 			base.Cast (caster, target);
 			caster.AddResource (caster.GetMaxResource() - caster.GetCurrentResource ());
-			caster.ApplyHeal (modifiedSpell(caster, target, 100));
+			caster.ApplyHeal (modifiedSpell(caster, target, 100), isCrit);
 		}
 		else
 		{
