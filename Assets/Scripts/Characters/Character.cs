@@ -369,7 +369,7 @@ public abstract class Character : MonoBehaviour
 		return this.spellList;
 	}
 
-    public void AddSpell(Spell spell)
+    public virtual void AddSpell(Spell spell)
     {
         spellList.Add(spell.GetName(), spell);
     }

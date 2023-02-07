@@ -37,10 +37,22 @@ public class Player : Character
 			print ("LevelUp !");
 			LevelUp ();
 			stats.displayStats ();
+            AddSpell(Spells.Get("Icelance"));
 		}
 
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
+
+    public override void AddSpell(Spell spell)
+    {
+        base.AddSpell(spell);
+        FindUtils.GetSpellBookGrid().UpdateSpellBook();
+    }
+
+    public void initializeSpell(Spell spell)
+    {
+        base.AddSpell(spell);
+    }
 
 	private void CycleTargets(){
 		int count = enemyList.Count;

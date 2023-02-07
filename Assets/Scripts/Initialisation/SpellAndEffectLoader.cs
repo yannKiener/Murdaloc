@@ -16,7 +16,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		Spells.Add (new FriendlySpell ("Renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") }));
 		Spells.Add (new FriendlySpell ("Sprint","Gain 60% movement speed for 2 seconds.", 10,0,0,15,1,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") }));
 		Spells.Add (new HostileSpell ("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>()));
-	}
+        Spells.Add(new HostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), null, null));
+    }
 
 
 

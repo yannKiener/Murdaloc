@@ -5,6 +5,7 @@ using UnityEngine;
 public static class FindUtils  {
     private static Player player;
     private static GameObject spellBook;
+    private static SpellBook spellBookGrid;
 
     public static Player GetPlayer()
     {
@@ -21,5 +22,13 @@ public static class FindUtils  {
             spellBook = GameObject.Find("SpellBook");
 
         return spellBook;
+    }
+
+    public static SpellBook GetSpellBookGrid()
+    {
+        if (spellBookGrid == null)
+            spellBookGrid = GameObject.Find("SpellBookGrid").GetComponent<SpellBook>();
+
+        return spellBookGrid;
     }
 }
