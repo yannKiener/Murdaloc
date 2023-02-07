@@ -15,19 +15,25 @@ public class MapGenerator : MonoBehaviour {
 	public GameObject attachAtObject;
 	public GameObject mapPrefab;
 	public GameObject object1Prefab;
+	public bool isGenerated;
 
 
 	// Use this for initialization
 	void Start () {
-		GenerateMap();
+		isGenerated = false;
+		if (attachAtObject.GetComponent<SpriteRenderer> () != null) {
+			GenerateMap ();
+		}
+	}
+
+	void mapReady(String id){
+		if (!isGenerated && attachAtObject.name == id) {
+			GenerateMap ();
+		}
+
 	}
 
 	void GenerateMap() {
-		if (attachAtObject.GetComponent<SpriteRenderer> () == null) {
-			print ("OBJECT NOT ACTIVE");
-			Invoke ("GenerateMap", 1);
-		} else {	
-			
 		float startingX = 0;
 		float startingY = 0;
 		
@@ -56,13 +62,23 @@ public class MapGenerator : MonoBehaviour {
 			this.gameObject.transform.position = mapPrefab.transform.position;
 			this.gameObject.transform.localScale = mapPrefab.transform.localScale;
 
-		//Instantiate(mapPrefab);
-
 			DrawObjectOnMap(object1Prefab, mapPrefab, object1Density);
+			EndGeneration ();
 		}
+
+	private void  EndGeneration(){
+		isGenerated = true;
+
+		GameObject[] gameobjects = GameObject.FindGameObjectsWithTag ("Map");
+		foreach (GameObject go in gameobjects) {
+			if (go.GetComponent<MapGenerator> () != null) {
+				go.SendMessage ("mapReady", this.gameObject.name);
+			}
+		}
+
 	}
 
-	void DrawObjectOnMap(GameObject objToDraw, GameObject map, int density) {
+	private void DrawObjectOnMap(GameObject objToDraw, GameObject map, int density) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
 		}
