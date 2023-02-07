@@ -6,12 +6,17 @@ using SimpleJSON;
 public static class DatabaseUtils {
     public static string GetJsonItems()
     {
-        return Resources.Load<TextAsset>("Data/Items/items").text; 
+        return Resources.Load<TextAsset>("Data/Items/items").text;
     }
 
     public static JSONArray GetJsonCategoryName(ItemType type)
     {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["names"].AsObject[type.ToString()].AsArray;
+    }
+
+    public static Sprite[] LoadAllSpritesForType(ItemType type)
+    {
+       return Resources.LoadAll<Sprite>("Images/Items/" + type.ToString());
     }
 
 

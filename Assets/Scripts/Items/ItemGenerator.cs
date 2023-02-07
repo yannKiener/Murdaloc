@@ -20,14 +20,28 @@ public static class ItemGenerator  {
         ItemType itemType = GetRandomItemType();
 
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats);
-        string name = GetRandomNameForType(itemType);
+        string name = GetRandomNameForType(itemType, stats);
+        Sprite sprite = GetRandomSpriteForType(itemType);
 
         Item result = new Item(name,"",maxLevel,stats,itemType);
+        result.SetImage(sprite);
+        return result;
+    }
+
+    private static Sprite GetRandomSpriteForType(ItemType type)
+    {
+        Sprite[] sprites = DatabaseUtils.LoadAllSpritesForType(type);
+        Sprite result;
+        if(sprites != null && sprites.Length > 0){
+            result = sprites[UnityEngine.Random.Range(0, sprites.Length-1)];
+        } else {
+            result = InterfaceUtils.LoadSpriteForItem("Default");
+        }
         return result;
     }
 
 
-    private static string GetRandomNameForType (ItemType type)
+    private static string GetRandomNameForType (ItemType type, Stats stats)
     {
         JSONArray names = DatabaseUtils.GetJsonCategoryName(type);
         return names[UnityEngine.Random.Range(0, names.Count)];
@@ -59,11 +73,6 @@ public static class ItemGenerator  {
         float offStat3Multiplier = UnityEngine.Random.Range(0, 100-(offStat1Multiplier+offStat2Multiplier)) ;
         List<Stat> mainStatList = GetMainStatList(type);
         List<Stat> offStatList = GetOffStatList(type);
-
-
-        Debug.Log(stat1Multiplier);
-        Debug.Log(stat2Multiplier);
-        Debug.Log(stat3Multiplier);
 
         Stats result = AddStatFromEnumRandomly(mainStatList, maxMainStats * stat1Multiplier / 100);
         result.Add(AddStatFromEnumRandomly(mainStatList, maxMainStats * stat2Multiplier / 100));
