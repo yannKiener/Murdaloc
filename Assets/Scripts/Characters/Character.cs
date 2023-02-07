@@ -86,6 +86,37 @@ public abstract class Character : MonoBehaviour
 		return dialog;
 	}
 
+
+    //Used to display stats
+    public int GetMinAutoAttack1Damage()
+    {
+        int autoAttackWithPower = autoAttack1Damage + (int)(autoAttack1Damage * stats.Power / 100);
+        return (int)(autoAttackWithPower - autoAttackWithPower*Constants.RandomDamageRange/100);
+    }
+    public int GetMaxAutoAttack1Damage()
+    {
+        int autoAttackWithPower = autoAttack1Damage + (int)(autoAttack1Damage * stats.Power / 100);
+        return (int)(autoAttackWithPower + autoAttackWithPower * Constants.RandomDamageRange/100);
+    }
+    public float GetAutoAttack1Speed()
+    {
+        return modifiedAutoAttackTime(autoAttack1Speed);
+    }
+    public int GetMinAutoAttack2Damage()
+    {
+        int autoAttackWithPower = autoAttack2Damage + (int)(autoAttack2Damage * stats.Power / 100);
+        return (int)(autoAttackWithPower - autoAttackWithPower * Constants.RandomDamageRange/100);
+    }
+    public int GetMaxAutoAttack2Damage()
+    {
+        int autoAttackWithPower = autoAttack2Damage + (int)(autoAttack2Damage * stats.Power / 100);
+        return (int)(autoAttackWithPower + autoAttackWithPower * Constants.RandomDamageRange/100);
+    }   
+    public float GetAutoAttack2Speed()
+    {
+        return modifiedAutoAttackTime(autoAttack2Speed);
+    }
+
     public bool IsElite()
     {
         return isElite;
@@ -439,7 +470,7 @@ public abstract class Character : MonoBehaviour
 		if (this.autoAttackIsCrit) { // Apply Crit
             autoAttackDamage = autoAttackDamage * 2;
 		}
-		return (int)(autoAttackDamage + autoAttackDamage * Random.Range (-30f, 30f) / 100);
+		return (int)(autoAttackDamage + autoAttackDamage * Random.Range (-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100);
 
 	}
 

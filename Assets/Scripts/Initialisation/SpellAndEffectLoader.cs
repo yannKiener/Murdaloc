@@ -65,7 +65,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				if (isCrit) { // Apply Crit
 					damage = damage * 2;
 				}
-				arg2.ApplyDamage ((int)(damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100), isCrit);
+				arg2.ApplyDamage ((int)(damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
 			});
 		} else {
 			return ((Character arg1, Character arg2) => {
@@ -78,7 +78,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				if (isCrit) { // Apply Crit
 					heal = heal * 2;
 				}
-				arg2.ApplyHeal ((int)(heal + heal * UnityEngine.Random.Range (-30f, 30f) / 100), isCrit);
+				arg2.ApplyHeal ((int)(heal + heal * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
 			});
 		}
 	}
@@ -127,7 +127,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				if (isCrit) { // Apply Crit
 					damage = damage * 2;
 				}
-				arg2.ApplyDamage ((int)((damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100)*stacks*timedivider), isCrit);
+				arg2.ApplyDamage ((int)((damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100)*stacks*timedivider), isCrit);
 			});
 		} else {
 			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
@@ -140,7 +140,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				if (isCrit) { // Apply Crit
 					heal = heal * 2;
 				}
-				arg2.ApplyHeal ((int)((heal + heal * UnityEngine.Random.Range (-30f, 30f) / 100)*stacks*timedivider), isCrit);
+				arg2.ApplyHeal ((int)((heal + heal * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100)*stacks*timedivider), isCrit);
 			});
 		}
 	}

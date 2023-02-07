@@ -95,7 +95,49 @@ public class Stats {
 
     public int GetManaPerSec(){
 		return manaPerSecond;
-	}
+    }
+
+    public string GetBasicStatsDetail()
+    {
+        string result = "";
+        if (Force > 0)
+        {
+            result += "\nForce : " + Force;
+        }
+        if (Agility > 0)
+        {
+            result += "\nAgility : " + Agility;
+        }
+        if (Intelligence > 0)
+        {
+            result += "\nIntelligence : " + Intelligence;
+        }
+        if (Stamina > 0)
+        {
+            result += "\nStamina : " + Stamina;
+        }
+        if (Spirit > 0)
+        {
+            result += "\nSpirit : " + Spirit;
+        }
+        if (Critical > 0)
+        {
+            result += "\nCritical : " + Critical;
+        }
+        if (Haste > 0)
+        {
+            result += "\nHaste : " + Haste;
+        }
+        if (Power > 0)
+        {
+            result += "\nPower : " + Power;
+        }
+        if(result.Length >= 2)
+        {
+            result = result.Substring(1);
+        }
+        return result;
+    }
 
     public string GetStatsDetail()
     {

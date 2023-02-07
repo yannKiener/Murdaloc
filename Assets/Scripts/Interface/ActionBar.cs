@@ -19,16 +19,18 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     public void OnDropIn(GameObject slot)
     {
-        GameObject tempGameObject = Draggable.currentItem;
-        Usable tempUsable = Draggable.currentUsable;
-        //Si le slot a déjà un contenu, on le supprime 
-        if (slot.transform.childCount > 0)
+        if(Draggable.currentItem != null)
         {
-            clearChilds(slot.transform);
-        } 
-        InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempGameObject.GetComponent<Image>().sprite, tempUsable);
 
-
+            GameObject tempGameObject = Draggable.currentItem;
+            Usable tempUsable = Draggable.currentUsable;
+            //Si le slot a déjà un contenu, on le supprime 
+            if (slot.transform.childCount > 0)
+            {
+                clearChilds(slot.transform);
+            }
+            InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempGameObject.GetComponent<Image>().sprite, tempUsable);
+        }
     }
 
     // Update is called once per frame

@@ -11,6 +11,7 @@ public class MonoBehaviourWithMouseOverColor : MonoBehaviour, IPointerEnterHandl
     //For GUI only (So Image components)
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log(gameObject.name);
         GetComponent<Image>().color = Constants.MouseOverColor;
         
     }
