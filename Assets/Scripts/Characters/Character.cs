@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public abstract class Character : MonoBehaviour 
@@ -91,7 +92,7 @@ public abstract class Character : MonoBehaviour
     }
 
     public void AddDialog(string dialogName){
-        this.dialog = DatabaseUtils.GetDialog(dialogName);
+        this.dialog = DatabaseUtils.GetDialog(SceneManager.GetActiveScene().name, dialogName);
     }
 
 	public Dialog GetDialog(){

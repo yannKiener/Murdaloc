@@ -75,8 +75,8 @@ public static class DatabaseUtils {
         }   
     }
 
-    public static Dialog GetDialog(string dialogName){
-        TextAsset textAsset = Resources.Load<TextAsset>("Data/Dialogs/" + dialogName);
+    public static Dialog GetDialog(string sceneName, string dialogName){
+        TextAsset textAsset = Resources.Load<TextAsset>("Data/Dialogs/" + sceneName+ "/"+ dialogName);
         if(textAsset != null && !textAsset.Equals(""))
         {
             JSONObject data = JSON.Parse(textAsset.text).AsObject;
