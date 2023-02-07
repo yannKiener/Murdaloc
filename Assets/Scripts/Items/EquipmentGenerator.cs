@@ -14,19 +14,11 @@ public static class EquipmentGenerator  {
 
     public static Equipment GenerateEquipment(int maxLevel)
     {
-        //Quality multiplier : 
-        //Green = 0.7
-        //Blue = 1
-        //Epic = 1.3
-
-        //Add quality at multiplier
-
-        //Make a random type
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;
         EquipmentType itemType = GetRandomEquipmentType();
         EquipmentQuality quality = GetRandomQualityForLevel(maxLevel);
-        int damagePerSecondOnWeapon = Constants.BaseAutoAttackDPS + Constants.AutoAttackDPSPerLevel * maxLevel;
+        float damagePerSecondOnWeapon = GetRandomAutoAttackDPSForLevel(maxLevel);
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon, quality);
         string name = GetRandomNameForType(itemType, stats);
         Sprite sprite = GetRandomSpriteForType(itemType);
@@ -36,9 +28,18 @@ public static class EquipmentGenerator  {
         return result;
     }
 
+    private static float GetRandomAutoAttackDPSForLevel(int level)
+    {
+        float randomMultiplier = UnityEngine.Random.Range(1-Constants.WeapDamageRandomiser, 1 + Constants.WeapDamageRandomiser);
+        return (Constants.BaseAutoAttackDPS + Constants.AutoAttackDPSPerLevel * level * randomMultiplier);
+    }
+
     private static EquipmentQuality GetRandomQualityForLevel(int level)
     {
-        int random = UnityEngine.Random.Range(0,101);
+        int levelMaxPercent = (Constants.MaxLevel - level) /Constants.DropReducer +1;
+
+        int random = UnityEngine.Random.Range(0,101) * levelMaxPercent;
+
         if (random < Constants.EpicDropChancePercent)
         {
             return EquipmentQuality.Epic;
@@ -134,27 +135,31 @@ public static class EquipmentGenerator  {
         return stats;
     }
 
-    private static Stats GenerateStatsForType(EquipmentType type, float maxMainStats, float maxOffStats, int attackDamage, EquipmentQuality quality)
+    private static Stats GenerateStatsForType(EquipmentType type, float maxMainStats, float maxOffStats, float attackDamage, EquipmentQuality quality)
     {
         if(quality == EquipmentQuality.Common)
         {
             maxMainStats = maxMainStats * Constants.CommonStatMultiplier;
             maxOffStats = maxOffStats * Constants.CommonStatMultiplier;
+            attackDamage = attackDamage *( 1 +  Constants.CommonStatMultiplier / Constants.RarityWeapDpsReducer);
 
         } else if (quality == EquipmentQuality.Uncommon)
         {
             maxMainStats = maxMainStats * Constants.UncommonStatMultiplier;
             maxOffStats = maxOffStats * Constants.UncommonStatMultiplier;
+            attackDamage = attackDamage * (1 + Constants.UncommonStatMultiplier / Constants.RarityWeapDpsReducer);
         }
         else if (quality == EquipmentQuality.Rare)
         {
             maxMainStats = maxMainStats * Constants.RareStatMultiplier;
             maxOffStats = maxOffStats * Constants.RareStatMultiplier;
+            attackDamage = attackDamage * (1 + Constants.RareStatMultiplier / Constants.RarityWeapDpsReducer);
         }
         else if (quality == EquipmentQuality.Epic)
         {
             maxMainStats = maxMainStats * Constants.EpicStatMultiplier;
             maxOffStats = maxOffStats * Constants.EpicStatMultiplier;
+            attackDamage = attackDamage * (1 + Constants.EpicStatMultiplier / Constants.RarityWeapDpsReducer);
         }
 
         if (IsOffHand(type))
@@ -191,6 +196,10 @@ public static class EquipmentGenerator  {
             if (IsTwoHanded(type))
             {
                 mediumAttackDamage = mediumAttackDamage * Constants.TwoHandedAutoAttackMultiplier;
+                if(type == EquipmentType.Staff)
+                {
+                    mediumAttackDamage = mediumAttackDamage / Constants.StaffAutoAttackDivider;
+                }
             }
             result.AddStat(Stat.autoAttackDamage, mediumAttackDamage);
             result.AddStat(Stat.autoAttackTime, attackSpeed);

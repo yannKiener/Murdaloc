@@ -149,7 +149,7 @@ public class Stats {
         }
         if (AutoAttackDamage > 0)
         {
-            result += "\nDamage : " + AutoAttackDamage;
+            result += "\nDamage : " + (int)(AutoAttackDamage - AutoAttackDamage * Constants.RandomDamageRange / 100) + " - " + (int)(AutoAttackDamage + AutoAttackDamage * Constants.RandomDamageRange / 100);
         }
         if (AutoAttackTime > 0)
         {
@@ -443,7 +443,6 @@ public class Stats {
         statHolder.Add(Stat.stamina, stamina);
         statHolder.Add(Stat.spirit, spirit);
         return statHolder.FirstOrDefault(x => x.Value == statHolder.Values.Max()).Key;
-
     }
 
     public Stat GetMaxOffStat()

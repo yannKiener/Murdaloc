@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 using System;
+using System.Linq;
 
 [System.Serializable]
 public static class Items
@@ -52,7 +53,13 @@ public static class Items
         {
             JSONObject s = equipment["stats"].AsObject;
             Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
-            return new Equipment(GetStr(equipment, "name"), GetStr(equipment, "description"), equipment["levelRequirement"].AsInt, stats, ParseEnum<EquipmentType>(GetStr(equipment, "type")));
+            EquipmentQuality quality = EquipmentQuality.Common;
+            string qualityString = GetStr(equipment, "quality");
+            if (qualityString != null && Enum.GetNames(typeof(EquipmentQuality)).ToList<string>().Contains(qualityString))
+            {
+                quality = (EquipmentQuality) Enum.Parse(typeof(EquipmentQuality), qualityString, true);
+            }
+            return new Equipment(GetStr(equipment, "name"), GetStr(equipment, "description"), equipment["levelRequirement"].AsInt, stats, ParseEnum<EquipmentType>(GetStr(equipment, "type")), quality);
         }
     }
 

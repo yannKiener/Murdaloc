@@ -285,7 +285,7 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
             {
                 return (Consumable)slot.GetChild(0).GetComponent<Draggable>().usable;
             }
@@ -299,7 +299,7 @@ public class Inventory : MonoBehaviour, Slotable {
         for (int i = 0; i < slotNumber; i++)
         {
             Transform slot = transform.GetChild(i);
-            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable != null && slot.GetChild(0).GetComponent<Draggable>().usable.GetName() == name)
             {
                 return slot.gameObject;
             }

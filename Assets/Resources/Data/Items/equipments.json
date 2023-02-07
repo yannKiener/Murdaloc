@@ -118,11 +118,12 @@
       "description":"An old, rusty sword. Doubtlessly has been used before.",
       "levelRequirement":1,
       "type":"Sword",
+	  "quality":"Common",
       "stats":{  
          "force":"0",
          "agility":"0",
          "intelligence":"0",
-         "stamina":"0",
+         "stamina":"1",
          "spirit":"0",
          "critical":"0",
          "haste":"0",

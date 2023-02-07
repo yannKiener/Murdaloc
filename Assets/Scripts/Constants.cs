@@ -65,6 +65,7 @@ public static class Constants {
     public static readonly float MainStatMultiplier = 1.3f;
     public static readonly float OffStatMultiplier = 0.2f;
     public static readonly float TwoHandedAutoAttackMultiplier = 1.2f;
+    public static readonly float StaffAutoAttackDivider = 1.2f;
     public static readonly float TwoHandedStatMultiplier = 1.8f;
     public static readonly float OffHandStatMultiplier = 1.2f;
     public static readonly float CommonStatMultiplier = 0.5f;
@@ -75,9 +76,12 @@ public static class Constants {
     public static readonly float PriceMultiplierRare = 1.2f;
     public static readonly float PriceMultiplierUncommon = 1f;
     public static readonly float PriceMultiplierCommon = 0.8f;
+    public static readonly float RarityWeapDpsReducer = 5;
+    public static readonly int DropReducer = 20;
     public static readonly int EpicDropChancePercent = 10;
     public static readonly int RareDropChancePercent = 40;
-    public static readonly int UncommonDropChancePercent = 80;
+    public static readonly int UncommonDropChancePercent = 90;
+    public static readonly float WeapDamageRandomiser = 0.2f;
 
     //Loot
     public static readonly int DeleteLootAfterSeconds = 120;
