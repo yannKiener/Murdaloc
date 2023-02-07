@@ -51,6 +51,14 @@ public abstract class Character : MonoBehaviour
 		this.stats.Add(new Stats(3,3,3,5,4,10,10,10,false));
 	}
 
+	public List<EffectOnTime> GetBuffs(){
+		return buffList;
+	}
+
+	public List<EffectOnTime> GetDebuffs(){
+		return debuffList;
+	}
+
 	public EffectOnTime getEffect(EffectOnTime effect){
 		if (effect.IsBuff ()) {
 			return buffList.Find (b => b.GetName() == effect.GetName()) ;
@@ -181,14 +189,12 @@ public abstract class Character : MonoBehaviour
          {
              inCombat = true;
 			 createStatusBar ();
-			 //sInvokeRepeating("AutoAttack",1f,1f);
          }
      }
      
 	virtual protected void LeaveCombat()
      {
          inCombat = false;
-		// CancelInvoke("AutoAttack");
      }
 
 	protected void UpdateEffects(){
@@ -229,12 +235,8 @@ public abstract class Character : MonoBehaviour
 		}
 	}
 
-    protected void AutoAttack (){
-		CastSpell("autoattack");
-	}
-
-	protected void ClearEnemyList (){
-	//todo : a appeller uniquement quand y'a un.mort
+	protected void ClearEnemyList (){ 
+		//todo : a appeller uniquement quand y'a un.mort
 		enemyList.RemoveAll (e => e.IsDead ());
 	}
 

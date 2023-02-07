@@ -67,13 +67,11 @@ public class Interface : MonoBehaviour {
 		GUI.Box(new Rect(x,y+(2*barsHeight),(int) ((float)c.GetCurrentResource()/(float)c.GetStats().MaxResource*barsWidth),barsHeight),"",resourceBarStyle); 
 		GUI.Box (new Rect (x,y+(2*barsHeight), barsWidth, barsHeight), c.GetCurrentResource() + " / " + c.GetStats().MaxResource,backgroundStyle);
 
-		if (c.IsCasting ()) {
+		if (c.IsCasting () && c.GetCastPercent() > 0.01f) {
 			Spell castingSpell = c.GetCastingSpell ();
 			float spellCastTime = castingSpell.GetCastTime (c.GetStats());
-
 			GUI.Box(new Rect(x,y+(3*barsHeight),c.GetCastPercent()*barsWidth,barsHeight),"",castBarStyle); 
-			GUI.Box (new Rect (x,y+(3*barsHeight), barsWidth, barsHeight), castingSpell.GetName () + " : " + player.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
-
+			GUI.Box (new Rect (x,y+(3*barsHeight), barsWidth, barsHeight), castingSpell.GetName () + " : " + c.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
 		}
 	}
 
