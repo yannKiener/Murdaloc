@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Specialisation
 {
     string name;
@@ -16,6 +17,7 @@ public class Specialisation
     public Specialisation(Specialisation s)
     {
         this.name = s.GetName();
+        this.pointsInSpec = s.GetPointsInSpec();
         this.talentTree = s.GetTalentTree();
     }
 

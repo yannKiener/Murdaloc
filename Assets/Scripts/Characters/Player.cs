@@ -12,7 +12,7 @@ public class Player : Character
     private float experiencePercent;
     private Vector3 initialPosition;
     private float xSpeed;
-    private int talentPoints = 0;
+    private int talentPoints;
 
     private void Awake()
     {
@@ -84,11 +84,12 @@ public class Player : Character
     {
     }
 
-    public void InitializeWith(string name, int lv, float expPercent, Resource rsrc, List<Spell> spellList)
+    public void InitializeWith(string name, int lv, int tPoints, float expPercent, Resource rsrc, List<Spell> spellList)
     {
         this.CharacterName = name;
         this.level = lv;
         this.experiencePercent = expPercent;
+        this.talentPoints = tPoints;
 
         if (rsrc == null)
         {

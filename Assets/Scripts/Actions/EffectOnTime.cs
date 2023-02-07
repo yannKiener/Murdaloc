@@ -196,7 +196,6 @@ public class EffectOnTime : Castable
 
     public float GetNormalMultiplier()
     {
-        Debug.Log(NormalMultiplier);
         return NormalMultiplier;
     }
 

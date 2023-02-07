@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class Talent
 {
     private string name;
     private string description;
     private int stacks;
     private int maxStacks;
-    private Sprite icon;
     Action<Character, int> activateTalentOnPlayer;
     Action<Character, int> deactivateTalentOnPlayer;
 
@@ -20,9 +20,16 @@ public class Talent
         this.description = description;
         this.maxStacks = maxStacks;
         this.stacks = 0;
-        icon = InterfaceUtils.LoadSpriteForTalent(name);
         activateTalentOnPlayer = activationEffect;
         deactivateTalentOnPlayer = deactivationEffect;
+    }
+
+    public void LoadTalent()
+    {
+        for(int i = 0; i < stacks; i++)
+        {
+            ActivateEffect();
+        }
     }
 
     public void ActivateEffect()
@@ -62,7 +69,7 @@ public class Talent
 
     public Sprite GetImage()
     {
-        return icon;
+        return InterfaceUtils.LoadSpriteForTalent(name);
     }
 
     public string GetDescription()

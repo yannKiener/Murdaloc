@@ -11,6 +11,7 @@ public class SaveGame {
     int level;
     float expPercent;
     int rsrc;
+    int talentPoints;
     List<string> spellList;
     List<Equipment> charSheetItems;
     List<Item> inventoryItems;
@@ -18,16 +19,22 @@ public class SaveGame {
     string lastScene;
     List<Quest> quests;
 
+    Specialisation sp1;
+    Specialisation sp2;
+    Specialisation sp3;
+
     public SaveGame()
     {
         CharacterSheet chSheet = FindUtils.GetCharacterSheetGrid();
         Inventory inv = FindUtils.GetInventoryGrid();
         Player player = FindUtils.GetPlayer();
+        TalentSheet tSheet = FindUtils.GetTalentSheetGrid();
 
         this.cash = inv.GetCash();
         this.name = player.GetName();
         this.level = player.GetLevel();
         this.expPercent = player.GetExp();
+        this.talentPoints = player.GetTalentPoints();
         Resource rs = player.GetResourceType();
         if (rs is Rage)
         {
@@ -45,6 +52,9 @@ public class SaveGame {
         this.status = DialogStatus.GetAllStatus();
         lastScene = SceneManager.GetActiveScene().name;
         this.quests = Quests.GetQuests().Values.ToList<Quest>();
+        sp1 = tSheet.GetSpec1();
+        sp2 = tSheet.GetSpec2();
+        sp3 = tSheet.GetSpec3();
     }
 
     public string GetLastScene()
@@ -80,9 +90,11 @@ public class SaveGame {
 
         FindUtils.GetInventoryGrid().AddCash(cash);
 
+        FindUtils.GetTalentSheetGrid().LoadSpecsSave(sp1, sp2, sp3);
+
 
         DialogStatus.SetAllStatus(status);
-        FindUtils.GetPlayer().InitializeWith(name, level, expPercent, r, sList);
+        FindUtils.GetPlayer().InitializeWith(name, level, talentPoints, expPercent, r, sList);
 
         foreach (Item item in inventoryItems)
         {

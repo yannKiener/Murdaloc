@@ -38,6 +38,21 @@ public class TalentSheet : MonoBehaviour
         Interface.OpenSpellbook();
     }
 
+    public Specialisation GetSpec1()
+    {
+        return spec1;
+    }
+
+    public Specialisation GetSpec2()
+    {
+        return spec2;
+    }
+
+    public Specialisation GetSpec3()
+    {
+        return spec3;
+    }
+
     public void UpdateTalentsPointsRemainingText()
     {
         TalentPointsText.GetComponent<Text>().text = FindUtils.GetPlayer().GetTalentPoints().ToString();
@@ -83,6 +98,29 @@ public class TalentSheet : MonoBehaviour
                 kv.Value.Reset();
             }
             spec.ResetPointsInSpec();
+        }
+    }
+
+    public void LoadSpecsSave(Specialisation sp1, Specialisation sp2, Specialisation sp3)
+    {
+        spec1 = sp1;
+        spec2 = sp2;
+        spec3 = sp3;
+
+        UpdateSpecSheet();
+        LoadTalentsSave(spec1);
+        LoadTalentsSave(spec2);
+        LoadTalentsSave(spec3);
+    }
+
+    private void LoadTalentsSave(Specialisation spec)
+    {
+        if(spec != null)
+        {
+            foreach (KeyValuePair<int, Talent> kv in spec.GetTalentTree())
+            {
+                kv.Value.LoadTalent();
+            }
         }
     }
 
