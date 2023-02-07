@@ -29,5 +29,9 @@ public static class Constants {
 	public static readonly float BaseAutoAttackTime = 2;
 	public static readonly float MaxAutoAttackDistance = 2;
 
+	//Enemies 
+	public static readonly float AggroDistance = 2;
+	public static readonly float AggroOtherDistance = 2;
+
 
 }

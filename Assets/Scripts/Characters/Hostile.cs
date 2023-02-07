@@ -29,31 +29,26 @@ public class Hostile : Character
 		if (!inCombat) 
 		{
 			//gerer la distance selon le level?
-			Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);
+			Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.AggroDistance);
 			int i = 0;
 			while (i < hitColliders.Length)
 			{
 				if (hitColliders[i].tag == "Player")
 				{
-					AggroTarget(hitColliders[i].gameObject.GetComponent<Character>());
+					Character player = hitColliders [i].gameObject.GetComponent<Character> ();
+					AggroTarget(player);
 
 					//Todo : Supprimer ca plus tard c'est juste pour la déco
 					GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
 					aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
 					StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
+					AggroOthers (player);
 				}
 				i++;
 			}  
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D collision){
-		if (collision.gameObject.tag == "Player" && !inCombat) {
-			inCombat = true;
-			//Aggro(collision);
-			AggroAroundSelf(collision);
-		}
-	}
 
 
 	private void manageCombat(){
@@ -98,15 +93,15 @@ public class Hostile : Character
 	}
 
 
-	private void AggroAroundSelf(Collision2D collision)
+	private void AggroOthers(Character charact)
 	{
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);        
+		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.AggroOtherDistance);        
 		int i = 0;
 		while (i < hitColliders.Length)
 		{
 			if (hitColliders[i].tag == "Enemy")
 			{
-				hitColliders[i].SendMessage("Aggro", collision);
+				hitColliders [i].GetComponent<Character> ().AggroTarget (charact);
 			}
 
 			i++;
