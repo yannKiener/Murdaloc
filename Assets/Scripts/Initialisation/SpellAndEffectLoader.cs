@@ -61,7 +61,6 @@ public class SpellAndEffectLoader : MonoBehaviour {
         Specialisation warArms = new Specialisation("Arms");
         warArms.SetTalent(1, new Talent("Improved Heroic Strike", "add 5% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Heroic Strike"].SetProc(EffectsOnTime.Get("Stun"), stacks * 5), (player, stacks) => player.GetSpells()["Heroic Strike"].RemoveProc(EffectsOnTime.Get("Stun"))));
         warArms.SetTalent(2, new Talent("Cheap Heroic Strike", "Reduce your Heroic Strike ability cost by 1.", 3, (player, stacks) => player.GetSpells()["Heroic Strike"].SetResourceCost(player.GetSpells()["Heroic Strike"].GetResourceCost() -1), (player, stacks) => player.GetSpells()["Heroic Strike"].SetResourceCost(player.GetSpells()["Heroic Strike"].GetResourceCost() +1)));
-        //warArms.SetTalent(1, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"), stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
         warArms.SetTalent(4, new Talent("Empowered Rend", "add 15% damage to your rend ability.", 3, (player, stacks) => player.GetSpells()["Rend"].GetEffectOnTarget("Rend").AddToNormalMultiplier(15), (player, stacks) => player.GetSpells()["Rend"].GetEffectOnTarget("Rend").RemoveToNormalMultiplier(15)));
         warArms.SetTalent(6, new Talent("Whirlwind", "Learn new spell : Whirlwind", 1, (player, stacks) => player.AddSpell(Spells.Get("Whirlwind")), (player, stacks) => player.RemoveSpell("Whirlwind")));
         warArms.SetTalent(7, new Talent("Hamstring", "Learn new spell : Hamstring", 1, (player, stacks) => player.AddSpell(Spells.Get("Hamstring")), (player, stacks) => player.RemoveSpell("Hamstring")));
@@ -76,9 +75,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
         Specialisation rogueCombat = new Specialisation("Combat");
+        rogueCombat.SetTalent(1, new Talent("Slice and Dice", "Learn new spell : Slice and Dice", 1, (player, stacks) => player.AddSpell(Spells.Get("Slice and Dice")), (player, stacks) => player.RemoveSpell("Slice and Dice")));
+
+        
         Specialisations.Add(rogueCombat);
 
         Specialisation roguePoison = new Specialisation("Poison");
+        roguePoison.SetTalent(1, new Talent("Crippling blades", "Add 10% chance on your basic attack to slow your target", 2, (player, stacks) => player.GetSpells()["Basic attack"].SetProc(EffectsOnTime.Get("Crippling poison"), stacks * 5), (player, stacks) => player.GetSpells()["Basic attack"].RemoveProc(EffectsOnTime.Get("Crippling poison"))));
+        roguePoison.SetTalent(4, new Talent("Poison blades", "Add 10% chance on your basic attack to inflict a stackable poison on your target", 5, (player, stacks) => player.GetSpells()["Basic attack"].SetProc(EffectsOnTime.Get("Deadly poison"), stacks * 10), (player, stacks) => player.GetSpells()["Basic attack"].RemoveProc(EffectsOnTime.Get("Deadly poison"))));
+
         Specialisations.Add(roguePoison);
 
         Specialisation rogueSubt = new Specialisation("Subtlety");
@@ -106,6 +111,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
         //Rogue
         CreateEffectOnTime("Combo point", "Use your combo point stacks for special moves.", true, 5, 12, 1, null, null);
+        CreateEffectOnTime("Crippling poison", "Slower movement speed", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -60f } }), null);
+        CreateEffectOnTime("Deadly poison", "Inflict stacking poison damage every seconds.", false, 20, 10, 2f, null, newDamageOnTime(new Dictionary<Stat, float> { { Stat.agility, 0.4f } }, 10));
+        CreateEffectOnTime("Slice and Dice", "Faster attack speed.", true, 1, 5, 10, new StatEffect(new Dictionary<Stat, float> { { Stat.haste, 50f } }), null);
 
 
         //Spells for consummables
@@ -156,6 +164,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 2, 15, 1, true, null, "Sprint", getEffect(), getEffect("Sprint"));
         CreateHostileSpell("Eviscerate", "A finisher that uses your combo points to deal massive damage.", 35, 0.3f, 0, 5, Constants.MaxAutoAttackDistance, true, newDamageBasedOnEffect(new Dictionary<Stat, float> { { Stat.agility, 0.7f } },10,0,"Combo point",1,true, null,0,false), "Melee", null, null, hasComboPoint());
 
+        CreateFriendlySpell("Slice and Dice", "Faster attack speed", 15, 0, 4, 1, 2, true, newApplyEffectBasedOnEffect(getEffect("Slice and Dice")[0], "Combo point",true, true, ((EffectOnTime eff, int stacks) => { EffectOnTime e = eff.Clone(); e.SetDuration(eff.GetDuration() * stacks); return e; })), "Sprint", null, null,hasComboPoint());
+
         //Warrior Spells
         CreateHostileSpell("Heroic Strike", "Attack the opponent, causing weapon damage. Must have a weapon equipped.", 20, 0, 0, 1, 2, false, newDamage(new Dictionary<Stat, float> { { Stat.force, 0.8f } }, 10, 1f), "Melee", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) != null; }));
         CreateHostileSpell("Whirlwind", "In a Whirlwind of steel, you attack every enemy close to you, causing them your weapon damage. Must have a weapon equipped.", 30, 0, 1, 10, Constants.MaxAutoAttackDistance, true, newZoneDamage(new Dictionary<Stat, float> { { Stat.force, 1.2f } }, 0, Constants.MaxAutoAttackDistance, true, 1), "whirlwind", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1) != null; }));
@@ -171,7 +181,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateHostileSpell("Frost nova", "Inflicts frost damage to nearby enemies, immobilizing them for " + EffectsOnTime.Get("Frozen").GetDuration() + " sec.", 50, 0, 5, 12, 3, true, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0f } }, 10, 3, true, 1), "FrostNova", getEffect("Frozen"), null);
         CreateHostileSpell("Icelance", "Lauches a frost lance at the enemy, causing damage. Deals triple damage if target is Frozen.", 10, 0, 0, 0, 5, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { int mult = 1; if (t.HasEffect("Frozen")){ mult = 3; } newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 0.4f * mult } }, 10 * mult)(c,t,s); }), "Frost", null, null);
         CreateHostileSpell("Meteor storm", "A meteor fall down the sky and damages targets in area", 50, 4, 1, 8, 8, true, newZoneDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 60, 5), "Fire", null, null);
-        CreateFriendlySpell("Blink", "Teleport you few meters in front of you", 20, 0, 5, 15, 1, true, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (c.IsFacingLeft()) { c.gameObject.transform.position += new Vector3(7, 0); } else { c.gameObject.transform.position -= new Vector3(7, 0); } }), "Blink", null, null);
+        CreateFriendlySpell("Blink", "Teleport you few meters in front of you", 20, 0, 5, 15, 1, false, new Action<Character, Character, Spell>((Character c, Character t, Spell s) => { if (c.IsFacingLeft()) { c.gameObject.transform.position += new Vector3(7, 0); } else { c.gameObject.transform.position -= new Vector3(7, 0); } }), "Blink", null, null);
         
         //Base spells
         CreateFriendlySpell("Astral Recall", "Teleports you through the twisting nether back to a safe place.", 0, 4, 0, 30, 1, true, new Action<Character, Character, Spell>(((Character arg1, Character arg2, Spell sp) => { if (!arg1.IsInCombat()) { GameObject.FindObjectOfType<CameraFollowPlayer>().transform.position = FindUtils.GetPlayer().GetInitialPosition(); arg1.transform.position = FindUtils.GetPlayer().GetInitialPosition(); } })), "Default", null, null, new Func<Character, Character, Spell, bool>((Character c, Character t, Spell s) => { return !c.IsInCombat(); }));
@@ -195,7 +205,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         //Spells for Mobs
         CreateFriendlySpell("Enrage", "Hit harder but move slower.", 50, 0, 5, 20, 2, true, null, "Bloodlust", null, getEffect("Enrage"));
         CreateHostileSpell("Web", "Send a web to your target and prevent him from moving.", 20, 1.5f, 2, 15, 4, true, null, "Trap", getEffect("Webbed"), null);
-    }   
+        CreateHostileSpell("Pyroblast ", "Hurls an immense fiery boulder that causes a lot of damage to your target.", 50, 5, 4, 10, 8, true, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 4f } }, 70), "Fire", null, null);
+    }
 
 
     private void CreateEffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character, Character, EffectOnTime> tic)
@@ -430,6 +441,29 @@ public class SpellAndEffectLoader : MonoBehaviour {
             arg2.ApplyDamage((int)(damage + damage * UnityEngine.Random.Range(-Constants.RandomDamageRange, Constants.RandomDamageRange) / 100), isCrit);
         });
     }
+
+    private Action<Character, Character, Spell> newApplyEffectBasedOnEffect(EffectOnTime baseEffectToApply, string selfEffectName, bool selfEffectConsume, bool forceBaseEffectRefresh, Func<EffectOnTime, int, EffectOnTime> selfEffectApply)
+    {
+        return (Character arg1, Character arg2, Spell sp) =>
+        {
+            if (selfEffectName != null && arg1.HasEffect(selfEffectName))
+            {
+                EffectOnTime newEffect = selfEffectApply(baseEffectToApply, arg1.GetEffect(selfEffectName).GetStacks());
+
+                if (forceBaseEffectRefresh && arg1.HasEffect(baseEffectToApply))
+                {
+                    arg2.RemoveEffectOnTime(baseEffectToApply);
+                }
+                newEffect.ApplyTo(arg1, arg2);
+
+                if (selfEffectConsume)
+                {
+                    arg1.RemoveEffectOnTime(selfEffectName);
+                }
+            }
+        };
+    }
+
 
     private Action<Character, Character, Spell> newDamageBasedOnEffect(Dictionary<Stat, float> statWeight, int baseNumber, float autoAttackMultiplier, string selfEffectName, float selfEffectMultiplier, bool selfEffectConsume, string targetEffectName, float targetEffectMultiplier, bool targetEffectConsume)
     {

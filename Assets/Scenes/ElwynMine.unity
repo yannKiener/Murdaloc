@@ -4483,7 +4483,7 @@ PrefabInstance:
     - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
         type: 3}
       propertyPath: SpellList.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
         type: 3}
@@ -4493,12 +4493,12 @@ PrefabInstance:
     - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
         type: 3}
       propertyPath: SpellList.Array.data[0]
-      value: Pyroblast
+      value: 'Pyroblast '
       objectReference: {fileID: 0}
     - target: {fileID: 6961663188616584318, guid: e51013adbdcf09b4ca1c12f14efa248a,
         type: 3}
       propertyPath: SpellList.Array.data[1]
-      value: Fireball
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51013adbdcf09b4ca1c12f14efa248a, type: 3}

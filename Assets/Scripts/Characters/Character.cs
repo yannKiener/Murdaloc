@@ -348,6 +348,7 @@ public abstract class Character : InteractableBehaviour
 
     public void RemoveEffectOnTime (EffectOnTime effect){
         GetEffect(effect).Remove ();
+        UpdateEffects();
 	}
 
 	public GameObject GetGameObject (){
@@ -1036,11 +1037,7 @@ public abstract class Character : InteractableBehaviour
     {
         if (stopRegen)
         {
-            Debug.Log("Stopping regen");
             hasCasted = true;
-        }else
-        {
-            Debug.Log("NOT stopping regen!");
         }
 
         SoundManager.StopSound(castingSpell.GetPreCastSound());

@@ -96,7 +96,12 @@ public class EffectOnTime : Castable
 		return duration;
 	}
 
-	public string GetDescription(){
+    public void SetDuration(float duration)
+    {
+        this.duration = duration;
+    }
+
+    public string GetDescription(){
 		return description;
 	}
         

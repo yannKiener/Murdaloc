@@ -216,7 +216,25 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
             
         }
+
+
         if (Input.GetKeyDown(KeyCode.F3))
+        {
+            DialogActions.DoAction("AddMageSpells");
+            DialogActions.DoAction("AddMageSpec");
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            DialogActions.DoAction("AddWarriorSpells");
+            DialogActions.DoAction("AddWarriorSpec");
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            DialogActions.DoAction("AddRogueSpells");
+            DialogActions.DoAction("AddRogueSpec");
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6))
         {
             die();
         }

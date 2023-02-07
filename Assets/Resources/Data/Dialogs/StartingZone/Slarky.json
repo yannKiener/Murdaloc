@@ -26,7 +26,7 @@
             ]
          }
 	  }, 
-      {  
+      {   
 		"condition":"RogueTalentSelected&!Prove your worthOver&!Prove your worthReady",
         "choice":"About my training...",
 		"dialog":{
