@@ -52,6 +52,19 @@ public class Inventory : MonoBehaviour, Slotable {
         }
     }
 
+    public bool HasAtLeastFreeSlots(int number)
+    {
+        int count = 0;
+        for (int i = 0; i < slotNumber; i++)
+        {
+            if (transform.GetChild(i).childCount == 0)
+            {
+                count++;
+            }
+        }
+        return count >= number;
+    }
+
     public bool AddItem(Item item)
     {
         GameObject slot = getFirstFreeSlot();
