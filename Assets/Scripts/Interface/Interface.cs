@@ -21,6 +21,7 @@ public class Interface : MonoBehaviour
     public GUIStyle expBarStyle;
     public GUIStyle menuStyle;
     public GUIStyle buttonStyle;
+    public List<GameObject> backgroundObjectsListDefault;
 
     public AudioClip click;
     public AudioClip cancel;
@@ -69,6 +70,11 @@ public class Interface : MonoBehaviour
     public static void LoadPlayer(){
 		player = FindUtils.GetPlayer();
 	}
+
+    public static List<GameObject> GetDefaultBackgroundsGameObjects()
+    {
+        return FindUtils.GetInterface().backgroundObjectsListDefault;
+    }
 
     public void Click()
     {

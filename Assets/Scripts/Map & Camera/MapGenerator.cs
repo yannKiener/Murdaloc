@@ -25,12 +25,14 @@ public class MapGenerator : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         gameObject.tag = "Map";
         if(mapToAttach != null)
         {
             mapToAttach.tag = "MovingMap";
         }
+
         isGenerated = false;
 		if (attachAtObject.GetComponent<SpriteRenderer> () != null && attachAtObject.tag == "Map") {
 			GenerateMap ();
@@ -63,6 +65,11 @@ public class MapGenerator : MonoBehaviour {
         mapPrefab.transform.localScale = new Vector3(width, 1, 1);
 
         stickBoxColliders(attachAtObject, mapPrefab, attachAtRight);
+
+        if (backgroundObjectsList == null || backgroundObjectsList.Count == 0)
+        {
+            backgroundObjectsList = Interface.GetDefaultBackgroundsGameObjects();
+        }
 
         if (backgroundObjectsList.Count > 0) {
 			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
@@ -98,20 +105,22 @@ public class MapGenerator : MonoBehaviour {
 	private void DrawObjectOnMap(List<GameObject> objectList, GameObject map, int density, bool isEnemy) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
-		}
-		System.Random pseudoRandom = new System.Random(seed.GetHashCode());
+        }
+        System.Random pseudoRandom = new System.Random(seed.GetHashCode());
+        float mapPortion = map.GetComponent<Renderer>().bounds.size.x / width;
+        float lowerxBound = getLowerXBound(map);
 
-		for (int i = 0; i < width; i++){
-			if(pseudoRandom.Next(0,100) < density){
+        for (int i = 0; i < width; i++){
+			if(pseudoRandom.Next(0,100) <= density){
 				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
-				float x = getLowerXBound(map) + i;
-				float y = getUpperYBound(map) -(float)0.1+ objToDraw.GetComponent<Renderer>().bounds.size.y/2 ;
+				float x = lowerxBound +  i * mapPortion;
+                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + 0.1f;
 				if (isEnemy) {
-					y += objToDraw.GetComponent<Renderer> ().bounds.size.y ;
+					y += objToDraw.GetComponent<Renderer> ().bounds.size.y/2 ;
 				}
-				objToDraw.transform.position = new Vector3(x,y,0);
-				Instantiate(objToDraw); //draw at position x
-				objToDraw.GetComponent<SpriteRenderer>().sortingOrder = isEnemy? 10 : UnityEngine.Random.Range(0,3);
+				Instantiate(objToDraw, transform); //draw at position x
+                objToDraw.transform.position = new Vector3(x, y, 0);
+                objToDraw.GetComponent<SpriteRenderer>().sortingOrder = isEnemy? 10 : UnityEngine.Random.Range(0,3);
 			} 
 		}
 	}
@@ -158,10 +167,10 @@ public class MapGenerator : MonoBehaviour {
 		float halfSize = 0;
 
 		if (coord == "x"){
-			centerPosition = obj.transform.position.x;
-			halfSize = obj.GetComponent<Renderer>().bounds.size.x/2; 
+			centerPosition = obj.transform.localPosition.x;
+			halfSize = obj.GetComponent<Renderer>().bounds.size.x/2;
 		} else if(coord == "y"){
-			centerPosition = obj.transform.position.y;
+			centerPosition = obj.transform.localPosition.y;
 			halfSize = obj.GetComponent<Renderer>().bounds.size.y/2;
 		}
 
