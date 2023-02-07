@@ -99,8 +99,8 @@ public abstract class Spell
     public virtual void Cast(Character caster, Character target)
     {
 		caster.RemoveResource (resourceCost);
-		applyEffectsOn (caster, effectsOnSelf);
-		applyEffectsOn (target, effectsOnTarget);
+		applyEffectsOn (caster, caster, effectsOnSelf);
+		applyEffectsOn (caster, target, effectsOnTarget);
     }
 
 	protected int modifiedSpell (Character caster, Character target, int number)
@@ -108,17 +108,17 @@ public abstract class Spell
 		Stats casterStats = caster.GetStats ();
 		this.isCrit = casterStats.Critical > Random.Range (1, 101);
 
-		number = number + number * casterStats.Power / 100; //Applying power 
+		number = number + (number * casterStats.Power / 100); //Applying power 
 		if (this.isCrit) { // Apply Crit
 			number = number * 2;
 		}
-		return (int)(number * Random.Range (-30f, 30f) / 100);
+		return (int)(number + number * Random.Range (-30f, 30f) / 100);
 	}
 
-	protected void applyEffectsOn(Character character, List<EffectOnTime> effects){
-		if(character != null && effects != null && effects.Count > 0){
+	protected void applyEffectsOn(Character caster, Character target, List<EffectOnTime> effects){
+		if(target != null && effects != null && effects.Count > 0){
 			foreach (EffectOnTime effect in effects) {
-				effect.Apply (character);
+				effect.Apply (caster, target);
 			}
 		}
 
