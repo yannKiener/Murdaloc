@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameUtils : MonoBehaviour {
 
@@ -16,6 +17,16 @@ public class GameUtils : MonoBehaviour {
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    public static void SetPlayer(string name)
+    {
+        playerName = name;
+    }
+
+    public static List<string> GetGameNames()
+    {
+        return Directory.GetFiles(Application.persistentDataPath, "*.murk").Select(Path.GetFileName).ToList<string>();
     }
 
     private void OnDisable()

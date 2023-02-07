@@ -36,6 +36,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
         CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
 
+        Items.InitializeCategories();
+
     }
 
 
@@ -250,7 +252,6 @@ public class SpellAndEffectLoader : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         InitializeFindUtils();
-        Items.InitializeCategories();
     }
 	
 
