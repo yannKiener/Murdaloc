@@ -72,7 +72,7 @@ public class MapGenerator : MonoBehaviour {
         }
 
         if (backgroundObjectsList.Count > 0) {
-			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
+			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity);
 		}
 
 		if (enemyList.Count > 0) {
@@ -102,7 +102,7 @@ public class MapGenerator : MonoBehaviour {
 
 	}
 
-	private void DrawObjectOnMap(List<GameObject> objectList, GameObject map, int density, bool isEnemy) {
+	private void DrawObjectOnMap(List<GameObject> objectList, GameObject map, int density, bool isEnemy = false) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
         }
@@ -113,7 +113,14 @@ public class MapGenerator : MonoBehaviour {
         for (int i = 0; i < width; i++){
 			if(pseudoRandom.Next(0,100) <= density){
 				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
-				float x = lowerxBound +  i * mapPortion;
+                if (!isEnemy)
+                {
+                    float sizeMultiplier = UnityEngine.Random.Range(1, 3f);
+                    Debug.Log(sizeMultiplier);
+                    //objToDraw.transform.localScale += new Vector3(sizeMultiplier, sizeMultiplier);
+                }
+
+                float x = lowerxBound +  i * mapPortion;
                 float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + 0.5f;
 				if (isEnemy) {
 					y += objToDraw.GetComponent<Renderer> ().bounds.size.y/2 ;

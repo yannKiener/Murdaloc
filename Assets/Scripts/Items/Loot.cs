@@ -13,11 +13,13 @@ public class Loot : MonoBehaviourWithMouseOverColor {
     new void Start ()
     {
         base.Start();
-        foreach (Item item in itemList)
+        if(itemList != null)
         {
-            item.isInInventory = false;
+            foreach (Item item in itemList)
+            {
+                item.isInInventory = false;
+            }
         }
-
         Destroy(this.gameObject, Constants.DeleteLootAfterSeconds);
     }
 
@@ -83,7 +85,7 @@ public class Loot : MonoBehaviourWithMouseOverColor {
 
     void OnMouseDown()
     {
-        if (IsPlayerNear())
+        if (IsPlayerNear() && itemList != null)
         {
             LootInventory lootInventory = FindUtils.GetLootGrid().GetComponent<LootInventory>();
 
