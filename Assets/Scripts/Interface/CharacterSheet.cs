@@ -24,6 +24,19 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         }
     }
 
+    public bool RemoveItem(Item item)
+    {
+        GameObject slot = getSlotWithItem(item);
+        if(slot != null)
+        {
+            item.isEquipped = false;
+            clearChilds(slot.transform);
+            slot.GetComponent<Slot>().usable = null;
+            return true;
+        }
+        return false;
+    }
+
     public void EquipItem(Item item)
     {
         switch (item.GetItemType())
@@ -119,6 +132,7 @@ public class CharacterSheet : MonoBehaviour, Slotable {
 
     private void Equip(GameObject slot, Item item)
     {
+        item.isEquipped = true;
         //Si le slot a déjà un contenu, on le supprime 
         if (slot.transform.childCount > 0)
         {
@@ -134,6 +148,19 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         {
             GameObject.Destroy(c.gameObject);
         }
+    }
+
+    private GameObject getSlotWithItem(Item item)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable == item)
+            {
+                return slot.gameObject;
+            }
+        }
+        return null;
     }
 }
 
