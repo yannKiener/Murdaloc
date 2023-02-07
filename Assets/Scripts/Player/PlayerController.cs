@@ -17,10 +17,7 @@ public class PlayerController : MonoBehaviour {
 		player.AddSpell (Spells.Get ("renovation"));
 		this.setSpellShortcut(player);
 
-
-		GameObject gui = new GameObject ("Interface");
-		Instantiate (gui);
-		gui.AddComponent<Interface> ();
+		Interface.LoadPlayer ();
 	}
 
 	void setSpellShortcut (Player player)
