@@ -8,28 +8,30 @@ public class PlayerController : MonoBehaviour {
 	public float JUMPFORCE = 5f;
 	bool jumping;
 	bool wantToJump;
+	bool inCombat = false;
+	List<GameObject> enemyList;
+	GameObject target;
 
 	// Use this for initialization
 	void Start () {
+		enemyList = new List<GameObject>();
 		jumping = false;
 		wantToJump = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		float xSpeed = Input.GetAxis("Horizontal");
-		if (Input.GetKeyDown ("space")){
-			wantToJump = true;
+		if (Input.GetKeyDown ("a")){
+			attackTarget (target);
 		}
-		if (Input.GetKeyUp("space")) {
-			wantToJump = false;
-		}
-		if (Input.GetKey (KeyCode.LeftShift)){ //Si c'est maintenu. On pourrait changer les sauts aussi pour ca.
-			xSpeed = xSpeed * 2;
-		}
-	
 
-		MovePlayer(GetComponent<Rigidbody2D>(),xSpeed); 
+		if (enemyList.Count == 0 && inCombat) {
+			leaveCombat ();
+		} 
+
+
+
+		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
 	void OnCollisionEnter2D(Collision2D collision){
@@ -42,9 +44,20 @@ public class PlayerController : MonoBehaviour {
 	}
 		
 
-
-	private void MovePlayer (Rigidbody2D player, float xSpeed)
+	private void MovePlayer (Rigidbody2D player)
 	{
+		float xSpeed = Input.GetAxis("Horizontal");
+		if (Input.GetKeyDown ("space")){
+			wantToJump = true;
+		}
+		if (Input.GetKeyUp("space")) {
+			wantToJump = false;
+		}
+		if (Input.GetKey (KeyCode.LeftShift)){ //Si c'est maintenu. On pourrait changer les sauts aussi pour ca.
+			xSpeed = xSpeed * 2;
+		}
+
+
 		float ySpeed = player.velocity.y;
 
 		if (wantToJump && !jumping){
@@ -54,4 +67,40 @@ public class PlayerController : MonoBehaviour {
 
 		player.velocity = new Vector2 (xSpeed * MAXSPEED, ySpeed);
 	}
+
+	public void enterCombat (GameObject enemy) {
+		if (!inCombat) {
+			print ("+combat");
+			inCombat = true;
+			GameObject.Find ("Main Camera").SendMessage ("leavePlayer");
+		}
+		if (!enemyList.Contains (enemy)) {
+			enemyList.Add (enemy);
+			if (enemyList.Count == 1) {
+				target = enemy;
+			}
+		}
+	}
+
+	public void leaveCombat () {
+		print ("-combat");
+		inCombat = false;
+		GameObject.Find ("Main Camera").SendMessage ("followPlayer");
+	}
+
+	public void attackTarget (GameObject target) {
+		print (target);
+		print (enemyList.ToString());
+		enemyList.Remove (target);
+		Destroy (target);
+		if (enemyList.Count != 0) {
+			target = enemyList[0];
+		}
+	}
+
+	private void limitMapToCamera () {
+		GameObject.Find ("Main Camera").SendMessage ("getBoundaries");
+		
+	}
+
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class CameraFollowPlayer : MonoBehaviour {
 
 	public GameObject player;
+	public bool follow = true;
+	private float timer;
 
 	private Vector3 cameraBasicPosition;
 	// Use this for initialization
@@ -14,6 +16,23 @@ public class CameraFollowPlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3(player.transform.position.x,cameraBasicPosition.y,cameraBasicPosition.z)  + cameraBasicPosition;
+		if (follow) {
+			if (timer < 1) {
+				timer = timer + 0.02f;
+			}
+			transform.position = Vector3.Lerp (cameraBasicPosition, new Vector3 (player.transform.position.x, cameraBasicPosition.y, cameraBasicPosition.z), timer);
+		}
 	}
+
+	public void leavePlayer() {
+		timer = 0;
+		follow = false;
+	}
+
+	public void followPlayer() {
+		follow = true;
+	}
+
+
+
 }

@@ -23,7 +23,11 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	void GenerateMap() {
-		
+		if (attachAtObject.GetComponent<SpriteRenderer> () == null) {
+			print ("OBJECT NOT ACTIVE");
+			Invoke ("GenerateMap", 1);
+		} else {	
+			
 		float startingX = 0;
 		float startingY = 0;
 		
@@ -40,9 +44,22 @@ public class MapGenerator : MonoBehaviour {
 
 		mapPrefab.transform.position = new Vector3(startingX, startingY, 0);
 		mapPrefab.transform.localScale = new Vector3(width, 1, 1);
-		Instantiate(mapPrefab);
+		
+		Component[] components = mapPrefab.GetComponents<Component> ();
+		int i = 0;
+		foreach(Component co in components)
+		{
+			UnityEditorInternal.ComponentUtility.CopyComponent(components[i]);
+			UnityEditorInternal.ComponentUtility.PasteComponentAsNew(this.gameObject);
+			i++;
+		}
+			this.gameObject.transform.position = mapPrefab.transform.position;
+			this.gameObject.transform.localScale = mapPrefab.transform.localScale;
 
-		DrawObjectOnMap(object1Prefab, mapPrefab, object1Density);
+		//Instantiate(mapPrefab);
+
+			DrawObjectOnMap(object1Prefab, mapPrefab, object1Density);
+		}
 	}
 
 	void DrawObjectOnMap(GameObject objToDraw, GameObject map, int density) {
