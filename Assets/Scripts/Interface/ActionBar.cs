@@ -24,6 +24,19 @@ public class ActionBar : MonoBehaviour, Slotable {
         return null;
     }
 
+    public void Remove(string usable)
+    {
+        foreach (Transform t in transform)
+        {
+            if (t.GetComponent<Slot>().usable != null && t.GetComponent<Slot>().usable.GetName().Equals(usable))
+            {
+                t.GetComponent<Slot>().usable = null;
+                t.GetComponentInChildren<Draggable>().usable = null;
+                clearChilds(t);
+            }
+        }
+    }
+
     public void Add(Usable usable)
     {
         GameObject slot = getFirstFreeSlot();

@@ -228,6 +228,19 @@ public class Player : Character
         return initialPosition;
     }
 
+    public override void RemoveSpell(string spellname)
+    {
+        base.RemoveSpell(spellname);
+        if (FindUtils.GetSpellBookGrid() != null)
+            FindUtils.GetSpellBookGrid().UpdateSpellBook();
+
+        FindUtils.GetActionBar().Remove(spellname);
+    }
+
+    public override void RemoveSpell(Spell spell)
+    {
+        RemoveSpell(spell.GetName());
+    }
 
     public override void AddSpell(Spell spell, bool addToActionBar = false)
     {

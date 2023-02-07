@@ -66,13 +66,10 @@ public class SpellBook : MonoBehaviour, Slotable {
         for (int i = 0; i < childCount; i++)
         {
             Transform slot = transform.GetChild(i);
+            clearChilds(slot);
+            slot.GetComponent<Slot>().usable = null;
             if (slots[i] != null)
             {
-                if (slot.childCount > 0)
-                {
-                    clearChilds(slot);
-                }
-
                 InterfaceUtils.CreateUsableSlot(usablePrefab, slot, InterfaceUtils.LoadSpriteForSpell(slots[i].GetName()), slots[i]);
             }
         }
