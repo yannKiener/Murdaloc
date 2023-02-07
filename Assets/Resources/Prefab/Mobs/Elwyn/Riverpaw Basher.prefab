@@ -170,7 +170,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f70d157435fe42f43985833522aee455, type: 3}
   deathSounds:
   - {fileID: 8300000, guid: 76aaa1b2300d1d246bacd9ed78277687, type: 3}
-  moveRandom: 0
+  moveRandom: 1
   isPassive: 0
 --- !u!95 &3839760018661550940
 Animator:

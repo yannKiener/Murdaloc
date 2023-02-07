@@ -52,6 +52,11 @@ public class Hostile : Character
         limitCombatMovements();
 	}
 
+    public bool IsPassive()
+    {
+        return isPassive;
+    }
+
 	void AggroAroundSelf()
 	{
 		if (!inCombat) 
@@ -147,17 +152,25 @@ public class Hostile : Character
 
 	private void AggroOthers(Character charact)
 	{
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.AggroOtherDistance);        
-		int i = 0;
-		while (i < hitColliders.Length)
-		{
-			if (hitColliders[i].tag == "Enemy")
-			{
-				hitColliders [i].GetComponent<Character> ().AggroTarget (charact);
-			}
+        if (!IsPassive())
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.AggroOtherDistance);
+            int i = 0;
+            while (i < hitColliders.Length)
+            {
+                if (hitColliders[i].tag == "Enemy")
+                {
+                    Hostile enemy = hitColliders[i].GetComponent<Hostile>();
+                    if (!enemy.IsPassive())
+                    {
+                        enemy.AggroTarget(charact);
+                    }
+                   
+                }
 
-			i++;
-		}
+                i++;
+            }
+        }
 	}
 
     protected override void EnterCombat()
@@ -207,7 +220,7 @@ public class Hostile : Character
         {
             CancelInvoke("randomizeDirection");
         }
-        if (!isPassive)
+        if (!IsPassive())
         {
             CancelInvoke("AggroAroundSelf");
         }
@@ -234,7 +247,7 @@ public class Hostile : Character
         {
             InvokeRepeating("randomizeDirection", 1f, 1f);
         }
-        if (!isPassive)
+        if (!IsPassive())
         {
             InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
         }

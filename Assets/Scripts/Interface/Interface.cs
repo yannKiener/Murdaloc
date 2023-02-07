@@ -11,7 +11,8 @@ public class Interface : MonoBehaviour
     public Texture goldIcon;
 
     public GUIStyle nameBarStyle;
-	public GUIStyle healthBarStyle;
+    public GUIStyle hostileNameBarStyle;
+    public GUIStyle healthBarStyle;
 	public GUIStyle resourceBarStyle;
 	public GUIStyle backgroundStyle;
 	public GUIStyle castBarStyle;
@@ -277,6 +278,10 @@ public class Interface : MonoBehaviour
         if (nameBarStyle.normal.background == null)
         {
             nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0, 0, 0, 0.7f));
+        }
+        if (hostileNameBarStyle.normal.background == null)
+        {
+            hostileNameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0, 0, 0, 0.7f));
         }
         if (healthBarStyle.normal.background == null) 
         {
@@ -551,11 +556,12 @@ public class Interface : MonoBehaviour
 		int x = (int)(Screen.width * xPercent / 100);
 		int y = (int)(Screen.height * yPercent / 100);
         //Draw character Interface
-        GUI.Box (new Rect(x, y, barsWidth / 5, barsHeight), c.GetLevel().ToString(), nameBarStyle);
+        GUI.Box(new Rect(x, y, barsWidth / 5, barsHeight), c.GetLevel().ToString(), nameBarStyle);
         if (c.IsElite())
         {
-            GUI.Box(new Rect(x + 3* barsWidth / 5, y, 2*barsWidth / 5, barsHeight), "Elite", nameBarStyle);
+            GUI.Box(new Rect(x + 3 * barsWidth / 5, y, 2 * barsWidth / 5, barsHeight), "Elite", nameBarStyle);
         }
+        
         GUIStyle rscbar = resourceBarStyle;
         if (c.GetResourceType() is Energy)
         {
@@ -569,7 +575,16 @@ public class Interface : MonoBehaviour
         {
             rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
         }
-        GUI.Box (new Rect(x, y + barsHeight, barsWidth, barsHeight), c.GetName(),nameBarStyle);
+
+        if (c is Hostile && !((Hostile)c).IsPassive())
+        {
+
+            GUI.Box(new Rect(x, y + barsHeight, barsWidth, barsHeight), c.GetName(), hostileNameBarStyle);
+        }
+        else
+        {
+            GUI.Box(new Rect(x, y + barsHeight, barsWidth, barsHeight), c.GetName(), nameBarStyle);
+        }
 		GUI.Box (new Rect (x, y+2*barsHeight, barsWidth, 3*barsHeight),"",nameBarStyle);
 		GUI.Box(new Rect(x,y+2*barsHeight,(int) ((float)c.GetCurrentLife()/(float)c.GetStats().MaxLife*barsWidth),barsHeight),"",healthBarStyle); 
 		GUI.Box (new Rect (x,y+2*barsHeight, barsWidth, barsHeight), c.GetCurrentLife() + " / " + c.GetStats().MaxLife,backgroundStyle);

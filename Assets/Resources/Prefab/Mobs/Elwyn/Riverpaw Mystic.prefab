@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114079663569119384}
   - component: {fileID: 279602087528685752}
   m_Layer: 9
-  m_Name: Riverpaw Shaman
+  m_Name: Riverpaw Mystic
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   CharacterName: Riverpaw Mystic
   level: 5
   isElite: 0
+  resourceType: 
   statPercent: 100
   LootTable: []
   QuestLootTable: []
@@ -169,7 +170,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f70d157435fe42f43985833522aee455, type: 3}
   deathSounds:
   - {fileID: 8300000, guid: 76aaa1b2300d1d246bacd9ed78277687, type: 3}
-  moveRandom: 0
+  moveRandom: 1
+  isPassive: 0
 --- !u!95 &279602087528685752
 Animator:
   serializedVersion: 3
