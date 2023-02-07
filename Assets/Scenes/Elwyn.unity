@@ -4435,7 +4435,7 @@ PrefabInstance:
     - target: {fileID: 224487171085165688, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00000543947
+      value: 0.000008673656
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9b3c7baaaf32ed4285ee0e9e24a2462, type: 3}
@@ -7398,6 +7398,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114778452425199804, guid: 27dd6a845b185c94b83a40ef4fefbf67,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 972260318}
     - target: {fileID: 114912211946206598, guid: 27dd6a845b185c94b83a40ef4fefbf67,
         type: 3}
       propertyPath: backgroundObjectsListDefault.Array.size
@@ -7763,11 +7768,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1420551665213096, guid: 307a806b569f84f4982119e79e22ae72,
         type: 3}
-    - target: {fileID: 114778452425199804, guid: 27dd6a845b185c94b83a40ef4fefbf67,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 972260318}
     - target: {fileID: 20152328107080858, guid: 27dd6a845b185c94b83a40ef4fefbf67,
         type: 3}
       propertyPath: m_TargetTexture

@@ -7,9 +7,8 @@
          "dialog":{   
             "text":"Hah, you still have much to learn. You should follow one of our new ways. Some Murlocs around here are able to teach you, mostly Ergle, Gurblarg or Slarky. You should talk to them.",
             "choices":[  
-               {  
+               {		   
                   "choice":"<Leave>"
-                  }
                }
             ]
          }
