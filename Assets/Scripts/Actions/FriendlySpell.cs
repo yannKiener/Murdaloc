@@ -9,6 +9,9 @@ public class FriendlySpell : AbstractSpell
 	{
 		if (IsCastable(caster,target))
 		{
+			if (target != null) {
+				target = caster;
+			}
 			caster.AddResource (caster.GetMaxResource() - caster.GetCurrentResource ());
 			caster.ApplyHeal (100);
 		}
@@ -19,8 +22,7 @@ public class FriendlySpell : AbstractSpell
 
 	}
 
-	private bool CheckCondition()
-	{
-		return true;
+	public override bool IsCastable(Character caster, Character target){
+		return base.IsCastable (caster, target);
 	}
 }

@@ -285,12 +285,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     protected void DoneCasting()
     {
-    if (target != null) {
-			hasCasted = true;
-			castingSpell.Cast (this, target);
-		} else {
-			print ("NO TARGET");
-		}
+		hasCasted = true;
+		castingSpell.Cast (this, target);
 		CancelCast();
     }
 		

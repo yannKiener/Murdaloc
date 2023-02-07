@@ -43,4 +43,8 @@ public class HostileSpell : AbstractSpell
 		}
 	}
 
+	public override bool IsCastable(Character caster, Character target){
+		return base.IsCastable (caster,target) && target != null;
+	}
+
 }
