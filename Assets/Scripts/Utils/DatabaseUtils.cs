@@ -36,8 +36,10 @@ public static class DatabaseUtils {
     public static JSONObject GetJsonItem(string itemName)
     {
         JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/items").text).AsObject[itemName].AsObject;
-        if (result == null)
+        
+        if (result == null || result.Count == 0)
         {
+            //TODO le bug est la man.
             return null;
         }else
         {

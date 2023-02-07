@@ -121,8 +121,12 @@ public class Hostile : Character
 
     public override void kill()
     {
-        GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
-        lootBox.GetComponent<Loot>().Initialize(GetLoots(), transform.position);
+        List<Item> itemsLoot = GetLoots();
+        if (itemsLoot != null && itemsLoot.Count > 0 && !itemsLoot.Contains(null))
+        {
+            GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
+            lootBox.GetComponent<Loot>().Initialize(itemsLoot, transform.position);
+        }
         base.kill();
     }
 

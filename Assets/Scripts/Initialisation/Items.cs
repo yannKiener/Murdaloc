@@ -24,7 +24,7 @@ public static class Items
         JSONObject item = DatabaseUtils.GetJsonItem(itemName);
         if (item == null)
         {
-            Debug.Log("item is not found in DB");
+            Debug.Log("Item is not found in DB : " + itemName);
             return null;
         }
         else
