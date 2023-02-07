@@ -20,11 +20,6 @@ public class ChoiceContainer : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		
 	}
 
-    void OnDisable()
-    {
-        Debug.Log("disabled call");
-    }
-
     public void Initialize(Choice choice)
     {
         this.choice = choice;

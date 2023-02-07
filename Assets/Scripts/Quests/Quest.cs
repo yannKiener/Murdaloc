@@ -5,7 +5,7 @@ using UnityEngine;
 public class Quest{
 
 	string name;
-	bool isReady = false;
+	bool isTracked = false;
 	
 	public Quest(string name){
 		this.name = name;
@@ -18,7 +18,7 @@ public class Quest{
 	
 	public void SetReady(){
         QuestStatus.SetStatus(name + "Ready", true);
-		this.isReady = true;
+		this.isTracked = true;
 	}
 	
 	public void End(){
