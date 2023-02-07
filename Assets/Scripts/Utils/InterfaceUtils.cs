@@ -30,6 +30,28 @@ public static class InterfaceUtils {
         }
     }
 
+    public static Texture2D GetTextureForResourceType(Character c)
+    {
+        return InterfaceUtils.GetTextureWithColor(GetColorForResourceType(c));
+    }
+
+    public static Color GetColorForResourceType(Character c)
+    {
+        if (c.GetResourceType() is Energy)
+        {
+            return Color.yellow;
+        }
+        if (c.GetResourceType() is Rage)
+        {
+            return Color.red;
+        }
+        if (c.GetResourceType() is Mana)
+        {
+            return Color.blue;
+        }
+        return Color.blue;
+    }
+
     public static Texture2D GetTextureWithColor(Color col)
     {
         Color[] uselessColorArray = new Color[1];

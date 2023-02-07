@@ -293,7 +293,14 @@ public class Player : Character
 
     }
 
-	private void CycleTargets(){
+    public override void SetTarget(Character target)
+    {
+        this.target = target;
+        target.createStatusBar();
+    }
+
+
+    private void CycleTargets(){
 		int count = enemyList.Count;
 		if (count > 1) {
 			enemyOffset += 1;

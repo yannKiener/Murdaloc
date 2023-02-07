@@ -18,7 +18,8 @@ public class StatusBar : MonoBehaviour {
 		healthBar = this.transform.Find ("HealthBackGrnd").Find ("HealthBarFiller").GetComponent<Image> ();
 		resourceBar = this.transform.Find ("ResourceBackGrnd").Find ("ResourceBarFiller").GetComponent<Image> ();
 		castBar = this.transform.Find ("CastBackGrnd").Find ("CastBarFiller").GetComponent<Image> ();
-	}
+        resourceBar.color = InterfaceUtils.GetColorForResourceType(attachedCharacter);
+    }
 
 	void OnMouseDown(){
 		GameObject characterGameObject = transform.parent.gameObject;
@@ -47,12 +48,17 @@ public class StatusBar : MonoBehaviour {
             {
                 FlipTransform();
             }
-		} 
+		}
 
-		if (!attachedCharacter.IsInCombat () || attachedCharacter.IsDead()) {
+        if ((!attachedCharacter.IsInCombat() && !isTargetedByPlayer(attachedCharacter)) || attachedCharacter.IsDead() || attachedCharacter is Friendly) {
 			removeSelf ();
 		}
 	}
+
+    private bool isTargetedByPlayer(Character character)
+    {
+        return player.GetTarget() == character;
+    }
 
     private void FlipTransform()
     {

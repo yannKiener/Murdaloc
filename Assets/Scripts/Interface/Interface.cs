@@ -359,8 +359,6 @@ public class Interface : MonoBehaviour
         drawExperienceBar(FindUtils.GetPlayer(),0,99);
         drawModalDialog();
         drawMenus();
-
-
     }
 
     private void drawMenus()
@@ -701,18 +699,8 @@ public class Interface : MonoBehaviour
         }
         
         GUIStyle rscbar = resourceBarStyle;
-        if (c.GetResourceType() is Energy)
-        {
-            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.yellow);
-        }
-        if (c.GetResourceType() is Rage)
-        {
-            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.red);
-        }
-        if (c.GetResourceType() is Mana)
-        {
-            rscbar.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
-        }
+
+        rscbar.normal.background = InterfaceUtils.GetTextureForResourceType(c);
 
         if (c is Hostile && !((Hostile)c).IsPassive())
         {

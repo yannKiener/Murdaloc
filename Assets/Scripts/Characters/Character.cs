@@ -1099,13 +1099,23 @@ public abstract class Character : InteractableBehaviour
 		}
     }
 
-	protected void createStatusBar(){
-		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("Prefab/UI/StatusBar"));
-		setObjectAboveAsChild (statusBarGameObject, 0.5f);
-		statusBarGameObject.AddComponent<StatusBar>();
-	}
+	public void createStatusBar()
+    {
+        
+        Transform currentStatusBar = transform.Find("StatusBar(Clone)");
+        if (currentStatusBar == null)
+        {
+		    GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("Prefab/UI/StatusBar"));
+		    setObjectAboveAsChild (statusBarGameObject, 0.5f);
+		    statusBarGameObject.AddComponent<StatusBar>();
+        } else
+        {
+            Debug.Log("Already have StatusBar");
+        }
 
-	private void setObjectAboveAsChild(GameObject gameObj, float yOffSet){
+    }
+
+    private void setObjectAboveAsChild(GameObject gameObj, float yOffSet){
 		gameObj.transform.SetParent (this.gameObject.transform, false);
 		gameObj.transform.position += new Vector3 (0,this.gameObject.GetComponent<SpriteRenderer> ().bounds.size.y + yOffSet,0);
 	}

@@ -43,7 +43,7 @@ public class TrollGameOverScreen : MonoBehaviour {
         Time.timeScale = 1;
 
         Action resetDefaultsAction = new Action(() => GameUtils.ReloadScene());
-        Interface.DrawModalDialog("Get back to checkpoint ?", resetDefaultsAction);
+        Interface.DrawModalDialog("Load checkpoint ?", resetDefaultsAction);
         isFreeSpiritRunning = false;
     }
 }

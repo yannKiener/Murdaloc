@@ -73,7 +73,6 @@ public class GameUtils : MonoBehaviour {
 
     public static void ReloadScene()
     {
-        Debug.Log("reload scene called");
         ForceCloseOpenedWindows();
         SaveGame();
         scene = SceneManager.GetActiveScene().name;
