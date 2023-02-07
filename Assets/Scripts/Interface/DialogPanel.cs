@@ -7,7 +7,6 @@ public class DialogPanel : MonoBehaviour
 {
 
     public GameObject choiceContainerPrefab;
-    private RectTransform defaultChoiceContainerPosition;
 
     // Use this for initialization
     void Start()
@@ -16,7 +15,6 @@ public class DialogPanel : MonoBehaviour
         {
             choiceContainerPrefab = Resources.Load<GameObject>("Prefab/UI/ChoiceContainer");
         }
-       defaultChoiceContainerPosition = transform.Find("ChoicesContainer").GetComponent<RectTransform>();
 
     }
 
