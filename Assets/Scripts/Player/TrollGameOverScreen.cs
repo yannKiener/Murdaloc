@@ -16,7 +16,7 @@ public class TrollGameOverScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (spRenderer.color.a < 0.6f) {
+		if (spRenderer.color.a < 0.7f) {
 			alpha += Time.deltaTime / 4;
 			spRenderer.color = new Color(1,1,1,alpha);
 		}

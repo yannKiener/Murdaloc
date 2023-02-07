@@ -82,10 +82,12 @@ public class Player : AbstractCharacter
 
 		if (casting) {
 			int spellCastTime = (int)castingSpell.GetCastTime ();
-			int castPercentage = (int)(100 * (castingTime/spellCastTime));
+			if (spellCastTime != 0) {
+				int castPercentage = (int)(100 * (castingTime / spellCastTime));
 
-			GUI.Box (new Rect (Screen.width/2, 93	*Screen.height/100, 100, 30), castingSpell.GetName() + " : " +castingTime.ToString("0.0") + " / " + spellCastTime);
-			GUI.Box(new Rect(Screen.width/2, 93*Screen.height/100,castPercentage,30), new Texture2D(1,1)); 
+				GUI.Box (new Rect (Screen.width / 2, 93	* Screen.height / 100, 100, 30), castingSpell.GetName () + " : " + castingTime.ToString ("0.0") + " / " + spellCastTime);
+				GUI.Box (new Rect (Screen.width / 2, 93 * Screen.height / 100, castPercentage, 30), new Texture2D (1, 1)); 
+			}
 		}
 		//GUI.BeginGroup(new Rect(400,400, 10,20));
 		//	GUI.EndGroup();
@@ -130,8 +132,7 @@ public class Player : AbstractCharacter
 		{ //Si c'est maintenu. On pourrait changer les sauts aussi pour ca.
 			xSpeed = xSpeed * 2;
 		}
-
-
+			
 		float ySpeed = player.velocity.y;
 
 		if (wantToJump && !jumping)
