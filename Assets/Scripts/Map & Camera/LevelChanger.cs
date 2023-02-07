@@ -19,7 +19,7 @@ public class LevelChanger : MonoBehaviour {
     {
         if(Message == null || Message.Length == 0)
         {
-            Message = "Change level ? ";
+            Message = "Change level to " + Scene + " ? ";
         }
         GetComponent<CircleCollider2D>().isTrigger = true;
     }
