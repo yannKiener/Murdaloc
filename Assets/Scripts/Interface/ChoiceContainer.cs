@@ -37,6 +37,15 @@ public class ChoiceContainer : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        FindUtils.GetDialogPanelComponent().Initialize(choice.GetDialog());
+        if (choice.GetDialog().GetAction() != null && choice.GetDialog().GetAction().ToLower().Equals("exit"))
+        {
+            FindUtils.GetDialogBox().SetActive(false);
+        } else
+        {
+            if(choice.GetDialog() != null)
+            {
+                FindUtils.GetDialogPanelComponent().Initialize(choice.GetDialog());
+            }
+        }
     }
 }

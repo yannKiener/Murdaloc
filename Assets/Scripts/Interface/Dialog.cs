@@ -42,6 +42,12 @@ public class Dialog
         this.action = action;
     }
 
+
+    public string GetAction()
+    {
+        return action;
+    }
+
     public void SetStartQuest(string startQuest)
     {
         this.startQuest = startQuest;

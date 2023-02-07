@@ -11,13 +11,17 @@ public static class QuestStatus{
 	static Dictionary<string, bool> status = new Dictionary<string, bool>();
 	
 	public static bool GetStatus(string name){
-		bool result = status[name];
-		if (result == null){
+
+        if(name == null)
+        {
+            return true;
+        }
+		if (!status.ContainsKey(name))
+        {
 			status.Add(name, false);
-			result = false;
 		}
 		
-		return result;
+		return status[name];
 	}
 	
 	public static void SetStatus(string name, bool boolean){

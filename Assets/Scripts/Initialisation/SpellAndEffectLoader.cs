@@ -154,8 +154,6 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
     private void InitializeFindUtils()
     {
-        FindUtils.GetDialogBox();
-        FindUtils.GetDialogBoxComponent();
         FindUtils.GetDialogPanel();
         FindUtils.GetDialogPanelComponent();
         FindUtils.GetCharacterSheetGrid();
@@ -164,6 +162,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetSpellBookGrid();
         FindUtils.GetPlayer();
         FindUtils.GetInventoryGrid();
+        FindUtils.GetDialogBoxComponent();
+        FindUtils.GetDialogBox().SetActive(false);
         FindUtils.GetCharacterSheet().SetActive(false);
         FindUtils.GetInventory().SetActive(false);
         FindUtils.GetSpellBook().SetActive(false);

@@ -60,7 +60,7 @@ public static class DatabaseUtils {
         {
             Choice c = new Choice();
             c.SetChoiceText( GetStr(jsonNode.AsObject, "choice"));
-            c.SetCondition(jsonNode["condition"].AsBool);
+            c.SetCondition(GetStr(jsonNode.AsObject,"condition"));
             c.SetDialog(createDialog(jsonNode["dialog"].AsObject));
             result.Add(c);
         }

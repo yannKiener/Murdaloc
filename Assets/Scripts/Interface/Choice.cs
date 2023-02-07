@@ -5,7 +5,8 @@ using UnityEngine;
 public class Choice {
     private string choiceText;
     private Dialog dialog;
-    private bool condition = true;
+    private string condition;
+    private bool inverseCondition = false;
 
     public Choice()
     {
@@ -20,15 +21,31 @@ public class Choice {
         }
     }
 
-    public void SetCondition(bool condition)
+    public void SetCondition(string condition)
     {
-        this.condition = condition;
+        if(condition != null)
+        {
+            if (condition.StartsWith("!") && condition.Length > 2)
+            {
+                inverseCondition = true;
+                this.condition = condition.Substring(1);
+            }else
+            {
+                this.condition = condition;
+            }
+        }
     }
 
     
     public bool GetCondition()
     {
-        return condition;
+        if (inverseCondition)
+        {
+            return (!QuestStatus.GetStatus(condition));
+        } else
+        {
+            return (QuestStatus.GetStatus(condition));
+        }
     }
 
     public void SetDialog(Dialog dialog)
