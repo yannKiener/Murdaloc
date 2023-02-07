@@ -72,13 +72,30 @@ public static class DatabaseUtils {
         {
             result.Add("name", consumableName);
             return result;
-        }
+        }   
     }
 
     public static Dialog GetDialog(string dialogName){
-        JSONObject data = JSON.Parse(Resources.Load<TextAsset>("Data/Dialogs/"+dialogName).text).AsObject;
-		return createDialog(data);
+        TextAsset textAsset = Resources.Load<TextAsset>("Data/Dialogs/" + dialogName);
+        if(textAsset != null && !textAsset.Equals(""))
+        {
+            JSONObject data = JSON.Parse(textAsset.text).AsObject;
+            return createDialog(data);
+        } else
+        {
+            Debug.Log("DIALOG NOT FOUND : " + dialogName);
+            return createDefaultDialog();
+        }
 	}
+
+    private static Dialog createDefaultDialog()
+    {
+        Dialog dialog = new Dialog();
+        dialog.SetText("Hello there");
+        dialog.SetChoices(new List<Choice>());
+
+        return dialog;
+    }
 	
 	private static List<Choice> createChoices(JSONArray data){
         List<Choice> result = new List<Choice>();

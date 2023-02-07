@@ -1,13 +1,27 @@
 {  
-   "text":"Hey. Murgles asked for you, did you talked to him ?",
+   "text":"Hey ! Welcome to this Pre-Alpha. The chief asked for you, did you talked to him ?",
    "choices":[  
       {  
          "choice":"Where is he ?",
          "dialog":{   
-            "text":"Are you blind %T ? He's just next to Gurlgill few steps east of here ! Get moving !",
+            "text":"Are you blind %T ? He's just next to Gurlgill few steps east of here !",
             "choices":[  
                {  
-                  "choice":"Allright",
+                  "choice":"<leave>",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      }, 
+      {  
+         "choice":"What the hell is this game !? Need help !",
+         "dialog":{   
+            "text":"It's simple but you gotta use your imagination : Circles are friends, squares are enemies. You have spells inside the middle-bottom bar but you have to target something to cast harmful spells! The menu is on the bottom-left corner. That's it, GL, and enjoy.",
+            "choices":[  
+               {  
+                  "choice":"kThxBye.",
                   "dialog":{  
                      "action":"exit"
                   }

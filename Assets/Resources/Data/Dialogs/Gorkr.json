@@ -5,7 +5,7 @@
          "condition":"!KillGoreTusksStarted",
          "choice":"You need something from me?",
          "dialog":{  
-            "text":"Indeed. There is a GoreTusk family, east of here. Three of them. I hear them every night. Could you kill them for me ?",
+            "text":"Indeed. There is a wild boar family, east of here. We call them GoreTusks. I hear three of them every night. Could you explain them what silence is for me ?",
             "choices":[  
                {  
                   "choice":"Allright",
@@ -31,7 +31,7 @@
             "choices":[  
                {
 				 "condition":"KillGoreTusksReady",
-				 "choice":"As dead as your grandpa.",
+				 "choice":"Yup.",
 				 "dialog":{  
 					"text":"Well done %T!",
 					"endQuest":"KillGoreTusks",

@@ -6,12 +6,12 @@
          "choice":"You asked for me ?",
          "dialog":{  
             "startQuest":"FirstQuest",
-            "text":"Yes. As you may know, my sister Slrglia saw a group of humanoids closing in our village. No one is safe with them around.",
+            "text":"Yes. As you may know, one of us saw a group of humanoids closing in our village. No one is safe with them around.",
             "choices":[  
                {  
                   "choice":"What can I do ?",
                   "dialog":{  
-                     "text":"Well, if you see them, run as fast as you can to the village. If you can't, well... This is why you must accept this blade.",
+                     "text":"It's simple, if you see them, run as fast as you can to the village. If you can't, well... This is why you must accept this blade.",
                      "choices":[  
                         {  
                            "choice":"Allright thanks",

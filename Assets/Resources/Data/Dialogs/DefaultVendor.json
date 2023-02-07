@@ -1,0 +1,11 @@
+{  
+   "text":"Hi %T.",
+   "choices":[  
+      {  
+         "choice":"What do you have to sell?",
+         "dialog":{  
+            "action":"Vendor"
+         }
+      }
+   ]
+}
