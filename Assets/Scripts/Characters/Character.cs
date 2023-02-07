@@ -430,7 +430,6 @@ public abstract class Character : MonoBehaviour
 	}
 
 	protected void ClearEnemyList (){ 
-		//todo : a appeller uniquement quand y'a un.mort
 		enemyList.RemoveAll (e => e.IsDead ());
 	}
 

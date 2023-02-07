@@ -12,12 +12,18 @@ public class ChoiceContainer : MonoBehaviour, IPointerEnterHandler, IPointerExit
 	// Use this for initialization
 	void Start () {
         this.defaultColor = GetComponent<Image>().color;
+        transform.parent.position += new Vector3(0, Screen.height / 20, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void OnDisable()
+    {
+        Debug.Log("disabled call");
+    }
 
     public void Initialize(Choice choice)
     {
@@ -37,6 +43,17 @@ public class ChoiceContainer : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
+        if(choice.GetDialog().GetStartQuest() != null)
+        {
+            Quests.StartQuest(choice.GetDialog().GetStartQuest());
+        }
+
+        if (choice.GetDialog().GetEndQuest() != null)
+        {
+            Quests.GetQuest(choice.GetDialog().GetEndQuest());
+        }
+
         if (choice.GetDialog().GetAction() != null && choice.GetDialog().GetAction().ToLower().Equals("exit"))
         {
             FindUtils.GetDialogBox().SetActive(false);

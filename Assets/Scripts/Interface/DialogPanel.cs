@@ -7,6 +7,7 @@ public class DialogPanel : MonoBehaviour
 {
 
     public GameObject choiceContainerPrefab;
+    private RectTransform defaultChoiceContainerPosition;
 
     // Use this for initialization
     void Start()
@@ -15,6 +16,8 @@ public class DialogPanel : MonoBehaviour
         {
             choiceContainerPrefab = Resources.Load<GameObject>("Prefab/UI/ChoiceContainer");
         }
+       defaultChoiceContainerPosition = transform.Find("ChoicesContainer").GetComponent<RectTransform>();
+
     }
 
     // Update is called once per frame
@@ -23,13 +26,12 @@ public class DialogPanel : MonoBehaviour
 
     }
 
-    public Vector2 Initialize(Dialog dialog)
+    public float Initialize(Dialog dialog)
     {
         clearChilds(transform.Find("ChoicesContainer"));
         transform.Find("Text").GetComponent<Text>().text = dialog.GetText();
         Transform choicesContainer = transform.Find("ChoicesContainer");
-
-        foreach(Choice choice in dialog.GetChoices())
+        foreach (Choice choice in dialog.GetChoices())
         {
             if (choice.GetCondition())
             {
@@ -38,7 +40,7 @@ public class DialogPanel : MonoBehaviour
             }
         }
 
-        return new Vector2();
+        return 0f;//GetComponent<RectTransform>().rect.height;
     }
 
 
@@ -47,6 +49,7 @@ public class DialogPanel : MonoBehaviour
     {
         foreach (Transform c in t)
         {
+            transform.Find("ChoicesContainer").position -= new Vector3(0, Screen.height/20, 0);
             GameObject.Destroy(c.gameObject);
         }
     }

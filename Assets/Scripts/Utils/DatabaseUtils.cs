@@ -39,7 +39,6 @@ public static class DatabaseUtils {
         
         if (result == null || result.Count == 0)
         {
-            //TODO le bug est la man.
             return null;
         }else
         {

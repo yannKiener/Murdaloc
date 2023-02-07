@@ -12,6 +12,7 @@ public class Quest{
 	}
 	
 	public void Start(){
+        Debug.Log("quest started : " + name);
         QuestStatus.SetStatus(name + "Started", true);
 	}
 	

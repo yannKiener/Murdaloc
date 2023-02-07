@@ -24,14 +24,29 @@
          }
       },
       {  
-         "condition":"QuestReady",
-         "choice":"I have the ring!",
+         "condition":"QuestStarted",
+         "choice":"About the ring...",
          "dialog":{  
-            "text":"Well done %T!",
-            "endQuest":"Quest",
+            "text":"Keep quiet ! Don't say that out loud. Do you have it ?",
             "choices":[  
+               {
+				 "condition":"QuestReady",
+				 "choice":"I have the ring!",
+				 "dialog":{  
+					"text":"Well done %T!",
+					"endQuest":"Quest",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>",
+						  "dialog":{  
+							 "action":"exit"
+						  }
+					   }
+					]
+				 }
+               },
                {  
-                  "choice":"<Leave>",
+                  "choice":"Not yet",
                   "dialog":{  
                      "action":"exit"
                   }
@@ -43,7 +58,7 @@
          "condition":"QuestOver",
          "choice":"About the ring...",
          "dialog":{  
-            "text":"<He winks>. It's a pretty one, right ? See you later dude",
+            "text":"<He winks>. It's a pretty one, right ? See you later.",
             "choices":[  
                {  
                   "choice":"<Leave>",
