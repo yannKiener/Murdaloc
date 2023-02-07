@@ -46,7 +46,11 @@ public class ActionBar : MonoBehaviour, Slotable {
                 clearChilds(slot.transform);
             }
             InterfaceUtils.CreateUsableSlot(slotPrefab, slot.transform, tempGameObject.GetComponent<Image>().sprite, tempUsable);
-        }else
+        }else if(Draggable.currentUsable is Consumable)
+        {
+
+            //Add link of consumable
+        } else 
         {
             eventData.Use();
         }
