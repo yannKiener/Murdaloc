@@ -15,9 +15,9 @@ public interface Spell
 
 
 
-public abstract class AbstractSpell : Spell
+public abstract class AbstractSpell : MonoBehaviour, Spell
 {
-    protected string name;
+    protected string spellName;
     protected string description;
     protected int resourceCost;
     protected float castTime;
@@ -27,19 +27,22 @@ public abstract class AbstractSpell : Spell
 
     public AbstractSpell()
     {
-        name = "Splash";
-        description = "Magikarp magikarp !!";
+        spellName = "Splash";
+        description = "A random magikarp splash attack.";
         resourceCost = 0;
         castTime = 1;
         levelRequirement = 1;
     }
 
     public string GetName() {
-        return name;
+        return spellName;
     }
 
     public string GetDescription() {
-        return description;
+        if(castTime == 0)
+            return string.Concat(description,"Instant.","Level requirement : ", levelRequirement.ToString());
+        else
+            return string.Concat(description, "Casting time : ",castTime.ToString(), "Level requirement : ", levelRequirement.ToString());
     }
 
     public int GetResourceCost() {
@@ -91,6 +94,7 @@ public class HostileSpell : AbstractSpell
     {
         foreach (EffectOnTime buff in effectsOnTarget)
         {
+
             //apply effects
         }
     }

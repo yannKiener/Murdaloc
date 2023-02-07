@@ -8,7 +8,7 @@ public class Mob : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
+       // Hostile hostile = new Hostile("Méchant carré rouge");
 	}
 	
 	// Update is called once per frame
