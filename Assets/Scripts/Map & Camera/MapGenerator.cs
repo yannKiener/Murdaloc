@@ -6,16 +6,19 @@ using System;
 public class MapGenerator : MonoBehaviour {
 
 	public int width;
-
-	[Range(0,100)]
-	public int object1Density;
-	public string seed;
-	public bool useRandomSeed;
 	public bool attachAtRight;
 	public GameObject attachAtObject;
 	public GameObject mapPrefab;
-	public GameObject object1Prefab;
-	public bool isGenerated;
+	[Range(0,100)]
+	public int backgroundObjectDensity;
+	public List<GameObject> backgroundObjectsList;
+	[Range(0,20)]
+	public int enemyDensity;
+	public List<GameObject> enemyList;
+	public string seed;
+	public bool useRandomSeed;
+
+	private bool isGenerated;
 
 
 	// Use this for initialization
@@ -62,7 +65,13 @@ public class MapGenerator : MonoBehaviour {
 			this.gameObject.transform.position = mapPrefab.transform.position;
 			this.gameObject.transform.localScale = mapPrefab.transform.localScale;
 
-			DrawObjectOnMap(object1Prefab, mapPrefab, object1Density);
+			if (backgroundObjectsList.Count > 0) {
+				DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity, false);
+			}
+
+		if (enemyList.Count > 0) {
+			DrawObjectOnMap (enemyList ,mapPrefab, enemyDensity, true);
+		}
 			EndGeneration ();
 		}
 
@@ -78,7 +87,7 @@ public class MapGenerator : MonoBehaviour {
 
 	}
 
-	private void DrawObjectOnMap(GameObject objToDraw, GameObject map, int density) {
+	private void DrawObjectOnMap(List<GameObject> objectList, GameObject map, int density, bool isEnemy) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
 		}
@@ -86,10 +95,15 @@ public class MapGenerator : MonoBehaviour {
 
 		for (int i = 0; i < width; i++){
 			if(pseudoRandom.Next(0,100) < density){
+				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
 				float x = getLowerXBound(map) + i;
 				float y = getUpperYBound(map) -(float)0.1+ objToDraw.GetComponent<Renderer>().bounds.size.y/2 ;
+				if (isEnemy) {
+					y += objToDraw.GetComponent<Renderer> ().bounds.size.y / 2;
+				}
 				objToDraw.transform.position = new Vector3(x,y,0);
 				Instantiate(objToDraw); //draw at position x
+				objToDraw.GetComponent<SpriteRenderer>().sortingOrder = isEnemy? 10 : UnityEngine.Random.Range(0,3);
 			} 
 		}
 	}

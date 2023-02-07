@@ -71,7 +71,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		isDead = false;
 		castingSpell = null;
 		if (resource == null) {
-			resource = new Rage ();
+			resource = new Energy ();
 		}
     }
 
@@ -256,7 +256,6 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 
     public void CastSpell(string spellName)
     {
-		print (this.GetName() + " is casting : " + spellName);
 		CastSpell (spellList [spellName]);
     }
 
