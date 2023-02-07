@@ -14,12 +14,19 @@ public class PlayerController : MonoBehaviour {
 		player.AddSpell (Spells.Get ("POTTU"));
 		player.AddSpell (Spells.Get ("corruption"));
 		player.AddSpell (Spells.Get ("renovation"));
+		player.AddSpell (Spells.Get ("pewpewlazer"));
+
+		setActionBarShortcut(player);
+        print(player.GetName()); 
+
+	}
+
+	public void setActionBarShortcut(Player player) {
 		player.SetActionBarSlot(0,"fireball");
 		player.SetActionBarSlot(1,"renovation");
 		player.SetActionBarSlot(2,"pottu");
 		player.SetActionBarSlot(3,"corruption");
-        print(player.GetName()); 
-
+		player.SetActionBarSlot(4,"pewpewlazer");
 	}
 	
 	// Update is called once per frame
