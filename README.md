@@ -1,11 +1,10 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### Introduction ###
 
 Murdaloc is a Unity Project under development. It's being made for the fun of it, with passion and nostaliga.
 It's a 2D scroller game, with a gameplay which may reminds some famous MMORPG. :)
+
 
 ### Installation ###
 
@@ -13,6 +12,7 @@ It's a 2D scroller game, with a gameplay which may reminds some famous MMORPG. :
 * Checkout the project "git clone https://bitbucket.org/Gangrefear/murdaloc.git"
 * Open the project with Unity
 * The project cannot be run outside Unity at the moment, so don't try to release.. yet. :)
+
 
 ### Contribution ###
 
@@ -22,3 +22,8 @@ It's a 2D scroller game, with a gameplay which may reminds some famous MMORPG. :
 * Pick a task, create a branche, and do your thing :)
 * Once you're done, create a Pull Request on the "develop" branch. (From bitbucket : https://bitbucket.org/Gangrefear/murdaloc/src)
 * Someone will review your code and eventually accept it.
+
+
+### Documentation ###
+
+The documentation is in the /Documentation folder.
