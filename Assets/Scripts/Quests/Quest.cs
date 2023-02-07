@@ -72,15 +72,37 @@ public class Quest{
 	
 	public void SetReady()
     {
+        FindUtils.GetInterface().QuestReadyToTurnIn(); 
         Debug.Log("Quest Ready to turn in!");
         DialogStatus.SetStatus(questName + "Ready", true);
         isQuestReady = true;
 	}
+
+    public bool IsReady()
+    {
+        return isQuestReady;
+    }
+
+    private void removeObjectiveItemsInInventory()
+    {
+
+        foreach (Objective objective in objectives)
+        {
+            if(objective is LootObjective)
+            {
+                LootObjective o = (LootObjective)objective;
+                FindUtils.GetInventoryGrid().RemoveItem(Items.GetQuestEquipmentFromDB(o.GetLootName()));
+            }
+        }
+            
+           
+    }
 	
 	public void End()
     {
         FindUtils.GetInterface().QuestDone();
-        foreach(Item i in rewards)
+        removeObjectiveItemsInInventory();
+        foreach (Item i in rewards)
         {
             Debug.Log(i.GetName());
             FindUtils.GetInventoryGrid().AddItem(i);

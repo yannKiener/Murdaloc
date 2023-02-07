@@ -39,6 +39,7 @@ public static class Quests {
             
             Quest quest = new Quest(name, objectives, rewards); 
             quest.Start();
+            FindUtils.GetInterface().QuestAdded();
             quests.Add(name, quest);
             UpdateQuestLog();
         }
@@ -75,7 +76,7 @@ public static class Quests {
         {
             quests[questName].End();
             quests.Remove(questName);
-            FindUtils.GetPlayer().AddExp(20);
+            FindUtils.GetPlayer().AddExp(Constants.expPerQuestPercent);
             UpdateQuestLog();
         }
     }

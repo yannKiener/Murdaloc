@@ -26,6 +26,8 @@ public class Interface : MonoBehaviour {
     public AudioClip openQuestLog;
     public AudioClip closeQuestLog;
     public AudioClip questDone;
+    public AudioClip questAdded;
+    public AudioClip questReady;
     public AudioClip levelUp;
 
     static Player player;
@@ -93,6 +95,14 @@ public class Interface : MonoBehaviour {
     public void QuestDone()
     {
         SoundManager.PlaySound(questDone);
+    }
+    public void QuestAdded()
+    {
+        SoundManager.PlaySound(questAdded);
+    }
+    public void QuestReadyToTurnIn()
+    {
+        SoundManager.PlaySound(questReady);
     }
     public void LevelUp()
     {

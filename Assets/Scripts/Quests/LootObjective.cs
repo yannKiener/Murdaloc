@@ -14,6 +14,11 @@ public class LootObjective : Objective {
         this.itemCount = count;
     }
 
+    public string GetLootName()
+    {
+        return lootName;
+    }
+
     public string GetDescription()
     {
         return "Loot " + itemCount + " " + lootName + ".";

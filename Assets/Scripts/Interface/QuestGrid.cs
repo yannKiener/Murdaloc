@@ -18,12 +18,17 @@ public class QuestGrid : MonoBehaviour {
         FindUtils.GetInterface().CloseQuestlog();
     }
 
-    public void ShowQuestDetails(string quest)
+    public void ShowQuestDetails(string questStr)
     {
         clearChilds(transform);
         Instantiate(BackButton, transform);
         GameObject textGO =  Instantiate(new GameObject("questDetails"), transform);
-        string questDescription = Quests.GetQuest(quest).GetDescription();
+        Quest quest = Quests.GetQuest(questStr);
+        string questDescription = quest.GetDescription();
+        if (quest.IsReady())
+        {
+            questDescription = "Ready to turn in!";
+        }
         Text text = textGO.AddComponent<Text>();
         text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         text.fontSize = 12;

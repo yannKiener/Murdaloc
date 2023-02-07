@@ -52,6 +52,7 @@ public static class Constants {
     public static readonly int StaminaByLevel = 5;
     public static readonly int SpiritByLevel = 4;
     public static readonly float RandomDamageRange = 30f;
+    public static readonly float expPerQuestPercent = 20;
 
     //Equipments
     public static readonly float MainStatMultiplier = 1.3f;
