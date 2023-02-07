@@ -24,12 +24,12 @@ public class Hostile : Character
         if (isElite)
         {
             stats.Add(stats);
-            stats.AddPercent(Stat.stamina, 200);
+            stats.AddPercent(Stat.stamina, 120);
             stats.AddPercent(Stat.force, 90);
             stats.AddPercent(Stat.agility, 90);
             stats.AddPercent(Stat.intelligence, 90);
             stats.AddPercent(Stat.spirit, 90);
-            stats.AddPercent(Stat.autoAttackDamage, 150);
+            stats.AddPercent(Stat.autoAttackDamage, 120);
             currentLife = stats.MaxLife;
         }
 
