@@ -88,12 +88,13 @@ public class Hostile : Character
 			if (inCombat) {
 				float targetPos = target.GetGameObject ().transform.position.x;
 				float selfPos = this.gameObject.transform.position.x;
-				if (targetPos + 1f < selfPos) {
+				if (targetPos + Constants.MaxAutoAttackDistance < selfPos) {
 					direction = -1;
-				} else if (targetPos - 1f > selfPos) {
+				} else if (targetPos - Constants.MaxAutoAttackDistance > selfPos) {
 					direction = 1;
 				} else {
-					direction = 0;
+                    UpdateTargetingDirection(targetPos);
+                    direction = 0;
 				}
 			}
 
@@ -104,6 +105,20 @@ public class Hostile : Character
             UpdateMoveAnimation(0);
         }
 	}
+
+    private void UpdateTargetingDirection(float targetPosX)
+    {
+
+        if (targetPosX < transform.position.x && transform.localScale.x > 0)
+        {
+            FlipSprite();
+        }
+
+        if (targetPosX > transform.position.x && transform.localScale.x < 0)
+        {
+            FlipSprite();
+        }
+    }
 		
 	private void randomizeDirection(){
 		int percentage = getRandomPercentage ();

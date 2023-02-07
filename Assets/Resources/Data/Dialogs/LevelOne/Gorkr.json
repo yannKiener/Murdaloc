@@ -10,15 +10,11 @@
                {  
                   "choice":"Allright",
                   "dialog":{  
-                     "startQuest":"KillGoreTusks",
-                     "action":"exit"
+                     "startQuest":"KillGoreTusks"
                   }
                },
                {  
-                  "choice":"Nope.",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"Nope."
                }
             ]
          }
@@ -37,19 +33,13 @@
 					"endQuest":"KillGoreTusks",
 					"choices":[  
 					   {  
-						  "choice":"<Leave>",
-						  "dialog":{  
-							 "action":"exit"
-						  }
+						  "choice":"<Leave>"
 					   }
 					]
 				 }
                },
                {  
-                  "choice":"Not yet",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"Not yet"
                }
             ]
          }
@@ -61,10 +51,7 @@
          }
       },
       {  
-         "choice":"Nevermind",
-         "dialog":{  
-            "action":"exit"
-         }
+         "choice":"Nevermind"
       }
    ]
 }

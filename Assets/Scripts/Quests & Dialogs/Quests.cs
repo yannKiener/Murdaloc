@@ -43,6 +43,9 @@ public static class Quests {
             Interface.QuestAdded();
             quests.Add(name, quest);
             UpdateQuestLog();
+        } else
+        {
+            Debug.Log("Unknown quest : " + name);
         }
     }
 

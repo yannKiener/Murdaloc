@@ -185,10 +185,6 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
 
-            if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
-            {
-                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Mage"));
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.W))

@@ -67,20 +67,5 @@ public class Dialog
         this.endQuest = endQuest;
     }
 
-    /*
-    public string ShowTree()
-    {
-        string result = "";
-        result += text + startQuest + endQuest +  action+ "\r\n";
-
-        if(choices != null && choices.Count != 0) { 
-            foreach(Choice c in choices)
-            {
-                result += c.choiceText + " => " + c.dialog.ShowTree() + "\r\n";
-            }
-        }
-
-        return result;
-    }*/
 
 }

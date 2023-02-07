@@ -444,7 +444,7 @@ public abstract class Character : MonoBehaviour
 
      public void AggroTarget(Character aggroTarget)
      {
-        if(aggroTarget != this && !IsInCombat())
+        if(aggroTarget != this && !IsDead() && !IsInCombat())
         {
             aggroTarget.AggroFrom(this);
             AddToEnemyList(aggroTarget);
@@ -820,7 +820,8 @@ public abstract class Character : MonoBehaviour
             anim.SetBool("IsMoving", xSpeed != 0);
         }
     }
-    private void FlipSprite()
+
+    protected void FlipSprite()
     {
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
     }

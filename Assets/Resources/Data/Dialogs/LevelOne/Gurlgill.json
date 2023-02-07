@@ -10,15 +10,11 @@
                {  
                   "choice":"Allright",
                   "dialog":{  
-                     "startQuest":"WeddingRing",
-                     "action":"exit"
+                     "startQuest":"WeddingRing"
                   }
                },
                {  
-                  "choice":"Hell no. <Leave>",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"Hell no. <Leave>"
                }
             ]
          }
@@ -37,19 +33,13 @@
 					"endQuest":"WeddingRing",
 					"choices":[  
 					   {  
-						  "choice":"<Leave>",
-						  "dialog":{  
-							 "action":"exit"
-						  }
+						  "choice":"<Leave>"
 					   }
 					]
 				 }
                },
                {  
-                  "choice":"Not yet",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"Not yet"
                }
             ]
          }
@@ -61,19 +51,13 @@
             "text":"<He winks>. It's a pretty one, right ? See you later.",
             "choices":[  
                {  
-                  "choice":"<Leave>",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"<Leave>"
                }
             ]
          }
       },
       {  
-         "choice":"Nevermind",
-         "dialog":{  
-            "action":"exit"
-         }
+         "choice":"Nevermind"
       }
    ]
 }

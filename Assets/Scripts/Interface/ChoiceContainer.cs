@@ -35,18 +35,16 @@ public class ChoiceContainer : MonoBehaviourWithMouseOverColor, IPointerClickHan
 
         if (choice.GetDialog().GetAction() != null)
         {
-            FindUtils.GetDialogBox().SetActive(false);
-            if (choice.GetDialog().GetAction().ToLower().Equals("vendor"))
-            {
-                FindUtils.GetVendorBox().SetActive(true);
-                FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner());
-            }
+            DialogActions.DoAction(choice.GetDialog().GetAction());
+        } 
+
+        if(choice.GetDialog() != null && choice.GetDialog().GetChoices() != null)
+        {
+            FindUtils.GetDialogPanelComponent().Initialize(choice.GetDialog());
         } else
         {
-            if(choice.GetDialog() != null)
-            {
-                FindUtils.GetDialogPanelComponent().Initialize(choice.GetDialog());
-            }
+            FindUtils.GetDialogBox().SetActive(false);
         }
+        
     }
 }

@@ -2,7 +2,7 @@
    "objectives":[  
       {  
          "kill":{  
-            "name":"Princess",
+            "name":"KillBellyGrub",
             "count":1
          }
       }

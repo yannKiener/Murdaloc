@@ -12,6 +12,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateSpells();
         CreateSpecialisations();
         Items.InitializeCategories();
+        CreateDialogActions();
     }
 
     /*
@@ -373,5 +374,24 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetQuestLog().SetActive(false);
         SoundManager.StopAll();
         SoundManager.SetVolume(1);
+    }
+
+    private void CreateDialogActions()
+    {
+        DialogActions.Add("vendor", () => {
+
+            FindUtils.GetDialogBox().SetActive(false);
+            FindUtils.GetVendorBox().SetActive(true);
+            FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner());
+        });
+
+        DialogActions.Add("AddMageSpec", () =>
+        {
+            if (FindUtils.GetTalentSheetGrid().GetSpec1() == null)
+            {
+                FindUtils.GetTalentSheetGrid().SetSpec1(Specialisations.Get("Mage"));
+                DialogStatus.SetStatus("MageSpecAdded", true);
+            }
+        });
     }
 }

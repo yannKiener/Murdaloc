@@ -7,33 +7,45 @@
             "text":"Are you blind %T ? He's just next to Gurlgill few steps east of here !",
             "choices":[  
                {  
-                  "choice":"<leave>",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"<leave>"
                }
             ]
          }
       }, 
       {  
-         "choice":"What the hell is this game !? Need help !",
+         "choice":"What the hell is this game !?",
          "dialog":{   
-            "text":"It's simple but you gotta use your imagination : Circles are friends, squares are enemies. You have spells inside the middle-bottom bar but you have to target something to cast harmful spells! The menu is on the bottom-left corner. That's it, GL, and enjoy.",
+            "text":"Don't be this rude please. It's simple ! You're a Murloc, you have some Murloc friends here like me, and the goal is to get XP and PHAT LEWT. First, open your Spellbook and Drag&Drop spells in your 'ActionBar' at the bottom of your screen. The menu is on the bottom-left corner BTW. That's it, GL to survive, and enjoy.",
             "choices":[  
                {  
-                  "choice":"kThxBye.",
-                  "dialog":{  
-                     "action":"exit"
-                  }
+                  "choice":"kThxBye."
                }
             ]
          }
       },
-      {  
-         "choice":"Allright bye",
-         "dialog":{  
-            "action":"exit"
+	  {
+         "condition":"!MageSpecAdded",
+         "choice":"Can I have the Mage spec please ?",
+         "dialog":{   
+            "text":"How do you know this ?! Hmm, since this is only a Pre-Alpha and you cannot unlock it by any mean.. Well, I can cheat for you and give that mage spec if you really want it.",
+            "choices":[  
+               {  
+                  "choice":"Just DO IT !",
+                  "dialog":{  
+                    "action":"AddMageSpec",
+					"text":"Allright fine ! It's done.",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>"
+					   }
+					]
+                  }
+               }
+            ]
          }
+	  },
+      {  
+         "choice":"Allright bye"
       }
    ]
 }
