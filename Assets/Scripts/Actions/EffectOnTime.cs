@@ -112,7 +112,6 @@ public class EffectOnTime
 			}	
 			effect.refresh ();
 		} else {
-			Debug.Log ("Doesn't have " + this.name);
 			attachedCharacter.AddEffectOnTime (new EffectOnTime(this));
 		}
     }

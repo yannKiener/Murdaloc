@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
 
 	// Use this for initialization;
-    void Start()
+	void Start()
     {
         Player player = gameObject.AddComponent<Player>();
         player.Initialize("Speaf");
@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour {
 		player.AddSpell (Spells.Get ("corruption"));
 		player.AddSpell (Spells.Get ("renovation"));
 		this.setSpellShortcut(player);
-        print(player.GetName()); 
+
+
+		GameObject gui = new GameObject ("Interface");
+		Instantiate (gui);
+		gui.AddComponent<Interface> ();
 	}
 
 	void setSpellShortcut (Player player)

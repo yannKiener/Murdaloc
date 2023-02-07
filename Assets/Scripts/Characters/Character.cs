@@ -35,7 +35,6 @@ public abstract class Character : MonoBehaviour
 			resource = new Mana ();
 		}
 		stats = new Stats (1, 1, 10, 10, 1, 1, 1, 1,resource.GetName() == Constants.Mana);
-
 		currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
         this.charName = name;
@@ -49,8 +48,7 @@ public abstract class Character : MonoBehaviour
 	}
 
 	public void LevelUp(){
-		this.stats.Add(new Stats(1,1,10,10,1,1,1,1,false));
-	
+		this.stats.Add(new Stats(3,3,3,5,4,10,10,10,false));
 	}
 
 	public EffectOnTime getEffect(EffectOnTime effect){
@@ -59,7 +57,6 @@ public abstract class Character : MonoBehaviour
 		} else {
 			return debuffList.Find (b => b.GetName() == effect.GetName()) ;
 		}
-
 	}
 		
 	public void AddEffectOnTime (EffectOnTime effect){
@@ -77,6 +74,18 @@ public abstract class Character : MonoBehaviour
 
 	public GameObject GetGameObject (){
 		return this.gameObject;
+	}
+
+	public Character GetTarget(){
+		return target;
+	}
+
+	public Spell GetCastingSpell(){
+		return castingSpell;
+	}
+
+	public float GetCastingTime(){
+		return castingTime;
 	}
 
 	public int GetCurrentLife(){

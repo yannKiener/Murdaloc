@@ -66,42 +66,6 @@ public class Player : Character
 
 	}
 
-	void OnGUI()
-	{
-
-		GUI.Box (new Rect (0, 0, 200, 20), name);
-		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + stats.MaxLife);
-		GUI.Box(new Rect(0,20,(int) ((float)currentLife/(float)stats.MaxLife*200),20), new Texture2D(1,1)); 
-		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + stats.MaxResource);
-		GUI.Box(new Rect(0,40,(int) ((float)currentResource/(float)stats.MaxResource*200),20), new Texture2D(1,1)); 
-
-		if (target != null && !target.IsDead()) {
-			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
-			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
-			GUI.Box (new Rect (400, 20, (int) ((float)target.GetCurrentLife()/(float)target.GetMaxLife()*200), 20), new Texture2D(1,1));
-			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentResource() + " / " + target.GetMaxResource());
-			GUI.Box(new Rect(400,40,(int) ((float)target.GetCurrentResource()/(float)target.GetMaxResource()*200),20), new Texture2D(1,1)); 
-
-			//test outlining target
-			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
-				target.GetGameObject ().AddComponent<cakeslice.Outline> ();
-			}
-		}
-
-		if (casting) {
-			float spellCastTime = castingSpell.GetCastTime (stats);
-			if (spellCastTime != 0) {
-				int castPercentage = (int)(100 * (castingTime / spellCastTime));
-
-				GUI.Box (new Rect (Screen.width / 2, 93	* Screen.height / 100, 100, 30), castingSpell.GetName () + " : " + castingTime.ToString ("0.0") + " / " + spellCastTime);
-				GUI.Box (new Rect (Screen.width / 2, 93 * Screen.height / 100, castPercentage, 30), new Texture2D (1, 1)); 
-			}
-		}
-		//GUI.BeginGroup(new Rect(400,400, 10,20));
-		//	GUI.EndGroup();
-		//GUI.EndGroup();
-
-	}
 
 
 
