@@ -29,10 +29,13 @@ public static class Constants {
 	public static readonly int StaminaLifeMultiplier = 10;
 	public static readonly int IntelligenceManaMultiplier = 10;
 	public static readonly int hasteDivider = 200;
-	public static readonly int BaseAutoAttackDamage = 10;
-	public static readonly float BaseAutoAttackSpeed = 2;
-	public static readonly float MaxAutoAttackDistance = 2;
-	public static readonly float RatioSpiritManaPerSecond = 1;
+	public static readonly int BaseAutoAttackDPS = 5;
+    public static readonly int AutoAttackDPSPerLevel = 1;
+    public static readonly float BaseAutoAttackSpeed = 2;
+    public static readonly float MaxAutoAttackDistance = 2;
+    public static readonly float MobAutoAttackMultiplier = 2;
+    public static readonly float PlayerAutoAttackDivider = 3;
+    public static readonly float RatioSpiritManaPerSecond = 1;
 	public static readonly int BaseManaPerSecond = 5;
 	public static readonly int RegenManaEvery = 1;
     public static readonly float RegenManaAfter = 5f;
@@ -56,7 +59,7 @@ public static class Constants {
     public static readonly float UncommonStatMultiplier = 0.7f;
     public static readonly float RareStatMultiplier = 1f;
     public static readonly float EpicStatMultiplier = 1.3f;
-    public static readonly int AutoAttackDamageMultiplier = 1;
+    //public static readonly int AutoAttackDPSPerLevelForWeap = 1;
     public static readonly float TwoHandedStatMultiplier = 1.6f;
 
     //Loot

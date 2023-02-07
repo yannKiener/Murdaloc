@@ -22,7 +22,7 @@ public static class ItemGenerator  {
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;
         ItemType itemType = GetRandomItemType();
-        int damagePerSecondOnWeapon = Constants.BaseAutoAttackDamage + Constants.AutoAttackDamageMultiplier*maxLevel;
+        int damagePerSecondOnWeapon = Constants.BaseAutoAttackDPS + Constants.AutoAttackDPSPerLevel * maxLevel;
 
         Stats stats = GenerateStatsForType(itemType, maxMainStats, maxOffStats, damagePerSecondOnWeapon);
         string name = GetRandomNameForType(itemType, stats);

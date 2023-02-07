@@ -28,7 +28,6 @@ public abstract class Character : MonoBehaviour
 	protected float gcd = 0;
 	protected bool autoAttackEnabled = true;
 	protected bool autoAttackIsCrit = false;
-    protected int baseAutoAttack = Constants.BaseAutoAttackDamage;
     protected int autoAttack1Damage = 0;
     protected float autoAttack1Time = 0f;
     protected float autoAttack1Speed = 0f;
@@ -40,7 +39,7 @@ public abstract class Character : MonoBehaviour
 	protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
 
-    public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
+    public virtual void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
 	{
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 9;
@@ -48,22 +47,9 @@ public abstract class Character : MonoBehaviour
 			resource = new Mana ();
 		}
 		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
-        stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDamageMultiplier* Constants.BaseAutoAttackSpeed);
-
-        if (isElite)
-        {
-            stats.Add(stats);
-            stats.AddPercent(Stat.stamina, 200);
-            stats.AddPercent(Stat.force, 90);
-            stats.AddPercent(Stat.agility, 90);
-            stats.AddPercent(Stat.intelligence, 90);
-            stats.AddPercent(Stat.spirit, 90);
-            stats.AddPercent(Stat.autoAttackDamage, 90);
-        }
-
-        autoAttack1Damage = stats.AutoAttackDamage;
-        autoAttack1Speed = stats.AutoAttackTime;
-
+       
+        autoAttack1Damage = GetBasicAutoAttackDamage();
+        autoAttack2Speed = Constants.BaseAutoAttackSpeed;
         currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
         this.charName = name;
@@ -217,10 +203,9 @@ public abstract class Character : MonoBehaviour
         SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/LevelUpSound"));
         level++;
 		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
-        baseAutoAttack += (int)(Constants.AutoAttackDamageMultiplier * Constants.BaseAutoAttackSpeed/2);
         if(FindUtils.GetCharacterSheetGrid().GetItemForSlot(ItemSlot.Weapon1) == null)
         {
-            autoAttack1Damage = baseAutoAttack;
+            autoAttack1Damage = GetBasicAutoAttackDamage();
         }
         this.currentLife = this.GetMaxLife();
 
@@ -365,9 +350,15 @@ public abstract class Character : MonoBehaviour
     }
     public void ResetAutoAttack1()
     {
-        autoAttack1Damage = baseAutoAttack;
+        autoAttack1Damage = GetBasicAutoAttackDamage();
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
     }
+
+    public int GetBasicAutoAttackDamage()
+    {
+        return (int)((Constants.BaseAutoAttackDPS * Constants.BaseAutoAttackSpeed) + level * Constants.AutoAttackDPSPerLevel * Constants.BaseAutoAttackSpeed / Constants.PlayerAutoAttackDivider);
+    }
+
     public void ResetAutoAttack2()
     {
         autoAttack2Damage = 0;

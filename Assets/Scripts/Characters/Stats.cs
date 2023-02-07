@@ -27,9 +27,9 @@ public class Stats {
 
 	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana = true)
 	{
-        AutoAttackDamage = Constants.BaseAutoAttackDamage;
         autoAttackTime = Constants.BaseAutoAttackSpeed;
-		isResourceMana = isMana;
+        AutoAttackDamage = (int)(Constants.BaseAutoAttackDPS * Constants.BaseAutoAttackSpeed);
+        isResourceMana = isMana;
 		this.maxLife = Constants.BaseLife + stamina*Constants.StaminaLifeMultiplier;
 		if (isResourceMana) {
 			this.maxResource = Constants.BaseResource + intelligence*Constants.IntelligenceManaMultiplier;

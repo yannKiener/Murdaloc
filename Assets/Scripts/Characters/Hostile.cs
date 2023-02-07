@@ -15,7 +15,29 @@ public class Hostile : Character
         InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
     }
 
-	void Update()
+    public override void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
+    {
+        base.Initialize(name, level, isElite, lootTable);
+        stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDPSPerLevel * Constants.BaseAutoAttackSpeed);
+
+        if (isElite)
+        {
+            stats.Add(stats);
+            stats.AddPercent(Stat.stamina, 200);
+            stats.AddPercent(Stat.force, 90);
+            stats.AddPercent(Stat.agility, 90);
+            stats.AddPercent(Stat.intelligence, 90);
+            stats.AddPercent(Stat.spirit, 90);
+            stats.AddPercent(Stat.autoAttackDamage, 90);
+        }
+
+        autoAttack1Damage = stats.AutoAttackDamage;
+        autoAttack1Speed = stats.AutoAttackTime;
+
+        this.autoAttack1Damage = autoAttack1Damage + (int)(autoAttack1Damage*Constants.MobAutoAttackMultiplier);
+    }
+
+    void Update()
 	{
 		UpdateCharacter ();
 		manageCombat ();
