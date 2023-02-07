@@ -9,7 +9,7 @@ public class BasherGnoll : MonoBehaviour {
 	void Start () {
         Hostile mob = gameObject.AddComponent<Hostile>();
 		mob.Initialize("Basher Gnoll");
-		mob.AddSpell (Spells.Get ("slam"));
+		mob.AddSpell (Spells.Get ("Slam"));
 	}
 	
 	// Update is called once per frame

@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 	public static GameObject currentItem;
-	//private Vector3 startPosition;
-    //Transform startParent;
     public static Usable currentUsable;
     public Usable usable;
 
@@ -15,8 +13,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         currentItem = gameObject;
         currentUsable = usable;
         transform.GetComponentInParent<Slot>().OnDragFrom();
-		//startPosition = transform.position;
-        //startParent = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
@@ -27,13 +23,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 	public void OnEndDrag (PointerEventData eventData)
     {
-        currentItem = null;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-        /*
-        if (transform.parent == startParent)
-        {
-            transform.position = startPosition;
-        }*/
-
-	}
+        //Checker si le currentItem est un item avant de le delete direct.
+        Destroy(currentItem);
+        currentItem = null;
+    }
 }

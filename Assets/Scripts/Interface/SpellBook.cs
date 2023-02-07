@@ -12,17 +12,18 @@ public class SpellBook : MonoBehaviour, Slotable {
 	// Use this for initialization
 	void Start () {
 		childCount = transform.childCount;
-		InitializeSpellBookBarWith (FindUtils.GetPlayer().GetSpells());
+        UpdateSpellBook();
 	}
 
+    //On copie le composant pour qu'il reste dans le "SpellBook"
     public void OnDragFrom(GameObject slot)
     {
-        createUsableSlot(slot.transform, Draggable.currentItem.GetComponent<Image>().sprite, Draggable.currentUsable );
+        InterfaceUtils.CreateUsableSlot(usablePrefab, slot.transform, Draggable.currentItem.GetComponent<Image>().sprite, Draggable.currentUsable);
     }
 
     public void OnDropIn(GameObject slot)
     {
-        Destroy(Draggable.currentItem);
+        
     }
 
     // Update is called once per frame
@@ -30,13 +31,16 @@ public class SpellBook : MonoBehaviour, Slotable {
 		
 	}
 
-	public void InitializeSpellBookBarWith(Dictionary<string, Spell> spellList){
-		Spell[] spells = new Spell[childCount];
+
+	public void UpdateSpellBook(){
+        Dictionary<string, Spell> spellList = FindUtils.GetPlayer().GetSpells();
+
+        Spell[] spells = new Spell[childCount];
 		spellList.Values.CopyTo (spells, 0);
-        InitializeSpellBookBarWith(spells);
+        UpdateSpellBookWith(spells);
     }
 
-    public void InitializeSpellBookBarWith(Usable[] slots)
+    private void UpdateSpellBookWith(Spell[] slots)
     {
         for (int i = 0; i < childCount; i++)
         {
@@ -48,7 +52,7 @@ public class SpellBook : MonoBehaviour, Slotable {
                     clearChilds(slot);
                 }
 
-                createUsableSlot(slot, Interface.LoadSpriteFor(slots[i].GetName()), slots[i]);
+                InterfaceUtils.CreateUsableSlot(usablePrefab, slot, InterfaceUtils.LoadSpriteFor(slots[i].GetName()), slots[i]);
             }
         }
     }
@@ -59,15 +63,4 @@ public class SpellBook : MonoBehaviour, Slotable {
 			GameObject.Destroy (c.gameObject);
 		}
 	}
-
-    private void createUsableSlot(Transform attachTo, Sprite sprite, Usable usable)
-    {
-
-        GameObject usableSlot = Instantiate(usablePrefab, attachTo);
-        Image image = usableSlot.GetComponent<Image>();
-        image.sprite = sprite;
-        usableSlot.GetComponent<Draggable>().usable = usable;
-        
-
-    }
 }

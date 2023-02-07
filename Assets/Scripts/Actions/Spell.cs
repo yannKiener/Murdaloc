@@ -11,12 +11,12 @@ public static class Spells
 
     public static void Add(Spell spell)
     {
-		spellList.Add(spell.GetName().ToLower(), spell);
+		spellList.Add(spell.GetName(), spell);
     }
     
     public static Spell Get(string spellName)
     {
-		Spell s = spellList [spellName.ToLower ()];
+		Spell s = spellList [spellName];
 		if (s.isHostile ()) {
 			return new HostileSpell(s);
 		} else {
@@ -45,7 +45,7 @@ public abstract class Spell : Usable
 
 	public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance,Action<Character,Character> spellEffect,List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
-		this.spellName = name.ToLower();
+		this.spellName = name;
 		this.description = description;
 		this.resourceCost = resourceCost;
 		this.castTime = castTime;
@@ -56,7 +56,7 @@ public abstract class Spell : Usable
 		this.effectsOnSelf = effectsOnSelf;
 		this.maxDistance = maxDistance;
 		this.isHostileSpell = isHostile;
-		this.image = Interface.LoadImageFor (spellName);
+		this.image = InterfaceUtils.LoadImageFor (spellName);
 	}
 		
 	public Spell(Spell s){
@@ -70,7 +70,7 @@ public abstract class Spell : Usable
 		this.effectsOnTarget = s.effectsOnTarget;
 		this.effectsOnSelf = s.effectsOnSelf;
 		this.maxDistance = s.maxDistance;
-		this.image = Interface.LoadImageFor (spellName);
+		this.image = InterfaceUtils.LoadImageFor (spellName);
 	}
 
 	public void Use(Character caster){
@@ -87,7 +87,7 @@ public abstract class Spell : Usable
 	protected bool checkDistance(Character caster, Character target){
 		bool isDistanceOK = Mathf.Abs ((caster.transform.position.x - target.transform.position.x)) < maxDistance;
 		if (!isDistanceOK) {
-			Debug.Log (target.name+" is too far");
+            MessageUtils.ErrorMessage(target.name+" is too far");
 		}
 
 		return isDistanceOK;
@@ -105,7 +105,7 @@ public abstract class Spell : Usable
 	public bool checkCoolDown(bool displayText = false){
 		bool isCDOK = coolDownRemaing == 0;
 		if (!isCDOK && displayText) {
-			Debug.Log ("CD remaining : " + coolDownRemaing);
+            MessageUtils.ErrorMessage("CoolDown remaining : " + (Math.Round(coolDownRemaing, 1)));
 		}
 		return isCDOK;
 	}
@@ -117,9 +117,9 @@ public abstract class Spell : Usable
 
     public string GetDescription() {
         if(castTime == 0)
-            return string.Concat(description,"Instant.","Level requirement : ", levelRequirement.ToString());
+            return string.Concat(description,"\nInstant cast.","\nLevel requirement : ", levelRequirement.ToString());
         else
-            return string.Concat(description, "Casting time : ",castTime.ToString(), "Level requirement : ", levelRequirement.ToString());
+            return string.Concat(description, "\nCasting time : ",castTime.ToString(),"s.", "\nLevel requirement : ", levelRequirement.ToString());
     }
 
     public int GetResourceCost() {

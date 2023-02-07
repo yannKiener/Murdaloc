@@ -88,6 +88,13 @@ public class Player : Character
 	private void MovePlayer(Rigidbody2D player)
 	{
 		float xSpeed = Input.GetAxis("Horizontal");
+
+        if(IsCasting() && (xSpeed > 0.1f || xSpeed < -0.1f))
+        {
+            CancelCast();
+            MessageUtils.ErrorMessage("Can't cast while walking");
+        }
+        
 		if (Input.GetButtonDown("Jump"))
 		{
 			wantToJump = true;

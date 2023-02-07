@@ -8,7 +8,7 @@ public class MageGnoll : MonoBehaviour {
 	void Start () {
 		Hostile mob = gameObject.AddComponent<Hostile>();
 		mob.Initialize("Mage Gnoll");
-		mob.AddSpell (Spells.Get ("fireball"));
+		mob.AddSpell (Spells.Get ("Fireball"));
 	}
 	
 	// Update is called once per frame

@@ -9,7 +9,7 @@ public class WarlockGnoll : MonoBehaviour {
 
 		Hostile mob = gameObject.AddComponent<Hostile>();
 		mob.Initialize("Warlock Gnoll");
-		mob.AddSpell (Spells.Get ("corruption"));
+		mob.AddSpell (Spells.Get ("Corruption"));
 	}
 	
 	// Update is called once per frame

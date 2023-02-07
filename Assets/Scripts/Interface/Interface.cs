@@ -17,6 +17,9 @@ public class Interface : MonoBehaviour {
 	int barsHeight = (int)(Screen.height * Constants.characterBarshPercent / 100);
 	int castBarWidth = (int)(Screen.width * Constants.castBarwPercent / 100);
 	int castBarHeight = (int)(Screen.height * Constants.castBarhPercent / 100);
+    static string toolTipText;
+    static string toolTipName;
+
 
 
 	public static void LoadPlayer(){
@@ -25,21 +28,25 @@ public class Interface : MonoBehaviour {
 		
 	// Use this for initialization
 	void Start () {
-		nameBarStyle.normal.background = getTextureWithColor(new Color (0, 0, 0, 0.7f));
-		healthBarStyle.normal.background = getTextureWithColor (new Color (0.1f, 0.8f, 0.1f));
-		resourceBarStyle.normal.background = getTextureWithColor (Color.blue);
-		castBarStyle.normal.background = getTextureWithColor (new Color(0.84f,0.72f,0.41f));
-		toolTipStyle.normal.background = getTextureWithColor (new Color (0, 0, 0, 0.3f));
+		nameBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0, 0, 0, 0.7f));
+		healthBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.1f, 0.8f, 0.1f));
+		resourceBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(Color.blue);
+		castBarStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color(0.84f,0.72f,0.41f));
+		toolTipStyle.normal.background = InterfaceUtils.GetTextureWithColor(new Color (0.01f, 0, 0.1f, 0.7f));
 	}
 
-	private Texture2D getTextureWithColor(Color col){
-		Color[] uselessColorArray = new Color[1];
-		uselessColorArray [0] = col;
-		Texture2D texture = new Texture2D (1, 1);
-		texture.SetPixels (uselessColorArray);
-		texture.Apply ();
-		return texture;
-	}
+    public static void DrawToolTip(string name, string description)
+    {
+        toolTipText = description;
+        toolTipName = name;
+    }
+    
+    public static void RemoveToolTip()
+    {
+        toolTipText = null;
+        toolTipName = null;
+    }
+
 
 	void OnGUI()
 	{
@@ -62,10 +69,23 @@ public class Interface : MonoBehaviour {
 			int y = (int)(Screen.height * 96 / 100);
 			drawCastBar (player, x,y,true,castBarWidth,castBarHeight);
 		}
+        drawToolTip();
 
 	}
 
-	private void drawCharInfoAt(Character c, int xPercent, int yPercent){
+    private void drawToolTip()
+    {
+        if (toolTipText != null && toolTipName != null)
+        {
+            string tooltipContent = string.Concat(toolTipName,":\n", toolTipText);
+            GUIContent tooltip = new GUIContent(tooltipContent);
+            Vector2 size = toolTipStyle.CalcSize(tooltip);
+            GUI.Label(new Rect(getToolTipPositionX(Input.mousePosition.x, size.x), getToolTipPositionY(Input.mousePosition.y, size.y), size.x, size.y), tooltipContent, toolTipStyle);
+        }
+    }
+
+
+    private void drawCharInfoAt(Character c, int xPercent, int yPercent){
 		int x = (int)(Screen.width * xPercent / 100);
 		int y = (int)(Screen.height * yPercent / 100);
 		//Draw character Interface
@@ -101,7 +121,7 @@ public class Interface : MonoBehaviour {
 
 	private void drawEffects(List<EffectOnTime> effects,int x, int y, int w, int h){ //Todo Refacto ca proprement je pars manger ;)
 		foreach (EffectOnTime effect in effects) {
-			GUIContent content = new GUIContent (LoadTextureFor(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + effect.GetTimeLeft ().ToString ("0.0"));
+			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureFor(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + effect.GetTimeLeft ().ToString ("0.0"));
 			GUI.Box (new Rect (x, y, h, w), content);
 			int stacks = effect.GetStacks();
 			if(stacks > 1){
@@ -127,20 +147,32 @@ public class Interface : MonoBehaviour {
 			GUI.Box (new Rect (x, y, c.GetCastPercent()*castBarW, castBarH),"",castBarStyle); 
 			GUI.Box (new Rect (x, y, castBarW, castBarH), castingSpell.GetName () + " : " + c.GetCastingTime().ToString ("0.0") + " / " + spellCastTime.ToString("0.0"),backgroundStyle);
 			if (drawIcon) {
-				GUI.Box (new Rect (x - castBarH, y, castBarH, castBarH), LoadTextureFor(castingSpell.GetName ()));
+				GUI.Box (new Rect (x - castBarH, y, castBarH, castBarH), InterfaceUtils.LoadTextureFor(castingSpell.GetName ()));
 			}
 		}
 	}
 
-	public static Texture LoadTextureFor(string name){
-		return Resources.Load ("Images/SpellIcons/" + name) as Texture;
-	}
+    private float getToolTipPositionX(float x, float toolTipSizeX)
+    {
+        if (x + toolTipSizeX > Screen.width)
+        {
+            return x - toolTipSizeX;
+        } else
+        {
+            return x;
+        }
+    }
 
-	public static Image LoadImageFor(string name){
-		return Resources.Load ("Images/SpellIcons/" + name) as Image;
-	}
+    private float getToolTipPositionY(float y, float toolTipSizeY)
+    {
+        float result = Screen.height - y - toolTipSizeY;
+        if (result < 0)
+        {
+            return result + toolTipSizeY;
+        } else
+        {
+            return result;
+        }
+    }
 
-	public static Sprite LoadSpriteFor(string name){
-		return Resources.Load<Sprite> ("Images/SpellIcons/" + name) as Sprite;
-	}
 }

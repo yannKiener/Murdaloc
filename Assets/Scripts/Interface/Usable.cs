@@ -6,6 +6,7 @@ public interface Usable {
 
 	void Use (Character caster);
 	string GetName ();
+    string GetDescription();
 
 
 }

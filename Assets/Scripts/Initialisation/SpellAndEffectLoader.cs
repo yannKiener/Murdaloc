@@ -7,15 +7,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
 	void Awake (){
-		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,1,6,0.5f,null,newDamageOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},60)));
-		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50)));
-		EffectsOnTime.Add (new EffectOnTime ("sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null));
+		EffectsOnTime.Add (new EffectOnTime ("Corruption","First DoT of the game",false,1,6,0.5f,null,newDamageOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},60)));
+		EffectsOnTime.Add (new EffectOnTime ("Renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50)));
+		EffectsOnTime.Add (new EffectOnTime ("Sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null));
 
-		Spells.Add (new HostileSpell ("fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null));
-		Spells.Add (new HostileSpell ("slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},30),null,null));
-		Spells.Add (new FriendlySpell ("renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("renovation") }));
-		Spells.Add (new FriendlySpell ("sprint","60% moveSpeed for 2 seconds", 10,0,0,15,1,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("sprint") }));
-		Spells.Add (new HostileSpell ("corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("corruption") },new List<EffectOnTime>()));
+		Spells.Add (new HostileSpell ("Fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null));
+		Spells.Add (new HostileSpell ("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},30),null,null));
+		Spells.Add (new FriendlySpell ("Renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") }));
+		Spells.Add (new FriendlySpell ("Sprint","Gain 60% movement speed for 2 seconds.", 10,0,0,15,1,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") }));
+		Spells.Add (new HostileSpell ("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>()));
 	}
 
 

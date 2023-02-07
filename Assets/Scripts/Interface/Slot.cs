@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IDropHandler {
+public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler{
 
     public Usable usable;
     
@@ -14,6 +14,28 @@ public class Slot : MonoBehaviour, IDropHandler {
             usable.Use(FindUtils.GetPlayer());
         }
     }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Use();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (usable != null)
+            Interface.DrawToolTip(usable.GetName(), usable.GetDescription());
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Interface.RemoveToolTip();
+    }
+
+    void OnDisable()
+    {
+        Interface.RemoveToolTip();
+    }
+
 
     public void OnDragFrom()
     {
@@ -23,8 +45,8 @@ public class Slot : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData)
     {
-        usable = Draggable.currentUsable;
-        transform.GetComponentInParent<Slotable>().OnDropIn(gameObject);
+        Slotable tempSlotable = transform.GetComponentInParent<Slotable>();
+        tempSlotable.OnDropIn(gameObject);
         
     }
 }

@@ -10,11 +10,11 @@ public class PlayerController : MonoBehaviour {
     {
         Player player = gameObject.AddComponent<Player>();
         player.Initialize("Speaf");
-		player.AddSpell (Spells.Get ("fireball"));
-		player.AddSpell (Spells.Get ("slam"));
-		player.AddSpell (Spells.Get ("corruption"));
-		player.AddSpell (Spells.Get ("renovation"));
-		player.AddSpell (Spells.Get ("sprint"));
+		player.AddSpell (Spells.Get ("Fireball"));
+		player.AddSpell (Spells.Get ("Slam"));
+		player.AddSpell (Spells.Get ("Corruption"));
+		player.AddSpell (Spells.Get ("Renovation"));
+		player.AddSpell (Spells.Get ("Sprint"));
 
 		Interface.LoadPlayer ();
 	}

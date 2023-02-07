@@ -11,12 +11,12 @@ public static class EffectsOnTime
 
 	public static void Add(EffectOnTime effect)
 	{
-		effectList.Add(effect.GetName().ToLower(), effect);
+		effectList.Add(effect.GetName(), effect);
 	}
 
 	public static EffectOnTime Get(string effectName)
 	{
-		return effectList[effectName.ToLower()];
+		return effectList[effectName];
 	}
 }
 
