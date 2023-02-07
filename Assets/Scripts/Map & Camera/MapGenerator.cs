@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour {
         }
 
         isGenerated = false;
-		if (attachAtObject.GetComponent<SpriteRenderer> () != null && attachAtObject.tag == "Map") {
+		if (attachAtObject.GetComponent<BoxCollider2D> () != null && attachAtObject.tag == "Map") {
 			GenerateMap ();
 		}
 	}
@@ -117,10 +117,10 @@ public class MapGenerator : MonoBehaviour {
                 float yOffSet = 0;
                 if (!isEnemy)
                 {
-                    float sizeMultiplier = UnityEngine.Random.Range(1, 3f);
-                    objToDraw.transform.localScale += new Vector3(sizeMultiplier, sizeMultiplier);
+                    float sizeMultiplier = UnityEngine.Random.Range(1, 1.5f);
+                    objToDraw.transform.localScale = new Vector3(objToDraw.transform.localScale.x*sizeMultiplier, objToDraw.transform.localScale.y * sizeMultiplier);
                     objToDraw.GetComponent<SpriteRenderer>().sortingOrder = (int)Math.Round(sizeMultiplier);
-                    yOffSet = 0.6f - (sizeMultiplier / 3f)*0.2f;
+                    yOffSet = 0.6f - (sizeMultiplier / 1.5f)*0.2f;
                 } else
                 {
                     objToDraw.GetComponent<SpriteRenderer>().sortingOrder = 10;

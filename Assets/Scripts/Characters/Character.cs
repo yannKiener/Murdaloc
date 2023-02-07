@@ -537,6 +537,11 @@ public abstract class Character : MonoBehaviour
                     autoAttack2Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
                     PlayAutoAttackSound(false);
+
+                    if (anim != null)
+                    {
+                        anim.SetTrigger("Attack");
+                    }
                     //Todo Animation Auto Attack 2
                 }
             }
