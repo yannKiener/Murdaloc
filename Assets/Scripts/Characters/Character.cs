@@ -102,6 +102,10 @@ public abstract class Character : MonoBehaviour
 		return target;
 	}
 
+	public void SetTarget(Character target){
+		this.target = target;
+	}
+
 	public Spell GetCastingSpell(){
 		return castingSpell;
 	}
@@ -365,7 +369,7 @@ public abstract class Character : MonoBehaviour
 	protected bool GCDReady(){
 		bool isReady = gcd <= 0;
 		if (!isReady)
-			print ("GCD : " + gcd);
+			print ("GCD : " + gcd.ToString("0.0"));
 		return isReady;
 	}
     

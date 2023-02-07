@@ -18,6 +18,15 @@ public class StatusBar : MonoBehaviour {
 		resourceBar = this.transform.Find ("ResourceBackGrnd").Find ("ResourceBarFiller").GetComponent<Image> ();
 		castBar = this.transform.Find ("CastBackGrnd").Find ("CastBarFiller").GetComponent<Image> ();
 	}
+
+	void OnMouseDown(){
+		/*
+		if (gameObject.tag == "Enemy") {
+
+			GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>().SetTarget(GetComponent<Hostile>());
+		}
+		*/
+	}
 	
 	// Update is called once per frame
 	void Update () {
