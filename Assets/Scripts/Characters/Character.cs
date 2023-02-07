@@ -62,6 +62,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected bool isHealthBarDisplayed = false;
 	protected Resource resource;
 	protected bool hasCasted = false;
+	protected Stats stats;
+
 
 
     public void Initialize(string name)
