@@ -46,7 +46,7 @@ public class ChoiceContainer : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (choice.GetDialog().GetEndQuest() != null)
         {
-            Quests.GetQuest(choice.GetDialog().GetEndQuest());
+            Quests.EndQuest(choice.GetDialog().GetEndQuest());
         }
 
         if (choice.GetDialog().GetAction() != null && choice.GetDialog().GetAction().ToLower().Equals("exit"))

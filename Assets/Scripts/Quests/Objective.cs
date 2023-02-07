@@ -13,6 +13,7 @@ public class Objective  {
     {
         this.nameToKill = name;
         this.killCount = killcount;
+        Debug.Log("Objective : kill " + killcount + " " + name);
     }
 
     public string GetName()

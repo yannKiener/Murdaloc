@@ -10,7 +10,7 @@ public static class Quests {
 
         if(!quests.ContainsKey(name))
         {
-            Quest quest = new Quest(name, null); // TODO : CREER LES OBJECTIVES DEPUIS LA DB ?
+            Quest quest = new Quest(name, new Objective("Goretusk", 2)); // TODO : CREER LES OBJECTIVES DEPUIS LA DB ?
             quest.Start();
             quests.Add(name, quest);
         }
@@ -29,6 +29,7 @@ public static class Quests {
 
     public static void UpdateTrackedQuests(Hostile enemy)
     {
+        Debug.Log("recieved kill : " + enemy.GetName());
         foreach(Quest quest in quests.Values)
         {
             quest.Update(enemy);
@@ -36,11 +37,13 @@ public static class Quests {
     }
     
 
-    public static void EndQuest(Quest quest)
+    public static void EndQuest(string questName)
     {
-        if (quests.ContainsKey(quest.GetName()))
+        Debug.Log("Ending quest");
+        if (quests.ContainsKey(questName))
         {
-            quests.Remove(quest.GetName());
+            quests[questName].End();
+            quests.Remove(questName);
         }
     }
     

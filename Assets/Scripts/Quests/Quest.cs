@@ -12,9 +12,17 @@ public class Quest{
         this.objectives = objectives;
 		this.questName = name;
 	}
-	
-	public void Start(){
+
+    public Quest(string name, Objective objective)
+    {
+        this.objectives = new List<Objective>();
+        objectives.Add(objective);
+        this.questName = name;
+    }
+
+    public void Start(){
         DialogStatus.SetStatus(questName + "Started", true);
+        Debug.Log("Quest started");
 	}
 
     public string GetName()
@@ -29,7 +37,7 @@ public class Quest{
             int objectiveOverCounter = 0;
             foreach (Objective objective in objectives)
             {
-                if (!objective.IsOver() && enemy != null && objective.GetName().Equals(enemy.name))
+                if (!objective.IsOver() && enemy != null && objective.GetName().Equals(enemy.GetName()))
                 {
                     objective.RemoveOne();
                 }
@@ -47,13 +55,16 @@ public class Quest{
         }
     }
 	
-	public void SetReady(){
+	public void SetReady()
+    {
+        Debug.Log("Quest Ready to turn in!");
         DialogStatus.SetStatus(questName + "Ready", true);
         isQuestReady = true;
 	}
 	
-	public void End(){
-        Quests.EndQuest(this);
+	public void End()
+    {
+        Debug.Log("Quest Ended");
         DialogStatus.SetStatus(questName + "Over", true);
 	}
 
