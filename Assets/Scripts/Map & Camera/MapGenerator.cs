@@ -17,6 +17,7 @@ public class MapGenerator : MonoBehaviour {
 	public List<GameObject> enemyList;
 	public string seed;
 	public bool useRandomSeed;
+    public AudioClip music;
 
 	private bool isGenerated;
 
@@ -36,7 +37,16 @@ public class MapGenerator : MonoBehaviour {
 
 	}
 
-	void GenerateMap() {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            MusicManager.playMusic(music);
+        }
+        
+    }
+
+    void GenerateMap() {
 		float startingX = 0;
 		float startingY = 0;
 		
