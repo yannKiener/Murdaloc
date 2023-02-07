@@ -39,9 +39,7 @@ public class Player : AbstractCharacter
 		if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			CastSpell (actionBar [3]);
 		}
-		if (Input.GetKeyDown (KeyCode.Alpha5)) {
-			CastSpell (actionBar [4]);
-		}
+
 		MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 

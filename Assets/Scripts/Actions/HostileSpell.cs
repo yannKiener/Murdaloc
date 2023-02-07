@@ -6,6 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class HostileSpell : AbstractSpell
 {
+	public HostileSpell() : base (){
+	}
+
 	public HostileSpell(string name, string desc, int rsrcCost,  float castTime, int damage, int lvlReq, int cD) : base (name,desc,rsrcCost,castTime,damage,lvlReq,cD){
 
 

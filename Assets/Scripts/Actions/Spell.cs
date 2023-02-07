@@ -46,13 +46,6 @@ public abstract class AbstractSpell : Spell
 
 	public AbstractSpell()
     {
-        spellName = "splash";
-        description = "A random magikarp splash attack.";
-        resourceCost = 0;
-        castTime = 1;
-        levelRequirement = 1;
-		coolDown = 0;
-		damage = 0;
 	}
 
 	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)

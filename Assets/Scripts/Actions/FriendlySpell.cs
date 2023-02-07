@@ -6,8 +6,6 @@ using UnityEngine;
 public class FriendlySpell : AbstractSpell
 {
 	public FriendlySpell() : base (){
-
-
 	}
 
 
