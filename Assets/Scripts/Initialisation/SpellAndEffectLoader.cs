@@ -96,7 +96,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
         //Rogue Spells
-        CreateHostileSpell("Hemorrage", "A fast attack with your main hand + 70% of your agility.", 15, 0, 0, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.7f } }, 10, 1f), "Default", null, null);
+        CreateHostileSpell("Hemorrhage", "A fast attack with your main hand + 70% of your agility.", 35, 0, 0, 0, Constants.MaxAutoAttackDistance, newDamage(new Dictionary<Stat, float> { { Stat.agility, 0.7f } }, 10, 1f), "Default", null, null);
 
 
 
