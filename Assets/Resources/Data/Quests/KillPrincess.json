@@ -1,0 +1,15 @@
+{  
+   "objectives":[  
+      {  
+         "kill":{  
+            "name":"Princess",
+            "count":1
+         }
+      }
+   ],
+   "rewards":[  
+      {  
+         "item":"Minor health potion"
+      }
+   ]
+}
