@@ -20,6 +20,14 @@ public class SoundManager
         }
     }
 
+    public static void PlaySoundsWithRandomChance(List<AudioClip> sounds, float percent)
+    {
+        if (sounds != null && Random.Range(0,101) <= percent)
+        {
+            PlaySound(GetRandomClip(sounds));
+        }
+    }
+
     public static void PlaySound(List<AudioClip> sounds)
     {
         if (sounds != null)

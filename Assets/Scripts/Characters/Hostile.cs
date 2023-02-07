@@ -11,6 +11,7 @@ public class Hostile : Character
     new void Start(){
         base.Start();
 		this.gameObject.tag = "Enemy";
+        this.gameObject.layer = 9;
 		InvokeRepeating ("randomizeDirection", 1f, 1f);
         InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
 
@@ -177,7 +178,7 @@ public class Hostile : Character
     {
         this.isDead = false;
         currentLife = stats.MaxLife;
-        Invoke("RespawnReady", Constants.TimeToFadeInOrOut);
+        Invoke("RespawnReady", Constants.TimeToFadeInOrOutSpawnOrDespawn + Constants.TimeBeforeSpawnOrDespawn);
         StartCoroutine("FadeIn");
     }
 
@@ -194,7 +195,7 @@ public class Hostile : Character
         float alpha = spriteColor.a;
         while (alpha < 1f)
         {
-            alpha += Time.deltaTime / Constants.TimeToFadeInOrOut;
+            alpha += Time.deltaTime / Constants.TimeToFadeInOrOutSpawnOrDespawn;
             transform.GetComponent<SpriteRenderer>().color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
             yield return null;
         }

@@ -43,6 +43,11 @@ public abstract class Character : MonoBehaviour
     protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
 
+    public List<AudioClip> aggroSounds;
+    public List<AudioClip> attackSounds;
+    public List<AudioClip> woundSounds;
+    public List<AudioClip> woundCritSounds;
+    public List<AudioClip> deathSounds;
 
     protected Animator anim;
 
@@ -438,11 +443,12 @@ public abstract class Character : MonoBehaviour
 
      public void AggroTarget(Character aggroTarget)
      {
-        if(aggroTarget != this)
+        if(aggroTarget != this && !IsInCombat())
         {
             aggroTarget.AggroFrom(this);
             AddToEnemyList(aggroTarget);
             EnterCombat();
+            SoundManager.PlaySound(aggroSounds);
         }
      }
    
@@ -497,6 +503,8 @@ public abstract class Character : MonoBehaviour
 
     protected void PlayAutoAttackSoundAndAnim(bool isMainWeapon)
     {
+        SoundManager.PlaySoundsWithRandomChance(attackSounds, 50);
+
         string unarmed = "Unarmed";
         string weapType = unarmed;
         if (this is Player)
@@ -514,6 +522,7 @@ public abstract class Character : MonoBehaviour
                 weapType = weap.GetEquipmentType().ToString();
             }
         }
+
 
         if (anim != null)
         {
@@ -694,6 +703,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void die()
     {
+        SoundManager.PlaySound(deathSounds);
         if(castingSpell != null)
         {
             SoundManager.StopSound(castingSpell.GetPreCastSound());
@@ -726,8 +736,11 @@ public abstract class Character : MonoBehaviour
     {
         Color spriteColor = transform.GetComponent<SpriteRenderer>().color;
         float alpha = spriteColor.a;
+
+        yield return new WaitForSeconds(Constants.TimeBeforeSpawnOrDespawn);
+
         while (alpha > 0f) {
-            alpha -= Time.deltaTime / Constants.TimeToFadeInOrOut;
+            alpha -= Time.deltaTime / Constants.TimeToFadeInOrOutSpawnOrDespawn;
             transform.GetComponent<SpriteRenderer>().color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
             yield return null;
         }
@@ -839,6 +852,7 @@ public abstract class Character : MonoBehaviour
 		
 	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)
 	{
+
         if (!this.GetName().Equals(FindUtils.GetPlayer().GetName()))
         {
            FindUtils.GetDps().AddDamageToDps(damage);
@@ -848,17 +862,28 @@ public abstract class Character : MonoBehaviour
             }
         }
 
-		if (damage > 0)
+        if (damage > 0)
         {
             createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
 
             this.currentLife -= damage;
 
-			if (currentLife <= 0) {
-				currentLife = 0;
-				this.die();
-			}
-		}
+            if (currentLife <= 0)
+            {
+                currentLife = 0;
+                this.die();
+            } else
+            {
+                if (isCrit)
+                {
+                    SoundManager.PlaySoundsWithRandomChance(woundCritSounds, 70);
+                }
+                else
+                {
+                    SoundManager.PlaySoundsWithRandomChance(woundSounds, 30);
+                }
+            }
+        }
 	}
 
 	public void ApplyHeal (int heal, bool isCrit = false)
