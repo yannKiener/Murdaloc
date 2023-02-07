@@ -132,7 +132,7 @@
       }
    },
    "Weapon2item":{  
-      "description":"first Weapon2 item",
+      "description":"Your first Sword !",
       "levelRequirement":1,
       "type":"Sword",
       "stats":{  

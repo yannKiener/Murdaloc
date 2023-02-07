@@ -27,8 +27,19 @@ public static class Quests {
                     objectives.Add(new LootObjective(lootObjective["name"], lootObjective["count"].AsInt));
                 }
             }
-
-            Quest quest = new Quest(name, objectives); 
+            List<Item> rewards = new List<Item>();
+            foreach (JSONObject reward in questData["rewards"])
+            {
+                Debug.Log(reward);
+                string itemName = reward["item"];
+                Debug.Log(itemName);
+                if (itemName != null && itemName.Length > 1)
+                {
+                    rewards.Add(Items.GetItemFromDB(itemName));
+                }
+            }
+            
+            Quest quest = new Quest(name, objectives, rewards); 
             quest.Start();
             quests.Add(name, quest);
             UpdateQuestLog();

@@ -6,20 +6,15 @@ public class Quest{
 
 	string questName;
     List<Objective> objectives;
+    List<Item> rewards;
     bool isQuestReady = false;
 	
-	public Quest(string name, List<Objective> objectives)
+	public Quest(string name, List<Objective> objectives, List<Item> rewards)
     {
+        this.rewards = rewards;
         this.objectives = objectives;
 		this.questName = name;
 	}
-
-    public Quest(string name, Objective objective)
-    {
-        this.objectives = new List<Objective>();
-        objectives.Add(objective);
-        this.questName = name;
-    }
 
     public void Start(){
         DialogStatus.SetStatus(questName + "Started", true);
@@ -28,6 +23,11 @@ public class Quest{
     public List<Objective> GetObjectives()
     {
         return objectives;
+    }
+
+    public List<Item> GetRewards()
+    {
+        return rewards;
     }
     
     public string GetDescription()
@@ -79,6 +79,13 @@ public class Quest{
 	
 	public void End()
     {
+        Debug.Log("Ending");
+        Debug.Log("Rewards : " + rewards.Count);
+        foreach(Item i in rewards)
+        {
+            Debug.Log(i.GetName());
+            FindUtils.GetInventoryGrid().AddItem(i);
+        }
         DialogStatus.SetStatus(questName + "Over", true);
 	}
 
