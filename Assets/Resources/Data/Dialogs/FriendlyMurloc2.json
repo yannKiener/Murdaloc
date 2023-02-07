@@ -55,6 +55,12 @@
          }
       },
       {  
+         "choice":"Do you have something to sell ?",
+         "dialog":{  
+            "action":"Vendor"
+         }
+      },
+      {  
          "choice":"Nevermind",
          "dialog":{  
             "action":"exit"

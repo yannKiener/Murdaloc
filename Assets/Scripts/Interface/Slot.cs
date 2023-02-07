@@ -24,7 +24,10 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        Use();
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            Use();
+        } 
     }
 
     public void OnPointerEnter(PointerEventData eventData)

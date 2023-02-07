@@ -12,12 +12,18 @@ public class Consumable : Item
 
     public Consumable(string name, string description, Spell spell)
     {
+        this.sellPrice = 5000;
         isInInventory = false;
         stacks = 1;
         this.itemName = name;
         this.spell = spell;
         this.description = description;
         this.image = InterfaceUtils.LoadSpriteForConsumable(itemName);
+    }
+
+    public override string GetDescription()
+    {
+        return description + "\n" + getPriceSentence();
     }
 
     public void SetImage(Sprite image)

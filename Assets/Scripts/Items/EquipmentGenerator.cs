@@ -18,6 +18,7 @@ public static class EquipmentGenerator  {
         //Epic = 1.3
 
         //Add quality at multiplier
+
         //Make a random type
         float maxMainStats = Constants.MainStatMultiplier * maxLevel;
         float maxOffStats = Constants.OffStatMultiplier * maxLevel;

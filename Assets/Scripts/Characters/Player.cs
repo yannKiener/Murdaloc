@@ -57,6 +57,7 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.X))
         {
             LevelUp();
+            FindUtils.GetInventoryGrid().AddCash(100000);
             FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of cunning"));

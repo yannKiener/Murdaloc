@@ -38,9 +38,14 @@ public class ChoiceContainer : MonoBehaviourWithMouseOverColor, IPointerClickHan
             Quests.EndQuest(choice.GetDialog().GetEndQuest());
         }
 
-        if (choice.GetDialog().GetAction() != null && choice.GetDialog().GetAction().ToLower().Equals("exit"))
+        if (choice.GetDialog().GetAction() != null)
         {
             FindUtils.GetDialogBox().SetActive(false);
+            if (choice.GetDialog().GetAction().ToLower().Equals("vendor"))
+            {
+                FindUtils.GetVendorPanelGameObject().SetActive(true);
+                FindUtils.GetVendorPanel().Initialize(FindUtils.GetDialogBoxComponent().GetDialogOwner().GetSellTable());
+            }
         } else
         {
             if(choice.GetDialog() != null)

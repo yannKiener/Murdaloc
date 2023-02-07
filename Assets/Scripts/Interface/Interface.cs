@@ -18,6 +18,8 @@ public class Interface : MonoBehaviour {
     public AudioClip cancel;
     public AudioClip openWindow;
     public AudioClip closeWindow;
+    public AudioClip openVendor;
+    public AudioClip closeVendor;
     public AudioClip openInventory;
     public AudioClip closeInventory;
     public AudioClip openSpellBook;
@@ -52,6 +54,14 @@ public class Interface : MonoBehaviour {
     public void Cancel()
     {
         SoundManager.PlaySound(cancel);
+    }
+    public void OpenVendor()
+    {
+        SoundManager.PlaySound(openVendor);
+    }
+    public void CloseVendor()
+    {
+        SoundManager.PlaySound(closeVendor);
     }
     public void OpenWindow()
     {

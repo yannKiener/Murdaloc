@@ -10,9 +10,7 @@ public class Inventory : MonoBehaviour, Slotable {
     public GameObject slotPrefab;
     public int slotNumber;
 
-    private int gold = 0;
-    private int silver = 0;
-    private int copper = 0;
+    private int cash = 0;
     private GameObject copperCount;
     private GameObject silverCount;
     private GameObject goldCount;
@@ -54,22 +52,22 @@ public class Inventory : MonoBehaviour, Slotable {
 
     public void UpdateGoldGui()
     {
-        copperCount.GetComponent<Text>().text = copper.ToString();
-        if(gold > 0 || silver > 0)
+        copperCount.GetComponent<Text>().text = GetCopper().ToString();
+        if(GetGold() > 0 || GetSilver() > 0)
         {
             silverCount.SetActive(true);
             silverIcon.SetActive(true);
-            silverCount.GetComponent<Text>().text = silver.ToString();
+            silverCount.GetComponent<Text>().text = GetSilver().ToString();
         } else
         {
             silverCount.SetActive(false);
             silverIcon.SetActive(false);
         }
-        if (gold > 0)
+        if (GetGold() > 0)
         {
             goldCount.SetActive(true);
             goldIcon.SetActive(true);
-            goldCount.GetComponent<Text>().text = gold.ToString();
+            goldCount.GetComponent<Text>().text = GetGold().ToString();
         } else
         {
             goldCount.SetActive(false);
@@ -78,99 +76,51 @@ public class Inventory : MonoBehaviour, Slotable {
         }
     }
 
-    public bool RemoveCopper(int price)
-    {
-        if (copper >= price)
-        {
-            copper -= price;
-            UpdateGoldGui();
-            return true;
-        } else
-        {
-            if (RemoveSilver(1))
-            {
-                copper += 100;
-                copper -= price;
-                UpdateGoldGui();
-                return true;
-            }
-        }
-        return false;
-    }
 
     public int GetCopper()
     {
-        return copper;
-    }
-
-    public void AddCopper(int price)
-    {
-        if (copper >= 100)
-        {
-            copper -= 100;
-            AddSilver(1);
-        }
-        copper += price;
-        UpdateGoldGui();
-    }
-
-    public bool RemoveSilver(int price)
-    {
-        if (silver >= price)
-        {
-            silver -= price;
-            UpdateGoldGui();
-            return true;
-        } else
-        {
-            if (RemoveGold(1))
-            {
-                silver += 100;
-                silver -= price;
-                UpdateGoldGui();
-                return true;
-            }
-        }
-        return false;
+        return InterfaceUtils.GetCopper(cash);
     }
 
     public int GetSilver()
     {
-        return silver;
-    }
-
-    public void AddSilver(int price)
-    {
-        if(silver >= 100)
-        {
-            silver -= 100;
-            AddGold(1);
-        }
-        silver += price;
-        UpdateGoldGui();
-    }
-
-    public bool RemoveGold(int price)
-    {
-        if(gold >= price)
-        {
-            gold -= price;
-            UpdateGoldGui();
-            return true;
-        }
-        MessageUtils.ErrorMessage("Not enough gold");
-        return false;
+        return InterfaceUtils.GetSilver(cash);
     }
 
     public int GetGold()
     {
-        return gold;
+        return InterfaceUtils.GetGold(cash);
     }
 
-    public void AddGold(int price)
+    public bool HasEnoughCash(int price)
     {
+        if (cash >= price)
+        {
+            return true;
+        }
+        else
+        {
+            MessageUtils.ErrorMessage("Not enough gold");
+            return false;
+        }
+    }
+
+    public bool RemoveCash(int price)
+    {
+        if(HasEnoughCash(price))
+        {
+            cash -= price;
+            UpdateGoldGui();
+            return true;
+        }
+        return false;
+    }
+
+
+    public void AddCash(int price)
+    {
+        cash += price;
         UpdateGoldGui();
-        gold += price;
     }
 
     public bool IsEmpty()

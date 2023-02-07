@@ -26,6 +26,8 @@ public static class FindUtils  {
     private static Dps dps;
     private static Interface intrface;
     private static GameObject sounds;
+    private static GameObject vendorPanelGO;
+    private static VendorPanel vendorPanel;
 
     public static Player GetPlayer()
     {
@@ -201,6 +203,20 @@ public static class FindUtils  {
         if (sounds == null)
             sounds = GameObject.Find("Sounds");
         return sounds;
+    }
+
+    public static GameObject GetVendorPanelGameObject()
+    {
+        if (vendorPanelGO == null)
+            vendorPanelGO = GameObject.Find("VendorBox");
+        return vendorPanelGO;
+    }
+
+    public static VendorPanel GetVendorPanel()
+    {
+        if (vendorPanel == null)
+            vendorPanel = GetVendorPanelGameObject().transform.Find("VendorPanel").gameObject.GetComponent<VendorPanel>();
+        return vendorPanel;
     }
 
 }

@@ -6,20 +6,16 @@ using UnityEngine.UI;
 public class DialogBox : MonoBehaviour {
 
     string characterName = "" ;
+    Friendly friendly;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+    public Friendly GetDialogOwner()
+    {
+        return friendly;
+    }
 
     public void Initialize(Friendly character)
     {
+        this.friendly = character;
         gameObject.SetActive(true);
         characterName = character.GetName();
         Vector3 characterPosition = character.gameObject.transform.position;

@@ -10,6 +10,11 @@ public static class Items
 
     public static Item GetItemFromDB(string itemName)
     {
+        if (itemName.ToLower().Equals("random"))
+        {
+            return EquipmentGenerator.GenerateEquipment(FindUtils.GetPlayer().GetLevel());
+        }
+
         Item result = GetEquipmentFromDB(itemName);
         if (result == null)
         {

@@ -8,6 +8,17 @@ public abstract class Item : Usable {
     protected string description = "MissingDesc";
     public bool isInInventory;
     protected Sprite image;
+    protected int sellPrice;
+
+
+    protected string getPriceSentence()
+    {
+        return "Price : " + InterfaceUtils.GetStringPrice(sellPrice);
+    }
+    public virtual int GetSellPrice()
+    {
+        return sellPrice;
+    }
 
     public virtual string GetDescription()
     {

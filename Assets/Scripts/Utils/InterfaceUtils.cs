@@ -108,4 +108,41 @@ public static class InterfaceUtils {
     {
         FindUtils.GetQuestLog().SetActive(!FindUtils.GetQuestLog().activeSelf);
     }
+
+
+    public static string GetStringPrice(int price)
+    {
+        string result = "";
+        int gold = GetGold(price);
+        int silver = GetSilver(price);
+        int copper = GetCopper(price);
+        if(gold > 0)
+        {
+            result += gold + "g ";
+        }
+        if(silver > 0)
+        {
+            result += silver + "s ";
+        }
+        if(copper > 0)
+        {
+            result += copper + "c ";
+        }
+        return result;
+    }
+
+    public static int GetCopper(int price)
+    {
+        return price % 100;
+    }
+
+    public static int GetSilver(int price)
+    {
+        return (price / 100) % 100;
+    }
+
+    public static int GetGold(int price)
+    {
+        return price / 10000;
+    }
 }

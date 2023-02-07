@@ -14,6 +14,7 @@ public class Equipment : Item
 
     public Equipment(string itemName, string description, int levelRequirement, Stats stats, EquipmentType type)
     {
+        this.sellPrice = 5000 + levelRequirement * 2500;
         this.itemName = itemName;
         this.description = description;
         this.levelRequirement = levelRequirement;
@@ -23,15 +24,11 @@ public class Equipment : Item
         isInInventory = true;
         
         this.image = InterfaceUtils.LoadSpriteForItem(itemName);
-        if (image == null)
-        {
-            this.image = InterfaceUtils.LoadSpriteForItem("Default");
-        }
     }
 
     public override string GetDescription()
     {
-        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;
+        return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() + "\n" + getPriceSentence();
     }
 
     public void SetImage(Sprite image)

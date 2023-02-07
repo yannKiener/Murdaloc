@@ -257,6 +257,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetDps();
         FindUtils.GetInterface();
         FindUtils.GetDialogPanel();
+        FindUtils.GetVendorPanelGameObject();
+        FindUtils.GetVendorPanel();
         FindUtils.GetDialogPanelComponent();
         FindUtils.GetCharacterSheetGrid();
         FindUtils.GetCharacterSheetText();
@@ -267,6 +269,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetQuestGridGameObject();
         FindUtils.GetQuestGrid();
         FindUtils.GetDialogBoxComponent();
+        FindUtils.GetVendorPanelGameObject().SetActive(false);
         FindUtils.GetDialogBox().SetActive(false);
         FindUtils.GetCharacterSheet().SetActive(false);
         FindUtils.GetInventory().SetActive(false);
