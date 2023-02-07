@@ -7,7 +7,7 @@ public interface Character
     void kill();
     string GetName();
     void move();
-	void IsDead();
+	bool IsDead();
     void interact();
     void castSpell(string spellName);
     void addSpell(Spell spell);
