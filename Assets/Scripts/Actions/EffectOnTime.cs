@@ -31,7 +31,7 @@ public class EffectOnTime
 	private bool isStackable = false;
 	private int stacks = 1;
 	private int maxStacks = 1;
-	private Action<Character,Character> applyOnce;
+	private Effect applyOnce;
 	private Action<Character,Character, float, int> tic;
 
 	private Character attachedCharacter = null;
@@ -40,7 +40,7 @@ public class EffectOnTime
 	private float nextTic;
 	private bool toBeRemoved = false;
 
-	public EffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic,Action<Character,Character> applyOnce, Action<Character,Character, float, int> tic){
+	public EffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic, Effect applyOnce, Action<Character,Character, float, int> tic){
 		this.name = name;
 		this.description = description;
 		this.isBuff = isBuff;
@@ -116,15 +116,18 @@ public class EffectOnTime
 		if(effect != null){
 			if(isStackable && effect.stacks < maxStacks){
 				effect.stacks += 1;
+				applyOnce.apply (caster, attachedCharacter);
 			}	
 			effect.refresh ();
 		} else {
 			attachedCharacter.AddEffectOnTime (new EffectOnTime(this));
+			applyOnce.apply (caster, attachedCharacter);
 		}
     }
 
-	public void Remove()
+	public void Remove() 
     {
+		applyOnce.remove (caster, attachedCharacter);
 		this.toBeRemoved = true;
     }
 

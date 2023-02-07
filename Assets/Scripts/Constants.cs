@@ -39,16 +39,19 @@ public static class Constants {
 }
 
 public enum Stat {
-force,
-agility,
-intelligence,
-stamina,
-spirit,
-critical,
-haste,
-power,
-autoAttackDamage,
-autoAttackTime
+	force,
+	agility,
+	intelligence,
+	stamina,
+	spirit,
+	critical,
+	haste,
+	power,
+	autoAttackDamage,
+	autoAttackTime,
+	maxSpeed,
+	maxResource,
+	maxLife
 }
 
 

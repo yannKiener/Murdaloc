@@ -33,6 +33,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		float staminaMultiplier = 0;
 		float spiritMultiplier = 0;
 
+		//TODO pas très joli, trouver plus propre.
 		foreach (KeyValuePair<Stat,float> p in statWeight) {
 			if(p.Key == Stat.force){
 				forceMultiplier = p.Value;

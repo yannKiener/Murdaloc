@@ -132,7 +132,7 @@ public class Player : Character
 			jumping = true;
 		}
 
-		player.velocity = new Vector2(xSpeed * Constants.MaxSpeed, ySpeed);
+		player.velocity = new Vector2(xSpeed * stats.MaxSpeed, ySpeed);
 
 		//Limit player to camera At ALL TIMES
 

@@ -18,6 +18,7 @@ public class Stats {
 	private int power;
 	private int autoAttackDamage = Constants.BaseAutoAttackDamage;
 	private float autoAttackTime = Constants.BaseAutoAttackTime;
+	private float maxSpeed = Constants.MaxSpeed;
 
 
 	public Stats (int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, bool isMana)
@@ -63,6 +64,39 @@ public class Stats {
 		}
 	}
 
+	public void MultiplyBy(float maxLifeMultiplier, float maxResourceMultiplier, float forceMultiplier, float agilityMultiplier, float intelligenceMultiplier, float staminaMultiplier, float spiritMultiplier, float criticalMultiplier, float hasteMultiplier, float powerMultiplier, float autoAttackDamageMultiplier, float autoAttackTimeMultiplier, float maxSpeedMultiplier){
+		force = (int)(force * forceMultiplier);
+		agility = (int)(agility * agilityMultiplier);
+		intelligence = (int)(intelligence * intelligenceMultiplier);
+		stamina = (int)(stamina * staminaMultiplier);
+		spirit = (int)(spirit * spiritMultiplier);
+		critical = (int)(critical * criticalMultiplier);
+		haste = (int)(haste * hasteMultiplier);
+		power = (int)(power * powerMultiplier);
+		autoAttackDamage = (int)(autoAttackDamage * autoAttackDamageMultiplier);
+		autoAttackTimeMultiplier = (int)(autoAttackTimeMultiplier * autoAttackTimeMultiplier);
+		maxSpeed = (int)(maxSpeed * maxSpeedMultiplier);
+		maxResource = (int)(maxResource * maxResourceMultiplier);
+		maxLife = (int)(maxLife * maxLifeMultiplier);
+
+	}
+
+	public void DivideBy(float maxLifeMultiplier, float maxResourceMultiplier, float forceMultiplier, float agilityMultiplier, float intelligenceMultiplier, float staminaMultiplier, float spiritMultiplier, float criticalMultiplier, float hasteMultiplier, float powerMultiplier, float autoAttackDamageMultiplier, float autoAttackTimeMultiplier, float maxSpeedMultiplier){
+		force = (int)(force / forceMultiplier);
+		agility = (int)(agility / agilityMultiplier);
+		intelligence = (int)(intelligence / intelligenceMultiplier);
+		stamina = (int)(stamina / staminaMultiplier);
+		spirit = (int)(spirit / spiritMultiplier);
+		critical = (int)(critical / criticalMultiplier);
+		haste = (int)(haste / hasteMultiplier);
+		power = (int)(power / powerMultiplier);
+		autoAttackDamage = (int)(autoAttackDamage / autoAttackDamageMultiplier);
+		autoAttackTimeMultiplier = (int)(autoAttackTimeMultiplier / autoAttackTimeMultiplier);
+		maxSpeed = (int)(maxSpeed / maxSpeedMultiplier);
+		maxResource = (int)(maxResource / maxResourceMultiplier);
+		maxLife = (int)(maxLife / maxLifeMultiplier);
+	}
+
 
 	public void SetAutoAttack(int damage, float time){
 		this.autoAttackDamage = damage;
@@ -72,6 +106,12 @@ public class Stats {
 	public float AutoAttackTime {
 		get {
 			return this.autoAttackTime;
+		}
+	}
+
+	public float MaxSpeed {
+		get {
+			return this.maxSpeed;
 		}
 	}
 
