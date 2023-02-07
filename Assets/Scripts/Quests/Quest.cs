@@ -104,7 +104,6 @@ public class Quest{
         removeObjectiveItemsInInventory();
         foreach (Item i in rewards)
         {
-            Debug.Log(i.GetName());
             FindUtils.GetInventoryGrid().AddItem(i);
         }
         DialogStatus.SetStatus(questName + "Over", true);

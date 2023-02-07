@@ -13,7 +13,9 @@ public class PlayButton : MonoBehaviour {
         List<string> gamesList = GameUtils.GetGameNames();
         foreach (string gameName in gamesList)
         {
-            savesGrid.AddSave(gameName.Replace(".murk", ""));
+            string saveName = gameName.Replace(".murk", "");
+            int level = GameUtils.LoadSave(saveName).GetLevel();
+            savesGrid.AddSave(saveName, level);
         }
         ChangeActiveButtons();
     }

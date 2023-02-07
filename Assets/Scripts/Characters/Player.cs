@@ -16,20 +16,17 @@ public class Player : Character
     private void Awake()
     {
         Interface.LoadPlayer();
-    }
-
-    new void Start()
-    {
+        gameObject.layer = 9;
         base.Start();
         GetComponent<SpriteRenderer>().sortingOrder = 10;
-        
+
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
-    public void InitializeWith(string name, int level, float expPercent, Resource rsrc, List<Spell> spellList)
+    public void InitializeWith(string name, int lv, float expPercent, Resource rsrc, List<Spell> spellList)
     {
         this.CharacterName = name;
-        this.level = level;
+        this.level = lv;
         this.experiencePercent = expPercent;
 
         if (rsrc == null)
@@ -47,14 +44,7 @@ public class Player : Character
         }
 
         FindUtils.GetSpellBookGrid().UpdateSpellBook();
-        this.stats = GetBaseStatsForLevel(this.level);
-
-
-        /*
-         * Initialise player with this infos : 
-         actionBar
-         QuestsDoing
-        */
+        this.stats = GetBaseStatsForLevel(lv);
     }
 
     public void SetXSpeed(float xSpd)
@@ -173,6 +163,7 @@ public class Player : Character
 
         if (FindUtils.GetActionBar() != null)
         {
+            Debug.Log("Adding new spell in acionBar");
             FindUtils.GetActionBar().Add(spell);
         }
 

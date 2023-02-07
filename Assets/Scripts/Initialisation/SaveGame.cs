@@ -50,6 +50,11 @@ public class SaveGame {
         return lastScene;
     }
 
+    public int GetLevel()
+    {
+        return level;
+    }
+
     public void LoadData()
     {
         Resource r;
@@ -70,7 +75,6 @@ public class SaveGame {
             sList.Add(Spells.Get(spellName));
         }
 
-        FindUtils.GetPlayer().InitializeWith(name, level, expPercent, r, sList);
 
         FindUtils.GetInventoryGrid().AddCash(cash);
 
@@ -91,6 +95,7 @@ public class SaveGame {
         }
 
         DialogStatus.SetAllStatus(status);
-        
+        FindUtils.GetPlayer().InitializeWith(name, level, expPercent, r, sList);
+
     }
 }

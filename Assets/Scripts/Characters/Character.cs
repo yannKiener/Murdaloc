@@ -44,7 +44,6 @@ public abstract class Character : MonoBehaviour
 
     public void Start()
     {
-
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 9;
         lootTable = new Dictionary<string, object>();

@@ -46,7 +46,6 @@ public class GameUtils : MonoBehaviour {
         {
             if (!InterfaceUtils.CloseOpenWindows())
             {
-                Debug.Log("Closing Windows..");
                 InterfaceUtils.CloseOpenWindows();
                 InterfaceUtils.CloseOpenWindows();
                 InterfaceUtils.CloseOpenWindows();
@@ -108,6 +107,7 @@ public class GameUtils : MonoBehaviour {
     {
         loadingScreen = transform.GetChild(0).gameObject;
         slider = loadingScreen.transform.GetComponentInChildren<Slider>();
+        isNewGame = false;
     }
 
     void Update()
