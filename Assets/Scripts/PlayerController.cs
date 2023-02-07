@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 
         //EnemyManagement
-		if (Input.GetKeyDown ("a")){
+		if (Input.GetKeyDown ("1")){
 			attackTarget (target);
 		}
 		if (enemyList.Count == 0 && inCombat) {

@@ -8,7 +8,7 @@ public class Mob : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame
@@ -56,5 +56,16 @@ public class Mob : MonoBehaviour {
     {
         inCombat = true;
         collision.gameObject.SendMessage("enterCombat", this.gameObject);
+
+        //TODO : Supprimer ca et trouver un moyen plus classe pour afficher l'aggro :D
+        GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
+        aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
+        StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
     }
+
+    IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
+     {
+         yield return new WaitForSeconds(delayTime);
+         Destroy(obj);
+     }
 }
