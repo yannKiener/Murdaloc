@@ -13,12 +13,4 @@ public class BasherGnoll : MonoBehaviour {
         mob.Initialize("Basher Gnoll",5,false, lootTable);
 		mob.AddSpell (Spells.Get ("Slam"));
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		
-	}
-
-
 }

@@ -6,6 +6,7 @@ public class MusicManager : MonoBehaviour {
 
     private static MusicManager instance;
 	private AudioSource audioSource;
+	public AudioClip StartingMusic;
 
     private bool isFading = false;
 
@@ -13,6 +14,9 @@ public class MusicManager : MonoBehaviour {
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         instance = this;
+		if(StartingMusic != null){
+			playMusic(StartingMusic);
+		}
     }
     
 
