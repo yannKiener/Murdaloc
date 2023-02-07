@@ -23,25 +23,25 @@ public class Interface : MonoBehaviour
     public GUIStyle buttonStyle;
     public List<GameObject> backgroundObjectsListDefault;
 
-    public static AudioClip click;
-    public static AudioClip cancel;
-    public static AudioClip openWindow;
-    public static AudioClip closeWindow;
-    public static AudioClip openVendor;
-    public static AudioClip closeVendor;
-    public static AudioClip coinSound;
-    public static AudioClip openInventory;
-    public static AudioClip closeInventory;
-    public static AudioClip openSpellBook;
-    public static AudioClip closeSpellBook;
-    public static AudioClip openCharSheet;
-    public static AudioClip closeCharSheet;
-    public static AudioClip openQuestLog;
-    public static AudioClip closeQuestLog;
-    public static AudioClip questDone;
-    public static AudioClip questAdded;
-    public static AudioClip questReady;
-    public static AudioClip levelUp;
+    public AudioClip click;
+    public AudioClip cancel;
+    public AudioClip openWindow;
+    public AudioClip closeWindow;
+    public AudioClip openVendor;
+    public AudioClip closeVendor;
+    public AudioClip coinSound;
+    public AudioClip openInventory;
+    public AudioClip closeInventory;
+    public AudioClip openSpellBook;
+    public AudioClip closeSpellBook;
+    public AudioClip openCharSheet;
+    public AudioClip closeCharSheet;
+    public AudioClip openQuestLog;
+    public AudioClip closeQuestLog;
+    public AudioClip questDone;
+    public AudioClip questAdded;
+    public AudioClip questReady;
+    public AudioClip levelUp;
 
     static Player player;
 	static Character target;
@@ -78,85 +78,85 @@ public class Interface : MonoBehaviour
 
     public static void Click()
     {
-        SoundManager.PlaySound(click);
+        SoundManager.PlaySound(FindUtils.GetInterface().click);
     }
     public static void Cancel()
     {
-        SoundManager.PlaySound(cancel);
+        SoundManager.PlaySound(FindUtils.GetInterface().cancel);
     }
     public static void OpenVendor()
     {
-        SoundManager.PlaySound(openVendor);
+        SoundManager.PlaySound(FindUtils.GetInterface().openVendor);
     }
     public static void CloseVendor()
     {
-        SoundManager.PlaySound(closeVendor);
+        SoundManager.PlaySound(FindUtils.GetInterface().closeVendor);
     }
     public static void CoinSound()
     {
-        SoundManager.PlaySound(coinSound);
+        SoundManager.PlaySound(FindUtils.GetInterface().coinSound);
     }
     public static void OpenWindow(bool playSound = true)
     {
         if (playSound)
         {
-            SoundManager.PlaySound(openWindow);
+            SoundManager.PlaySound(FindUtils.GetInterface().openWindow);
         }
     }
     public static void CloseWindow(bool playSound = true)
     {
         if (playSound)
         {
-            SoundManager.PlaySound(closeWindow);
+            SoundManager.PlaySound(FindUtils.GetInterface().closeWindow);
         }
     }
     public static void OpenInventory()
     {
-        SoundManager.PlaySound(openInventory);
+        SoundManager.PlaySound(FindUtils.GetInterface().openInventory);
     }
     public static void CloseInventory()
     {
-        SoundManager.PlaySound(closeInventory);
+        SoundManager.PlaySound(FindUtils.GetInterface().closeInventory);
     }
     public static void OpenSpellbook()
     {
-        SoundManager.PlaySound(openSpellBook);
+        SoundManager.PlaySound(FindUtils.GetInterface().openSpellBook);
     }
     public static void CloseSpellbook()
     {
-        SoundManager.PlaySound(closeSpellBook);
+        SoundManager.PlaySound(FindUtils.GetInterface().closeSpellBook);
     }
     public static void OpenCharsheet()
     {
-        SoundManager.PlaySound(openCharSheet);
+        SoundManager.PlaySound(FindUtils.GetInterface().openCharSheet);
     }
     public static void CloseCharsheet()
     {
-        SoundManager.PlaySound(closeCharSheet);
+        SoundManager.PlaySound(FindUtils.GetInterface().closeCharSheet);
     }
     public static void OpenQuestlog()
     {
-        SoundManager.PlaySound(openQuestLog);
+        SoundManager.PlaySound(FindUtils.GetInterface().openQuestLog);
     }
     public static void CloseQuestlog()
     {
-        SoundManager.PlaySound(closeQuestLog);
+        SoundManager.PlaySound(FindUtils.GetInterface().closeQuestLog);
     }
     public static void QuestDone()
     {
-        SoundManager.PlaySound(questDone);
+        SoundManager.PlaySound(FindUtils.GetInterface().questDone);
     }
     public static void QuestAdded()
     {
-        SoundManager.PlaySound(questAdded);
+        SoundManager.PlaySound(FindUtils.GetInterface().questAdded);
     }
     public static void QuestReadyToTurnIn()
     {
-        SoundManager.PlaySound(questReady);
+        SoundManager.PlaySound(FindUtils.GetInterface().questReady);
     }
     public static void LevelUp()
     {
-        SoundManager.PlaySound(levelUp);
+        SoundManager.PlaySound(FindUtils.GetInterface().levelUp);
     }
 
     // Use this for initialization
