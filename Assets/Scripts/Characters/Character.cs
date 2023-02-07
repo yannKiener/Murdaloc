@@ -28,6 +28,7 @@ public abstract class Character : MonoBehaviour
 	protected float gcd = 0;
 	protected bool autoAttackEnabled = true;
 	protected bool autoAttackIsCrit = false;
+    protected int baseAutoAttack = Constants.BaseAutoAttackDamage;
     protected int autoAttack1Damage = 0;
     protected float autoAttack1Time = 0f;
     protected float autoAttack1Speed = 0f;
@@ -208,9 +209,16 @@ public abstract class Character : MonoBehaviour
 
 	public virtual void LevelUp(){
         MessageUtils.Message("Level up !");
+        SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/LevelUpSound"));
         level++;
 		this.stats.Add(new Stats(Constants.ForceByLevel, Constants.AgilityByLevel, Constants.IntelligenceByLevel, Constants.StaminaByLevel, Constants.SpiritByLevel, 0,0,0));
+        baseAutoAttack += (int)(Constants.AutoAttackDamageMultiplier * Constants.BaseAutoAttackSpeed/2);
+        if(FindUtils.GetCharacterSheetGrid().GetItemForSlot(ItemSlot.Weapon1) == null)
+        {
+            autoAttack1Damage = baseAutoAttack;
+        }
         this.currentLife = this.GetMaxLife();
+
 	}
 
     public int GetLevel()
@@ -352,7 +360,7 @@ public abstract class Character : MonoBehaviour
     }
     public void ResetAutoAttack1()
     {
-        autoAttack1Damage = Constants.BaseAutoAttackDamage;
+        autoAttack1Damage = baseAutoAttack;
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
     }
     public void ResetAutoAttack2()

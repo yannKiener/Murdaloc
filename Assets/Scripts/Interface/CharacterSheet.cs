@@ -36,12 +36,23 @@ public class CharacterSheet : MonoBehaviour, Slotable {
         if (slot != null && (Item)slot.GetComponent<Slot>().usable != null)
         {
             Item item = (Item)slot.GetComponent<Slot>().usable;
+            Debug.Log("removing item : " + slot.name);
             //On retire l'objet
             item.isEquipped = false;
             clearChilds(slot.transform);
             slot.GetComponent<Slot>().usable = null;
             FindUtils.GetInventoryGrid().AddItem(item);
             FindUtils.GetPlayer().GetStats().Remove(item.GetStats());
+            if (slot.name.Equals("Weapon1")) 
+            {
+                Debug.Log("Removed weapon1");
+                FindUtils.GetPlayer().ResetAutoAttack1();
+            }
+            if (slot.name.Equals("Weapon2"))
+            {
+                Debug.Log("Removed weapon2");
+                FindUtils.GetPlayer().ResetAutoAttack2();
+            }
             return true;
         }
         return false;
