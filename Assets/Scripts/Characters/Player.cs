@@ -22,7 +22,8 @@ public class Player : Character
     {
         base.Start();
         GetComponent<SpriteRenderer>().sortingOrder = 10;
-        this.initialPosition = this.transform.position;
+        
+        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     public void InitializeWith(string name, int level, float expPercent, Resource rsrc, List<Spell> spellList)

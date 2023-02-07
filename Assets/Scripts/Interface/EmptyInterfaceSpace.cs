@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class EmptyInterfaceSpace : MonoBehaviour, IDropHandler{
     public void OnDrop(PointerEventData eventData)
     {
-        if(!(Draggable.currentUsable is Spell))
+        if(Draggable.currentUsable != null && Draggable.currentUsable is Item)
         {
             Interface.DrawModalDialog("Are you sure you want to delete this ?", DeleteItem(Draggable.currentItem));
             eventData.Use();
