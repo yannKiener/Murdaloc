@@ -856,39 +856,41 @@ public abstract class Character : MonoBehaviour
 		
 	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)
 	{
-
-        if (!this.GetName().Equals(FindUtils.GetPlayer().GetName()))
+        if (!IsDead())
         {
-           FindUtils.GetDps().AddDamageToDps(damage);
-            if (!IsInCombat())
+            if (!this.GetName().Equals(FindUtils.GetPlayer().GetName()))
             {
-                AggroFrom(FindUtils.GetPlayer());
-            }
-        }
-
-        if (damage > 0)
-        {
-            createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
-
-            this.currentLife -= damage;
-
-            if (currentLife <= 0)
-            {
-                currentLife = 0;
-                this.die();
-            } else
-            {
-                if (isCrit)
+               FindUtils.GetDps().AddDamageToDps(damage);
+                if (!IsInCombat())
                 {
-                    SoundManager.PlaySoundsWithRandomChance(woundCritSounds, 70);
-                }
-                else
-                {
-                    SoundManager.PlaySoundsWithRandomChance(woundSounds, 30);
+                    AggroFrom(FindUtils.GetPlayer());
                 }
             }
+
+            if (damage > 0)
+            {
+                createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
+
+                this.currentLife -= damage;
+
+                if (currentLife <= 0)
+                {
+                    currentLife = 0;
+                    this.die();
+                } else
+                {
+                    if (isCrit)
+                    {
+                        SoundManager.PlaySoundsWithRandomChance(woundCritSounds, 70);
+                    }
+                    else
+                    {
+                        SoundManager.PlaySoundsWithRandomChance(woundSounds, 30);
+                    }
+                }
+            }
         }
-	}
+    }
 
 	public void ApplyHeal (int heal, bool isCrit = false)
 	{
