@@ -316,7 +316,12 @@ public abstract class Character : InteractableBehaviour
         return GetEffect(effect) != null;
     }
 
-	public EffectOnTime GetEffect(EffectOnTime effect){
+    public EffectOnTime GetEffect(string effectName)
+    {
+        return GetEffect(EffectsOnTime.Get(effectName));
+    }
+
+    public EffectOnTime GetEffect(EffectOnTime effect){
 		if (effect.IsBuff ()) {
 			return buffList.Find (b => b.GetName() == effect.GetName()) ;
 		} else {
@@ -332,8 +337,12 @@ public abstract class Character : InteractableBehaviour
 		}
 	}
 
+    public void RemoveEffectOnTime(string effectName)
+    {
+        RemoveEffectOnTime(EffectsOnTime.Get(effectName));
+    }
 
-	public void RemoveEffectOnTime (EffectOnTime effect){
+    public void RemoveEffectOnTime (EffectOnTime effect){
         GetEffect(effect).Remove ();
 	}
 
