@@ -4,6 +4,7 @@
 
 # unity ignore
 Library
+Temp/
 
 # visual studio ignore
 *.sln
