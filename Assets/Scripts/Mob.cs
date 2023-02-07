@@ -39,7 +39,7 @@ public class Mob : MonoBehaviour {
 
     private void AggroAroundSelf(Collision2D collision)
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 5f);        
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 1f);        
         int i = 0;
         while (i < hitColliders.Length)
         {

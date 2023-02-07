@@ -2,23 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Actions : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-
-
-    public abstract class effectOnTime
+    public abstract class EffectOnTime
     {
         protected float duration;
         protected float timeLeft;
@@ -73,7 +57,7 @@ public class Actions : MonoBehaviour {
 
 
     [System.Serializable]
-    public class buff : effectOnTime
+    public class buff : EffectOnTime
     {
         buff(float duration, float timePerTic)
         {
@@ -85,7 +69,7 @@ public class Actions : MonoBehaviour {
     }
 
     [System.Serializable]
-    public class debuff : effectOnTime
+    public class debuff : EffectOnTime
     {
         debuff()
         {
@@ -93,6 +77,3 @@ public class Actions : MonoBehaviour {
 
 
     }
-
-
-}
