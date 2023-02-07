@@ -179,7 +179,7 @@ public class Hostile : Character
         if (itemsLoot != null && itemsLoot.Count > 0 && !itemsLoot.Contains(null))
         {
             GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
-            lootBox.GetComponent<Loot>().Initialize(itemsLoot, new Vector3(transform.position.x, transform.position.y,-1));
+            lootBox.GetComponent<Loot>().Initialize(itemsLoot, new Vector3(transform.position.x, transform.position.y,-2));
         }
         CancelInvoke("randomizeDirection");
         CancelInvoke("AggroAroundSelf");
@@ -192,6 +192,10 @@ public class Hostile : Character
     private void Respawn()
     {
         this.isDead = false;
+        if(anim != null)
+        {
+            anim.Play("Stand");
+        }
         currentLife = stats.MaxLife;
         Invoke("RespawnReady", Constants.TimeToFadeInOrOutSpawnOrDespawn + Constants.TimeBeforeSpawnOrDespawn);
         StartCoroutine("FadeIn");

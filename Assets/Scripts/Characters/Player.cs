@@ -275,17 +275,6 @@ public class Player : Character
 		}
 	}
 
-	public override void SetTarget (Character target)
-	{
-		if (this.target != null && this.target.GetGameObject ().GetComponent<cakeslice.Outline> () != null) { //Remove old target outline
-			cakeslice.Outline outline = this.target.GetGameObject ().GetComponent<cakeslice.Outline> ();
-			Destroy(outline);
-		}
-
-		target.GetGameObject ().AddComponent<cakeslice.Outline> ();
-		base.SetTarget (target);
-	}
-
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		/* on arrete le saut selon un tag

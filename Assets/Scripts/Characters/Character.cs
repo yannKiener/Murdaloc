@@ -57,6 +57,7 @@ public abstract class Character : MonoBehaviour
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 9;
         GetComponent<Rigidbody2D>().freezeRotation = true;
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
         lootTable = new Dictionary<string, object>();
         foreach(LootTable lt in LootTable)
         {
@@ -306,8 +307,6 @@ public abstract class Character : MonoBehaviour
     {
         if(target != null)
         {
-            cakeslice.Outline outline = this.target.GetGameObject().GetComponent<cakeslice.Outline>();
-            Destroy(outline);
             this.target = null;
         }
     }
@@ -713,12 +712,6 @@ public abstract class Character : MonoBehaviour
 		isDead = true;
         CancelTarget();
         CancelCast();
-
-        cakeslice.Outline outline = this.GetComponent<cakeslice.Outline>();
-        if(outline != null)
-        {
-            Destroy(outline);
-        }
 
         if (anim != null)
         {
