@@ -21,6 +21,16 @@ public class Slot : MonoBehaviour, IDropHandler {
         {
             Draggable.currentItem.transform.SetParent(transform);
             Draggable.currentItem.transform.localPosition = new Vector3();
+        } else
+        {
+            GameObject it = item;
+            it.transform.SetParent(Draggable.currentItem.transform.parent);
+            it.transform.localPosition = new Vector3();
+
+            Draggable.currentItem.transform.SetParent(transform);
+            Draggable.currentItem.transform.localPosition = new Vector3();
+
+
         }
     }
 }
