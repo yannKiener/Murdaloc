@@ -49,7 +49,7 @@ public abstract class Character : MonoBehaviour
 		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
        
         autoAttack1Damage = GetBasicAutoAttackDamage();
-        autoAttack2Speed = Constants.BaseAutoAttackSpeed;
+        autoAttack1Speed = Constants.BaseAutoAttackSpeed;
         currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
         this.charName = name;
@@ -656,10 +656,11 @@ public abstract class Character : MonoBehaviour
 		
 	public void ApplyDamage (int damage, bool isCrit = false, bool isAutoAttack = false)
 	{
-		if (damage > 0) {
+		if (damage > 0)
+        {
+            createFloatingText(damage.ToString(), new Color(1, 0, 0), isCrit, isAutoAttack);
 
-			this.currentLife -= damage;
-			createFloatingText (damage.ToString (), new Color (1, 0, 0), isCrit, isAutoAttack);
+            this.currentLife -= damage;
 
 			if (currentLife <= 0) {
 				currentLife = 0;

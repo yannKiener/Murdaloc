@@ -59,8 +59,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
 			return ((Character arg1, Character arg2) => {
 				int damage = baseNumber;
                 damage += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
+                damage += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
+                damage += (int)(arg1.GetStats().Force * forceMultiplier);
+                damage += (int)(arg1.GetStats().Agility * agilityMultiplier);
+                damage += (int)(arg1.GetStats().Stamina * staminaMultiplier);
+                damage += (int)(arg1.GetStats().Spirit * spiritMultiplier);
 
-				Stats casterStats = arg1.GetStats ();
+                Stats casterStats = arg1.GetStats ();
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				damage = damage + (damage * casterStats.Power / 100); //Applying power 
@@ -72,8 +77,14 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		} else {
 			return ((Character arg1, Character arg2) => {
 				int heal = baseNumber;
+                heal += (int)(arg1.GetAutoAttack1Damage() * autoAttackMultiplier);
+                heal += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
+                heal += (int)(arg1.GetStats().Force * forceMultiplier);
+                heal += (int)(arg1.GetStats().Agility * agilityMultiplier);
+                heal += (int)(arg1.GetStats().Stamina * staminaMultiplier);
+                heal += (int)(arg1.GetStats().Spirit * spiritMultiplier);
 
-				Stats casterStats = arg1.GetStats ();
+                Stats casterStats = arg1.GetStats ();
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				heal = heal + (heal * casterStats.Power / 100); //Applying power 
@@ -121,8 +132,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		if (!isHeal) {
 			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
 				int damage = baseNumber;
+                damage += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
+                damage += (int)(arg1.GetStats().Force * forceMultiplier);
+                damage += (int)(arg1.GetStats().Agility * agilityMultiplier);
+                damage += (int)(arg1.GetStats().Stamina * staminaMultiplier);
+                damage += (int)(arg1.GetStats().Spirit * spiritMultiplier);
 
-				Stats casterStats = arg1.GetStats ();
+                Stats casterStats = arg1.GetStats ();
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				damage = damage + (damage * casterStats.Power / 100); //Applying power 
@@ -134,8 +150,13 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		} else {
 			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
 				int heal = baseNumber;
+                heal += (int)(arg1.GetStats().Intelligence * intelligenceMultiplier);
+                heal += (int)(arg1.GetStats().Force * forceMultiplier);
+                heal += (int)(arg1.GetStats().Agility * agilityMultiplier);
+                heal += (int)(arg1.GetStats().Stamina * staminaMultiplier);
+                heal += (int)(arg1.GetStats().Spirit * spiritMultiplier);
 
-				Stats casterStats = arg1.GetStats ();
+                Stats casterStats = arg1.GetStats ();
 				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
 				heal = heal + (heal * casterStats.Power / 100); //Applying power 

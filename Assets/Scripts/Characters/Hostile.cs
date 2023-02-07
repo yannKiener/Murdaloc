@@ -34,7 +34,7 @@ public class Hostile : Character
         autoAttack1Damage = stats.AutoAttackDamage;
         autoAttack1Speed = stats.AutoAttackTime;
 
-        this.autoAttack1Damage = autoAttack1Damage + (int)(autoAttack1Damage*Constants.MobAutoAttackMultiplier);
+        this.autoAttack1Damage = (int)(autoAttack1Damage*Constants.MobAutoAttackMultiplier);
     }
 
     void Update()
@@ -160,6 +160,8 @@ public class Hostile : Character
             GameObject lootBox = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/LootBox"));
             lootBox.GetComponent<Loot>().Initialize(itemsLoot, transform.position);
         }
+        CancelInvoke("randomizeDirection");
+        CancelInvoke("AggroAroundSelf");
         base.die();
     }
 

@@ -31,8 +31,8 @@ public class Item : Usable {
         {
             this.image = InterfaceUtils.LoadSpriteForItem("Default");
         }
-
     }
+
     public string GetDescription()
     {
         return type + ". " + description +"\nLevel required : " + levelRequirement+ stats.GetStatsDetail() ;

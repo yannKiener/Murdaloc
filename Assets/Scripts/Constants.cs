@@ -29,11 +29,11 @@ public static class Constants {
 	public static readonly int StaminaLifeMultiplier = 10;
 	public static readonly int IntelligenceManaMultiplier = 10;
 	public static readonly int hasteDivider = 200;
-	public static readonly int BaseAutoAttackDPS = 5;
-    public static readonly int AutoAttackDPSPerLevel = 1;
+	public static readonly int BaseAutoAttackDPS = 2;
+    public static readonly int AutoAttackDPSPerLevel = 2;
     public static readonly float BaseAutoAttackSpeed = 2;
     public static readonly float MaxAutoAttackDistance = 2;
-    public static readonly float MobAutoAttackMultiplier = 2;
+    public static readonly float MobAutoAttackMultiplier = 1.5f;
     public static readonly float PlayerAutoAttackDivider = 3;
     public static readonly float RatioSpiritManaPerSecond = 1;
 	public static readonly int BaseManaPerSecond = 5;

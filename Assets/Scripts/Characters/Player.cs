@@ -199,6 +199,7 @@ public class Player : Character
 	public override void die()	
 	{
 		base.die ();
+        SoundManager.PlaySound(Resources.Load<AudioClip>("Sounds/wasted"));
 		Instantiate (Resources.Load ("Wasted"));
 	}
 }
