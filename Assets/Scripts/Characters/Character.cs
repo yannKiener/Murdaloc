@@ -299,6 +299,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	public void ApplyDamage (int damage)
 	{
 		this.currentLife -= damage;
+		createFloatingText(damage.ToString(), new Color(1,0,0));
 
 		if (currentLife <= 0)
 			this.kill ();
@@ -307,6 +308,7 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	public void ApplyHeal (int heal)
 	{
 		this.currentLife += heal;
+		createFloatingText(heal.ToString(), new Color(0,1,0));
 
 		if (currentLife > maxLife) 
 			currentLife = maxLife;
@@ -315,13 +317,26 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 			this.kill ();
 	}
 
+	protected void createFloatingText(string text, Color color){
+		GameObject floatingTextGameObj = (GameObject)Instantiate (Resources.Load ("FloatingText"));
+		setObjectAboveAsChild (floatingTextGameObj, 1f);
+		FloatingText floatingText = floatingTextGameObj.AddComponent<FloatingText>();
+		floatingText.setText (text);
+		floatingText.setColor (color);
+	}
+
 	protected void createStatusBar(){
 		GameObject statusBarGameObject = (GameObject)Instantiate (Resources.Load ("StatusBar"));
-		statusBarGameObject.transform.SetParent (this.gameObject.transform, false);
-		float spriteHeight = this.gameObject.GetComponent<SpriteRenderer> ().bounds.size.y;
-		statusBarGameObject.transform.position += new Vector3 (0,spriteHeight + 0.5f,0);
+		setObjectAboveAsChild (statusBarGameObject, 0.5f);
 		statusBarGameObject.AddComponent<StatusBar>();
 	}
+
+	private void setObjectAboveAsChild(GameObject gameObj, float yOffSet){
+		gameObj.transform.SetParent (this.gameObject.transform, false);
+		gameObj.transform.position += new Vector3 (0,this.gameObject.GetComponent<SpriteRenderer> ().bounds.size.y + yOffSet,0);
+
+	}
+
 
 }
 
