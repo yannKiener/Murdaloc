@@ -54,13 +54,13 @@ public class Mob : MonoBehaviour {
 
     private void Aggro(Collision2D collision)
     {
-        inCombat = true;
-        collision.gameObject.SendMessage("enterCombat", this.gameObject);
+            inCombat = true;
+            collision.gameObject.SendMessage("enterCombat", this.gameObject);
 
-        //TODO : Supprimer ca et trouver un moyen plus classe pour afficher l'aggro :D
-        GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
-        aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
-        StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
+            //TODO : Supprimer ca et trouver un moyen plus classe pour afficher l'aggro :D
+            GameObject aggroSprite = Instantiate(Resources.Load("AggroSprite")) as GameObject;
+            aggroSprite.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + this.GetComponent<BoxCollider2D>().bounds.size.y);
+            StartCoroutine(DeleteObjectAfterSeconds(aggroSprite, 0.15f));
     }
 
     IEnumerator DeleteObjectAfterSeconds(GameObject obj, float delayTime)
