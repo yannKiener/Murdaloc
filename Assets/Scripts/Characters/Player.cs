@@ -39,9 +39,6 @@ public class Player : AbstractCharacter
 		if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			CastSpell (actionBar [3]);
 		}
-		if (Input.GetKeyDown (KeyCode.Alpha6)) {
-			CastSpell (actionBar [4]);
-		}
 
 		if (Input.GetKeyDown (KeyCode.Alpha5)) {
 			print ("LevelUp !");
