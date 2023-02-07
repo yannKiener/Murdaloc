@@ -1,5 +1,5 @@
 Did that worked ? 
 
-[Let's try getting back](Documentation/documentation.md)
+[Let's try getting back](../documentation.md)
 
 et voila !
