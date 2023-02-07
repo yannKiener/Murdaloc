@@ -1,1 +1,10 @@
+# vscode ignore
 .vscode
+.vs
+
+# unity ignore
+Library
+
+# visual studio ignore
+*.sln
+*.csproj
