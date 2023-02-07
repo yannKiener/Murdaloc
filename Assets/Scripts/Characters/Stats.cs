@@ -43,11 +43,21 @@ public class Stats {
 		this.haste = haste;
 		this.power = power;
 		this.manaPerSecond = (int)(Constants.BaseManaPerSecond + spirit * Constants.RatioSpiritManaPerSecond);
-	}
+    }
 
-	public void displayStats(){
-		Debug.Log (force +" " +agility +" " +intelligence +" " +stamina +" " +spirit +" " +critical +" " +haste +" " +power);
-	}
+    public Stats(int force, int agility, int intelligence, int stamina, int spirit, int critical, int haste, int power, int autoAttackDamage, float autoAttackTime)
+    {
+        this.AutoAttackDamage = autoAttackDamage;
+        this.AutoAttackTime = autoAttackTime;
+        this.force = force;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.stamina = stamina;
+        this.spirit = spirit;
+        this.critical = critical;
+        this.haste = haste;
+        this.power = power;
+    }
 
 	public void Add(Stats stats){
 		this.Force += stats.Force;
@@ -58,7 +68,16 @@ public class Stats {
 		this.Critical += stats.Critical;
 		this.Haste += stats.Haste;
 		this.Power += stats.Power;
-	}
+        
+        if(stats.autoAttackDamage != 0)
+        {
+            this.AutoAttackDamage = stats.AutoAttackDamage;
+        }
+        if (stats.autoAttackTime != 0)
+        {
+            this.AutoAttackTime = stats.AutoAttackTime;
+        }
+    }
 
     public void Remove(Stats stats)
     {
@@ -70,6 +89,15 @@ public class Stats {
         this.Critical -= stats.Critical;
         this.Haste -= stats.Haste;
         this.Power -= stats.Power;
+
+        if (stats.autoAttackDamage != 0)
+        {
+            this.AutoAttackDamage = Constants.BaseAutoAttackDamage;
+        }
+        if (stats.autoAttackTime != 0)
+        {
+            this.AutoAttackTime = Constants.BaseAutoAttackTime;
+        }
     }
 
     public int GetManaPerSec(){
@@ -79,7 +107,15 @@ public class Stats {
     public string GetStatsDetail()
     {
         string result = "";
-        if(Force > 0)
+        if (AutoAttackDamage > 0)
+        {
+            result += "\nDamage : " + AutoAttackDamage;
+        }
+        if (AutoAttackTime > 0)
+        {
+            result += "\nSpeed : " + AutoAttackTime;
+        }
+        if (Force > 0)
         {
             result += "\nForce : " + Force;
         }

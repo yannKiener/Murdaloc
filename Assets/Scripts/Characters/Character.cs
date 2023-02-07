@@ -40,7 +40,19 @@ public abstract class Character : MonoBehaviour
 			resource = new Mana ();
 		}
 		stats = new Stats (10 + (Constants.ForceByLevel * (level-1)), 10 + (Constants.AgilityByLevel * (level - 1)), 10 + (Constants.IntelligenceByLevel * (level - 1)), 10 + (Constants.StaminaByLevel * (level - 1)), 10 + (Constants.SpiritByLevel * (level - 1)), 5, 0, 0,resource.GetName() == Constants.Mana);
-		currentLife = stats.MaxLife;
+       
+        if (isElite)
+        {
+            stats.Add(stats);
+            stats.AddPercent(Stat.stamina, 200);
+            stats.AddPercent(Stat.force, 90);
+            stats.AddPercent(Stat.agility, 90);
+            stats.AddPercent(Stat.intelligence, 90);
+            stats.AddPercent(Stat.spirit, 90);
+            stats.AddPercent(Stat.autoAttackDamage, 90);
+        }
+
+        currentLife = stats.MaxLife;
 		currentResource = stats.MaxResource;
         this.charName = name;
 		casting = false;
@@ -62,6 +74,11 @@ public abstract class Character : MonoBehaviour
 	public Dialog GetDialog(){
 		return dialog;
 	}
+
+    public bool IsElite()
+    {
+        return isElite;
+    }
     public List<Item> GetLoots()
     {
         List<Item> result = new List<Item>();
@@ -83,9 +100,6 @@ public abstract class Character : MonoBehaviour
                 } else if(kv.Value is string)
                 {
                     string stringValue = kv.Value.ToString();
-                    Debug.Log(stringValue);
-                    Debug.Log(DialogStatus.GetStatus(stringValue + "Started"));
-                    Debug.Log(!DialogStatus.GetStatus(stringValue + "Ready"));
                     if (DialogStatus.GetStatus(stringValue + "Started") && !DialogStatus.GetStatus(stringValue + "Ready")) 
                     {
                         //TODOO : Vérifier par l'objectif de la quête avec un truc genre "GetObjectiveWithItem(string itemName)" si c'est lootable ou non
@@ -108,7 +122,7 @@ public abstract class Character : MonoBehaviour
         result.Add("Random", (int)((level / Constants.MaxLevel) * 100));
         if (isElite)
         {
-            result.Add("Random",30+(int)((level / Constants.MaxLevel) * 100));
+            result["Random"] = 35+(int)((level / Constants.MaxLevel) * 100);
         }
         return result;
     }

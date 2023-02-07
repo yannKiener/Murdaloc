@@ -11,7 +11,6 @@ public class KillObjective : Objective{
 
     public KillObjective(string name, int killcount)
     {
-        Debug.Log("new KillObjective : kill " + killcount + " " + name);
         this.nameToKill = name;
         this.killCount = killcount;
     }
@@ -42,5 +41,10 @@ public class KillObjective : Objective{
         {
             isOver = true;
         }
+    }
+
+    public string GetDescription()
+    {
+        return "Kill " + killCount + " " + nameToKill + ".";
     }
 }

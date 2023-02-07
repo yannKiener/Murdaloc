@@ -21,11 +21,9 @@ public class MusicManager : MonoBehaviour {
 		if (music != instance.audioSource.clip && instance.audioSource.isPlaying && !instance.isFading)
         {
             instance.isFading = true;
-            Debug.Log("changing music");
             instance.StartCoroutine(fadeOutThenFadeIn(music, 1f));
         } else
         {
-            Debug.Log("restarting same music");
             instance.StartCoroutine(fadeIn(music,1f));
         }
         if (!instance.audioSource.isPlaying)

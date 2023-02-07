@@ -24,7 +24,7 @@
          }
       },
       {  
-         "condition":"WeddingRingStarted",
+         "condition":"WeddingRingStarted&!WeddingRingOver",
          "choice":"About the ring...",
          "dialog":{  
             "text":"Keep quiet ! Don't say that out loud. Do you have it ?",

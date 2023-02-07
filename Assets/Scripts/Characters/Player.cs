@@ -45,6 +45,10 @@ public class Player : Character
         {
             ShowHideCharacterSheet();
         }
+        if (Input.GetButtonDown("ShowHideQuestLog"))
+        {
+            ShowHideQuestLog();
+        }
 
         if (Input.GetKeyDown (KeyCode.X)) {
 			LevelUp ();
@@ -53,8 +57,10 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            GetTarget().die();
+            if(GetTarget() != null)
+                GetTarget().die();
         }
+
 
         MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
@@ -176,14 +182,14 @@ public class Player : Character
     {
         return experiencePercent;
     }
-    public void AddExp(float expPercent)
+    public void AddExp(float expPercent, float ratioForNextLevel = 1)
     {
-        Debug.Log("Gained xp  " + expPercent);
         this.experiencePercent += expPercent;
         if(experiencePercent >= 100)
         {
             LevelUp();
             experiencePercent -= 100;
+            experiencePercent /= ratioForNextLevel;
         }
 
     }
@@ -208,6 +214,11 @@ public class Player : Character
     {
         FindUtils.GetCharacterSheet().SetActive(!FindUtils.GetCharacterSheet().activeSelf);
     }
+    private void ShowHideQuestLog()
+    {
+        FindUtils.GetQuestLog().SetActive(!FindUtils.GetQuestLog().activeSelf);
+    }
+    
 
 
 }

@@ -49,7 +49,6 @@ public class LootInventory : MonoBehaviour, Slotable
     {
         if (loot != null && IsEmpty())
         {
-            Debug.Log("No more loot, destroying");
             Close();
             Destroy(loot.gameObject);
         }

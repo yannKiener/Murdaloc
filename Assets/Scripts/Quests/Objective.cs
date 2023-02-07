@@ -5,5 +5,6 @@ using UnityEngine;
 public interface Objective {
     bool IsOver();
     void Update(Hostile enemy);
+    string GetDescription();
     
 }

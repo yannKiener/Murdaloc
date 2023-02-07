@@ -22,16 +22,16 @@ public static class Items
     public static Item GetQuestItemFromDB(string itemName)
     {
 
-        JSONObject item = DatabaseUtils.GetJsonItem(itemName);
+        JSONObject item = DatabaseUtils.GetJsonQuestItem(itemName);
         if (item == null)
         {
-            Debug.Log("Quest tem is not found in DB : " + itemName);
+            Debug.Log("Quest item is not found in DB : " + itemName);
             return null;
         }
         else
         {
             JSONObject s = item["stats"].AsObject;
-            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt);
+            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
             return new Item(GetStr(item, "name"), GetStr(item, "description"), item["levelRequirement"].AsInt, stats, ParseEnum<ItemType>(GetStr(item, "type")));
         }
     }
@@ -47,7 +47,9 @@ public static class Items
         else
         {
             JSONObject s = item["stats"].AsObject;
-            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt);
+            Debug.Log("Damage : " + GetStr(s, "autoAttackDamage"));
+            Debug.Log("Speed : " + GetStr(s,"autoAttackTime"));
+            Stats stats = new Stats(s["force"].AsInt, s["agility"].AsInt, s["intelligence"].AsInt, s["stamina"].AsInt, s["spirit"].AsInt, s["critical"].AsInt, s["haste"].AsInt, s["power"].AsInt, s["autoAttackDamage"].AsInt, s["autoAttackTime"].AsFloat);
             return new Item(GetStr(item,"name"), GetStr(item,"description"), item["levelRequirement"].AsInt, stats, ParseEnum<ItemType>(GetStr(item,"type")));
         }
     }

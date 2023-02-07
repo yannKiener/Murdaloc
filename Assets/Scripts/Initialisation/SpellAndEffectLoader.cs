@@ -162,12 +162,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
         FindUtils.GetSpellBookGrid();
         FindUtils.GetPlayer();
         FindUtils.GetInventoryGrid();
+        FindUtils.GetQuestGridGameObject();
+        FindUtils.GetQuestGrid();
         FindUtils.GetDialogBoxComponent();
         FindUtils.GetDialogBox().SetActive(false);
         FindUtils.GetCharacterSheet().SetActive(false);
         FindUtils.GetInventory().SetActive(false);
         FindUtils.GetSpellBook().SetActive(false);
         FindUtils.GetLoot().SetActive(false);
+        FindUtils.GetQuestLog().SetActive(false);
     }
     // Update is called once per frame
     void Update () {

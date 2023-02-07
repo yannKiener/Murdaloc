@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
+using System.Linq;
 
 public static class DatabaseUtils {
     public static string GetJsonItems()
@@ -54,7 +55,7 @@ public static class DatabaseUtils {
 
     public static JSONObject GetJsonItem(string itemName)
     {
-        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/questItem").text).AsObject[itemName].AsObject;
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/items").text).AsObject[itemName].AsObject;
         
         if (result == null || result.Count == 0)
         {
@@ -78,12 +79,19 @@ public static class DatabaseUtils {
         {
             Choice c = new Choice();
             c.SetChoiceText( GetStr(jsonNode.AsObject, "choice"));
-            c.SetCondition(GetStr(jsonNode.AsObject,"condition"));
+            if (GetStr(jsonNode.AsObject, "condition") != null)
+            {
+                List<string> conditions = GetStr(jsonNode.AsObject, "condition").Split('&').ToList();
+                foreach (string condition in conditions)
+                {
+                    c.AddCondition(condition);
+                }
+            }
+
             c.SetDialog(createDialog(jsonNode["dialog"].AsObject));
             result.Add(c);
         }
         return result;
-		
 	}
 	
 	private static Dialog createDialog(JSONObject data){

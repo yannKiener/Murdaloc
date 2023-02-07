@@ -23,8 +23,22 @@ public class Quest{
 
     public void Start(){
         DialogStatus.SetStatus(questName + "Started", true);
-        Debug.Log("Quest started : " + questName);
 	}
+
+    public List<Objective> GetObjectives()
+    {
+        return objectives;
+    }
+    
+    public string GetDescription()
+    {
+        string result ="\nObjectives :\n ";
+        foreach(Objective o in objectives)
+        {
+            result += o.GetDescription() + "\n";
+        }
+        return result;
+    }
 
     public string GetName()
     {
@@ -65,7 +79,6 @@ public class Quest{
 	
 	public void End()
     {
-        Debug.Log("Quest Ended");
         DialogStatus.SetStatus(questName + "Over", true);
 	}
 

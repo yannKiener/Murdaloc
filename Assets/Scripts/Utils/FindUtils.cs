@@ -18,6 +18,9 @@ public static class FindUtils  {
     private static DialogBox dialogBoxComponent;
     private static GameObject dialogPanel;
     private static DialogPanel dialogPanelComponent;
+    private static GameObject questGridGo;
+    private static QuestGrid questGrid;
+    private static GameObject questLog; 
 
     public static Player GetPlayer()
     {
@@ -130,5 +133,30 @@ public static class FindUtils  {
             dialogPanelComponent = GetDialogPanel().GetComponent<DialogPanel>();
             
         return dialogPanelComponent;
+    }
+
+
+    public static GameObject GetQuestLog()
+    {
+        if (questLog == null)
+            questLog = GameObject.Find("QuestLog");
+
+        return questLog;
+    }
+
+    public static GameObject GetQuestGridGameObject()
+    {
+        if (questGridGo == null)
+            questGridGo = GameObject.Find("QuestGrid");
+
+        return questGridGo;
+    }
+
+    public static QuestGrid GetQuestGrid()
+    {
+        if (questGrid == null)
+            questGrid = GetQuestGridGameObject().GetComponent<QuestGrid>();
+
+        return questGrid;
     }
 }

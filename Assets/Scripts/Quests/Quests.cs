@@ -31,7 +31,13 @@ public static class Quests {
             Quest quest = new Quest(name, objectives); 
             quest.Start();
             quests.Add(name, quest);
+            UpdateQuestLog();
         }
+    }
+
+    public static Dictionary<string, Quest> GetQuests()
+    {
+        return quests;
     }
 
 
@@ -56,13 +62,18 @@ public static class Quests {
 
     public static void EndQuest(string questName)
     {
-        Debug.Log("Ending quest");
         if (quests.ContainsKey(questName))
         {
             quests[questName].End();
             quests.Remove(questName);
             FindUtils.GetPlayer().AddExp(20);
+            UpdateQuestLog();
         }
+    }
+
+    public static void UpdateQuestLog()
+    {
+        FindUtils.GetQuestGrid().UpdateQuestLog();
     }
     
 

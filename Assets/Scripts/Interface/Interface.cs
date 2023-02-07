@@ -53,11 +53,11 @@ public class Interface : MonoBehaviour {
 
 	void OnGUI()
 	{
-		drawCharInfoAt (player, 2, 2);
+		drawCharInfoAt (player, 2, 0);
 
 		target = player.GetTarget ();
 		if (target != null && !target.IsDead()) {
-			drawCharInfoAt (target, 70, 2);
+			drawCharInfoAt (target, 70, 0);
 			//outlining target sprite
 			/*
 			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
@@ -103,27 +103,32 @@ public class Interface : MonoBehaviour {
     private void drawCharInfoAt(Character c, int xPercent, int yPercent){
 		int x = (int)(Screen.width * xPercent / 100);
 		int y = (int)(Screen.height * yPercent / 100);
-		//Draw character Interface
-		GUI.Box (new Rect (x, y, barsWidth, barsHeight), c.GetName(),nameBarStyle);
-		GUI.Box (new Rect (x, y+barsHeight, barsWidth, 3*barsHeight),"",nameBarStyle);
-		GUI.Box(new Rect(x,y+barsHeight,(int) ((float)c.GetCurrentLife()/(float)c.GetStats().MaxLife*barsWidth),barsHeight),"",healthBarStyle); 
-		GUI.Box (new Rect (x,y+barsHeight, barsWidth, barsHeight), c.GetCurrentLife() + " / " + c.GetStats().MaxLife,backgroundStyle);
-		GUI.Box(new Rect(x,y+(2*barsHeight),(int) ((float)c.GetCurrentResource()/(float)c.GetStats().MaxResource*barsWidth),barsHeight),"",resourceBarStyle); 
-		GUI.Box (new Rect (x,y+(2*barsHeight), barsWidth, barsHeight), c.GetCurrentResource() + " / " + c.GetStats().MaxResource,backgroundStyle);
+        //Draw character Interface
+        GUI.Box (new Rect(x, y, barsWidth / 5, barsHeight), c.GetLevel().ToString(), nameBarStyle);
+        if (c.IsElite())
+        {
+            GUI.Box(new Rect(x + 3* barsWidth / 5, y, 2*barsWidth / 5, barsHeight), "Elite", nameBarStyle);
+        }
+        GUI.Box (new Rect(x, y + barsHeight, barsWidth, barsHeight), c.GetName(),nameBarStyle);
+		GUI.Box (new Rect (x, y+2*barsHeight, barsWidth, 3*barsHeight),"",nameBarStyle);
+		GUI.Box(new Rect(x,y+2*barsHeight,(int) ((float)c.GetCurrentLife()/(float)c.GetStats().MaxLife*barsWidth),barsHeight),"",healthBarStyle); 
+		GUI.Box (new Rect (x,y+2*barsHeight, barsWidth, barsHeight), c.GetCurrentLife() + " / " + c.GetStats().MaxLife,backgroundStyle);
+		GUI.Box(new Rect(x,y+(3*barsHeight),(int) ((float)c.GetCurrentResource()/(float)c.GetStats().MaxResource*barsWidth),barsHeight),"",resourceBarStyle); 
+		GUI.Box (new Rect (x,y+(3*barsHeight), barsWidth, barsHeight), c.GetCurrentResource() + " / " + c.GetStats().MaxResource,backgroundStyle);
 		List<EffectOnTime> cBuffs = c.GetBuffs ();
 		List<EffectOnTime> cDebuffs = c.GetDebuffs();
 		//Draw castBar
 		if (c.IsCasting () && Constants.drawCastBar) {
-			drawCastBar (c,x,y +(3*barsHeight) ,false, barsWidth, barsHeight);
+			drawCastBar (c,x,y +(4*barsHeight) ,false, barsWidth, barsHeight);
 		}
 		bool hasbuffs = cBuffs.Count > 0;
 		//Draw buffs
 		if (hasbuffs) {
-			drawEffects (cBuffs,x,y+(4*barsHeight),barsHeight,barsHeight);
+			drawEffects (cBuffs,x,y+(5*barsHeight),barsHeight,barsHeight);
 		}
 		//Draw Debuffs
 		if (cDebuffs.Count > 0) {
-			int yPosition = y + (4 * barsHeight);
+			int yPosition = y + (5 * barsHeight);
 			if (hasbuffs) {
 				yPosition += barsHeight;
 			}

@@ -81,9 +81,9 @@ public class Hostile : Character
 	private void randomizeDirection(){
 		int percentage = getRandomPercentage ();
 
-		if (percentage <= 20) { // 20% de chances qu'il s'arrête.
+		if (percentage <= 30) { // 30% de chances qu'il s'arrête.
 			direction = 0;
-		} else if (percentage > 40)	 { // Sinon 60% de chances que la direction soit randomisée
+		} else if (percentage > 50)	 { // Sinon 50% de chances que la direction soit randomisée
 			direction = Random.Range (-1, 2);
 		}  // et 20% de chances qu'il continue la même direction.
 	}
@@ -122,12 +122,14 @@ public class Hostile : Character
     public override void die()
     {
         Player player = FindUtils.GetPlayer();
-        float exp = (level / ((float)player.GetLevel() * player.GetLevel())) * (Constants.BaseExp - (player.GetLevel() / (float)Constants.MaxLevel));
+        float playerLevel = (float)player.GetLevel();
+        float exp = calculateExpGiven(playerLevel);
+        float ratioForNextLevel = exp / calculateExpGiven(playerLevel + 1);
         if (isElite)
         {
             exp = exp * 2.5f;
         }
-        player.AddExp(exp);
+        player.AddExp(exp, ratioForNextLevel);
 
         Quests.UpdateTrackedQuests(this);
 
@@ -138,6 +140,11 @@ public class Hostile : Character
             lootBox.GetComponent<Loot>().Initialize(itemsLoot, transform.position);
         }
         base.die();
+    }
+
+    private float calculateExpGiven(float playerLevel)
+    {
+        return (level / ((float)playerLevel * playerLevel)) * (Constants.BaseExp - (playerLevel / (float)Constants.MaxLevel)); 
     }
 
 

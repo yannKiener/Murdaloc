@@ -1,0 +1,64 @@
+{  
+   "text":"Hey %T.",
+   "choices":[  
+      {  
+         "condition":"!KillGoreTusksStarted",
+         "choice":"You need something from me?",
+         "dialog":{  
+            "text":"Indeed. There is a GoreTusk family, three of them. They are breaking my ballz. Could you kill them for me dude ?",
+            "choices":[  
+               {  
+                  "choice":"Allright",
+                  "dialog":{  
+                     "startQuest":"KillGoreTusks",
+                     "action":"exit"
+                  }
+               },
+               {  
+                  "choice":"Nope.",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "condition":"KillGoreTusksStarted&!KillGoreTusksOver",
+         "choice":"About those GoreTusks",
+         "dialog":{  
+            "text":"Yeah? Are they dead ?",
+            "choices":[  
+               {
+				 "condition":"KillGoreTusksReady",
+				 "choice":"As dead as your grandpa.",
+				 "dialog":{  
+					"text":"Well done %T!",
+					"endQuest":"KillGoreTusks",
+					"choices":[  
+					   {  
+						  "choice":"<Leave>",
+						  "dialog":{  
+							 "action":"exit"
+						  }
+					   }
+					]
+				 }
+               },
+               {  
+                  "choice":"Not yet",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "choice":"Nevermind",
+         "dialog":{  
+            "action":"exit"
+         }
+      }
+   ]
+}
