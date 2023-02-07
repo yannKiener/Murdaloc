@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StartNewGameButton : MonoBehaviour {
 
     public GameObject inputText;
+    public string sceneName;
 
     public void StartNewgame()
     {
@@ -14,7 +15,7 @@ public class StartNewGameButton : MonoBehaviour {
         {
             GameUtils.SetPlayer(text);
             GameUtils.SetNewGame();
-            GameUtils.LoadScene("LevelOne");
+            GameUtils.LoadScene(sceneName);
         }
     }
 
