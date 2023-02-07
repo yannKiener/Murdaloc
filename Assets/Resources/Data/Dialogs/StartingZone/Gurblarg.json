@@ -1,11 +1,11 @@
 {  
-   "text":"Ah, %T. I've been expecting you.",
+   "text":"Hey, i'm the Warrior around here.",
    "choices":[  
 	  {
          "condition":"Blade for everyoneOver&!TalentTreeSelected",
-         "choice":"The chief send me.",
+         "choice":"I need help pls.",
          "dialog":{   
-            "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a WARRIOR, right ?",
+            "text":"Let me guess... He wants you to get stronger. Hmm. I know what to do. You want to become a MAGE, right ?",
             "choices":[  
                {  
                   "choice":"Sure !",

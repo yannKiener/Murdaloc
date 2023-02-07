@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Friendly : Character
 {
 
+    public string Title;
     public string DialogName;
     public List<SellTable> SellTable;
     private Dictionary<Item, bool> sellTable = new Dictionary<Item, bool>();
@@ -20,7 +22,7 @@ public class Friendly : Character
             AddDialog(DialogName);
         }
 
-        if(SellTable != null && SellTable.Count > 0) { 
+        if (SellTable != null && SellTable.Count > 0) {
             foreach (SellTable st in SellTable)
             {
                 sellTable.Add(Items.GetItemFromDB(st.itemName), st.hasInfinite);
@@ -29,6 +31,33 @@ public class Friendly : Character
         {
             sellTable = GetDefaultSellItems();
         }
+
+        DisplayNameAndTitle();
+    }
+
+    private void DisplayNameAndTitle()
+    {
+        GameObject textOverFriendlyPrefab =Resources.Load<GameObject>("Prefab/UI/TextOverFriendly");
+        if (textOverFriendlyPrefab != null)
+        {
+            GameObject textOverFriendly = Instantiate(textOverFriendlyPrefab, this.transform);
+            string nameAndTitle = (GetTitle() != null && GetTitle().Length > 3) ? GetName() + "\n" + GetTitle() : GetName();
+            textOverFriendly.GetComponentInChildren<Text>().text = nameAndTitle;
+        } else
+        {
+            Debug.Log("GameObject for Friendly names is null ! ");
+        }
+
+    }
+
+    public void SetTitle(string title)
+    {
+        this.Title = title;
+    }
+
+    public string GetTitle()
+    {
+        return "<" + Title + ">";
     }
 
     public List<AudioClip> GetTalkSounds()
