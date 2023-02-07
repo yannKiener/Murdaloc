@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Consumable : Item
 {
 
     private int stacks;
     private Spell spell;
-    private static float coolDown = 0;
+    private static float coolDownRemaing = 0;
 
     public Consumable(string name, string description, Spell spell)
     {
@@ -24,15 +25,6 @@ public class Consumable : Item
         this.image = image;
     }
 
-    public override string GetDescription()
-    {
-        if(stacks > 1)
-        {
-            return description + "\n" + "(" + stacks + ")";
-        }
-        return description;
-    }
-
     public int GetStacks()
     {
         return stacks;
@@ -43,6 +35,7 @@ public class Consumable : Item
         if (stacks > 1)
         {
             stacks--;
+            updateInventoryStacks();
             return false;
         } else
         {
@@ -55,14 +48,26 @@ public class Consumable : Item
     public bool AddOne()
     {
         stacks++;
+        updateInventoryStacks();
         return true;
+    }
+
+    private void updateInventoryStacks()
+    {
+        if(stacks > 1)
+        {
+            FindUtils.GetInventoryGrid().GetSlotWith(this.GetName()).GetComponentInChildren<Text>().text = stacks.ToString();
+        } else
+        {
+            FindUtils.GetInventoryGrid().GetSlotWith(this.GetName()).GetComponentInChildren<Text>().text = "";
+        }
     }
 
     public override void Use(Character caster)
     {
         if (isInInventory)
         {
-            if (spell != null)
+            if (spell != null && caster.GCDReady() && !caster.IsCasting())
             {
                 FindUtils.GetPlayer().CastSpell(spell);
                 RemoveOne();

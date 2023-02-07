@@ -56,7 +56,15 @@ public class Player : Character
 
         if (Input.GetKeyDown (KeyCode.X)) {
 			LevelUp ();
-            FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
+            //FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of cunning"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of might"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of deftness"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Longjaw Mud Snapper"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Boiled Clams"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
+            FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
         }
 
         if (Input.GetKeyDown(KeyCode.W))

@@ -177,7 +177,7 @@ public class Inventory : MonoBehaviour, Slotable {
 
     public bool RemoveItem(Item item)
     {
-        GameObject slot = getSlotWith(item.GetName());
+        GameObject slot = GetSlotWith(item.GetName());
         if (slot == null)
         {
             MessageUtils.ErrorMessage("No item found : " + item.GetName());
@@ -215,11 +215,12 @@ public class Inventory : MonoBehaviour, Slotable {
         } else
         {
             Item tempItem = item;
+            tempItem.isInInventory = true;
 
             if (tempItem is Equipment)
                 ((Equipment)tempItem).isEquipped = false;
 
-            if (tempItem is Consumable && getSlotWith(tempItem.GetName()) != null)
+            if (tempItem is Consumable && GetSlotWith(tempItem.GetName()) != null)
             {
                 getConsumableWithName(tempItem.GetName()).AddOne();
                 return true;
@@ -269,6 +270,7 @@ public class Inventory : MonoBehaviour, Slotable {
         return null;
     }
 
+
     private Consumable getConsumableWithName(string name)
     {
         for (int i = 0; i < slotNumber; i++)
@@ -283,7 +285,7 @@ public class Inventory : MonoBehaviour, Slotable {
     }
 
 
-    private GameObject getSlotWith(string name)
+    public GameObject GetSlotWith(string name)
     {
         for (int i = 0; i < slotNumber; i++)
         {

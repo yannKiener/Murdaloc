@@ -14,11 +14,7 @@ public static class InterfaceUtils {
         attachTo.GetComponent<Slot>().usable = usable;
         if(usable is Consumable)
         {
-            int stacks = ((Consumable)usable).GetStacks();
-            if (stacks > 1)
-            {
-                GUI.Label(new Rect(usableSlot.transform.position, new Vector2(1,1)), stacks.ToString(), FindUtils.GetInterface().textOverStyle);
-            }
+            GameObject.Instantiate(Resources.Load<GameObject>("Prefab/UI/Stacks"),usableSlot.transform);
         }
     }
 

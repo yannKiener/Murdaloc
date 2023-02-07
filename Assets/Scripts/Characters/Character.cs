@@ -646,7 +646,7 @@ public abstract class Character : MonoBehaviour
 		}
 	}
 
-	protected bool GCDReady(){
+	public bool GCDReady(){
 		bool isReady = gcd <= 0;
 		//if (!isReady)
 			//print ("GCD : " + gcd.ToString("0.0"));
