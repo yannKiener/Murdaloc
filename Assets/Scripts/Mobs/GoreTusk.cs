@@ -11,6 +11,7 @@ public class GoreTusk : MonoBehaviour {
         lootTable.Add("Neckitem", 60);
         lootTable.Add("Torsoitem", 40);
 		mob.Initialize("Goretusk",1,false,lootTable);
+        mob.AddDialog("test");
 	}
 	
 	// Update is called once per frame

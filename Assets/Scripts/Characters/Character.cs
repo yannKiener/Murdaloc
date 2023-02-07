@@ -31,6 +31,7 @@ public abstract class Character : MonoBehaviour
 	protected float autoAttackTime = 0f;
     protected Dictionary<string, int> lootTable;
     protected bool isElite;
+	protected Dialog dialog;
 
     public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, int> lootTable = null)
 	{
@@ -52,7 +53,14 @@ public abstract class Character : MonoBehaviour
         }
         this.lootTable = lootTable;
     }
+	
+	public void AddDialog(string dialogName){
+        this.dialog = DatabaseUtils.GetDialog(dialogName);
+    }
 
+	public Dialog GetDialog(){
+		return dialog;
+	}
     public List<Item> GetLoots()
     {
         List<Item> result = new List<Item>();
@@ -528,15 +536,5 @@ public abstract class Character : MonoBehaviour
 
 	}
 
-
-}
-
-
-
-
-
-[System.Serializable]
-public class Friendly : Character
-{
 
 }

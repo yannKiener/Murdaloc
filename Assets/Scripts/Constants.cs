@@ -39,6 +39,10 @@ public static class Constants {
 	//Enemies 
 	public static readonly float AggroDistance = 2;
 	public static readonly float AggroOtherDistance = 2;
+	
+	
+	//Save
+	public static readonly string QuestStatusFile = "/QuestStatus.dat";
 
 
 

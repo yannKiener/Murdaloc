@@ -1,0 +1,64 @@
+{  
+   "text":"Hello there.",
+   "choices":[  
+      {  
+         "condition":"!QuestStarted",
+         "choice":"Is everything fine?",
+         "dialog":{  
+            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp, please don't ask why. Could you get it for me quickly?",
+            "choices":[  
+               {  
+                  "choice":"Allright",
+                  "dialog":{  
+                     "startQuest":"Quest",
+                     "action":"exit"
+                  }
+               },
+               {  
+                  "choice":"Hell no. <Leave>",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "condition":"QuestReady",
+         "choice":"I have the ring!",
+         "dialog":{  
+            "text":"Well done %T!",
+            "endQuest":"Quest",
+            "choices":[  
+               {  
+                  "choice":"<Leave>",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "condition":"QuestOver",
+         "choice":"About the ring...",
+         "dialog":{  
+            "text":"<He winks>. It's a pretty one, right ? See you later dude",
+            "choices":[  
+               {  
+                  "choice":"<Leave>",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "choice":"Nevermind",
+         "dialog":{  
+            "action":"exit"
+         }
+      }
+   ]
+}
