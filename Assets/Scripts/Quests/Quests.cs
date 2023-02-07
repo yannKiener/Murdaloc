@@ -74,10 +74,12 @@ public static class Quests {
     {
         if (quests.ContainsKey(questName))
         {
-            quests[questName].End();
-            quests.Remove(questName);
-            FindUtils.GetPlayer().AddExp(Constants.expPerQuestPercent);
-            UpdateQuestLog();
+            if (quests[questName].End())
+            {
+                quests.Remove(questName);
+                FindUtils.GetPlayer().AddExp(Constants.expPerQuestPercent);
+                UpdateQuestLog();
+            }
         }
     }
 

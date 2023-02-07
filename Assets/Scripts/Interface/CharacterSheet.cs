@@ -209,27 +209,21 @@ public class CharacterSheet : MonoBehaviour, Slotable {
             case EquipmentSlot.Feet:
                 return RemoveEquipmentSlot(transform.Find("Feet").gameObject);
             case EquipmentSlot.TwoHanded:
-                Debug.Log("Removing both weaps");
                 bool hasRemovedBothWeap = RemoveEquipmentSlot(transform.Find("Weapon1").gameObject) && RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
-                Debug.Log("Result : " + hasRemovedBothWeap);
                 if (hasRemovedBothWeap)
                 {
                     FindUtils.GetPlayer().ResetAutoAttacks();
                 }
                 return hasRemovedBothWeap;
             case EquipmentSlot.Weapon1:
-                Debug.Log("Removing weap 1");
                 bool hasRemovedWeap1 = RemoveEquipmentSlot(transform.Find("Weapon1").gameObject);
-                Debug.Log("Result : " + hasRemovedWeap1);
                 if (hasRemovedWeap1)
                 {
                     FindUtils.GetPlayer().ResetAutoAttack1();
                 }
                 return hasRemovedWeap1;
             case EquipmentSlot.Weapon2:
-                Debug.Log("Removing weap2");
                 bool hasRemovedWeap2 = RemoveEquipmentSlot(transform.Find("Weapon2").gameObject);
-                Debug.Log("Result : " + hasRemovedWeap2);
                 if (hasRemovedWeap2)
                 {
                     FindUtils.GetPlayer().ResetAutoAttack2();

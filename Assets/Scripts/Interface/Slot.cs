@@ -10,7 +10,7 @@ public class Slot : MonoBehaviour, IDropHandler, IPointerClickHandler, IPointerE
 
     void Start()
     {
-        GetComponent<Image>().color = new Color(1,1,1,0.5f);
+        GetComponent<Image>().color = new Color(1,1,1,0.6f);
 
     }
     

@@ -200,7 +200,7 @@ public class Inventory : MonoBehaviour, Slotable {
         return count >= number;
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem(Item item, bool isFromDrag = false)
     {
         GameObject slot = getFirstFreeSlot();
         if (slot == null)
@@ -215,7 +215,9 @@ public class Inventory : MonoBehaviour, Slotable {
             if (tempItem is Equipment)
                 ((Equipment)tempItem).isEquipped = false;
 
-            if (tempItem is Consumable && GetSlotWith(tempItem.GetName()) != null)
+            bool isConsumable = tempItem is Consumable;
+
+            if (isConsumable && GetSlotWith(tempItem.GetName()) != null && !isFromDrag)
             {
                 getConsumableWithName(tempItem.GetName()).AddOne();
                 return true;
@@ -256,7 +258,7 @@ public class Inventory : MonoBehaviour, Slotable {
             Usable tempUsable = Draggable.currentUsable;
             if (tempUsable is Item)
             {
-                if (!AddItem((Item)tempUsable))
+                if (!AddItem((Item)tempUsable, true))
                 {
                     eventData.Use();
                 }

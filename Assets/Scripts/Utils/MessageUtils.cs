@@ -12,7 +12,6 @@ public static class MessageUtils {
         floatingText.setText(text);
         floatingText.setColor(Color.red);
         floatingText.transform.position += new Vector3(FindUtils.GetPlayer().transform.position.x,0,0);
-
     }
 
 
@@ -23,7 +22,6 @@ public static class MessageUtils {
         floatingText.setText(text);
         floatingText.setColor(Color.white);
         floatingText.transform.position += new Vector3(FindUtils.GetPlayer().transform.position.x, -1, 0);
-
     }
 
 }

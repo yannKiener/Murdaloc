@@ -73,7 +73,6 @@ public class Quest{
 	public void SetReady()
     {
         Interface.QuestReadyToTurnIn(); 
-        Debug.Log("Quest Ready to turn in!");
         DialogStatus.SetStatus(questName + "Ready", true);
         isQuestReady = true;
 	}
@@ -93,20 +92,26 @@ public class Quest{
                 LootObjective o = (LootObjective)objective;
                 FindUtils.GetInventoryGrid().RemoveItem(Items.GetQuestEquipmentFromDB(o.GetLootName()));
             }
-        }
-            
-           
+        }    
     }
 	
-	public void End()
+	public bool End()
     {
-        Interface.QuestDone();
-        removeObjectiveItemsInInventory();
-        foreach (Item i in rewards)
+        if (FindUtils.GetInventoryGrid().HasAtLeastFreeSlots(rewards.Count))
         {
-            FindUtils.GetInventoryGrid().AddItem(i);
+            Interface.QuestDone();
+            removeObjectiveItemsInInventory();
+            foreach (Item i in rewards)
+            {
+                FindUtils.GetInventoryGrid().AddItem(i);
+            }
+            DialogStatus.SetStatus(questName + "Over", true);
+            return true;
+        } else
+        {
+            MessageUtils.ErrorMessage("Make space in inventory first.");
+            return false;
         }
-        DialogStatus.SetStatus(questName + "Over", true);
 	}
 
 }

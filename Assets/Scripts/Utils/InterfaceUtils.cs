@@ -14,7 +14,11 @@ public static class InterfaceUtils {
         attachTo.GetComponent<Slot>().usable = usable;
         if(usable is Consumable)
         {
-            GameObject.Instantiate(Resources.Load<GameObject>("Prefab/UI/Stacks"),usableSlot.transform);
+            GameObject stackGo = GameObject.Instantiate(Resources.Load<GameObject>("Prefab/UI/Stacks"),usableSlot.transform);
+            if (((Consumable)usable).GetStacks() > 1)
+            {
+                stackGo.GetComponent<Text>().text = ((Consumable)usable).GetStacks().ToString();
+            }
         }
     }
 

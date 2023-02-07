@@ -60,7 +60,6 @@ public class Consumable : Item
         {
             FindUtils.GetInventoryGrid().RemoveItem(this);
         }
-        //Remove from inventory
         return true;
     }
 
