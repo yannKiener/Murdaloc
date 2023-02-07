@@ -167,8 +167,40 @@ public class Hostile : Character
         }
         CancelInvoke("randomizeDirection");
         CancelInvoke("AggroAroundSelf");
+        LeaveCombat();
+        direction = 0;
+        Invoke("Respawn", Constants.RespawnTimer);
         base.die();
     }
+
+    private void Respawn()
+    {
+        this.isDead = false;
+        currentLife = stats.MaxLife;
+        Invoke("RespawnReady", Constants.TimeToFadeInOrOut);
+        StartCoroutine("FadeIn");
+    }
+
+    private void RespawnReady()
+    {
+        InvokeRepeating("randomizeDirection", 1f, 1f);
+        InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
+    }
+
+
+    IEnumerator FadeIn()
+    {
+        Color spriteColor = transform.GetComponent<SpriteRenderer>().color;
+        float alpha = spriteColor.a;
+        while (alpha < 1f)
+        {
+            alpha += Time.deltaTime / Constants.TimeToFadeInOrOut;
+            transform.GetComponent<SpriteRenderer>().color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+            yield return null;
+        }
+    }
+
+
 
     private float calculateExpGiven(float playerLevel)
     {

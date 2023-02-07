@@ -6,7 +6,7 @@ public static class Constants {
 	//Global Gameplay 
 	public static readonly float MaxSpeed = 8f;
     public static readonly float JumpForce = 5f; 
-	public static readonly float BaseExp = 20f; 
+	public static readonly float BaseExp = 30f; 
 
 	//Strings
 	public static readonly string Mana = "Mana";
@@ -78,7 +78,8 @@ public static class Constants {
     public static readonly float AggroDistance = 2;
 	public static readonly float AggroOtherDistance = 2;
     public static readonly float LootMaxDistance = 3.2f;
-    public static readonly float TimeToFadeInOrOut = 1f;
+    public static readonly float TimeToFadeInOrOut = 2f;
+    public static readonly float RespawnTimer = 500;
 
 
     //Save

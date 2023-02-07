@@ -654,9 +654,10 @@ public abstract class Character : MonoBehaviour
         }
 	}
      
-     protected void UpdateCombat (){
-		if (inCombat) {
-			ClearEnemyList ();
+     protected void UpdateCombat ()
+    {
+        ClearEnemyList();
+        if (inCombat) {
 			UpdateTarget ();
 		}
 	}
