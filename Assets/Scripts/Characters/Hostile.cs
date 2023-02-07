@@ -33,6 +33,11 @@ public class Hostile : Character
             currentLife = stats.MaxLife;
         }
 
+        if(statPercent != 100)
+        {
+            stats.UpdatePercentToAll(statPercent);
+        }
+
         autoAttack1Damage = stats.AutoAttackDamage;
         autoAttack1Speed = stats.AutoAttackTime;
 

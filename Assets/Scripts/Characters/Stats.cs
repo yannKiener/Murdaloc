@@ -202,6 +202,16 @@ public class Stats {
         critical = (int)(critical * multiplier);
     }
 
+    public void UpdatePercentToAll(float percent)
+    {
+        Stamina = (int)(stamina * percent / 100);
+        Force = (int)(force * percent / 100);
+        Agility = (int)(agility * percent / 100);
+        Intelligence = (int)(intelligence * percent / 100);
+        Spirit = (int)(spirit * percent / 100);
+        AutoAttackDamage = (int)(autoAttackDamage * percent / 100);
+    }
+
 	public float AddPercent(Stat stat, float percent){
 		float result;
 		switch (stat) {

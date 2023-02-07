@@ -17,6 +17,7 @@ public abstract class Character : MonoBehaviour
 	protected Spell castingSpell;
 	public int level;
     public bool isElite;
+    public float statPercent = 100;
     protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
 	protected List<EffectOnTime> buffList = new List<EffectOnTime>();
