@@ -7,8 +7,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
 	void Awake (){
-		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,1,6,0.5f,100,0));
-		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,3,10,1,0,80));
+		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,1,6,0.5f,null,newDamageOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},60)));
+		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50)));
 
 		Spells.Add (new HostileSpell ("fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null));
 		Spells.Add (new HostileSpell ("slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},30),null,null));
@@ -18,7 +18,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
 
-	private Action<Character, Character> newDamage (Dictionary<Stat, float> statWeight, int baseDamage) {
+	private Action<Character, Character> newHeal(Dictionary<Stat, float> statWeight, int baseHeal){
+		return newAction (statWeight, baseHeal, true);
+	}
+
+	private Action<Character, Character> newDamage(Dictionary<Stat, float> statWeight, int baseDamage){
+		return newAction (statWeight, baseDamage, false);
+	}
+
+	private Action<Character, Character> newAction (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal) {
 		float forceMultiplier = 0;
 		float agilityMultiplier = 0;
 		float intelligenceMultiplier = 0;
@@ -42,22 +50,96 @@ public class SpellAndEffectLoader : MonoBehaviour {
 				spiritMultiplier = p.Value;
 			}
 		}
-			
-		return ((Character arg1, Character arg2) => {
-			int damage = baseDamage;
+		if (!isHeal) {
+			return ((Character arg1, Character arg2) => {
+				int damage = baseNumber;
 
-			Stats casterStats = arg1.GetStats ();
-			bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
+				Stats casterStats = arg1.GetStats ();
+				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
 
-			damage = damage + (damage * casterStats.Power / 100); //Applying power 
-			if (isCrit) { // Apply Crit
-				damage = damage * 2;
-			}
-			arg2.ApplyDamage((int)(damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100),isCrit);
-		});
+				damage = damage + (damage * casterStats.Power / 100); //Applying power 
+				if (isCrit) { // Apply Crit
+					damage = damage * 2;
+				}
+				arg2.ApplyDamage ((int)(damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100), isCrit);
+			});
+		} else {
+			return ((Character arg1, Character arg2) => {
+				int heal = baseNumber;
+
+				Stats casterStats = arg1.GetStats ();
+				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
+
+				heal = heal + (heal * casterStats.Power / 100); //Applying power 
+				if (isCrit) { // Apply Crit
+					heal = heal * 2;
+				}
+				arg2.ApplyHeal ((int)(heal + heal * UnityEngine.Random.Range (-30f, 30f) / 100), isCrit);
+			});
+		}
 	}
 
 
+	private Action<Character, Character, float, int> newHealOnTime(Dictionary<Stat, float> statWeight, int baseHeal){
+		return newActionOntime (statWeight, baseHeal, true);
+	}
+
+	private Action<Character, Character, float, int> newDamageOnTime(Dictionary<Stat, float> statWeight, int baseDamage){
+		return newActionOntime (statWeight, baseDamage, false);
+	}
+
+	private Action<Character, Character, float, int> newActionOntime (Dictionary<Stat, float> statWeight, int baseNumber, bool isHeal) {
+		float forceMultiplier = 0;
+		float agilityMultiplier = 0;
+		float intelligenceMultiplier = 0;
+		float staminaMultiplier = 0;
+		float spiritMultiplier = 0;
+
+		foreach (KeyValuePair<Stat,float> p in statWeight) {
+			if(p.Key == Stat.force){
+				forceMultiplier = p.Value;
+			}
+			if(p.Key == Stat.agility){
+				agilityMultiplier = p.Value;
+			}
+			if(p.Key == Stat.intelligence){
+				intelligenceMultiplier = p.Value;
+			}
+			if(p.Key == Stat.stamina){
+				staminaMultiplier = p.Value;
+			}
+			if(p.Key == Stat.spirit){
+				spiritMultiplier = p.Value;
+			}
+		}
+		if (!isHeal) {
+			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
+				int damage = baseNumber;
+
+				Stats casterStats = arg1.GetStats ();
+				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
+
+				damage = damage + (damage * casterStats.Power / 100); //Applying power 
+				if (isCrit) { // Apply Crit
+					damage = damage * 2;
+				}
+				arg2.ApplyDamage ((int)((damage + damage * UnityEngine.Random.Range (-30f, 30f) / 100)*stacks*timedivider), isCrit);
+			});
+		} else {
+			return ((Character arg1, Character arg2, float timedivider, int stacks) => {
+				int heal = baseNumber;
+
+				Stats casterStats = arg1.GetStats ();
+				bool isCrit = casterStats.Critical > UnityEngine.Random.Range (1, 101);
+
+				heal = heal + (heal * casterStats.Power / 100); //Applying power 
+				if (isCrit) { // Apply Crit
+					heal = heal * 2;
+				}
+				arg2.ApplyHeal ((int)((heal + heal * UnityEngine.Random.Range (-30f, 30f) / 100)*stacks*timedivider), isCrit);
+			});
+		}
+	}
 
 	// Use this for initialization
 	void Start () {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 [System.Serializable]
@@ -19,7 +20,6 @@ public static class EffectsOnTime
 	}
 }
 
-
 public class EffectOnTime
 {
 	private float duration;
@@ -31,28 +31,28 @@ public class EffectOnTime
 	private bool isStackable = false;
 	private int stacks = 1;
 	private int maxStacks = 1;
+	private Action<Character,Character> applyOnce;
+	private Action<Character,Character, float, int> tic;
 
 	private Character attachedCharacter = null;
 	private Character caster;
-	private int damagePerTic = 0;
-	private int healPerTic = 0;
 	private float timeLeft;
 	private float nextTic;
 	private bool toBeRemoved = false;
 
-	public EffectOnTime(string name, string description, bool isBuff, int stacks, float duration, float timePerTic, float totalDamage, float totalHeal){
+	public EffectOnTime(string name, string description, bool isBuff, int maxStacks, float duration, float timePerTic,Action<Character,Character> applyOnce, Action<Character,Character, float, int> tic){
 		this.name = name;
 		this.description = description;
 		this.isBuff = isBuff;
 		this.timePerTic = timePerTic;
 		this.duration = duration;
-		this.damagePerTic = (int)((totalDamage/duration)*timePerTic);
-		this.healPerTic = (int)((totalHeal/duration)*timePerTic);
 		this.nextTic = duration - timePerTic;
-		if (stacks > 1) {
+		if (maxStacks > 1) {
 			this.isStackable = true;
 		}
-		this.maxStacks = stacks;
+		this.applyOnce = applyOnce;
+		this.tic = tic;
+		this.maxStacks = maxStacks;
 	}
 
 	public EffectOnTime(EffectOnTime effect){
@@ -62,12 +62,13 @@ public class EffectOnTime
 		this.isBuff = effect.IsBuff();
 		this.timePerTic = effect.timePerTic;
 		this.duration = effect.duration;
-		this.damagePerTic = effect.damagePerTic;
-		this.healPerTic = effect.healPerTic;
+		this.applyOnce = effect.applyOnce;
+		this.tic = effect.tic;
 		this.nextTic = duration - timePerTic;
 		this.attachedCharacter = effect.attachedCharacter;
 		this.caster = effect.caster;
 		this.isStackable = effect.isStackable;
+		this.maxStacks = effect.maxStacks;
 		this.timePerTic = timePerTic - timePerTic * caster.GetStats ().Haste / Constants.hasteDivider; // pour prendre en compte la hate du caster
 	}
 		
@@ -135,23 +136,8 @@ public class EffectOnTime
 
     public void Tic()
     {
-		attachedCharacter.ApplyDamage (modifiedTic(damagePerTic), isCrit);
-		attachedCharacter.ApplyHeal (modifiedTic(healPerTic), isCrit);
+		tic (caster, attachedCharacter,timePerTic/duration,stacks);
     }
-
-
-	private int modifiedTic (int number)
-	{
-		Stats casterStats = caster.GetStats ();
-		this.isCrit = casterStats.Critical > Random.Range (1, 101);
-
-		number = number + (number * casterStats.Power / 100); //Applying power 
-		if (this.isCrit) { // Apply Crit
-			number = number * 2;
-		}
-		return (int)(number + number * Random.Range (-30f, 30f) / 100) * stacks;
-	}
-
 
     public void Update()
     {
