@@ -23,7 +23,7 @@ public class Quest{
 
     public void Start(){
         DialogStatus.SetStatus(questName + "Started", true);
-        Debug.Log("Quest started");
+        Debug.Log("Quest started : " + questName);
 	}
 
     public string GetName()

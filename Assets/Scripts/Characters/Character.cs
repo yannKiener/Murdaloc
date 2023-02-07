@@ -29,12 +29,12 @@ public abstract class Character : MonoBehaviour
 	protected bool autoAttackEnabled = true;
 	protected bool autoAttackIsCrit = false;
 	protected float autoAttackTime = 0f;
-    protected Dictionary<string, int> lootTable;
+    protected Dictionary<string, object> lootTable;
     protected bool isElite;
 	protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
 
-    public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, int> lootTable = null)
+    public void Initialize(string name, int level = 1, bool isElite = false, Dictionary<string, object> lootTable = null)
 	{
 		if (resource == null) {
 			resource = new Mana ();
@@ -66,15 +66,30 @@ public abstract class Character : MonoBehaviour
     {
         List<Item> result = new List<Item>();
         if( lootTable != null) { 
-            foreach(KeyValuePair<string, int> kv in lootTable)
+            foreach(KeyValuePair<string, object> kv in lootTable)
             {
-                if(Random.Range(0,101) < kv.Value)
+                if(kv.Value is int)
                 {
-                    if (kv.Key.Equals("Random"))
+                    int intValue = (int)kv.Value;
+                    if(Random.Range(0,101) < intValue)
                     {
-                        result.Add(ItemGenerator.GenerateItem(level));
-                    } else { 
-                        result.Add(Items.GetFromDB(kv.Key));
+                        if (kv.Key.Equals("Random"))
+                        {
+                            result.Add(ItemGenerator.GenerateItem(level));
+                        } else { 
+                            result.Add(Items.GetItemFromDB(kv.Key));
+                        }
+                    } 
+                } else if(kv.Value is string)
+                {
+                    string stringValue = kv.Value.ToString();
+                    Debug.Log(stringValue);
+                    Debug.Log(DialogStatus.GetStatus(stringValue + "Started"));
+                    Debug.Log(!DialogStatus.GetStatus(stringValue + "Ready"));
+                    if (DialogStatus.GetStatus(stringValue + "Started") && !DialogStatus.GetStatus(stringValue + "Ready")) 
+                    {
+                        //TODOO : Vérifier par l'objectif de la quête avec un truc genre "GetObjectiveWithItem(string itemName)" si c'est lootable ou non
+                        result.Add(Items.GetQuestItemFromDB(kv.Key));
                     }
                 }
             }
@@ -82,14 +97,14 @@ public abstract class Character : MonoBehaviour
         return result;
     }
 
-    public void SetLootTable(Dictionary<string, int> lootTable)
+    public void SetLootTable(Dictionary<string, object> lootTable)
     {
         this.lootTable = lootTable;
     }
 
-    protected virtual Dictionary<string, int> GetDefaultLootTableForLevel(int level)
+    protected virtual Dictionary<string, object> GetDefaultLootTableForLevel(int level)
     {
-        Dictionary<string, int> result = new Dictionary<string, int>();
+        Dictionary<string, object> result = new Dictionary<string, object>();
         result.Add("Random", (int)((level / Constants.MaxLevel) * 100));
         if (isElite)
         {
@@ -98,7 +113,7 @@ public abstract class Character : MonoBehaviour
         return result;
     }
 
-    public Dictionary<string, int> GetLootTable()
+    public Dictionary<string, object> GetLootTable()
     {
         return lootTable;
     }

@@ -1,0 +1,10 @@
+{  
+   "objectives":[  
+      {  
+         "kill":{  
+            "name":"Goretusk",
+            "count":3
+         }
+      }
+   ]
+}

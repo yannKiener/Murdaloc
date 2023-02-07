@@ -9,7 +9,7 @@ public class FriendlyMurloc : MonoBehaviour {
     {
         Friendly mob = gameObject.AddComponent<Friendly>();
         mob.Initialize("Friendly Murloc", 1, false);
-        mob.AddDialog("test");
+        mob.AddDialog("FriendlyMurloc");
 
     }
 	

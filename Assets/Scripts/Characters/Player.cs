@@ -51,7 +51,12 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(ItemGenerator.GenerateItem(level));
         }
 
-		MovePlayer(GetComponent<Rigidbody2D>()); 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            GetTarget().die();
+        }
+
+        MovePlayer(GetComponent<Rigidbody2D>()); 
 	}
 
     public override void LevelUp()

@@ -1,0 +1,10 @@
+{  
+   "objectives":[  
+      {  
+         "loot":{  
+            "name":"Wedding Ring",
+            "count":1
+         }
+      }
+   ]
+}

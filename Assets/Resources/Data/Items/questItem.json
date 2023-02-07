@@ -1,0 +1,9 @@
+{  
+   "Wedding Ring":{  
+      "description":"The friendly murloc's wedding ring",
+      "levelRequirement":1,
+      "type":"Ring",
+      "stats":{  
+      }
+   }
+}

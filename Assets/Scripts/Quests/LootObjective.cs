@@ -10,7 +10,6 @@ public class LootObjective : Objective {
 
     public LootObjective(string name, int count)
     {
-        Debug.Log("new lootObjective : loot " + count + " " + name);
         this.lootName = name;
         this.itemCount = count;
     }

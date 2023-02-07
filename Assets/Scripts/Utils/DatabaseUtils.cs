@@ -16,7 +16,6 @@ public static class DatabaseUtils {
 
     public static JSONObject GetQuest(string questName)
     {
-        Debug.Log("Loading quest : " + questName);
         return JSON.Parse(Resources.Load<TextAsset>("Data/Quests/" + questName).text).AsObject;
     }
 
@@ -38,10 +37,24 @@ public static class DatabaseUtils {
         return JSON.Parse(Resources.Load<TextAsset>("Data/Items/categories").text).AsObject["categories"].AsArray;
     }
 
+    public static JSONObject GetJsonQuestItem(string itemName)
+    {
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/questItems").text).AsObject[itemName].AsObject;
+
+        if (result == null || result.Count == 0)
+        {
+            return null;
+        }
+        else
+        {
+            result.Add("name", itemName);
+            return result;
+        }
+    }
 
     public static JSONObject GetJsonItem(string itemName)
     {
-        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/items").text).AsObject[itemName].AsObject;
+        JSONObject result = JSON.Parse(Resources.Load<TextAsset>("Data/Items/questItem").text).AsObject[itemName].AsObject;
         
         if (result == null || result.Count == 0)
         {
