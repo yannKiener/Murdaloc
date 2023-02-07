@@ -106,14 +106,13 @@ public abstract class Spell
 	protected int modifiedSpell (Character caster, Character target, int number)
 	{
 		Stats casterStats = caster.GetStats ();
-		int damage = number + (int)(number * Random.Range (-30f, 30f) / 100);
 		this.isCrit = casterStats.Critical > Random.Range (1, 101);
 
-		if (this.isCrit) {
-			damage = damage * 2;
+		number = number + number * casterStats.Power / 100; //Applying power 
+		if (this.isCrit) { // Apply Crit
+			number = number * 2;
 		}
-		//apply casterStats and targetStats here
-		return damage;
+		return (int)(number * Random.Range (-30f, 30f) / 100);
 	}
 
 	protected void applyEffectsOn(Character character, List<EffectOnTime> effects){
