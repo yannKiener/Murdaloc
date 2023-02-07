@@ -290,9 +290,12 @@ public abstract class Character : InteractableBehaviour
         {
             autoAttack1Damage = GetBasicAutoAttackDamage();
         }
-        this.currentLife = this.GetMaxLife();
+        if(!IsDead())
+        {
+            this.currentLife = this.GetMaxLife();
+        }
 
-	}
+    }
 
     public int GetLevel()
     {
@@ -585,7 +588,7 @@ public abstract class Character : InteractableBehaviour
 		spellsOnCD.Add (s);
 	}
 
-    protected void PlayAutoAttackSoundAndAnim(bool isMainWeapon)
+    protected string PlayAutoAttackSoundAndAnimReturnWeapType(bool isMainWeapon)
     {
         SoundManager.PlaySoundsWithRandomChance(attackSounds, 50);
 
@@ -610,30 +613,34 @@ public abstract class Character : InteractableBehaviour
 
         if (anim != null)
         {
-            if (weapType.Equals(unarmed)){
+            if (weapType.Equals(unarmed))
+            {
 
                 anim.Play("Attack");
-            } else {
+            }
+            else
+            {
                 string attackAnim = "Attack";
 
                 if (weapType.Contains("TwoHanded"))
                 {
                     attackAnim += "2h";
-                } else
+                }
+                else
                 {
                     attackAnim += "1h";
                 }
 
                 //Choose from two anims randomly
-                if(Random.Range(0,2) == 0)
+                if (Random.Range(0, 2) == 0)
                 {
                     attackAnim += "2";
                 }
                 anim.Play(attackAnim);
-            } 
+            }
         }
 
-        SoundManager.PlaySound(DatabaseUtils.GetWeaponAudio(weapType)); 
+        return weapType;
     }
 
     public bool IsReadyToAutoAttack()
@@ -645,7 +652,6 @@ public abstract class Character : InteractableBehaviour
     protected bool IsReadyToAutoAttack1()
     {
         return (autoAttack1Damage > 0 && autoAttack1Speed > 0f) && autoAttack1Time >= modifiedAutoAttackTime(autoAttack1Speed) && autoAttackDistanceOK();
-
     }
 
     protected bool IsReadyToAutoAttack2()
@@ -671,6 +677,18 @@ public abstract class Character : InteractableBehaviour
 		}
 	}
 
+
+    private IEnumerator ApplyAutoAttackWithDelay(Character tar, int damage, bool isCrit, bool isMainHand, string weapType)
+    {
+        yield return new WaitForSeconds(Constants.autoAttackApplyDelay);
+        tar.ApplyDamage(damage, isCrit, true);
+        SoundManager.PlaySound(DatabaseUtils.GetWeaponAudio(weapType));
+        if (this.GetResourceType() is Rage)
+        {
+            GainRage(damage, isCrit, isMainHand);
+        }
+    }
+
     public void ApplyAutoAttack()
     {
         if (IsReadyToAutoAttack1())
@@ -678,12 +696,8 @@ public abstract class Character : InteractableBehaviour
             autoAttack1Time = 0;
             int autoattack1Dmg = modifiedAutoAttackDamage(autoAttack1Damage);
             bool isAutoattack1Crit = autoAttackIsCrit;
-            target.ApplyDamage(autoattack1Dmg, isAutoattack1Crit, true);
-            if (this.GetResourceType() is Rage)
-            {
-                GainRage(autoattack1Dmg, isAutoattack1Crit);
-            }
-            PlayAutoAttackSoundAndAnim(true);
+            string weapType = PlayAutoAttackSoundAndAnimReturnWeapType(true);
+            StartCoroutine(ApplyAutoAttackWithDelay(target, autoattack1Dmg, isAutoattack1Crit, true, weapType));
         }
         
         if (IsReadyToAutoAttack2())
@@ -691,12 +705,8 @@ public abstract class Character : InteractableBehaviour
             autoAttack2Time = 0;
             int autoattack2Dmg = modifiedAutoAttackDamage(autoAttack2Damage);
             bool isAutoattack2Crit = autoAttackIsCrit;
-            target.ApplyDamage(autoattack2Dmg, isAutoattack2Crit, true);
-            if (this.GetResourceType() is Rage)
-            {
-                GainRage(autoattack2Dmg, isAutoattack2Crit, false);
-            }
-            PlayAutoAttackSoundAndAnim(false);
+            string weapType = PlayAutoAttackSoundAndAnimReturnWeapType(false);
+            StartCoroutine(ApplyAutoAttackWithDelay(target, autoattack2Dmg, isAutoattack2Crit, false, weapType));
         }
         
     }
@@ -856,7 +866,8 @@ public abstract class Character : InteractableBehaviour
     public virtual void die()
     {
         if (!isDead)
-        { 
+        {
+            currentLife = 0;
             SoundManager.PlaySound(deathSounds);
             if(castingSpell != null)
             {

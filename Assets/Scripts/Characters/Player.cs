@@ -252,7 +252,10 @@ public class Player : Character
                 Destroy(lvlUpAnimInstance, animLvlUp.GetCurrentAnimatorClipInfo(0)[0].clip.length/1.5f);
             }
             base.LevelUp();
-            SetFullHealthAndMaxResource();
+            if(!IsDead())
+            { 
+                SetFullHealthAndMaxResource();
+            }
             AddTalentPoint();
             
             FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;

@@ -55,6 +55,7 @@ public static class Constants {
          { ")", "°" },
          { "=", "+" }
     };
+    public static readonly float autoAttackApplyDelay = 0.3f;
 
 
     //stats
@@ -79,6 +80,7 @@ public static class Constants {
     public static readonly int MaxLevel = 60;
     public static readonly int RegenLifeEvery = 3;
     public static readonly int RegenLifePercent = 5;
+
     //EquilibrageStats
     public static readonly int ForceByLevel = 3;
     public static readonly int AgilityByLevel = 3;
