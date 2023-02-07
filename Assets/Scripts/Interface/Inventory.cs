@@ -9,6 +9,10 @@ public class Inventory : MonoBehaviour, Slotable {
     public GameObject slotPrefab;
     public int slotNumber;
 
+    private int gold = 0;
+    private int silver = 0;
+    private int copper = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -21,6 +25,93 @@ public class Inventory : MonoBehaviour, Slotable {
     public void OnDragFrom(GameObject slot)
     {
 
+    }
+
+    public bool RemoveCopper(int price)
+    {
+        if (copper >= price)
+        {
+            copper -= price;
+            return true;
+        } else
+        {
+            if (RemoveSilver(1))
+            {
+                copper += 100;
+                copper -= price;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int GetCopper()
+    {
+        return copper;
+    }
+
+    public void AddCopper(int price)
+    {
+        if (copper >= 100)
+        {
+            copper -= 100;
+            AddSilver(1);
+        }
+        copper += price;
+    }
+
+    public bool RemoveSilver(int price)
+    {
+        if (silver >= price)
+        {
+            silver -= price;
+            return true;
+        } else
+        {
+            if (RemoveGold(1))
+            {
+                silver += 100;
+                silver -= price;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int GetSilver()
+    {
+        return silver;
+    }
+
+    public void AddSilver(int price)
+    {
+        if(silver >= 100)
+        {
+            silver -= 100;
+            AddGold(1);
+        }
+        silver += price;
+    }
+
+    public bool RemoveGold(int price)
+    {
+        if(gold >= price)
+        {
+            gold -= price;
+            return true;
+        }
+        MessageUtils.ErrorMessage("Not enough gold");
+        return false;
+    }
+
+    public int GetGold()
+    {
+        return gold;
+    }
+
+    public void AddGold(int price)
+    {
+        gold += price;
     }
 
     public bool IsEmpty()
