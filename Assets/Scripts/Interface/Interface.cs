@@ -10,7 +10,8 @@ public class Interface : MonoBehaviour {
 	public GUIStyle backgroundStyle;
 	public GUIStyle castBarStyle;
 	public GUIStyle toolTipStyle;
-	public GUIStyle textOverStyle;
+	public GUIStyle buffStackStyle;
+    public GUIStyle buffTimerStyle;
     public GUIStyle expBarStyle;
 
     public AudioClip click;
@@ -219,23 +220,79 @@ public class Interface : MonoBehaviour {
 
 	}
 
+    private string getBuffFormatForTime(float timeLeft)
+    {
+        int minutes = (int)(timeLeft / 60);
+        int seconds = (int)(timeLeft % 60);
 
-	private void drawEffects(List<EffectOnTime> effects,int x, int y, int w, int h){ //Todo Refacto ca proprement je pars manger ;)
+        if(minutes >= 1)
+        {
+            return minutes + "m";
+        }
+        else
+        {
+            return seconds + "s";
+        }
+
+    }
+
+    private void DrawOutline(Rect rect, string text, GUIStyle style, Color outlineColor, float size)
+    {
+        float halfSize = size * 0.5F;
+        GUIStyle backupStyle = new GUIStyle(style);
+        Color backupColor = GUI.color;
+
+        style.normal.textColor = outlineColor;
+        GUI.color = outlineColor;
+
+        rect.x -= halfSize;
+        GUI.Label(rect, text, style);
+
+        rect.x += size;
+        GUI.Label(rect, text, style);
+
+        rect.x -= halfSize;
+        rect.y -= halfSize;
+        GUI.Label(rect, text, style);
+
+        rect.y += size;
+        GUI.Label(rect, text, style);
+
+        rect.y -= halfSize;
+        style.normal.textColor = backupStyle.normal.textColor;
+        GUI.color = backupColor;
+        GUI.Label(rect, text, style);
+
+        style = backupStyle;
+    }
+
+
+    private void drawEffects(List<EffectOnTime> effects,int x, int y, int w, int h){ //Todo Refacto ca proprement je pars manger ;)
+        int counter = 1;
+        int i = 1;
 		foreach (EffectOnTime effect in effects) {
-			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureForSpell(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + effect.GetTimeLeft ().ToString ("0.0"));
+			GUIContent content = new GUIContent (InterfaceUtils.LoadTextureForSpell(effect.GetName ()), effect.GetName().Substring(0,1).ToUpper() + effect.GetName().Substring(1) +". " + effect.GetDescription () + " Time left : " + getBuffFormatForTime(effect.GetTimeLeft ()));
 			GUI.Box (new Rect (x, y, h, w), content);
 			int stacks = effect.GetStacks();
 			if(stacks > 1){
-				GUI.Label(new Rect (x, y, h, w), stacks.ToString(),textOverStyle);
-			}
-			if (GUI.tooltip.Length > 1) {
-				GUIContent tooltip = new GUIContent (GUI.tooltip);
-				Vector2 size =  toolTipStyle.CalcSize (tooltip);
-				GUI.Label(new Rect(x+w,y+h,size.x,size.y),tooltip,toolTipStyle);
-			}
+                DrawOutline(new Rect (x, y, h, w), stacks.ToString(), buffStackStyle, Color.white,1.5f);
+            }
+            //On affiche le timer
+            GUI.Label(new Rect(x, y + h, h, w), getBuffFormatForTime(effect.GetTimeLeft()), buffTimerStyle);
+
+            if (content.tooltip.Equals(GUI.tooltip))
+                counter = i;
 			x += w;
-		}
-	}
+            i++;
+        }
+        //Affichage de la tooltip des buffs et debuffs seulement !
+        if (GUI.tooltip.Length > 1)
+        {
+            GUIContent tooltip = new GUIContent(GUI.tooltip);
+            Vector2 size = toolTipStyle.CalcSize(tooltip);
+            GUI.Label(new Rect(x + (w * counter), y + h, size.x, size.y), tooltip, toolTipStyle);
+        }
+    }
 
 
 	private void drawCastBar(Character c, float x, float y, bool drawIcon,int castBarW ,int castBarH){
