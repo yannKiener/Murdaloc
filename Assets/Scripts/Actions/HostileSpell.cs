@@ -29,7 +29,12 @@ public class HostileSpell : Spell
 
 	public override bool IsCastable(Character caster, Character target, bool displayCDText = true)
     {
-		return target != null && target is Hostile && base.IsCastable (caster,target, displayCDText) ;
+		return IsTargetAndCasterEnemies(caster,target) && base.IsCastable (caster,target, displayCDText) ;
 	}
+
+    private bool IsTargetAndCasterEnemies(Character caster, Character target)
+    {
+        return target != null && caster != null && ((caster is Player || caster is Friendly) && target is Hostile) || (caster is Hostile && (target is Player || target is Friendly));
+    }
 
 }

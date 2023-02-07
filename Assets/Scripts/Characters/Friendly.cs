@@ -73,7 +73,10 @@ public class Friendly : Character
     void OnMouseDown()
     {
         FindUtils.GetPlayer().SetTarget(this);
-        //check distance
-        FindUtils.GetDialogBoxComponent().Initialize(this);
+        //check distance?
+        if (!FindUtils.GetPlayer().IsDead())
+        {
+            FindUtils.GetDialogBoxComponent().Initialize(this);
+        }
     }
 }

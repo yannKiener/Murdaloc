@@ -27,7 +27,7 @@ public class Loot : MonoBehaviourWithMouseOverColor {
     {
         if (isOpen && !checkStarted)
         {
-            InvokeRepeating("CloseWindowIfPlayerFar", 1f, 1f);
+            InvokeRepeating("CloseWindowIfPlayerFarOrDead", 1f, 1f);
             checkStarted = true;
         }
     }
@@ -55,9 +55,9 @@ public class Loot : MonoBehaviourWithMouseOverColor {
 
     }
 
-    void CloseWindowIfPlayerFar()
+    void CloseWindowIfPlayerFarOrDead()
     {
-        if (FindUtils.GetLoot().activeSelf && !IsPlayerNear())
+        if (FindUtils.GetLoot().activeSelf && !IsPlayerNearAndAlive())
         {
             checkStarted = false;
             CancelInvoke();
@@ -65,27 +65,29 @@ public class Loot : MonoBehaviourWithMouseOverColor {
         }
     }
 
-    bool IsPlayerNear()
+    bool IsPlayerNearAndAlive()
     {
-
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.LootMaxDistance);
-        int i = 0;
-        while (i < hitColliders.Length)
+        if (!FindUtils.GetPlayer().IsDead())
         {
-            if (hitColliders[i].tag == "Player")
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Constants.LootMaxDistance);
+            int i = 0;
+            while (i < hitColliders.Length)
             {
-                return true;
+                if (hitColliders[i].tag == "Player")
+                {
+                    return true;
+                }
+                i++;
             }
-            i++;
+            MessageUtils.ErrorMessage("It's too far away !");
         }
 
-        MessageUtils.ErrorMessage("It's too far away !");
         return false;
     }
 
     void OnMouseDown()
     {
-        if (IsPlayerNear() && itemList != null)
+        if (IsPlayerNearAndAlive() && itemList != null)
         {
             LootInventory lootInventory = FindUtils.GetLootGrid().GetComponent<LootInventory>();
 

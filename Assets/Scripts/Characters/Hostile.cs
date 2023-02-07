@@ -183,7 +183,6 @@ public class Hostile : Character
         }
         CancelInvoke("randomizeDirection");
         CancelInvoke("AggroAroundSelf");
-        LeaveCombat();
         direction = 0;
         Invoke("Respawn", Constants.RespawnTimer);
         base.die();

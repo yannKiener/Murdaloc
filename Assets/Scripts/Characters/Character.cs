@@ -563,7 +563,6 @@ public abstract class Character : MonoBehaviour
                     autoAttack1Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
                     PlayAutoAttackSoundAndAnim(true);
-                    //Todo Animation Auto Attack 1
                 }
             }
 
@@ -575,8 +574,6 @@ public abstract class Character : MonoBehaviour
                     autoAttack2Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
                     PlayAutoAttackSoundAndAnim(false);
-                    
-                    //Todo Animation Auto Attack 2
                 }
             }
 		}
@@ -585,7 +582,6 @@ public abstract class Character : MonoBehaviour
 	protected bool autoAttackDistanceOK(){
 		return Mathf.Abs ((target.transform.position.x - transform.position.x)) < Constants.MaxAutoAttackDistance;
 	}
-
 
 	protected int modifiedAutoAttackDamage(int autoAttackDamage){
         this.autoAttackIsCrit = stats.Critical > Random.Range (1, 101);
@@ -606,9 +602,9 @@ public abstract class Character : MonoBehaviour
 	protected void UpdateEffects(){
 		updateBufflist (buffList);
 		updateBufflist (debuffList);
-	}
+    }
 
-	protected void updateBufflist(List<EffectOnTime> effectList){
+    protected void updateBufflist(List<EffectOnTime> effectList){
 		for (int i = effectList.Count - 1; i >= 0; i--) {
 			EffectOnTime effect = effectList [i];
 			if (effect.IsToBeRemoved()) {
@@ -703,6 +699,12 @@ public abstract class Character : MonoBehaviour
 		//Animate ?
 	}
 
+    protected void RemoveBuffsAndDebuffs()
+    {
+        buffList = new List<EffectOnTime>();
+        debuffList = new List<EffectOnTime>();
+    }
+
 
     public virtual void die()
     {
@@ -715,6 +717,9 @@ public abstract class Character : MonoBehaviour
 		isDead = true;
         CancelTarget();
         CancelCast();
+        RemoveBuffsAndDebuffs();
+        LeaveCombat();
+        target = null;
 
         if (anim != null)
         {
@@ -777,7 +782,7 @@ public abstract class Character : MonoBehaviour
     }
 
 	public void CastSpell(Spell spell){
-		if(!casting) 
+		if(!casting && !IsDead()) 
 		{
 			castingSpell = spell;
 			if (GCDReady() && castingSpell.IsCastable(this,target)) {
