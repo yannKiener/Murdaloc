@@ -7,12 +7,16 @@ using System.Linq;
 public class Hostile : Character
 {
 	private int direction = 0;
+    public bool moveRandom = true;
 
     new void Start(){
         base.Start();
 		this.gameObject.tag = "Enemy";
         this.gameObject.layer = 9;
-		InvokeRepeating ("randomizeDirection", 1f, 1f);
+        if (moveRandom)
+        {
+            InvokeRepeating("randomizeDirection", 1f, 1f);
+        }
         InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
 
         stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDPSPerLevel * Constants.BaseAutoAttackSpeed);
@@ -77,7 +81,7 @@ public class Hostile : Character
 		if (inCombat && spellList.Count != 0 && !casting) {
 			int castPercentage = getRandomPercentage ();
 			if (castPercentage < 1) { //1% de chance par frame de cast un spell random
-				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)));
+				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)),false);
 			}
 		}
 	}
@@ -202,7 +206,10 @@ public class Hostile : Character
 
     private void RespawnReady()
     {
-        InvokeRepeating("randomizeDirection", 1f, 1f);
+        if (moveRandom)
+        {
+            InvokeRepeating("randomizeDirection", 1f, 1f);
+        }
         InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
     }
 

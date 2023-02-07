@@ -776,16 +776,17 @@ public abstract class Character : MonoBehaviour
         RemoveSpell(spell.GetName());
     }
 
-    public void CastSpell(string spellName)
+    public void CastSpell(string spellName, bool displayText = true)
     {
-		CastSpell (spellList [spellName]);
+		CastSpell (spellList [spellName], displayText);
     }
 
-	public void CastSpell(Spell spell){
+	public void CastSpell(Spell spell, bool displayText = true)
+    {
 		if(!casting && !IsDead()) 
 		{
 			castingSpell = spell;
-			if (GCDReady() && castingSpell.IsCastable(this,target)) {
+			if (GCDReady() && castingSpell.IsCastable(this,target, displayText)) {
 				casting = true;
                 if (castingSpell.GetCastTime(stats) > 0)
                 {

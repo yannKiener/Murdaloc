@@ -9,18 +9,19 @@
          "intelligence":"10",
       }
    },
-   "Neckitem":{  
-      "description":"first neck item",
-      "levelRequirement":1,
+   "GoldTooth Necklace":{  
+      "description":"A Necklace that belonged to an old lady farmer.",
+      "levelRequirement":3,
       "type":"Neck",
+      "quality":"Rare",
       "stats":{  
-         "force":"0",
+         "force":"1",
          "agility":"0",
          "intelligence":"0",
-         "stamina":"0",
+         "stamina":"1",
          "spirit":"0",
          "critical":"0",
-         "haste":"0",
+         "haste":"1",
          "power":"0"
       }
    },
