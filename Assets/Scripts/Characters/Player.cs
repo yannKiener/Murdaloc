@@ -32,6 +32,8 @@ public class Player : Character
         autoAttack1Damage = GetBasicAutoAttackDamage();
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
 
+        addSpells(SpellList);
+
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 

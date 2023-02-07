@@ -609,7 +609,7 @@ public class Interface : MonoBehaviour
         int bonusForAndroid = 0;
         if (SystemInfo.deviceType == DeviceType.Handheld)
         {
-            bonusForAndroid = 32;
+            bonusForAndroid = 64;
         }
 
         y += bonusForAndroid;
