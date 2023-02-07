@@ -80,13 +80,14 @@ public class Hostile : Character
 				}
 				i++;
 			}  
-		}
+		} 
 	}
 
 
 
-	private void manageCombat(){
-		if (inCombat && spellList.Count != 0 && !casting) {
+	private void manageCombat()
+    {
+        if (inCombat && spellList.Count != 0 && !casting) {
 			int castPercentage = getRandomPercentage ();
 			if (castPercentage < 1) { //1% de chance par frame de cast un spell random*
 				CastSpell(spellList.Keys.ElementAt(Random.Range (0, spellList.Count)),false);

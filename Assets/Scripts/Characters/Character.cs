@@ -261,9 +261,7 @@ public abstract class Character : MonoBehaviour
 	}
 
 	public void StartAutoAttack(){
-		if (target != null) {
-			autoAttackEnabled = true;
-		}
+        autoAttackEnabled = true;
 	}
 
 	public virtual void LevelUp(){
@@ -526,6 +524,7 @@ public abstract class Character : MonoBehaviour
      {
 		CancelAutoAttack ();
         inCombat = false;
+        ClearEnemyList();
      }
 
 	protected void UpdateCoolDowns(){
@@ -651,7 +650,6 @@ public abstract class Character : MonoBehaviour
         {
             rageGained *= 1.5f;
         }
-        Debug.Log("Rage gained on attack : " + Mathf.RoundToInt(rageGained));
         AddResource(Mathf.RoundToInt(rageGained));
     }
     protected void GainRageOnHit(int damage, float damagePercent)

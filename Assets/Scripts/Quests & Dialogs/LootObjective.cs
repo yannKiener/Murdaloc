@@ -32,7 +32,7 @@ public class LootObjective : Objective {
 
     public void Update(Hostile enemy)
     {
-        if(FindUtils.GetInventoryGrid().HasItem(lootName) == itemCount)
+        if(FindUtils.GetInventoryGrid().HasItem(lootName) >= itemCount)
         {
             isOver = true;
         } else

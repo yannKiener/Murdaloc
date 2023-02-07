@@ -71,7 +71,6 @@ public class ActionBar : MonoBehaviour, Slotable {
 
     public void Add(Usable usable)
     {
-        Debug.Log("Adding usable : " + usable.GetName());
         GameObject slot = getFirstFreeSlot();
 
         if (slot != null)
