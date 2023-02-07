@@ -105,43 +105,43 @@ public class ActionBar : MonoBehaviour, Slotable {
     // Update is called once per frame
     void Update () {
 
-		if (Input.GetButtonDown ("ActionBar1"))
+		if (InputManager.IsButtonDown("ActionBar1"))
         {
             transform.GetChild(0).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar2"))
+        if (InputManager.IsButtonDown("ActionBar2"))
         {
             transform.GetChild(1).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar3"))
+        if (InputManager.IsButtonDown("ActionBar3"))
         {
             transform.GetChild(2).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar4"))
+        if (InputManager.IsButtonDown("ActionBar4"))
         {
             transform.GetChild(3).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar5"))
+        if (InputManager.IsButtonDown("ActionBar5"))
         {
             transform.GetChild(4).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar6"))
+        if (InputManager.IsButtonDown("ActionBar6"))
         {
             transform.GetChild(5).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar7"))
+        if (InputManager.IsButtonDown("ActionBar7"))
         {
             transform.GetChild(6).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar8"))
+        if (InputManager.IsButtonDown("ActionBar8"))
         {
             transform.GetChild(7).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar9"))
+        if (InputManager.IsButtonDown("ActionBar9"))
         {
             transform.GetChild(8).GetComponent<Slot>().Use();
         }
-        if (Input.GetButtonDown("ActionBar10"))
+        if (InputManager.IsButtonDown("ActionBar10"))
         {
             transform.GetChild(9).GetComponent<Slot>().Use();
         }

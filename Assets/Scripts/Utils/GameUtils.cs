@@ -67,6 +67,7 @@ public class GameUtils : MonoBehaviour {
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        InputManager.LoadBindings();
         if (scene.name != "MainMenu")
         {
             if (isNewGame)

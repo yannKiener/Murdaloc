@@ -135,43 +135,57 @@ public class Player : Character
 
     void Controls()
     {
-        if (Input.GetButtonDown("CycleTargets"))
+        if (InputManager.IsButtonDown("CycleTargets"))
         {
             CycleTargets();
         }
-        if (Input.GetButtonDown("Cancel"))
+        if (InputManager.IsButtonDown("Cancel"))
         {
             Cancel();
         }
-        if (Input.GetButtonDown("AutoAttack"))
-        {
-            SwitchAutoAttack();
-        }
-        if (Input.GetButtonDown("ShowHideSpellBook"))
+
+        if (InputManager.IsButtonDown("ShowHideSpellBook"))
         {
             InterfaceUtils.ShowHideSpellBook();
         }
-        if (Input.GetButtonDown("ShowHideInventory"))
+        if (InputManager.IsButtonDown("ShowHideInventory"))
         {
             InterfaceUtils.ShowHideInventory();
         }
-        if (Input.GetButtonDown("ShowHideCharacterSheet"))
+        if (InputManager.IsButtonDown("ShowHideCharacterSheet"))
         {
             InterfaceUtils.ShowHideCharacterSheet();
         }
-        if (Input.GetButtonDown("ShowHideQuestLog"))
+        if (InputManager.IsButtonDown("ShowHideQuestLog"))
         {
             InterfaceUtils.ShowHideQuestLog();
         }
-        if (Input.GetButtonDown("ShowHideTalentSheet"))
+        if (InputManager.IsButtonDown("ShowHideTalentSheet"))
         {
             InterfaceUtils.ShowHideTalentSheet();
         }
         if (SystemInfo.deviceType != DeviceType.Handheld)
         {
-            SetXSpeed(Input.GetAxis("Horizontal"));
-        } 
+            if (InputManager.IsButtonPressed("MoveLeft"))
+            {
+                SetXSpeed(-1);
+            }
+            else if(InputManager.IsButtonPressed("MoveRight"))
+            {
+                SetXSpeed(1);
+            }
+            else
+            {
+                SetXSpeed(0);
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            //For sound only
+            Interface.Click();
+        }
 
+        //Cheat
         if (Input.GetKeyDown(KeyCode.X))
         {
             LevelUp();
@@ -189,16 +203,13 @@ public class Player : Character
             */
         }
 
+        //Cheat
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (GetTarget() != null && GetTarget() is Hostile)
                 GetTarget().ApplyDamage(999999, true, true);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Interface.Click();
-        }
 
     }
 
@@ -308,14 +319,15 @@ public class Player : Character
             MessageUtils.ErrorMessage("Can't cast while walking");
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (InputManager.IsButtonDown("Jump"))
 		{
 			wantToJump = true;
 		}
-		if (Input.GetButtonUp("Jump"))
+		if (InputManager.IsButtonUp("Jump"))
 		{
 			wantToJump = false;
 		}
+        //Cheat
 		if (Input.GetKey(KeyCode.LeftShift))
 		{ 
 			xSpeed = xSpeed * 2;
