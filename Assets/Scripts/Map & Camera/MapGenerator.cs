@@ -71,14 +71,25 @@ public class MapGenerator : MonoBehaviour {
             backgroundObjectsList = Interface.GetDefaultBackgroundsGameObjects();
         }
 
+        List<ObjectsToDraw> objectsToDrawList = new List<ObjectsToDraw>();
+
         if (backgroundObjectsList.Count > 0) {
-			DrawObjectOnMap (backgroundObjectsList ,mapPrefab, backgroundObjectDensity);
+            ObjectsToDraw backGroundObjects = new ObjectsToDraw(backgroundObjectsList, backgroundObjectDensity, false);
+            objectsToDrawList.Add(backGroundObjects);
 		}
 
-		if (enemyList.Count > 0) {
-			DrawObjectOnMap (enemyList ,mapPrefab, enemyDensity, true);
-		}
-			EndGeneration ();
+		if (enemyList.Count > 0)
+        {
+            ObjectsToDraw enemyObjects = new ObjectsToDraw(enemyList, enemyDensity, true);
+            objectsToDrawList.Add(enemyObjects);
+        }
+
+        if (objectsToDrawList.Count > 0 )
+        {
+            DrawObjectOnMap(mapPrefab, objectsToDrawList);
+        }
+
+        EndGeneration ();
 	}
 
 	private void  EndGeneration(){
@@ -102,37 +113,40 @@ public class MapGenerator : MonoBehaviour {
 
 	}
 
-	private void DrawObjectOnMap(List<GameObject> objectList, GameObject map, int density, bool isEnemy = false) {
+	private void DrawObjectOnMap(GameObject map, List<ObjectsToDraw> objectsToDrawList) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
         }
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());
         float mapPortion = map.GetComponent<Renderer>().bounds.size.x / width;
         float lowerxBound = getLowerXBound(map);
-        float lowerYBound = getUpperYBound(map);
 
         for (int i = 0; i < width; i++){
-			if(pseudoRandom.Next(0,100) <= density){
-				GameObject objToDraw = objectList[UnityEngine.Random.Range(0,objectList.Count)];
-                objToDraw = Instantiate(objToDraw, transform); //draw at position x
-                float yOffSet = 0;
-                if (!isEnemy)
+            foreach(ObjectsToDraw objectsToDraw in objectsToDrawList)
+            {
+			    if(pseudoRandom.Next(0,100) <= objectsToDraw.GetDensity())
                 {
-                    float sizeMultiplier = UnityEngine.Random.Range(1, 1.5f);
-                    objToDraw.transform.localScale = new Vector3(objToDraw.transform.localScale.x*sizeMultiplier, objToDraw.transform.localScale.y * sizeMultiplier);
-                    objToDraw.GetComponent<SpriteRenderer>().sortingOrder = (int)Math.Round(sizeMultiplier);
-                    yOffSet = 0.6f - (sizeMultiplier / 1.5f)*0.2f;
-                } else
-                {
-                    objToDraw.GetComponent<SpriteRenderer>().sortingOrder = 10;
+                    GameObject objToDraw = objectsToDraw.GetRandomObject();
+                    objToDraw = Instantiate(objToDraw, transform); //draw at position x
+                    float yOffSet = 0;
+                    if (!objectsToDraw.IsEnemyList())
+                    {
+                        float sizeMultiplier = UnityEngine.Random.Range(1, 1.5f);
+                        objToDraw.transform.localScale = new Vector3(objToDraw.transform.localScale.x*sizeMultiplier, objToDraw.transform.localScale.y * sizeMultiplier);
+                        objToDraw.GetComponent<SpriteRenderer>().sortingOrder = (int)Math.Round(sizeMultiplier);
+                        yOffSet = 0.6f - (sizeMultiplier / 1.5f)*0.2f;
+                    } else
+                    {
+                        objToDraw.GetComponent<SpriteRenderer>().sortingOrder = 10;
+                    }
+
+                    float x = lowerxBound +  i * mapPortion;
+                    float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + yOffSet;
+
+                    objToDraw.transform.localPosition = new Vector3(x, y, 0);
                 }
-
-                float x = lowerxBound +  i * mapPortion;
-                float y = objToDraw.GetComponent<Renderer>().bounds.size.y/2 + yOffSet;
-
-                objToDraw.transform.localPosition = new Vector3(x, y, 0);
-            } 
-		}
+            }
+        }
 	}
 
     private float getUpperBoxColliderBound(GameObject obj)
