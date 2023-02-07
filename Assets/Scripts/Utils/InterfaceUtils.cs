@@ -58,4 +58,22 @@ public static class InterfaceUtils {
         }
         return result;
     }
+
+    //Controles d'interfaces
+    public static void ShowHideSpellBook()
+    {
+        FindUtils.GetSpellBook().SetActive(!FindUtils.GetSpellBook().activeSelf);
+    }
+    public static void ShowHideInventory()
+    {
+        FindUtils.GetInventory().SetActive(!FindUtils.GetInventory().activeSelf);
+    }
+    public static void ShowHideCharacterSheet()
+    {
+        FindUtils.GetCharacterSheet().SetActive(!FindUtils.GetCharacterSheet().activeSelf);
+    }
+    public static void ShowHideQuestLog()
+    {
+        FindUtils.GetQuestLog().SetActive(!FindUtils.GetQuestLog().activeSelf);
+    }
 }

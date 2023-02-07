@@ -194,5 +194,4 @@ public class Interface : MonoBehaviour {
             return result;
         }
     }
-
 }

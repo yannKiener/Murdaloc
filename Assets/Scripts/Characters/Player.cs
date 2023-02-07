@@ -35,19 +35,19 @@ public class Player : Character
 		}
         if (Input.GetButtonDown("ShowHideSpellBook"))
         {
-            ShowHideSpellBook();
+            InterfaceUtils.ShowHideSpellBook();
         }
         if (Input.GetButtonDown("ShowHideInventory"))
         {
-            ShowHideInventory();
+            InterfaceUtils.ShowHideInventory();
         }
         if (Input.GetButtonDown("ShowHideCharacterSheet"))
         {
-            ShowHideCharacterSheet();
+            InterfaceUtils.ShowHideCharacterSheet();
         }
         if (Input.GetButtonDown("ShowHideQuestLog"))
         {
-            ShowHideQuestLog();
+            InterfaceUtils.ShowHideQuestLog();
         }
 
         if (Input.GetKeyDown (KeyCode.X)) {
@@ -199,28 +199,6 @@ public class Player : Character
 		base.die ();
 		Instantiate (Resources.Load ("Wasted"));
 	}
-
-
-    //Controles d'interfaces
-    private void ShowHideSpellBook()
-    {
-        FindUtils.GetSpellBook().SetActive(!FindUtils.GetSpellBook().activeSelf);
-    }
-    private void ShowHideInventory()
-    {
-        FindUtils.GetInventory().SetActive(!FindUtils.GetInventory().activeSelf);
-    }
-    private void ShowHideCharacterSheet()
-    {
-        FindUtils.GetCharacterSheet().SetActive(!FindUtils.GetCharacterSheet().activeSelf);
-    }
-    private void ShowHideQuestLog()
-    {
-        FindUtils.GetQuestLog().SetActive(!FindUtils.GetQuestLog().activeSelf);
-    }
-    
-
-
 }
 
 
