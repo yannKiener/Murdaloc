@@ -210,7 +210,7 @@ public abstract class Character : MonoBehaviour
 	virtual protected void EnterCombat() 
      {
          if (!inCombat)
-         {
+		{
              inCombat = true;
 			 createStatusBar ();
          }
@@ -222,8 +222,8 @@ public abstract class Character : MonoBehaviour
         inCombat = false;
      }
 
-	protected void UpdateAutoAttack(){
-		if (autoAttackEnabled && target != null && target.gameObject.tag == "Enemy" && !casting) {
+	protected virtual void UpdateAutoAttack(){
+		if (autoAttackEnabled && target != null && !casting) {
 			autoAttackTime += Time.deltaTime;
 			if (autoAttackTime >= modifiedAutoAttackTime () && autoAttackDistanceOK()) {
 				autoAttackTime = 0;

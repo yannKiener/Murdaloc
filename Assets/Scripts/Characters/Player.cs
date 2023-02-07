@@ -67,6 +67,13 @@ public class Player : Character
 
 	}
 
+	protected override void UpdateAutoAttack ()
+	{
+		if (target != null && target.gameObject.tag == "Enemy") {
+			base.UpdateAutoAttack ();
+		}
+	}
+
 	public override void SetTarget (Character target)
 	{
 		if (this.target != null && this.target.GetGameObject ().GetComponent<cakeslice.Outline> () != null) { //Remove old target outline
