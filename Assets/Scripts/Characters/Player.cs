@@ -25,6 +25,9 @@ public class Player : Character
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			CancelCast ();
 		}
+		if (Input.GetKeyDown (KeyCode.T)) {
+			SwitchAutoAttack ();
+		}
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			CastSpell(actionBar[0]);
