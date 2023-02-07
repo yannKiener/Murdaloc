@@ -21,6 +21,7 @@ TagManager:
   - Enemy
   - Map
   - MovingMap
+  - Friendly
   layers:
   - Default
   - TransparentFX

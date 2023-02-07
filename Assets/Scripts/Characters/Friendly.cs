@@ -17,6 +17,7 @@ public class Friendly : Character
     new void Start()
     {
         base.Start();
+        this.tag = "Friendly";
         if (DialogName != null)
         {
             AddDialog(DialogName);

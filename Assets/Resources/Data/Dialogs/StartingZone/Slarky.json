@@ -11,6 +11,7 @@
                   "choice":"<Accept>",
                   "dialog":{  
                     "action":"AddRogueSpells",
+					"startQuest":"Prove your worth",
 					"text":"Ok. Here is how things work, nothing is given free. Train yourself on some Rabbits, west of here. Come back when you're done.",
 					"choices":[  
 					   {  
