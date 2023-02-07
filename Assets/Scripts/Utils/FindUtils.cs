@@ -29,7 +29,7 @@ public static class FindUtils  {
 
     public static SpellBook GetSpellBookGrid()
     {
-        if (spellBookGrid == null)
+        if (spellBookGrid == null && GameObject.Find("SpellBookGrid") != null)
             spellBookGrid = GameObject.Find("SpellBookGrid").GetComponent<SpellBook>();
 
         return spellBookGrid;

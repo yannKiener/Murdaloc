@@ -55,7 +55,8 @@ public class Player : Character
     public override void AddSpell(Spell spell)
     {
         base.AddSpell(spell);
-        FindUtils.GetSpellBookGrid().UpdateSpellBook();
+        if(FindUtils.GetSpellBookGrid() != null)
+            FindUtils.GetSpellBookGrid().UpdateSpellBook();
     }
 
     public void initializeSpell(Spell spell)

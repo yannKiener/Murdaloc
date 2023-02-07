@@ -7,6 +7,7 @@ public class SpellBook : MonoBehaviour, Slotable {
 
 	public GameObject usablePrefab;
     
+    private bool doUpdate = false;
 	static int childCount;
 
 	// Use this for initialization
@@ -30,6 +31,20 @@ public class SpellBook : MonoBehaviour, Slotable {
     void Update () {
 		
 	}
+
+    void OnDisable()
+    {
+        doUpdate = true;
+    }
+
+    void OnEnable()
+    {
+        if (doUpdate)
+        {
+            UpdateSpellBook();
+            doUpdate = false;
+        }
+    }
 
 	public void UpdateSpellBook(){
         Dictionary<string, Spell> spellList = FindUtils.GetPlayer().GetSpells();
