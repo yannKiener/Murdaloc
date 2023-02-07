@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour {
 	public GameObject mapPrefab;
 	public GameObject object1Prefab;
 
-	private int[] object1Map;
+	//private int[] object1Map;
 
 	// Use this for initialization
 	void Start () {
@@ -26,24 +26,29 @@ public class MapGenerator : MonoBehaviour {
 		Vector3 originalPosition = mapPrefab.transform.position;
 		Vector3 originalScale = mapPrefab.transform.localScale;
 
-		print(mapPrefab.transform.position);
+		print("map position :" + mapPrefab.transform.position);
 		mapPrefab.transform.position += new Vector3((width/2) + startingLeftPoint, 0, 0);
 		mapPrefab.transform.localScale += new Vector3(width, 0, 0);
 		Instantiate(mapPrefab);
 
 		mapPrefab.transform.position = originalPosition;
 		mapPrefab.transform.localScale = originalScale;
-		object1Map = new int [width];
+		DrawObjectOnMap(object1Prefab, mapPrefab, object1Density);
 	}
 
-	void DrawObject1() {
+	void DrawObjectOnMap(GameObject objToDraw, GameObject map, int density) {
 		if(useRandomSeed){
 			seed = Time.time.ToString();
 		}
-
 		System.Random pseudoRandom = new System.Random(seed.GetHashCode());
-		for (int x = 0; x < width; x++){
-			object1Map[x] = (pseudoRandom.Next(0,100) < object1Density)? 1 : 0;
+
+		for (int i = 0; i < width; i++){
+			if(pseudoRandom.Next(0,100) < density){
+				float x = startingLeftPoint + i; //TODO :  trouver la position "gauche" autrement depuis la map en param
+				float y = map.transform.position.y + map.GetComponent<BoxCollider2D>().size.y/2 + objToDraw.GetComponent<Renderer>().bounds.size.y /2; //On veut que le pied de l'arbre soit en haut de la map..! Désolé pour la ligne dégueulasse :D
+				objToDraw.transform.position = new Vector3(x,y,0);
+				Instantiate(objToDraw); //draw at position x
+			}
 		}
 	}
 	
