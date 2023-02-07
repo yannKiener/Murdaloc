@@ -98,6 +98,7 @@ public class SaveGame {
             item.LoadImage();
             FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
         }
+        FindUtils.GetPlayer().SetFullHealthAndMaxResource();
 
     }
 }

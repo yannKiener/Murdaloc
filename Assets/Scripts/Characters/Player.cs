@@ -15,24 +15,41 @@ public class Player : Character
 
     private void Awake()
     {
+        Debug.Log("Awake on player");
         Interface.LoadPlayer();
-
-        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-    }
-
-    new void Start()
-    {
-        currentLife = stats.MaxLife;
-        currentResource = stats.MaxResource;
         gameObject.layer = 9;
         GetComponent<SpriteRenderer>().sortingOrder = 10;
         casting = false;
         isDead = false;
         castingSpell = null;
+
+        if (resource == null)
+        {
+            resource = new Mana();
+        }
+        stats = GetBaseStatsForLevel(level);
+        currentLife = stats.MaxLife;
+        currentResource = stats.MaxResource;
+        autoAttack1Damage = GetBasicAutoAttackDamage();
+        autoAttack1Speed = Constants.BaseAutoAttackSpeed;
+
+        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    }
+
+    public void SetFullHealthAndMaxResource()
+    {
+        currentLife = stats.MaxLife;
+        currentResource = stats.MaxResource;
+    }
+
+    new void Start()
+    {
+        Debug.Log("Start on player");
     }
 
     public void InitializeWith(string name, int lv, float expPercent, Resource rsrc, List<Spell> spellList)
     {
+        Debug.Log("Init on player");
         this.CharacterName = name;
         this.level = lv;
         this.experiencePercent = expPercent;
@@ -148,6 +165,7 @@ public class Player : Character
     public override void LevelUp()
     {
         base.LevelUp();
+        SetFullHealthAndMaxResource();
         FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
 
     }
