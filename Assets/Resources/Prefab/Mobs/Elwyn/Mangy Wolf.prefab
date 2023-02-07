@@ -142,18 +142,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterName: Wolf
+  CharacterName: Mangy Wolf
   level: 2
   isElite: 0
-  statPercent: 100
+  statPercent: 90
   LootTable: []
   QuestLootTable: []
   SpellList: []
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  aggroSounds:
+  - {fileID: 8300000, guid: afb2c6aedf845c54fa3f2bfb8656798e, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: dfb1f4e8f38d4be4f8e8fa633807a7c4, type: 3}
+  - {fileID: 8300000, guid: d4f62ba601f1f854591c78116baac4a3, type: 3}
+  - {fileID: 8300000, guid: 4d49e8f1a9120924c87c6bacbb2c3499, type: 3}
+  - {fileID: 8300000, guid: 6a7709b9ff73a6d44b0d82d6f7b4e115, type: 3}
+  - {fileID: 8300000, guid: 7396f3f163c82bd4ca5df55a6aba2de1, type: 3}
+  - {fileID: 8300000, guid: 564bcb24916038b439bd0bcf1be80af7, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: bb78d35957673444d81f560884bd9127, type: 3}
+  - {fileID: 8300000, guid: c7e7332122d4952449486a537c701175, type: 3}
+  - {fileID: 8300000, guid: 15285ef4eb0bf3e459e20fa837448760, type: 3}
+  - {fileID: 8300000, guid: 85fa4ec9d061dd04f85239015593a625, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: ef5f63b77351b59428e3e1794009029b, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 41433e2a383a6ea4fb997e69d5ccb346, type: 3}
   moveRandom: 1
 --- !u!95 &1056690523331628116
 Animator:

@@ -150,12 +150,26 @@ MonoBehaviour:
   QuestLootTable: []
   SpellList:
   - Slam
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
-  moveRandom: 1
+  aggroSounds:
+  - {fileID: 8300000, guid: 73ffc69bcb595644094f3510f7e0b969, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: d2d47b6aaa546d34bbb11b5f5bf737f3, type: 3}
+  - {fileID: 8300000, guid: 57fc0bc0f9c87294b99234b3c739dc5b, type: 3}
+  - {fileID: 8300000, guid: c6b9d0d07c56c9b49ba4e02ed25692cd, type: 3}
+  - {fileID: 8300000, guid: e5a00ab90d2ff3f4b91a75bc79ce30fe, type: 3}
+  - {fileID: 8300000, guid: f62b7aff6504a934791fe92664b0d695, type: 3}
+  - {fileID: 8300000, guid: 9c82f3ff613e79b4eafb0d825addfa87, type: 3}
+  - {fileID: 8300000, guid: c000e7c0ba3f1d24a9aad646524d8712, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 40dc943cf849d84489308ab397213116, type: 3}
+  - {fileID: 8300000, guid: 06c72b54e37d25f43a5929d094668b13, type: 3}
+  - {fileID: 8300000, guid: c705ebb5aa4350a43b5cb27f62f3e208, type: 3}
+  - {fileID: 8300000, guid: f8c85b83a3683744da84982dde3069e8, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: f70d157435fe42f43985833522aee455, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 76aaa1b2300d1d246bacd9ed78277687, type: 3}
+  moveRandom: 0
 --- !u!95 &3839760018661550940
 Animator:
   serializedVersion: 3

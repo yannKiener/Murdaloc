@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114402455514527184}
   - component: {fileID: 1056690523331628116}
   m_Layer: 9
-  m_Name: Wolf
+  m_Name: Goretusk
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 648309cc8d4b67c42b86ae347c2d930e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3c0f49d8b60d5b4ea9aa0a449a94cd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,7 +107,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.72, y: 0.48}
+  m_Size: {x: 0.72, y: 0.51}
   m_EdgeRadius: 0
 --- !u!50 &50810605433616450
 Rigidbody2D:
@@ -142,18 +142,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterName: Wolf
+  CharacterName: Goretusk
   level: 1
   isElite: 0
   statPercent: 100
   LootTable: []
   QuestLootTable: []
   SpellList: []
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  aggroSounds:
+  - {fileID: 8300000, guid: 20e30921aaa72ff4db0d250d90b917ed, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: a86848974cd1365449cac7ce8ed00ee1, type: 3}
+  - {fileID: 8300000, guid: 4673874d7dd744e4a8cd837219d98152, type: 3}
+  - {fileID: 8300000, guid: 6079879bf28b1f242a82c172a071ff22, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 4b1920c0f50db614e97157caa53ec3cb, type: 3}
+  - {fileID: 8300000, guid: 8167c266636265747b16536281289cd0, type: 3}
+  - {fileID: 8300000, guid: c8bc413a5f22e694b8de1d97acee7970, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: ba75e4b0d06ecaa458a2d5d31c58ac7c, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 3bd913a66dff3b54bba79698f2ed02ed, type: 3}
   moveRandom: 1
 --- !u!95 &1056690523331628116
 Animator:
@@ -165,7 +174,7 @@ Animator:
   m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 78649b7796d48b343b69a016c064c091, type: 2}
+  m_Controller: {fileID: 9100000, guid: 014ec348cf3fe7b4c91020b67a431af6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

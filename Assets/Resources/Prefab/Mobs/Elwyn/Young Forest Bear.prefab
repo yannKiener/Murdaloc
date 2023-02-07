@@ -149,11 +149,21 @@ MonoBehaviour:
   LootTable: []
   QuestLootTable: []
   SpellList: []
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  aggroSounds:
+  - {fileID: 8300000, guid: 8d7b90dce05404b4f8e0ec0c60531f91, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: 2e66f8f626e60f74ab6e924c396a1c9e, type: 3}
+  - {fileID: 8300000, guid: 62a64f3eb84948a4fb8ec2a7d3126b6d, type: 3}
+  - {fileID: 8300000, guid: cf71628c536cb294dbcf85b3afba87f0, type: 3}
+  - {fileID: 8300000, guid: 34a32b0c319d25b439782b7155882acc, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 2da3a5edb61e3184c9840f60de392aae, type: 3}
+  - {fileID: 8300000, guid: 5c55230d2a6a7eb4e84df903dfd4f76f, type: 3}
+  - {fileID: 8300000, guid: 3901378c7078de54688187272636858a, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: 79b8b6f94688bc44ea9117c689ded457, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 4e2e4275ea0f19248baa919748b8f856, type: 3}
   moveRandom: 1
 --- !u!95 &1056690523331628116
 Animator:

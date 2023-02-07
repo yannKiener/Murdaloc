@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5469702255422671855
+--- !u!1 &1464575567641944
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5469702255422671849}
-  - component: {fileID: 5469702255422671848}
-  - component: {fileID: 5469702255422671851}
-  - component: {fileID: 5469702255422671850}
-  - component: {fileID: 5469702255422671853}
-  - component: {fileID: 5469702255422671852}
+  - component: {fileID: 4628361286617202}
+  - component: {fileID: 212407112754719670}
+  - component: {fileID: 61014438409098966}
+  - component: {fileID: 50810605433616450}
+  - component: {fileID: 114402455514527184}
+  - component: {fileID: 1056690523331628116}
   m_Layer: 9
-  m_Name: Kobold Tunneler
+  m_Name: Boar4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5469702255422671849
+--- !u!4 &4628361286617202
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
+  m_GameObject: {fileID: 1464575567641944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.46, y: -1.7438989, z: 0}
+  m_LocalPosition: {x: 160.73708, y: 1.625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5469702255422671848
+--- !u!212 &212407112754719670
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -49,7 +49,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: c2134c411099bd342a690374b7bc0ad8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7df301394c192874683d16d266fd45f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,47 +83,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5469702255422671851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharacterName: Kobold Tunneler
-  level: 4
-  isElite: 0
-  statPercent: 100
-  LootTable: []
-  QuestLootTable: []
-  SpellList: []
-  aggroSounds:
-  - {fileID: 8300000, guid: eac5fa120c98ae2479106c7cb11236a6, type: 3}
-  attackSounds:
-  - {fileID: 8300000, guid: 7b9140eee055dd44b9c7d93509aa4c82, type: 3}
-  - {fileID: 8300000, guid: d7a7bc363e5ff674caff7984b5d03f82, type: 3}
-  - {fileID: 8300000, guid: 9742daa548ba7b445a7246bb6008d4cf, type: 3}
-  woundSounds:
-  - {fileID: 8300000, guid: 0e6d67d5234f1794daea64f73f781af2, type: 3}
-  - {fileID: 8300000, guid: 56168ea2a5a6fdc45b5abef547e7455d, type: 3}
-  - {fileID: 8300000, guid: d33f6151d0ed6a94087e74bf2756f5ce, type: 3}
-  woundCritSounds:
-  - {fileID: 8300000, guid: 119cb013d9313b9499a4e98d73d4d50c, type: 3}
-  deathSounds:
-  - {fileID: 8300000, guid: da71eebbbd66e674aba19eb31a5275cb, type: 3}
-  moveRandom: 1
---- !u!61 &5469702255422671850
+--- !u!61 &61014438409098966
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -139,18 +105,18 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.43}
+  m_Size: {x: 0.72, y: 0.51}
   m_EdgeRadius: 0
---- !u!50 &5469702255422671853
+--- !u!50 &50810605433616450
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
+  m_GameObject: {fileID: 1464575567641944}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -164,17 +130,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!95 &5469702255422671852
+--- !u!114 &114402455514527184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464575567641944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterName: Goretusk
+  level: 1
+  isElite: 0
+  statPercent: 100
+  LootTable: []
+  QuestLootTable: []
+  SpellList: []
+  aggroSounds:
+  - {fileID: 8300000, guid: 20e30921aaa72ff4db0d250d90b917ed, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: a86848974cd1365449cac7ce8ed00ee1, type: 3}
+  - {fileID: 8300000, guid: 4673874d7dd744e4a8cd837219d98152, type: 3}
+  - {fileID: 8300000, guid: 6079879bf28b1f242a82c172a071ff22, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 4b1920c0f50db614e97157caa53ec3cb, type: 3}
+  - {fileID: 8300000, guid: 8167c266636265747b16536281289cd0, type: 3}
+  - {fileID: 8300000, guid: c8bc413a5f22e694b8de1d97acee7970, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: ba75e4b0d06ecaa458a2d5d31c58ac7c, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 3bd913a66dff3b54bba79698f2ed02ed, type: 3}
+  moveRandom: 1
+--- !u!95 &1056690523331628116
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5469702255422671855}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f07bc18b663a9142b8f5a66f61ca888, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5b6b5a119eb7576498495215f8f735a8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

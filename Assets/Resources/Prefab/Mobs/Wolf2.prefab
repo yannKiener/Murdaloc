@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1779187885302980
+--- !u!1 &1464575567641944
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4687261569289092}
-  - component: {fileID: 212578286298679416}
-  - component: {fileID: 61657147370118470}
-  - component: {fileID: 50580690817238352}
-  - component: {fileID: 114079663569119384}
-  - component: {fileID: 279602087528685752}
+  - component: {fileID: 4628361286617202}
+  - component: {fileID: 212407112754719670}
+  - component: {fileID: 61014438409098966}
+  - component: {fileID: 50810605433616450}
+  - component: {fileID: 114402455514527184}
+  - component: {fileID: 1056690523331628116}
   m_Layer: 9
-  m_Name: WarlockGnoll
+  m_Name: WolfGrey
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4687261569289092
+--- !u!4 &4628361286617202
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31.292557, y: 1.625, z: 0}
+  m_LocalPosition: {x: 160.73708, y: 1.625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &212578286298679416
+--- !u!212 &212407112754719670
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 4e808614c1e7b7f41bffc9375ee52c7d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cd5e4ca3ec6417540a817e21e75c53ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,13 +83,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &61657147370118470
+--- !u!61 &61014438409098966
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -107,16 +107,16 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.77}
+  m_Size: {x: 0.72, y: 0.48}
   m_EdgeRadius: 0
---- !u!50 &50580690817238352
+--- !u!50 &50810605433616450
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -130,45 +130,55 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &114079663569119384
+--- !u!114 &114402455514527184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterName: Warlock Gnoll
+  CharacterName: Wolf
   level: 2
   isElite: 0
-  statPercent: 100
+  statPercent: 90
   LootTable: []
-  QuestLootTable:
-  - itemName: Wedding Ring
-    questName: WeddingRing
-  SpellList:
-  - Corruption
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  QuestLootTable: []
+  SpellList: []
+  aggroSounds:
+  - {fileID: 8300000, guid: afb2c6aedf845c54fa3f2bfb8656798e, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: dfb1f4e8f38d4be4f8e8fa633807a7c4, type: 3}
+  - {fileID: 8300000, guid: d4f62ba601f1f854591c78116baac4a3, type: 3}
+  - {fileID: 8300000, guid: 4d49e8f1a9120924c87c6bacbb2c3499, type: 3}
+  - {fileID: 8300000, guid: 6a7709b9ff73a6d44b0d82d6f7b4e115, type: 3}
+  - {fileID: 8300000, guid: 7396f3f163c82bd4ca5df55a6aba2de1, type: 3}
+  - {fileID: 8300000, guid: 564bcb24916038b439bd0bcf1be80af7, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: bb78d35957673444d81f560884bd9127, type: 3}
+  - {fileID: 8300000, guid: c7e7332122d4952449486a537c701175, type: 3}
+  - {fileID: 8300000, guid: 15285ef4eb0bf3e459e20fa837448760, type: 3}
+  - {fileID: 8300000, guid: 85fa4ec9d061dd04f85239015593a625, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: ef5f63b77351b59428e3e1794009029b, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 41433e2a383a6ea4fb997e69d5ccb346, type: 3}
   moveRandom: 1
---- !u!95 &279602087528685752
+--- !u!95 &1056690523331628116
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779187885302980}
+  m_GameObject: {fileID: 1464575567641944}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4f3f5f38cc8d5b047a31c42de59b6f38, type: 2}
+  m_Controller: {fileID: 9100000, guid: 97315949e5b7988418367c45281f5ddd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

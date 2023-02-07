@@ -107,11 +107,20 @@ MonoBehaviour:
   QuestLootTable: []
   SpellList:
   - Fire explosion
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
+  aggroSounds:
+  - {fileID: 8300000, guid: eac5fa120c98ae2479106c7cb11236a6, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: 7b9140eee055dd44b9c7d93509aa4c82, type: 3}
+  - {fileID: 8300000, guid: d7a7bc363e5ff674caff7984b5d03f82, type: 3}
+  - {fileID: 8300000, guid: 9742daa548ba7b445a7246bb6008d4cf, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 0e6d67d5234f1794daea64f73f781af2, type: 3}
+  - {fileID: 8300000, guid: 56168ea2a5a6fdc45b5abef547e7455d, type: 3}
+  - {fileID: 8300000, guid: d33f6151d0ed6a94087e74bf2756f5ce, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: 119cb013d9313b9499a4e98d73d4d50c, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: da71eebbbd66e674aba19eb31a5275cb, type: 3}
   moveRandom: 1
 --- !u!61 &7157468694639957986
 BoxCollider2D:

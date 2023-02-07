@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2456626059623511114
+--- !u!1 &1034399215571694
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2456626059623511108}
-  - component: {fileID: 2456626059623511109}
-  - component: {fileID: 2456626059623511110}
-  - component: {fileID: 2456626059623511111}
-  - component: {fileID: 2456626059623511112}
-  - component: {fileID: 2456626059623511113}
+  - component: {fileID: 4933803655056256}
+  - component: {fileID: 212180080919093198}
+  - component: {fileID: 61669178187686820}
+  - component: {fileID: 50878850391702820}
+  - component: {fileID: 114651735152520862}
+  - component: {fileID: 3839760018661550940}
   m_Layer: 9
-  m_Name: Spider
+  m_Name: BasherGnoll
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2456626059623511108
+--- !u!4 &4933803655056256
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
+  m_GameObject: {fileID: 1034399215571694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 335.19125, y: 1.625, z: 0}
+  m_LocalPosition: {x: -290.6898, y: 1.625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2456626059623511109
+--- !u!212 &212180080919093198
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
+  m_GameObject: {fileID: 1034399215571694}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -49,7 +49,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: a03e65ae12492664cad98f6a0427e5a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9379bdea64a840f4085eb712633c8281, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,39 +83,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2456626059623511110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharacterName: Spider
-  level: 1
-  isElite: 0
-  statPercent: 100
-  LootTable: []
-  QuestLootTable: []
-  SpellList:
-  - Web
-  aggroSounds: []
-  attackSounds: []
-  woundSounds: []
-  woundCritSounds: []
-  deathSounds: []
-  moveRandom: 1
---- !u!61 &2456626059623511111
+--- !u!61 &61669178187686820
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
+  m_GameObject: {fileID: 1034399215571694}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -131,18 +105,18 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 1.59, y: 1.1}
+  m_Size: {x: 0.43, y: 0.77}
   m_EdgeRadius: 0
---- !u!50 &2456626059623511112
+--- !u!50 &50878850391702820
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
+  m_GameObject: {fileID: 1034399215571694}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -156,17 +130,56 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!95 &2456626059623511113
+--- !u!114 &114651735152520862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034399215571694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3098e1ae1ee034049983be7ed973a4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterName: BasicGnoll
+  level: 1
+  isElite: 0
+  statPercent: 100
+  LootTable: []
+  QuestLootTable: []
+  SpellList: []
+  aggroSounds:
+  - {fileID: 8300000, guid: 73ffc69bcb595644094f3510f7e0b969, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: d2d47b6aaa546d34bbb11b5f5bf737f3, type: 3}
+  - {fileID: 8300000, guid: 57fc0bc0f9c87294b99234b3c739dc5b, type: 3}
+  - {fileID: 8300000, guid: c6b9d0d07c56c9b49ba4e02ed25692cd, type: 3}
+  - {fileID: 8300000, guid: e5a00ab90d2ff3f4b91a75bc79ce30fe, type: 3}
+  - {fileID: 8300000, guid: f62b7aff6504a934791fe92664b0d695, type: 3}
+  - {fileID: 8300000, guid: 9c82f3ff613e79b4eafb0d825addfa87, type: 3}
+  - {fileID: 8300000, guid: c000e7c0ba3f1d24a9aad646524d8712, type: 3}
+  woundSounds:
+  - {fileID: 8300000, guid: 40dc943cf849d84489308ab397213116, type: 3}
+  - {fileID: 8300000, guid: 06c72b54e37d25f43a5929d094668b13, type: 3}
+  - {fileID: 8300000, guid: c705ebb5aa4350a43b5cb27f62f3e208, type: 3}
+  - {fileID: 8300000, guid: f8c85b83a3683744da84982dde3069e8, type: 3}
+  woundCritSounds:
+  - {fileID: 8300000, guid: f70d157435fe42f43985833522aee455, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 76aaa1b2300d1d246bacd9ed78277687, type: 3}
+  moveRandom: 0
+--- !u!95 &3839760018661550940
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456626059623511114}
+  m_GameObject: {fileID: 1034399215571694}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8395d7bb5f779ba4788b74383baea729, type: 2}
+  m_Controller: {fileID: 9100000, guid: 658f31b06fe3e6c429f46d4aec5c65f9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
