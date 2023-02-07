@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,10 +47,13 @@ public class Interface : MonoBehaviour
 	int castBarWidth = (int)(Screen.width * Constants.castBarwPercent / 100);
 	int castBarHeight = (int)(Screen.height * Constants.castBarhPercent / 100);
     int expBarHeight = (int)(Screen.height* Constants.expBarHeightPercent / 100);
-    static string toolTipText;
-    static string toolTipName;
-    static int toolTipPrice;
+    private static string toolTipText;
+    private static string toolTipName;
+    private static int toolTipPrice;
     private int cashIconSize;
+
+    private static string ModalText;
+    private static Action ModalButtonAction;
 
 
     public static void LoadPlayer(){
@@ -146,6 +150,18 @@ public class Interface : MonoBehaviour
         cashIconSize = (int)(Screen.height * 4 / 100);
     }
 
+    public static void DrawModalDialog(string modalText, Action modalButtonAction)
+    {
+        ModalText = modalText;
+        ModalButtonAction = modalButtonAction;
+    }
+
+    public static void CloseModalDialog()
+    {
+        ModalText = null;
+        ModalButtonAction = null;
+    }
+
     public static void DrawToolTip(string name, string description, int price = 0)
     {
         toolTipText = description;
@@ -184,11 +200,40 @@ public class Interface : MonoBehaviour
 		}
         drawToolTip();
         drawExperienceBar(FindUtils.GetPlayer(),0,99);
+        drawModalDialog(20, 20);
 
 
     }
 
-    private void drawExperienceBar(Player player, int xPercent, int yPercent)
+    private void drawModalDialog(int xSizePercent, int ySizePercent)
+    {
+        if (ModalText != null && ModalButtonAction != null)
+        {
+            int x = (int)(Screen.width * xSizePercent / 100);
+            int y = (int)(Screen.height * ySizePercent / 100);
+
+            Rect windowRect = new Rect((Screen.width - x) / 2, (Screen.height - y) / 2, x, y);
+            GUI.Window(0, windowRect, DoMyWindow, "");
+
+        }
+
+    }
+
+    void DoMyWindow(int windowID)
+    {
+        GUI.Label(new Rect(10, 10, 150, 60), ModalText);
+        if(GUI.Button(new Rect(20, 60, 40, 20), "Yes"))
+        {
+            ModalButtonAction();
+            CloseModalDialog();
+        }
+        if(GUI.Button(new Rect(80, 60, 40, 20), "No"))
+        {
+            CloseModalDialog();
+        }
+    }
+
+        private void drawExperienceBar(Player player, int xPercent, int yPercent)
     {
 
         int x = (int)(Screen.width * xPercent / 100);

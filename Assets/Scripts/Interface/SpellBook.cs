@@ -24,7 +24,7 @@ public class SpellBook : MonoBehaviour, Slotable {
 
     public void OnDropIn(GameObject slot, PointerEventData eventData)
     {
-        
+        eventData.Use();
     }
 
     // Update is called once per frame

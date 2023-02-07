@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,6 +8,15 @@ public class EmptyInterfaceSpace : MonoBehaviour, IDropHandler{
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("Trying to delete ");
-        eventData.Use();
+        if(!(Draggable.currentUsable is Spell))
+        {
+            Interface.DrawModalDialog("Are you sure you want to delete this ?", DeleteItem(Draggable.currentItem));
+            eventData.Use();
+        }
+    }
+
+    private Action DeleteItem(GameObject usableGameObject)
+    {
+        return new Action(() => { if (usableGameObject != null) { usableGameObject.GetComponentInParent<Slot>().usable = null; Destroy(usableGameObject); } });
     }
 }
