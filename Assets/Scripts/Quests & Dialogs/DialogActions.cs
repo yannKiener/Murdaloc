@@ -18,7 +18,6 @@ public class DialogActions {
         actionString = actionString.ToLower();
         if (dialogActions.ContainsKey(actionString))
         {
-            Debug.Log("Doing action " + actionString);
             dialogActions[actionString]();
         } else
         {

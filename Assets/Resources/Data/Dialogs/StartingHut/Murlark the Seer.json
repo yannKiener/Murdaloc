@@ -2,15 +2,35 @@
    "text":"Ah, you're finally awake.",
    "choices":[  
 	  {
-         "choice":"What's going on ?",
+         "choice":"...",
          "dialog":{  
-            "text":"You've been asleep for a few days now. Every Murloc here like you, ",
+            "text":"You've been asleep for 2 days now, you'll feel better in a few moments. You're the last waking up!",
             "choices":[  
                {  
-                  "choice":"Sure !",
+                  "choice":"<Ask what happened>",
                   "dialog":{  
-                    "action":"AddMageSpec",
-					"text":"It is done. Leave now, as a mage.",
+					"text":"We don't know much for now, we've all been hit by some kind lightning explosion. No one was physically hurt, but we have.. Evolved.. a lot since.",
+					"choices":[  
+					   {  
+						  "choice":"<Stand up>",
+						  "dialog":{  
+							"text":"Now now, %T, slowly. Allow me help you.",
+							"action":"WakeUpPlayer",
+							"choices":[  
+							   {  
+								  "choice":"<Leave>"
+							   }
+							]
+						  }
+					   }
+					]
+                  }
+               },
+               {  
+                  "choice":"<Stand up>",
+                  "dialog":{  
+					"text":"Now now, %T, slowly. Allow me help you.",
+                    "action":"WakeUpPlayer",
 					"choices":[  
 					   {  
 						  "choice":"<Leave>"

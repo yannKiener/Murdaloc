@@ -209,7 +209,7 @@ public class Player : Character
 	{
 		UpdateCharacter ();
         Controls();
-        if (!IsDead())
+        if (!IsDead() && !IsStunned())
         {
             MovePlayer(GetComponent<Rigidbody2D>());
         }
@@ -297,7 +297,7 @@ public class Player : Character
             jumping = false;
         }*/
 		jumping = false;
-        if (!IsDead())
+        if (!IsDead()) // La deuxieme condition est la juste pour l'intro..
         {
             anim.Play("Stand");
         }

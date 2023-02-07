@@ -43,6 +43,7 @@ public abstract class Character : MonoBehaviour
     public List<string> SpellList;
     protected Dialog dialog;
     protected float timeSpendOutOfCombat = 0f;
+    protected bool isStunned = false;
 
     public List<AudioClip> aggroSounds;
     public List<AudioClip> attackSounds;
@@ -90,6 +91,26 @@ public abstract class Character : MonoBehaviour
         castingSpell = null;
 
         anim = GetComponent<Animator>();
+    }
+
+    public bool IsStunned()
+    {
+        return isStunned;
+    }
+
+    public void Stun()
+    {
+        if (IsCasting())
+        {
+            CancelCast();
+        }
+
+        isStunned = true;
+    }
+
+    public void RemoveStun()
+    {
+        isStunned = false;
     }
 
     protected Stats GetBaseStatsForLevel(int lvl)
@@ -424,12 +445,16 @@ public abstract class Character : MonoBehaviour
     protected void UpdateCharacter(){
         if (!IsDead())
         {
-            UpdateCast();
+            if (!IsStunned())
+            {
+                UpdateCast();
+                UpdateAutoAttack();
+
+            }
             UpdateCombat();
             UpdateRegen();
             UpdateEffects();
             UpdateGCD();
-            UpdateAutoAttack();
             UpdateCoolDowns();
         }
     }

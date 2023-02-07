@@ -57,7 +57,10 @@ public class EffectOnTime : Castable
 		this.caster = effect.caster;
 		this.isStackable = effect.isStackable;
 		this.maxStacks = effect.maxStacks;
-		this.timePerTic = timePerTic - timePerTic * caster.GetStats ().Haste / Constants.hasteDivider; // pour prendre en compte la hate du caster
+        if(caster != null)
+        {
+            this.timePerTic = timePerTic - timePerTic * caster.GetStats().Haste / Constants.hasteDivider; // pour prendre en compte la hate du caster
+        }
         this.NormalMultiplier = effect.GetNormalMultiplier();
         this.CritMultiplier = effect.GetCritMultiplier();
     }

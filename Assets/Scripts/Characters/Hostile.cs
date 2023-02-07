@@ -43,13 +43,16 @@ public class Hostile : Character
 
         this.autoAttack1Damage = (int)(autoAttack1Damage * Constants.MobAutoAttackMultiplier);
     }
-    
+
     void Update()
-	{
-		UpdateCharacter ();
-		manageCombat ();
-		move (GetComponent<Rigidbody2D>());
-		limitCombatMovements();
+    {
+        UpdateCharacter();
+        if (!IsStunned())
+        {
+            manageCombat();
+        }
+        move(GetComponent<Rigidbody2D>());
+        limitCombatMovements();
 	}
 
 	void AggroAroundSelf()
@@ -93,7 +96,7 @@ public class Hostile : Character
 
 
 	private void move(Rigidbody2D mob){
-		if (!casting && !IsDead()) {
+		if (!casting && !IsDead() && !IsStunned()) {
 			if (inCombat) {
 				float targetPos = target.GetGameObject ().transform.position.x;
 				float selfPos = this.gameObject.transform.position.x;

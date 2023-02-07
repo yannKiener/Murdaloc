@@ -52,6 +52,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         Specialisation mageArcane = new Specialisation("Arcane");
         mageArcane.SetTalent(4, new Talent("Empowered Corruption", "add 20% damage to your Corruption spell", 5, (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Corruption"].GetEffectOnTarget("Corruption").RemoveToNormalMultiplier(20)));
         mageArcane.SetTalent(2, new Talent("Empowered Renovation", "add 20% heal to your Renovation spell", 5, (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").AddToNormalMultiplier(20), (player, stacks) => player.GetSpells()["Renovation"].GetEffectOnSelf("Renovation").RemoveToNormalMultiplier(20)));
+        mageArcane.SetTalent(6, new Talent("Empowered Slam", "add 20% chance to stun your target", 5, (player, stacks) => player.GetSpells()["Slam"].SetProc(EffectsOnTime.Get("Stun"),stacks * 20), (player, stacks) => player.GetSpells()["Slam"].RemoveProc(EffectsOnTime.Get("Stun"))));
 
         Specialisations.Add(mageArcane);
 
@@ -67,6 +68,7 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Frozen", "Can't move", false, 1, 6, 1, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
         CreateEffectOnTime("Enrage", "Hit harder & faster but moves slower.", true, 1, 8, 8, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -50f }, { Stat.haste, 20f }, { Stat.power, 20f } }), null);
         CreateEffectOnTime("Webbed", "Can't move", false, 1, 3.5f, 3, new StatEffect(new Dictionary<Stat, float> { { Stat.maxSpeed, -100f } }), null);
+        CreateEffectOnTime("Stun", "Stunned. Can't move or attack.", false, 1, 5, 5, new StunEffect(), null);
 
 
         //Spells for consummables
@@ -75,6 +77,9 @@ public class SpellAndEffectLoader : MonoBehaviour {
         CreateEffectOnTime("Potion of cunning", "You feel 10% smarter !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.intelligence, 10 } }), null);
         CreateEffectOnTime("Potion of might", "You feel 10% stronger !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.force, 10 } }), null);
         CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
+
+        //Used for Intro
+        CreateEffectOnTime("Asleep", "You're emerging from a coma", false, 1, 31536000, 5, new StunEffect(), null);
     }
 
     private void CreateSpells()
@@ -423,6 +428,15 @@ public class SpellAndEffectLoader : MonoBehaviour {
                 lvlChanger.gameObject.SetActive(true);
             }
         });
+
+        DialogActions.Add("WakeUpPlayer", () =>
+        {
+            Player player = FindUtils.GetPlayer();
+            player.RemoveEffectOnTime(EffectsOnTime.Get("Asleep"));
+            player.gameObject.GetComponent<Animator>().Play("Stand");
+        });
+
+
 
 
         DialogActions.Add("GiveGorkrsRing", () =>
