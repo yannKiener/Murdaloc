@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class HostileSpell : AbstractSpell
+public class HostileSpell : Spell
 {
 	public HostileSpell() : base (){
 	}

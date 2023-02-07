@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class FriendlySpell : AbstractSpell
+public class FriendlySpell : Spell
 {
 	public FriendlySpell() : base (){
 	}

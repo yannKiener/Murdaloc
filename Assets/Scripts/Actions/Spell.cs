@@ -17,21 +17,10 @@ public static class Spells
 		return spellList[spellName.ToLower()];
     }
 }
-
-public interface Spell
-{
-    string GetName();
-    string GetDescription();
-    int GetResourceCost();
-	float GetCastTime(Stats stats);
-    int GetLevelRequirement();
-	bool IsCastable (Character caster, Character target);
-    void Cast(Character caster, Character target);
-    bool IsCrit();
-}
+	
 
 
-public abstract class AbstractSpell : Spell
+public abstract class Spell
 {
     protected string spellName;
     protected string description;
@@ -45,11 +34,11 @@ public abstract class AbstractSpell : Spell
 	protected bool isCrit = false;
 
 
-	public AbstractSpell()
+	public Spell()
     {
 	}
 
-	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown,List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
 	{
 		this.spellName = name.ToLower();
 		this.description = description;
@@ -62,7 +51,7 @@ public abstract class AbstractSpell : Spell
 		this.effectsOnSelf = effectsOnSelf;
 	}
 
-	public AbstractSpell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
+	public Spell(string name, string description, int resourceCost, float castTime, int damage, int levelRequirement, int coolDown)
 	{
 		this.spellName = name.ToLower();
 		this.description = description;
