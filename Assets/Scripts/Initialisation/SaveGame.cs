@@ -78,11 +78,10 @@ public class SaveGame {
 
         FindUtils.GetInventoryGrid().AddCash(cash);
 
-        foreach (Equipment item in charSheetItems)
-        {
-            item.LoadImage();
-            FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
-        }
+
+        DialogStatus.SetAllStatus(status);
+        FindUtils.GetPlayer().InitializeWith(name, level, expPercent, r, sList);
+
         foreach (Item item in inventoryItems)
         {
             item.LoadImage();
@@ -94,8 +93,11 @@ public class SaveGame {
             FindUtils.GetInventoryGrid().AddItem(item);
         }
 
-        DialogStatus.SetAllStatus(status);
-        FindUtils.GetPlayer().InitializeWith(name, level, expPercent, r, sList);
+        foreach (Equipment item in charSheetItems)
+        {
+            item.LoadImage();
+            FindUtils.GetCharacterSheetGrid().EquipEquipment(item);
+        }
 
     }
 }

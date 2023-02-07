@@ -16,11 +16,19 @@ public class Player : Character
     private void Awake()
     {
         Interface.LoadPlayer();
-        gameObject.layer = 9;
-        base.Start();
-        GetComponent<SpriteRenderer>().sortingOrder = 10;
 
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    }
+
+    new void Start()
+    {
+        currentLife = stats.MaxLife;
+        currentResource = stats.MaxResource;
+        gameObject.layer = 9;
+        GetComponent<SpriteRenderer>().sortingOrder = 10;
+        casting = false;
+        isDead = false;
+        castingSpell = null;
     }
 
     public void InitializeWith(string name, int lv, float expPercent, Resource rsrc, List<Spell> spellList)

@@ -61,19 +61,20 @@ public abstract class Character : MonoBehaviour
         {
             resource = new Mana();
         }
-        stats = GetBaseStatsForLevel(level);
 
-        autoAttack1Damage = GetBasicAutoAttackDamage();
-        autoAttack1Speed = Constants.BaseAutoAttackSpeed;
+        stats = GetBaseStatsForLevel(level);
         currentLife = stats.MaxLife;
         currentResource = stats.MaxResource;
-        casting = false;
-        isDead = false;
-        castingSpell = null;
+        autoAttack1Damage = GetBasicAutoAttackDamage();
+        autoAttack1Speed = Constants.BaseAutoAttackSpeed;
         if (lootTable == null || lootTable.Count == 0)
         {
             lootTable = GetDefaultLootTableForLevel(level);
         }
+
+        casting = false;
+        isDead = false;
+        castingSpell = null;
     }
 
     protected Stats GetBaseStatsForLevel(int lvl)
@@ -425,15 +426,21 @@ public abstract class Character : MonoBehaviour
 
      public void AggroTarget(Character aggroTarget)
      {
-          aggroTarget.AggroFrom(this);
-          AddToEnemyList(aggroTarget);
-          EnterCombat();
+        if(aggroTarget != this)
+        {
+            aggroTarget.AggroFrom(this);
+            AddToEnemyList(aggroTarget);
+            EnterCombat();
+        }
      }
    
    public void AggroFrom(Character aggroFrom)
-     {
-         AddToEnemyList(aggroFrom);
-         EnterCombat();
+    {
+        if (aggroFrom != this)
+        {
+            AddToEnemyList(aggroFrom);
+            EnterCombat();
+        }
      }
       
      protected void AddToEnemyList(Character enemy)
