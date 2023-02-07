@@ -29,7 +29,7 @@ public abstract class Character : MonoBehaviour
 	protected bool hasCasted;
 	protected Stats stats;
 	protected float gcd = 0;
-	protected bool autoAttackEnabled = true;
+	protected bool autoAttackEnabled = false;
 	protected bool autoAttackIsCrit = false;
     protected int autoAttack1Damage = 0;
     protected float autoAttack1Time = 0f;
@@ -929,7 +929,10 @@ public abstract class Character : MonoBehaviour
 			castingTime += Time.deltaTime;
             if(castingTime >= castingSpell.GetCastTime(stats))
             {
-                 DoneCasting();
+                if (castingSpell.IsCastable(this, target, false))
+                {
+                    DoneCasting();
+                }
             }
         }
     }

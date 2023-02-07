@@ -164,6 +164,7 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 3bd913a66dff3b54bba79698f2ed02ed, type: 3}
   moveRandom: 1
+  isPassive: 1
 --- !u!95 &1056690523331628116
 Animator:
   serializedVersion: 3

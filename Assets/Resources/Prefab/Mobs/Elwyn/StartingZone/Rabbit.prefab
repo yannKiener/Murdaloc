@@ -121,6 +121,7 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 468f96871ab12b845b05aa954252cd8d, type: 3}
   moveRandom: 1
+  isPassive: 1
 --- !u!61 &3903053939676418916
 BoxCollider2D:
   m_ObjectHideFlags: 0

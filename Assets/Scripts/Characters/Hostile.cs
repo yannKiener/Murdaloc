@@ -8,16 +8,13 @@ public class Hostile : Character
 {
 	private int direction = 0;
     public bool moveRandom = true;
+    public bool isPassive = false;
 
     new void Start(){
         base.Start();
 		this.gameObject.tag = "Enemy";
         this.gameObject.layer = 9;
-        if (moveRandom)
-        {
-            InvokeRepeating("randomizeDirection", 1f, 1f);
-        }
-        InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
+        RespawnReady();
 
         stats.AddStat(Stat.autoAttackDamage, level * Constants.AutoAttackDPSPerLevel * Constants.BaseAutoAttackSpeed);
 
@@ -210,7 +207,10 @@ public class Hostile : Character
         {
             CancelInvoke("randomizeDirection");
         }
-        CancelInvoke("AggroAroundSelf");
+        if (!isPassive)
+        {
+            CancelInvoke("AggroAroundSelf");
+        }
         direction = 0;
         Invoke("Respawn", Constants.RespawnTimer);
         base.die();
@@ -234,7 +234,10 @@ public class Hostile : Character
         {
             InvokeRepeating("randomizeDirection", 1f, 1f);
         }
-        InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
+        if (!isPassive)
+        {
+            InvokeRepeating("AggroAroundSelf", 1f, 0.5f);
+        }
     }
 
 
