@@ -49,9 +49,11 @@ public class Interface : MonoBehaviour {
 		if (target != null && !target.IsDead()) {
 			drawCharInfoAt (target, 70, 2);
 			//outlining target sprite
+			/*
 			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
 				target.GetGameObject ().AddComponent<cakeslice.Outline> ();
 			}
+			*/
 		}
 
 		if (player.IsCasting() && Constants.drawCastBar) {

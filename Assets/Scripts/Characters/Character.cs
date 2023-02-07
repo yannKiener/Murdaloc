@@ -102,7 +102,7 @@ public abstract class Character : MonoBehaviour
 		return target;
 	}
 
-	public void SetTarget(Character target){
+	public virtual void SetTarget(Character target){
 		this.target = target;
 	}
 
@@ -178,6 +178,10 @@ public abstract class Character : MonoBehaviour
 		UpdateGCD ();
 		UpdateAutoAttack ();
 	}
+
+	void OnMouseDown(){
+		GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ().SetTarget (this);
+	}
 		
 
      public void AggroTarget(Character aggroTarget)
@@ -198,7 +202,7 @@ public abstract class Character : MonoBehaviour
 		if (enemy != null && !enemyList.Contains (enemy)) {
 			     enemyList.Add (enemy);
 			     if (enemyList.Count == 1) {
-				     target = enemy;
+					SetTarget (enemy);
 			     }
 		     }
       }
@@ -219,7 +223,7 @@ public abstract class Character : MonoBehaviour
      }
 
 	protected void UpdateAutoAttack(){
-		if (autoAttackEnabled && target != null && !casting) {
+		if (autoAttackEnabled && target != null && target.gameObject.tag == "Enemy" && !casting) {
 			autoAttackTime += Time.deltaTime;
 			if (autoAttackTime >= modifiedAutoAttackTime () && autoAttackDistanceOK()) {
 				autoAttackTime = 0;
@@ -303,7 +307,7 @@ public abstract class Character : MonoBehaviour
 	protected void UpdateTarget(){
 		if (enemyList.Count >= 1) {
 			if (target == null || target.IsDead ()) {
-				target = enemyList [0];
+				SetTarget(enemyList [0]);
 			}
 		}
 		else {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StatusBar : MonoBehaviour {
 
 	Character attachedCharacter;
+	Character player;
 	Image healthBar;
 	Image resourceBar;
 	Image castBar;	
@@ -20,16 +21,20 @@ public class StatusBar : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		/*
-		if (gameObject.tag == "Enemy") {
-
-			GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>().SetTarget(GetComponent<Hostile>());
+		GameObject characterGameObject = transform.parent.gameObject;
+		if (characterGameObject.tag == "Enemy") {
+			Debug.Log ("true");
+			player.SetTarget(characterGameObject.GetComponent<Character>());
 		}
-		*/
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		if (player == null) {
+			player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
+		} else {
+			UpdateTargeting ();
+		}
 
 		if (isDisplayed) {
 			healthBar.fillAmount = attachedCharacter.GetHealthPercent ();
@@ -42,6 +47,14 @@ public class StatusBar : MonoBehaviour {
 		}
 	}
 
+	void UpdateTargeting(){
+		if (player.GetTarget () == attachedCharacter) {
+			SetTarget ();
+		} else {
+			UnSetTarget ();
+		}
+	}
+
 
 	void LateUpdate(){
 		Vector3 pos = GetComponent<RectTransform> ().localPosition;
@@ -50,6 +63,22 @@ public class StatusBar : MonoBehaviour {
 		}
 		GetComponent<RectTransform> ().localPosition = new Vector3 (0, pos.y);
 
+	}
+
+	private void SetTarget(){
+		GetComponent<Canvas> ().sortingOrder = 101;
+		transform.Find("Selection1").GetComponent<Image> ().color = new Color (0, 0, 0, 0.70f);
+		transform.Find("Selection2").GetComponent<Image> ().color = new Color (0, 0, 0, 0.70f);
+		transform.Find("Selection3").GetComponent<Image> ().color = new Color (0, 0, 0, 0.70f);
+		transform.Find("Selection4").GetComponent<Image> ().color = new Color (0, 0, 0, 0.70f);
+	}
+
+	private void UnSetTarget(){
+		GetComponent<Canvas> ().sortingOrder = 100;
+		transform.Find("Selection1").GetComponent<Image> ().color = new Color (0, 0, 0, 0);
+		transform.Find("Selection2").GetComponent<Image> ().color = new Color (0, 0, 0, 0);
+		transform.Find("Selection3").GetComponent<Image> ().color = new Color (0, 0, 0, 0);
+		transform.Find("Selection4").GetComponent<Image> ().color = new Color (0, 0, 0, 0);
 	}
 
 	private void removeSelf(){

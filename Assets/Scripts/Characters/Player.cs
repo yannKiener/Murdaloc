@@ -61,12 +61,21 @@ public class Player : Character
 				enemyOffset = 0;
 			}
 
-			cakeslice.Outline outline = target.GetGameObject ().GetComponent<cakeslice.Outline> ();
-			Destroy(outline);
 
-			target = enemyList[enemyOffset];
+			SetTarget(enemyList[enemyOffset]);
 		}
 
+	}
+
+	public override void SetTarget (Character target)
+	{
+		if (this.target != null && this.target.GetGameObject ().GetComponent<cakeslice.Outline> () != null) { //Remove old target outline
+			cakeslice.Outline outline = this.target.GetGameObject ().GetComponent<cakeslice.Outline> ();
+			Destroy(outline);
+		}
+
+		target.GetGameObject ().AddComponent<cakeslice.Outline> ();
+		base.SetTarget (target);
 	}
 
 
