@@ -6,8 +6,8 @@ public class SpellAndEffectLoader : MonoBehaviour {
 
 
 	void Awake (){
-		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,false,6,0.5f,100,0));
-		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,true,10,1,0,80));
+		EffectsOnTime.Add (new EffectOnTime ("corruption","First DoT of the game",false,2,6,0.5f,100,0));
+		EffectsOnTime.Add (new EffectOnTime ("renovation","First HoT of the game",true,4,10,1,0,80));
 
 		Spells.Add (new HostileSpell ("autoattack","An automatic attack", 0,0,2,0,0));
 		Spells.Add (new HostileSpell ("fireball","A magic Fireball. That's it.", 10,2,25,0,0));

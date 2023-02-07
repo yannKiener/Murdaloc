@@ -32,6 +32,7 @@ public class EffectOnTime
 	private bool isCrit;
 	private bool isStackable = false;
 	private int stacks = 1;
+	private int maxStacks = 1;
 
 	private Character attachedCharacter = null;
 	private Character caster;
@@ -41,7 +42,7 @@ public class EffectOnTime
 	private float nextTic;
 	private bool toBeRemoved = false;
 
-	public EffectOnTime(string name, string description, bool isBuff, bool stackable, float duration, float timePerTic, float totalDamage, float totalHeal){
+	public EffectOnTime(string name, string description, bool isBuff, int stacks, float duration, float timePerTic, float totalDamage, float totalHeal){
 		this.name = name;
 		this.description = description;
 		this.isBuff = isBuff;
@@ -50,7 +51,10 @@ public class EffectOnTime
 		this.damagePerTic = (int)((totalDamage/duration)*timePerTic);
 		this.healPerTic = (int)((totalHeal/duration)*timePerTic);
 		this.nextTic = duration - timePerTic;
-		this.isStackable = stackable;
+		if (stacks > 1) {
+			this.isStackable = true;
+		}
+		this.maxStacks = stacks;
 	}
 
 	public EffectOnTime(EffectOnTime effect){
@@ -74,7 +78,6 @@ public class EffectOnTime
 	}
 
 	public void refresh(){
-		Debug.Log(name + " refreshed on " +  attachedCharacter.GetName());
 		this.timeLeft = this.duration;
 		this.nextTic = duration - timePerTic;
 
@@ -103,7 +106,7 @@ public class EffectOnTime
 		EffectOnTime effect = attachedCharacter.getEffect (this);
 
 		if(effect != null){
-			if(isStackable){
+			if(isStackable && effect.stacks < maxStacks){
 				effect.stacks += 1;
 			}	
 			effect.refresh ();
