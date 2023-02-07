@@ -297,7 +297,10 @@ public class Player : Character
             jumping = false;
         }*/
 		jumping = false;
-        anim.Play("Stand");
+        if (!IsDead())
+        {
+            anim.Play("Stand");
+        }
     }
 
 	private void MovePlayer(Rigidbody2D player)

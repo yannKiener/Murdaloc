@@ -701,6 +701,7 @@ public abstract class Character : MonoBehaviour
 
 		isDead = true;
         CancelTarget();
+        CancelCast();
 
         cakeslice.Outline outline = this.GetComponent<cakeslice.Outline>();
         if(outline != null)

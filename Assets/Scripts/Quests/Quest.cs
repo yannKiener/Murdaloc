@@ -77,9 +77,12 @@ public class Quest{
 	
 	public void SetReady()
     {
-        Interface.QuestReadyToTurnIn(); 
-        DialogStatus.SetStatus(questName + "Ready", true);
-        isQuestReady = true;
+        if (!isQuestReady)
+        {
+            Interface.QuestReadyToTurnIn();
+            DialogStatus.SetStatus(questName + "Ready", true);
+            isQuestReady = true;
+        }
     }
 
     public bool IsReady()
