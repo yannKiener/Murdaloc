@@ -53,6 +53,12 @@ public class Player : Character
         currentResource = stats.MaxResource;
     }
 
+    public void AddTalentPoint()
+    {
+        talentPoints += 1;
+        FindUtils.GetTalentSheetGrid().UpdateTalentsPointsRemainingText();
+    }
+
     public int GetTalentPoints()
     {
         return talentPoints;
@@ -164,6 +170,10 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.X))
         {
             LevelUp();
+            LevelUp();
+            LevelUp();
+            LevelUp();
+            LevelUp();
             FindUtils.GetInventoryGrid().AddCash(100000);
             FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
@@ -203,11 +213,11 @@ public class Player : Character
     {
         base.LevelUp();
         SetFullHealthAndMaxResource();
-        talentPoints += 1;
-        FindUtils.GetTalentSheetGrid().UpdateTalentsPointsRemainingText();
+        AddTalentPoint();
         FindUtils.GetCharacterSheetText().text = "Character\nLevel : " + level;
-
     }
+
+
 
     public void ClearSpells()
     {

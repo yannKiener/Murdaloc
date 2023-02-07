@@ -6,6 +6,7 @@ public class Specialisation
 {
     string name;
     Dictionary<int, Talent> talentTree = new Dictionary<int, Talent>();
+    int pointsInSpec = 0;
 
     public Specialisation (string name)
     {
@@ -16,6 +17,21 @@ public class Specialisation
     {
         this.name = s.GetName();
         this.talentTree = s.GetTalentTree();
+    }
+
+    public void ResetPointsInSpec()
+    {
+        pointsInSpec = 0;
+    }
+
+    public void AddPointInSpec()
+    {
+        pointsInSpec += 1;
+    }
+
+    public int GetPointsInSpec()
+    {
+        return pointsInSpec;
     }
 
     public string GetName()

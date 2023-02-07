@@ -16,6 +16,7 @@ public class TalentSheet : MonoBehaviour
     Specialisation spec1;
     Specialisation spec2;
     Specialisation spec3;
+        
 
 
     void OnEnable()
@@ -24,9 +25,6 @@ public class TalentSheet : MonoBehaviour
         {
             InterfaceUtils.ShowHideSpellBook();
         }
-
-        DeactiveAllTalentSlots();
-
         if (spec1 != null)
         {
             LoadTalentsForSpec(spec1);
@@ -52,6 +50,9 @@ public class TalentSheet : MonoBehaviour
 
     void Start()
     {
+
+        DeactiveAllTalentSlots();
+
         UpdateSpecSheet();
     }
 
@@ -65,7 +66,7 @@ public class TalentSheet : MonoBehaviour
         UpdateTalentsPointsRemainingText();
     }
 
-    private void ResetSlotText()
+    public void ResetSlotText()
     {
         foreach (Transform t in TalentsSheetGrid.transform)
         {
@@ -81,6 +82,7 @@ public class TalentSheet : MonoBehaviour
             {
                 kv.Value.Reset();
             }
+            spec.ResetPointsInSpec();
         }
     }
 
@@ -125,13 +127,12 @@ public class TalentSheet : MonoBehaviour
     {
         if (spec != null && spec.GetName() != null && spec.GetName().Length > 0)
         {
-            textContainer.SetActive(true);
             textContainer.GetComponentInChildren<Text>().text = spec.GetName();
+            textContainer.SetActive(true);
         } else
         {
             textContainer.SetActive(false);
         }
-
     }
 
     private void LoadTalentsForSpec(Specialisation spec)
@@ -140,18 +141,16 @@ public class TalentSheet : MonoBehaviour
         foreach (KeyValuePair<int, Talent> kv in spec.GetTalentTree())
         {
             GameObject talentSlot = TalentsSheetGrid.transform.Find(kv.Key.ToString()).gameObject;
+            talentSlot.GetComponent<TalentSlot>().SetTalent(spec, kv.Value);
             talentSlot.SetActive(true);
-            talentSlot.GetComponent<TalentSlot>().SetTalent(kv.Value);
         }
-
-        Debug.Log("Specialisation selected : " + spec.GetName());
     }
     
     private void DeactiveAllTalentSlots()
     {
         foreach(Transform t  in TalentsSheetGrid.transform)
         {
-            t.gameObject.GetComponent<TalentSlot>().RemoveTalent();
+            t.gameObject.GetComponent<TalentSlot>().DeactivateTalent();
             t.gameObject.SetActive(false);
         }
     }

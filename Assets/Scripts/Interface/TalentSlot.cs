@@ -7,10 +7,20 @@ using UnityEngine.UI;
 public class TalentSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private Talent talent;
+    private Specialisation specialisation;
+    private int slotNumber = 0;
+
+
+    void OnEnable()
+    {
+        UpdateStacksText();
+    }
 
     void Start()
     {
         GetComponent<Image>().color = new Color(1, 1, 1, 0.9f);
+        slotNumber = int.Parse(gameObject.name);
+        UpdateStacksText();
     }
 
     public void UpdateStacksText()
@@ -18,28 +28,47 @@ public class TalentSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         if(talent != null)
         {
             transform.GetComponentInChildren<Text>().text = talent.GetStacks() + " / " + talent.GetMaxStacks();
+            if (IsTalentClickable())
+            {
+                transform.GetComponentInChildren<Text>().color = Color.white;
+            } else
+            {
+                transform.GetComponentInChildren<Text>().color = Color.red;
+            }
         }
     }
 
-    public void SetTalent(Talent t)
-    {
-        talent = t;
-        this.GetComponent<Image>().sprite = talent.GetImage();
-        UpdateStacksText();
 
+    private bool IsTalentClickable()
+    {
+        return ((slotNumber - 1) / 4) <= (specialisation.GetPointsInSpec() / 5);
     }
 
-    public void RemoveTalent()
+    public void SetTalent(Specialisation s, Talent t)
     {
+        specialisation = s;
+        talent = t;
+        this.GetComponent<Image>().sprite = talent.GetImage();
+    }
+
+    public void DeactivateTalent()
+    {
+        specialisation = null;
         talent = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(talent != null)
+        if(talent != null && specialisation != null && IsTalentClickable() && talent.AddOne())
         {
-            talent.AddOne();
-            UpdateStacksText();
+            specialisation.AddPointInSpec();
+            if(specialisation.GetPointsInSpec() % 5 == 0)
+            {
+                FindUtils.GetTalentSheetGrid().ResetSlotText();
+            } else
+            {
+                UpdateStacksText();
+            }
         }
     }
 

@@ -22,23 +22,26 @@ public class Talent
 
     public void ActivateEffect()
     {
-        Debug.Log("Activating talent effect");
+       //TODO : Debug.Log("Activating talent effect");
     }
 
     public void RemoveEffect()
     {
-        Debug.Log("Removing talent effect");
+        //TODO :Debug.Log("Removing talent effect");
     }
 
 
-    public void AddOne(){
-        Player player = FindUtils.GetPlayer();
-        if (stacks < maxStacks && player.RemoveOneTalentPoint())
+    public bool AddOne(){
+        
+        if (stacks < maxStacks && FindUtils.GetPlayer().RemoveOneTalentPoint())
         {
             stacks++;
             FindUtils.GetTalentSheetGrid().UpdateTalentsPointsRemainingText();
             ActivateEffect();
+            return true;
         }
+
+        return false;
     }
     
 
