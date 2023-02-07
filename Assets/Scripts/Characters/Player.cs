@@ -14,6 +14,7 @@ public class Player : Character
     private Vector3 initialPosition;
     private float xSpeed;
     private int talentPoints;
+    public GameObject LevelUpAnimation;
 
 
     private void Awake()
@@ -212,6 +213,13 @@ public class Player : Character
 
     public override void LevelUp()
     {
+        if(LevelUpAnimation != null)
+        {
+            GameObject lvlUpAnimInstance = Instantiate(LevelUpAnimation, transform);
+            Animator animLvlUp = lvlUpAnimInstance.GetComponent<Animator>();
+            animLvlUp.Play("LevelUp");
+            Destroy(lvlUpAnimInstance, animLvlUp.GetCurrentAnimatorClipInfo(0)[0].clip.length/1.5f);
+        }
         base.LevelUp();
         SetFullHealthAndMaxResource();
         AddTalentPoint();
