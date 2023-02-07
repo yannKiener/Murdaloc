@@ -12,6 +12,12 @@ public class Inventory : MonoBehaviour, Slotable {
     private int gold = 0;
     private int silver = 0;
     private int copper = 0;
+    private GameObject copperCount;
+    private GameObject silverCount;
+    private GameObject goldCount;
+    private GameObject copperIcon;
+    private GameObject silverIcon;
+    private GameObject goldIcon;
 
     // Use this for initialization
     void Start()
@@ -20,6 +26,15 @@ public class Inventory : MonoBehaviour, Slotable {
         {
             Instantiate(slotContainer, transform);
         }
+
+        Transform money = transform.parent.Find("Money");
+        copperCount = money.Find("CopperCount").gameObject;
+        silverCount = money.Find("SilverCount").gameObject;
+        goldCount = money.Find("GoldCount").gameObject;
+        silverIcon = money.Find("SilverIcon").gameObject;
+        goldIcon = money.Find("GoldIcon").gameObject;
+
+        UpdateGoldGui();
     }
 
     public void OnDragFrom(GameObject slot)
@@ -27,11 +42,38 @@ public class Inventory : MonoBehaviour, Slotable {
 
     }
 
+    public void UpdateGoldGui()
+    {
+        copperCount.GetComponent<Text>().text = copper.ToString();
+        if(gold > 0 || silver > 0)
+        {
+            silverCount.SetActive(true);
+            silverIcon.SetActive(true);
+            silverCount.GetComponent<Text>().text = silver.ToString();
+        } else
+        {
+            silverCount.SetActive(false);
+            silverIcon.SetActive(false);
+        }
+        if (gold > 0)
+        {
+            goldCount.SetActive(true);
+            goldIcon.SetActive(true);
+            goldCount.GetComponent<Text>().text = gold.ToString();
+        } else
+        {
+            goldCount.SetActive(false);
+            goldIcon.SetActive(false);
+
+        }
+    }
+
     public bool RemoveCopper(int price)
     {
         if (copper >= price)
         {
             copper -= price;
+            UpdateGoldGui();
             return true;
         } else
         {
@@ -39,6 +81,7 @@ public class Inventory : MonoBehaviour, Slotable {
             {
                 copper += 100;
                 copper -= price;
+                UpdateGoldGui();
                 return true;
             }
         }
@@ -58,6 +101,7 @@ public class Inventory : MonoBehaviour, Slotable {
             AddSilver(1);
         }
         copper += price;
+        UpdateGoldGui();
     }
 
     public bool RemoveSilver(int price)
@@ -65,6 +109,7 @@ public class Inventory : MonoBehaviour, Slotable {
         if (silver >= price)
         {
             silver -= price;
+            UpdateGoldGui();
             return true;
         } else
         {
@@ -72,6 +117,7 @@ public class Inventory : MonoBehaviour, Slotable {
             {
                 silver += 100;
                 silver -= price;
+                UpdateGoldGui();
                 return true;
             }
         }
@@ -91,6 +137,7 @@ public class Inventory : MonoBehaviour, Slotable {
             AddGold(1);
         }
         silver += price;
+        UpdateGoldGui();
     }
 
     public bool RemoveGold(int price)
@@ -98,6 +145,7 @@ public class Inventory : MonoBehaviour, Slotable {
         if(gold >= price)
         {
             gold -= price;
+            UpdateGoldGui();
             return true;
         }
         MessageUtils.ErrorMessage("Not enough gold");
@@ -111,6 +159,7 @@ public class Inventory : MonoBehaviour, Slotable {
 
     public void AddGold(int price)
     {
+        UpdateGoldGui();
         gold += price;
     }
 
