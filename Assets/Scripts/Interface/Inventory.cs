@@ -21,6 +21,21 @@ public class Inventory : MonoBehaviour, Slotable {
     void OnEnable()
     {
         Interface.OpenInventory();
+        updateConsumablesStacks();
+    }
+
+    private void updateConsumablesStacks()
+    {
+
+        for (int i = 0; i < slotNumber; i++)
+        {
+            Transform slot = transform.GetChild(i);
+            if (slot.childCount > 0 && slot.GetChild(0).GetComponent<Draggable>().usable is Consumable)
+            {
+                ((Consumable)slot.GetChild(0).GetComponent<Draggable>().usable).UpdateInventoryStacks();
+            }
+        }
+
     }
 
     void OnDisable()

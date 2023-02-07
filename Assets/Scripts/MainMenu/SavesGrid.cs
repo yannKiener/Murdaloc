@@ -14,4 +14,12 @@ public class SavesGrid : MonoBehaviour {
         container.transform.Find("Level").GetComponent<Text>().text = "Level " + level;
         container.GetComponentInChildren<SavesButton>().saveName = saveName;
     }
+
+    public void Clear()
+    {
+        foreach (Transform c in transform)
+        {
+            GameObject.Destroy(c.gameObject);
+        }
+    }
 }

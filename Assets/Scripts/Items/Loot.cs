@@ -18,7 +18,7 @@ public class Loot : MonoBehaviourWithMouseOverColor {
             item.isInInventory = false;
         }
 
-        Destroy(this, Constants.DeleteLootAfterSeconds);
+        Destroy(this.gameObject, Constants.DeleteLootAfterSeconds);
     }
 
     private void Update()
@@ -96,4 +96,5 @@ public class Loot : MonoBehaviourWithMouseOverColor {
             lootInventory.Initialize(itemList, this);
         }
     }
+
 }

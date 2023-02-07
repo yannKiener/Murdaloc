@@ -16,15 +16,22 @@ public class VendorPanel : MonoBehaviour
         clearChilds(transform);
         if(itemList != null)
         {
+            int objectCount = 0;
             foreach (KeyValuePair<Item,bool> item in itemList)
             {
+                objectCount++;
                 GameObject sellContainer = Instantiate(sellSlotContainer,transform);
                 sellContainer.GetComponentInChildren<SellSlot>().Initialize(item.Key, item.Value);
+                if(objectCount == 30)
+                {
+                    break;
+                }
             }
         }
         transform.parent.Find("Name").GetComponent<Text>().text = vendor.GetName();
+        FindUtils.GetPlayer().SetTarget(vendor);
     }
-
+    
     public void RefreshSelf()
     {
         if (gameObject.activeInHierarchy)
@@ -41,11 +48,16 @@ public class VendorPanel : MonoBehaviour
     void OnEnable()
     {
         Interface.OpenVendor();
+        if (!FindUtils.GetInventory().activeInHierarchy)
+        {
+            FindUtils.GetInventory().SetActive(true);
+        }
     }
 
     void OnDisable()
     {
         Interface.CloseVendor();
+        FindUtils.GetPlayer().CancelTarget();
     }
 
     private void clearChilds(Transform t)

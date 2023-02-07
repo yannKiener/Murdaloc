@@ -10,6 +10,7 @@ public class PlayButton : MonoBehaviour {
     public void Play()
     {
         SavesGrid savesGrid = GamesMenuContainer.transform.Find("SavesContainer").GetChild(0).GetComponent<SavesGrid>();
+        savesGrid.Clear();
         List<string> gamesList = GameUtils.GetGameNames();
         foreach (string gameName in gamesList)
         {

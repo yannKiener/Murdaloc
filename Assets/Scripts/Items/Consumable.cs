@@ -54,7 +54,7 @@ public class Consumable : Item
         if (stacks > 1)
         {
             stacks--;
-            updateInventoryStacks();
+            UpdateInventoryStacks();
             return false;
         } else
         {
@@ -67,11 +67,11 @@ public class Consumable : Item
     public bool AddOne()
     {
         stacks++;
-        updateInventoryStacks();
+        UpdateInventoryStacks();
         return true;
     }
 
-    private void updateInventoryStacks()
+    public void UpdateInventoryStacks()
     {
         if(stacks > 1)
         {

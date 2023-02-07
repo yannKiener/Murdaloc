@@ -8,6 +8,11 @@ public class DialogPanel : MonoBehaviour
 
     public GameObject choiceContainerPrefab;
 
+    void OnDisable()
+    {
+        FindUtils.GetPlayer().CancelTarget();
+    }
+
     // Use this for initialization
     void Start()
     {

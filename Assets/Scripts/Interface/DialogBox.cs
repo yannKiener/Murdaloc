@@ -26,4 +26,5 @@ public class DialogBox : MonoBehaviour {
         transform.Find("Name").GetComponent<Text>().text = characterName;
 
     }
+
 }
