@@ -9,8 +9,8 @@ public interface Character
     string GetName();
 	int GetMaxLife();
 	int GetCurrentLife();
-	int GetMaxMana();
-	int GetCurrentMana();
+	int GetMaxResource();
+	int GetCurrentResource();
     void move();
 	bool IsDead();
     void interact();
@@ -18,8 +18,8 @@ public interface Character
     void addSpell(Spell spell);
 	void ApplyDamage (int damage);
 	void ApplyHeal (int heal);
-	void RemoveMana (int mana);
-	void AddMana (int mana);
+	void RemoveResource (int res);
+	void AddResource (int res);
 	void AggroTarget(Character aggroTarget);
 	void AggroFrom(Character aggroFrom);
 	void CancelCast();
@@ -33,8 +33,8 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 {
     protected int maxLife;
     protected int currentLife;
-    protected int maxMana;
-    protected int currentMana;
+    protected int currentResource;
+	protected int maxResource;
     protected string charName;
 	protected bool casting;
 	protected float castingTime;
@@ -47,18 +47,22 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 	protected Dictionary<string, Spell> spellList = new Dictionary<string, Spell> ();
 	protected Image healthBar;
 	protected bool isHealthBarDisplayed = false;
+	protected Resource resource;
 
 
     public void Initialize(string name)
     {
         maxLife = 100;
         currentLife = maxLife;
-        maxMana = 100;
-        currentMana = maxMana;
+        maxResource = 100;
+        currentResource = maxResource;
         this.charName = name;
 		casting = false;
 		isDead = false;
 		castingSpell = null;
+		if (resource == null) {
+			resource = new Mana ();
+		}
     }
 
 	public GameObject GetGameObject (){
@@ -73,22 +77,22 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
 		return maxLife;
 	}
 
-	public int GetCurrentMana(){
-		return currentMana;
+	public int GetCurrentResource(){
+		return currentResource;
 	}
 
-	public int GetMaxMana(){
-		return maxMana;
+	public int GetMaxResource(){
+		return maxResource;
 	}
 
 
-	public void RemoveMana (int mana){
-		currentMana -= mana;
+	public void RemoveResource (int res){
+		currentResource -= res;
 
 	}
 
-	public void AddMana (int mana){
-		currentMana += mana;
+	public void AddResource (int res){
+		currentResource += res;
 	}
 
 	public void CancelCast(){
@@ -207,14 +211,14 @@ public abstract class AbstractCharacter : MonoBehaviour, Character
         if(!casting) 
         {
         	castingSpell = spellList [spellName];
-			int manaCost = castingSpell.GetResourceCost ();
-			if (manaCost <= currentMana) {
-				print (currentMana);
-				print (manaCost);
+			int resCost = castingSpell.GetResourceCost ();
+			if (resCost <= currentResource) {
+				print (currentResource);
+				print (resCost);
 				casting = true;
 			} else {
 				castingSpell = null;
-				print ("NOT ENOUGH MANA");
+				print ("Not enough " + resource.GetName());
 			}
 		}
     }
@@ -345,16 +349,16 @@ public class Player : AbstractCharacter
 		GUI.Box (new Rect (0, 0, 200, 20), name);
 		GUI.Box (new Rect (0, 20, 200, 20), currentLife + " / " + maxLife);
 		GUI.Box(new Rect(0,20,currentLife*2,20), new Texture2D(1,1)); 
-		GUI.Box (new Rect (0, 40, 200, 20), currentMana + " / " + maxMana);
-		GUI.Box(new Rect(0,40,currentMana*2,20), new Texture2D(1,1)); 
+		GUI.Box (new Rect (0, 40, 200, 20), currentResource + " / " + maxResource);
+		GUI.Box(new Rect(0,40,currentResource*2,20), new Texture2D(1,1)); 
 
 
 		if (target != null && !target.IsDead()) {
 			GUI.Box (new Rect (400, 0, 200, 20), target.GetName());
 			GUI.Box (new Rect (400, 20, 200, 20), target.GetCurrentLife() + " / " + target.GetMaxLife());
 			GUI.Box (new Rect (400, 20, target.GetCurrentLife()*2, 20), new Texture2D(1,1));
-			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentMana() + " / " + target.GetMaxMana());
-			GUI.Box(new Rect(400,40,target.GetCurrentMana()*2,20), new Texture2D(1,1)); 
+			GUI.Box (new Rect (400, 40, 200, 20), target.GetCurrentResource() + " / " + target.GetMaxResource());
+			GUI.Box(new Rect(400,40,target.GetCurrentResource()*2,20), new Texture2D(1,1)); 
 
 			//test outlining target
 			if (target.GetGameObject ().GetComponent<cakeslice.Outline> () == null) {
