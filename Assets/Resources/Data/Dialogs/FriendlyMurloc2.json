@@ -5,7 +5,7 @@
          "condition":"!KillGoreTusksStarted",
          "choice":"You need something from me?",
          "dialog":{  
-            "text":"Indeed. There is a GoreTusk family, three of them. They are breaking my ballz. Could you kill them for me dude ?",
+            "text":"Indeed. There is a GoreTusk family, east of here. Three of them. I hear them every night. Could you kill them for me ?",
             "choices":[  
                {  
                   "choice":"Allright",

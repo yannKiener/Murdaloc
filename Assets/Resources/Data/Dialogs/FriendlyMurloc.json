@@ -5,7 +5,7 @@
          "condition":"!WeddingRingStarted",
          "choice":"Is everything fine?",
          "dialog":{  
-            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp to the west. I don't want to talk about why, but could you please get it for me quickly?",
+            "text":"Actually no, I lost my wedding ring in the nearest gnoll camp to the west. I don't want to talk about why, but could you please get it for me quickly? Be careful tho, west is dangerous and terribly balanced.",
             "choices":[  
                {  
                   "choice":"Allright",

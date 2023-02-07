@@ -114,10 +114,10 @@
          "power":"0"
       }
    },
-   "Weapon1item":{  
-      "description":"first Weapon1 item",
+   "Feeble Sword":{  
+      "description":"An old, rusty sword. Doubtlessly has been used before.",
       "levelRequirement":1,
-      "type":"Mace",
+      "type":"Sword",
       "stats":{  
          "force":"0",
          "agility":"0",
@@ -127,14 +127,14 @@
          "critical":"0",
          "haste":"0",
          "power":"0",
-		 "autoAttackDamage" : "18",
+		 "autoAttackDamage" : "10",
 		 "autoAttackTime" : "2"
       }
    },
    "Weapon2item":{  
-      "description":"Your first Sword !",
+      "description":"Your first mace !",
       "levelRequirement":1,
-      "type":"Sword",
+      "type":"Mace",
       "stats":{  
          "force":"0",
          "agility":"0",

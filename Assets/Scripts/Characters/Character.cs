@@ -128,6 +128,7 @@ public abstract class Character : MonoBehaviour
     {
         return isElite;
     }
+
     public List<Item> GetLoots()
     {
         List<Item> result = new List<Item>();
@@ -168,7 +169,14 @@ public abstract class Character : MonoBehaviour
     protected virtual Dictionary<string, object> GetDefaultLootTableForLevel(int level)
     {
         Dictionary<string, object> result = new Dictionary<string, object>();
-        result.Add("Random", (int)((level / Constants.MaxLevel) * 100));
+        result.Add("Random", 5 + (int)((level / Constants.MaxLevel) * 100));
+        result.Add("Haunch of Meat", 20);
+        result.Add("Longjaw Mud Snapper", 10);
+        result.Add("Ice Cold Milk", 20);
+        result.Add("Refreshing Spring Water", 10);
+        result.Add("Potion of cunning", 2);
+        result.Add("Potion of might", 2);
+        result.Add("Potion of deftness", 2);
         if (isElite)
         {
             result["Random"] = 35+(int)((level / Constants.MaxLevel) * 100);

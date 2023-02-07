@@ -70,7 +70,7 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (GetTarget() != null)
+            if (GetTarget() != null && GetTarget() is Hostile)
                 GetTarget().die();
         }
 

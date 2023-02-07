@@ -1,0 +1,15 @@
+{  
+   "objectives":[  
+      {  
+         "kill":{  
+            "name":"Princess",
+            "count":0
+         }
+      }
+   ],
+   "rewards":[  
+      {  
+         "item":"Feeble Sword"
+      }
+   ]
+}

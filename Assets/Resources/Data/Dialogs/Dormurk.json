@@ -1,0 +1,25 @@
+{  
+   "text":"Hey. Murgles asked for you, did you talked to him ?",
+   "choices":[  
+      {  
+         "choice":"Where is he ?",
+         "dialog":{   
+            "text":"Are you blind %T ? He's just next to Gurlgill few steps east of here ! Get moving !",
+            "choices":[  
+               {  
+                  "choice":"Allright",
+                  "dialog":{  
+                     "action":"exit"
+                  }
+               }
+            ]
+         }
+      },
+      {  
+         "choice":"Allright bye",
+         "dialog":{  
+            "action":"exit"
+         }
+      }
+   ]
+}
