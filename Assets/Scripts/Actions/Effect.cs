@@ -9,50 +9,79 @@ public interface Effect {
 
 }
 
-public class StatModifier : Effect{
+public class StatEffect : Effect{
 
-	private float forceMultiplier;
-	private float agilityMultiplier;
-	private float intelligenceMultiplier;
-	private float staminaMultiplier;
-	private float spiritMultiplier;
-	private float criticalMultiplier;
-	private float hasteMultiplier;
-	private float powerMultiplier;
-	private float autoAttackDamageMultiplier;
-	private float autoAttackTimeMultiplier;
-	private float maxSpeedMultiplier;
-	private float maxResourceMultiplier;
-	private float maxLifeMultiplier;
+	private Dictionary<Stat, float> statWeight;
+	private int forceAdded;
+	private int agilityAdded;
+	private int intelligenceAdded;
+	private int staminaAdded;
+	private int spiritAdded;
+	private int criticalAdded;
+	private int hasteAdded;
+	private int powerAdded;
+	private int autoAttackDamageAdded;
+	private float autoAttackTimeAdded;
+	private float maxSpeedAdded;
+	private int maxResourceAdded;
+	private int maxLifeAdded;
 
-	public StatModifier(Dictionary<Stat, float> statWeight){
-		forceMultiplier = getValueIfContains(statWeight, Stat.force);
-		agilityMultiplier = getValueIfContains(statWeight, Stat.agility);
-		intelligenceMultiplier = getValueIfContains(statWeight, Stat.intelligence);
-		staminaMultiplier = getValueIfContains(statWeight, Stat.stamina);
-		spiritMultiplier = getValueIfContains(statWeight, Stat.spirit);
-		criticalMultiplier = getValueIfContains(statWeight, Stat.critical);
-		hasteMultiplier = getValueIfContains(statWeight, Stat.haste);
-		powerMultiplier = getValueIfContains(statWeight, Stat.power);
-		autoAttackDamageMultiplier = getValueIfContains(statWeight, Stat.autoAttackDamage);
-		autoAttackTimeMultiplier= getValueIfContains(statWeight, Stat.autoAttackTime);
-		maxSpeedMultiplier = getValueIfContains(statWeight, Stat.maxSpeed);
-		maxResourceMultiplier = getValueIfContains(statWeight, Stat.maxResource);
-		maxLifeMultiplier = getValueIfContains(statWeight, Stat.maxLife);
+	public StatEffect(Dictionary<Stat, float> statWeight){
+		this.statWeight = statWeight;
 	}
 
 	public void apply(Character caster, Character target){
-		target.GetStats ().MultiplyBy (maxLifeMultiplier, maxResourceMultiplier, forceMultiplier, agilityMultiplier, intelligenceMultiplier, staminaMultiplier, spiritMultiplier, criticalMultiplier, hasteMultiplier, powerMultiplier, autoAttackDamageMultiplier, autoAttackTimeMultiplier, maxSpeedMultiplier);
+		/*
+		foreach (KeyValuePair<Stat,float> p in statWeight) {
+			if (p.Key == Stat.force) {
+				forceAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.agility) {
+				agilityAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.intelligence) {
+				intelligenceAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.stamina) {
+				staminaAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.spirit) {
+				spiritAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.critical) {
+				criticalAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.haste) {
+				hasteAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.power) {
+				powerAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.autoAttackTime) {
+				autoAttackTimeAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.autoAttackDamage) {
+				autoAttackDamageAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.maxSpeed) {
+				maxSpeedAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.maxResource) {
+				maxResourceAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+			if (p.Key == Stat.maxLife) {
+				maxLifeAdded = target.GetStats ().AddPercent (p.Key, p.Value);
+			}
+		}*/
 	}
 
 	public void remove (Character caster, Character target){
-		target.GetStats ().DivideBy (maxLifeMultiplier, maxResourceMultiplier, forceMultiplier, agilityMultiplier, intelligenceMultiplier, staminaMultiplier, spiritMultiplier, criticalMultiplier, hasteMultiplier, powerMultiplier, autoAttackDamageMultiplier, autoAttackTimeMultiplier, maxSpeedMultiplier);
 	}
 
 	private float getValueIfContains(Dictionary<Stat, float> statWeight, Stat s){
 		if(statWeight.ContainsKey(s)){
 			return statWeight [s];
 		}
-		return 0;
+		return 1;
 	}
 }

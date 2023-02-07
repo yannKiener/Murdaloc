@@ -116,23 +116,35 @@ public class EffectOnTime
 		if(effect != null){
 			if(isStackable && effect.stacks < maxStacks){
 				effect.stacks += 1;
-				if(applyOnce != null)
-				applyOnce.apply (caster, attachedCharacter);
+				applyEffectOnce ();
 			}	
 			effect.refresh ();
 		} else {
+			applyEffectOnce ();
 			attachedCharacter.AddEffectOnTime (new EffectOnTime(this));
-			if(applyOnce != null)
-            applyOnce.apply (caster, attachedCharacter);
 		}
     }
 
 	public void Remove() 
     {
-        if(applyOnce != null)
-		applyOnce.remove (caster, attachedCharacter);
+		removeEffectOnce ();
 		this.toBeRemoved = true;
     }
+
+	private void applyEffectOnce(){
+		if(applyOnce != null)
+		applyOnce.apply (caster, attachedCharacter);
+
+	}
+
+	private void removeEffectOnce(){
+		if (applyOnce != null) {
+			for (int i = 0; i < stacks; i++) {
+				applyOnce.remove (caster, attachedCharacter);
+			}
+		}
+
+	}
 
 	public bool IsToBeRemoved()
 	{

@@ -64,37 +64,91 @@ public class Stats {
 		}
 	}
 
-	public void MultiplyBy(float maxLifeMultiplier, float maxResourceMultiplier, float forceMultiplier, float agilityMultiplier, float intelligenceMultiplier, float staminaMultiplier, float spiritMultiplier, float criticalMultiplier, float hasteMultiplier, float powerMultiplier, float autoAttackDamageMultiplier, float autoAttackTimeMultiplier, float maxSpeedMultiplier){
-		force = (int)(force * forceMultiplier);
-		agility = (int)(agility * agilityMultiplier);
-		intelligence = (int)(intelligence * intelligenceMultiplier);
-		stamina = (int)(stamina * staminaMultiplier);
-		spirit = (int)(spirit * spiritMultiplier);
-		critical = (int)(critical * criticalMultiplier);
-		haste = (int)(haste * hasteMultiplier);
-		power = (int)(power * powerMultiplier);
-		autoAttackDamage = (int)(autoAttackDamage * autoAttackDamageMultiplier);
-		autoAttackTimeMultiplier = (int)(autoAttackTimeMultiplier * autoAttackTimeMultiplier);
-		maxSpeed = (int)(maxSpeed * maxSpeedMultiplier);
-		maxResource = (int)(maxResource * maxResourceMultiplier);
-		maxLife = (int)(maxLife * maxLifeMultiplier);
+	public float AddPercent(Stat stat, int percent){
+		float result;
+		switch (stat) {
+		case Stat.agility:
+			{
+				result = (float)((int)(agility * percent / 100));
+				agility += (int)result;
+				return result;
+			}
+		case Stat.autoAttackDamage:
+			{
+				result = (float)((int)(autoAttackDamage * percent / 100));
+				autoAttackDamage += (int)result;
+				return result;
 
-	}
+			}
+		case Stat.autoAttackTime:
+			{
+				result = (float)((int)(autoAttackTime * percent / 100));
+				autoAttackTime += (int)result;
+				return result;
+			}
+		case Stat.critical:
+			{
+				critical += percent;
+				return percent;
+			}
+		case Stat.force:
+			{
+				result = (float)((int)(force * percent / 100));
+				force += (int)result;
+				return result;
+			}
+		case Stat.haste:
+			{
+				haste += percent;
+				return percent;
+			}
+		case Stat.intelligence:
+			{
+				result = (float)((int)(intelligence * percent / 100));
+				intelligence += (int)result;
+				return result;
 
-	public void DivideBy(float maxLifeMultiplier, float maxResourceMultiplier, float forceMultiplier, float agilityMultiplier, float intelligenceMultiplier, float staminaMultiplier, float spiritMultiplier, float criticalMultiplier, float hasteMultiplier, float powerMultiplier, float autoAttackDamageMultiplier, float autoAttackTimeMultiplier, float maxSpeedMultiplier){
-		force = (int)(force / forceMultiplier);
-		agility = (int)(agility / agilityMultiplier);
-		intelligence = (int)(intelligence / intelligenceMultiplier);
-		stamina = (int)(stamina / staminaMultiplier);
-		spirit = (int)(spirit / spiritMultiplier);
-		critical = (int)(critical / criticalMultiplier);
-		haste = (int)(haste / hasteMultiplier);
-		power = (int)(power / powerMultiplier);
-		autoAttackDamage = (int)(autoAttackDamage / autoAttackDamageMultiplier);
-		autoAttackTimeMultiplier = (int)(autoAttackTimeMultiplier / autoAttackTimeMultiplier);
-		maxSpeed = (int)(maxSpeed / maxSpeedMultiplier);
-		maxResource = (int)(maxResource / maxResourceMultiplier);
-		maxLife = (int)(maxLife / maxLifeMultiplier);
+			}
+		case Stat.maxLife:
+			{
+				result = (float)((int)(maxLife * percent / 100));
+				maxLife += (int)result;
+				return result;
+
+			}
+		case Stat.maxResource:
+			{
+				result = (float)((int)(maxResource * percent / 100));
+				maxResource += (int)result;
+				return result;
+
+			}
+		case Stat.maxSpeed:
+			{
+				result = (maxSpeed * percent / 100);
+				maxSpeed += result;
+				return result;
+
+			}
+		case Stat.power:
+			{
+				power += percent;
+				return percent;
+			}
+		case Stat.spirit:
+			{
+				result = (float)((int)(spirit * percent / 100));
+				spirit += (int)result;
+				return result;
+			}
+		case Stat.stamina:
+			{
+				result = (float)((int)(stamina * percent / 100));
+				stamina += (int)result;
+				return result;
+			}
+		}
+		return 0f;
 	}
 
 
