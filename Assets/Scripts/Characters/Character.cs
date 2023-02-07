@@ -346,7 +346,11 @@ public abstract class Character : MonoBehaviour
 		castingTime = 0;
         bool wasCasting = casting;
 		casting = false;
-		castingSpell = null;
+        if(castingSpell != null)
+        {
+            SoundManager.StopSound(castingSpell.GetPreCastSound());
+		    castingSpell = null;
+        }
         return wasCasting;
 
     }
@@ -455,6 +459,28 @@ public abstract class Character : MonoBehaviour
 		spellsOnCD.Add (s);
 	}
 
+    protected void PlayAutoAttackSound(bool isMainWeapon)
+    {
+        string weapType = "Unarmed";
+        if (this is Player)
+        {
+            Equipment weap;
+            if (isMainWeapon)
+            {
+                weap = FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon1);
+            } else
+            {
+                weap = FindUtils.GetCharacterSheetGrid().GetEquipmentForSlot(EquipmentSlot.Weapon2);
+            }
+            if(weap != null)
+            {
+                weapType = weap.GetEquipmentType().ToString();
+            }
+        }
+
+        SoundManager.PlaySound(DatabaseUtils.GetWeaponAudio(weapType)); 
+    }
+
 	protected virtual void UpdateAutoAttack(){
 		if (autoAttackEnabled && target != null && !casting)
         {
@@ -465,7 +491,7 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack1Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack1Damage), autoAttackIsCrit, true);
-                    //Todo play sound according to weapon type
+                    PlayAutoAttackSound(true);
                     //Todo Animation Auto Attack 1
                 }
             }
@@ -477,8 +503,8 @@ public abstract class Character : MonoBehaviour
                 {
                     autoAttack2Time = 0;
                     target.ApplyDamage(modifiedAutoAttackDamage(autoAttack2Damage), autoAttackIsCrit, true);
-                    //Todo play sound according to weapon type
-                    //Todo Animation Auto Attack 1
+                    PlayAutoAttackSound(false);
+                    //Todo Animation Auto Attack 2
                 }
             }
 		}
@@ -639,7 +665,8 @@ public abstract class Character : MonoBehaviour
 			castingSpell = spell;
 			if (GCDReady() && castingSpell.IsCastable(this,target)) {
 				casting = true;
-				gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
+                SoundManager.PlaySound(castingSpell.GetPreCastSound());
+                gcd = Constants.GlobalCooldown - (Constants.GlobalCooldown * stats.Haste / Constants.hasteDivider);
 			} else {
 				castingSpell = null;
 			}
@@ -667,8 +694,9 @@ public abstract class Character : MonoBehaviour
 
     protected void DoneCasting()
     {
-		hasCasted = true;
-		castingSpell.Cast (this, target);
+        hasCasted = true;
+        SoundManager.StopSound(castingSpell.GetPreCastSound());
+        castingSpell.Cast (this, target);
         castingTime = 0;
         casting = false;
         castingSpell = null;

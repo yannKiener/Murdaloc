@@ -25,6 +25,7 @@ public static class FindUtils  {
     private static GameObject dpsBar;
     private static Dps dps;
     private static Interface intrface;
+    private static GameObject sounds;
 
     public static Player GetPlayer()
     {
@@ -193,6 +194,13 @@ public static class FindUtils  {
             dps = GetDpsBar().transform.Find("DpsBackground").Find("DpsNumber").GetComponent<Dps>();
 
         return dps;
+    }
+
+    public static GameObject GetSoundsGameObject()
+    {
+        if (sounds == null)
+            sounds = GameObject.Find("Sounds");
+        return sounds;
     }
 
 }

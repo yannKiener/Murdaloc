@@ -11,27 +11,27 @@ public class SpellAndEffectLoader : MonoBehaviour {
 		CreateEffectOnTime("Renovation","First HoT of the game",true,3,10,1,null,newHealOnTime(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},50));
 		CreateEffectOnTime("Sprint","+60% moveSpeed",true,1,5,1,new StatEffect(new Dictionary<Stat,float>{{Stat.maxSpeed,60f}}),null);
 
-        CreateHostileSpell("Fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),null,null);
-        CreateHostileSpell("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},10,0.8f),null,null);
-        CreateFriendlySpell("Renovation","FIRST HOTSPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") });
-        CreateFriendlySpell("Sprint","Gain 60% movement speed for 2 seconds.", 10,0,0,15,1,null,new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") });
-        CreateHostileSpell("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
-        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30), null, null);
+        CreateHostileSpell("Fireball","A magic Fireball. That's it.", 10,2,0,0,5,newDamage(new Dictionary<Stat,float>{{Stat.intelligence,1.6f}},30),"Fire", null, null);
+        CreateHostileSpell("Slam","Slap your target's face with your first", 20,0,0,0,2,newDamage(new Dictionary<Stat,float>{{Stat.force,1f},{Stat.agility,0.5f}},10,0.8f),"Default", null, null);
+        CreateFriendlySpell("Renovation", "FIRST HOTSPELL", 5, 0.5f, 0, 0, 5, null, "Holy", new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Renovation") });
+        CreateFriendlySpell("Sprint", "Gain 60% movement speed for 2 seconds.", 10, 0, 0, 15, 1, null, "Sprint", new List<EffectOnTime>(),new List<EffectOnTime>{ EffectsOnTime.Get("Sprint") });
+        CreateHostileSpell("Corruption","FIRST DOT SPELL", 5,0.5f,0,0,5,null,"Shadow", new List<EffectOnTime> { EffectsOnTime.Get("Corruption") },new List<EffectOnTime>());
+        CreateHostileSpell("Icelance", "Throw a magic lance on your enemy's face.", 10, 0.2f, 0, 0, 5, newDamage(new Dictionary<Stat, float> { { Stat.intelligence, 1.6f } }, 30),"Frost", null, null);
 
         //Spells for consummables
         CreateEffectOnTime("Food", "Regen health while not fighting.", true, 1, 10, 2, null, AddLifePercentOverTime(20,true));
         CreateEffectOnTime("Drink", "Regen mana while not fighting.", true, 1, 10, 2, null, AddManaPercentOverTime(20, true));
-        CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Food") });
-        CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Drink") });
-        CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, AddLifePercent(25), null, null);
-        CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, AddLifePercent(40), null, null);
-        CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, AddLifePercent(60), null, null);
+        CreateFriendlySpell("Food", "Eat.", 0, 0, 0, 0, 2, null,"Food", null, new List<EffectOnTime>() { EffectsOnTime.Get("Food") });
+        CreateFriendlySpell("Drink", "Drink.", 0, 0, 0, 0, 2, null, "Drink", null, new List<EffectOnTime>() { EffectsOnTime.Get("Drink") });
+        CreateFriendlySpell("Potion25", "Drink a small health potion", 0, 0, 0, 0, 2, AddLifePercent(25), "Potion", null, null);
+        CreateFriendlySpell("Potion40", "Drink a normal health potion", 0, 0, 0, 0, 2, AddLifePercent(40), "Potion", null, null);
+        CreateFriendlySpell("Potion60", "Drink a big health potion", 0, 0, 0, 0, 2, AddLifePercent(60), "Potion", null, null);
         CreateEffectOnTime("Potion of cunning", "You feel 10% smarter !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float>{ { Stat.intelligence, 10 } }) , null);
-        CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of cunning") });
+        CreateFriendlySpell("PotionIntell10", "Drink an intelligence potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of cunning") });
         CreateEffectOnTime("Potion of might", "You feel 10% stronger !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.force, 10 } }), null);
-        CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of might") });
+        CreateFriendlySpell("PotionForce10", "Drink a force potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of might") });
         CreateEffectOnTime("Potion of deftness", "You feel 10% more agile !", true, 1, 60 * 10, 60, new StatEffect(new Dictionary<Stat, float> { { Stat.agility, 10 } }), null);
-        CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
+        CreateFriendlySpell("PotionAgi10", "Drink an agility potion", 0, 0, 0, 0, 2, null, "Potion", null, new List<EffectOnTime>() { EffectsOnTime.Get("Potion of deftness") });
 
     }
 
@@ -41,14 +41,14 @@ public class SpellAndEffectLoader : MonoBehaviour {
         EffectsOnTime.Add(new EffectOnTime(name, description, isBuff, maxStacks, duration, timePerTic, applyOnce, tic));
     }
    
-    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+    private void CreateHostileSpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
     {
-        Spells.Add(new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, effectsOnTarget, effectsOnSelf));
+        Spells.Add(new HostileSpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf));
     }
 
-    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, List<EffectOnTime> effectsOnTarget, List<EffectOnTime> effectsOnSelf)
+    private void CreateFriendlySpell(string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown, float maxDistance, Action<Character, Character> spellEffect, string soundType , List<EffectOnTime> effectsOnTarget , List<EffectOnTime> effectsOnSelf )
     {
-        Spells.Add(new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, effectsOnTarget, effectsOnSelf));
+        Spells.Add(new FriendlySpell(name, description, resourceCost, castTime, levelRequirement, coolDown, maxDistance, spellEffect, soundType, effectsOnTarget, effectsOnSelf));
     }
 
 

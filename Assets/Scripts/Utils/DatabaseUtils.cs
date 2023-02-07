@@ -125,4 +125,47 @@ public static class DatabaseUtils {
             return null;
         }
     }
+
+    public static List<AudioClip> GetWeaponAudio(string weapType)
+    {
+        return GetAudioClips("Weapons/" + weapType);
+    }
+
+    private static List<AudioClip> GetAudioClips(string path)
+    {
+        List<AudioClip> precastSounds = Resources.LoadAll<AudioClip>("Sounds/" + path).ToList<AudioClip>();
+        if(precastSounds == null || precastSounds.Count == 0)
+        {
+            Debug.Log("No sounds found for path '" + path + "'");
+        }
+        return precastSounds;
+    }
+    
+    private static List<AudioClip> GetSpellAudio(string path)
+    {
+        return GetAudioClips("Spells/" + path);
+    }
+
+    public static AudioClip GetPrecastSound(string type)
+    {
+        List<AudioClip> precastSounds = GetSpellAudio(type + "/Precast");
+        if(precastSounds != null && precastSounds.Count > 0)
+        {
+            return GetSpellAudio(type + "/Precast")[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static List<AudioClip> GetCastSound(string type)
+    {
+        return GetSpellAudio(type + "/Cast");
+    }
+
+    public static List<AudioClip> GetIImpactSound(string type)
+    {
+        return GetSpellAudio(type + "/Impact");
+    }
 }

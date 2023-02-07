@@ -44,6 +44,11 @@ public class Equipment : Item
         return EquipmentCategories.GetCategory(type).GetSlot();
     }
 
+    public EquipmentType GetEquipmentType()
+    {
+        return type;
+    }
+
     public int GetLevelRequirement()
     {
         return levelRequirement;

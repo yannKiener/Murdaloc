@@ -1,19 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager 
 {
-    private static AudioSource audioSource;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     public static void PlaySound(AudioClip sound)
     {
-        audioSource.PlayOneShot(sound,1);
+        if(sound != null)
+        {
+            AudioSource audioSource = FindUtils.GetSoundsGameObject().AddComponent<AudioSource>();
+            audioSource.PlayOneShot(sound, 1);
+            audioSource.clip = sound;
+            GameObject.Destroy(audioSource, sound.length);
+        }
+    }
+
+    public static void PlaySound(List<AudioClip> sounds)
+    {
+        if (sounds != null)
+        {
+            PlaySound(GetRandomClip(sounds));
+        }
+    }
+
+    public static void StopSound(AudioClip sound)
+    {
+        if(sound != null)
+        {
+            List<AudioSource> audioSources = FindUtils.GetSoundsGameObject().GetComponents<AudioSource>().ToList<AudioSource>();
+            foreach (AudioSource audioSource in audioSources)
+            {
+                if (audioSource.clip != null && audioSource.clip == sound)
+                {
+                    audioSource.Stop();
+                    GameObject.Destroy(audioSource);
+                }
+            }
+        }
+    }
+
+    private static AudioClip GetRandomClip(List<AudioClip> audioClips)
+    {
+        if(audioClips != null && audioClips.Count > 0)
+        {
+            return audioClips[Random.Range(0, audioClips.Count)];
+        } else
+        {
+            return null;
+        }
     }
 
 }

@@ -24,6 +24,7 @@ public class MapGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gameObject.tag = "Map";
 		isGenerated = false;
 		if (attachAtObject.GetComponent<SpriteRenderer> () != null) {
 			GenerateMap ();

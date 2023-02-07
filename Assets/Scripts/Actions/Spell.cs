@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
@@ -19,8 +18,11 @@ public abstract class Spell : Usable
 	protected Action<Character,Character> applySpellEffect;
 	protected bool isHostileSpell;
 	protected Image image;
+    protected AudioClip preCastSound;
+    protected List<AudioClip> castSounds;
+    protected List<AudioClip> impactSounds;
 
-	public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance,Action<Character,Character> spellEffect,List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
+    public Spell(bool isHostile,string name, string description, int resourceCost, float castTime, int levelRequirement, int coolDown,float maxDistance, Action<Character,Character> spellEffect, string soundType = "Default", List<EffectOnTime> effectsOnTarget = null, List<EffectOnTime> effectsOnSelf = null)
 	{
 		this.spellName = name;
 		this.description = description;
@@ -34,7 +36,10 @@ public abstract class Spell : Usable
 		this.maxDistance = maxDistance;
 		this.isHostileSpell = isHostile;
 		this.image = InterfaceUtils.LoadImageForSpell (spellName);
-	}
+        this.preCastSound = DatabaseUtils.GetPrecastSound(soundType);
+        this.castSounds = DatabaseUtils.GetCastSound(soundType);
+        this.impactSounds = DatabaseUtils.GetIImpactSound(soundType);
+    }
 		
 	public Spell(Spell s){
 		this.spellName = s.spellName;
@@ -48,7 +53,11 @@ public abstract class Spell : Usable
 		this.effectsOnSelf = s.effectsOnSelf;
 		this.maxDistance = s.maxDistance;
 		this.image = InterfaceUtils.LoadImageForSpell (spellName);
-	}
+        this.preCastSound = s.preCastSound;
+        this.castSounds = s.castSounds;
+        this.impactSounds = s.impactSounds;
+
+    }
 
     public Sprite GetImageAsSprite()
     {
@@ -142,6 +151,7 @@ public abstract class Spell : Usable
     public virtual void Cast(Character caster, Character target)
     {
 		if (IsCastable (caster, target)) {
+            SoundManager.PlaySound(castSounds);
 			caster.RemoveResource (resourceCost);
 			if (applySpellEffect != null) {
 				applySpellEffect (caster, target);
@@ -161,4 +171,9 @@ public abstract class Spell : Usable
 		}
 
 	}
+
+    public AudioClip GetPreCastSound()
+    {
+        return preCastSound;
+    }
 }
