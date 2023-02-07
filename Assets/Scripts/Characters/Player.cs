@@ -175,12 +175,9 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.X))
         {
             LevelUp();
-            LevelUp();
-            LevelUp();
-            LevelUp();
             FindUtils.GetInventoryGrid().AddCash(100000);
             FindUtils.GetInventoryGrid().AddItem(EquipmentGenerator.GenerateEquipment(level));
-            
+            /*
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Superior health potion"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of cunning"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Potion of might"));
@@ -189,6 +186,7 @@ public class Player : Character
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Boiled Clams"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Refreshing Spring Water"));
             FindUtils.GetInventoryGrid().AddItem(Items.GetConsumableFromDB("Ice Cold Milk"));
+            */
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -204,8 +202,13 @@ public class Player : Character
 
     }
 
-    void Update() 
-	{
+
+    public override bool OnClick() { return false; }
+    public override void OnClickPlayerCloseEnough() { }
+    public override void OnPlayerFarOrDead() { }
+
+
+    public override void OnUpdate() {
 		UpdateCharacter ();
         Controls();
         if (!IsDead() && !IsStunned())
@@ -280,13 +283,6 @@ public class Player : Character
 			SetTarget(enemyList[enemyOffset]);
 		}
 
-	}
-
-	protected override void UpdateAutoAttack ()
-	{
-		if (target != null && target.gameObject.tag == "Enemy") {
-			base.UpdateAutoAttack ();
-		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)

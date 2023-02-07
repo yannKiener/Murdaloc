@@ -21,7 +21,6 @@ public class DialogBox : MonoBehaviour {
         this.friendly = character;
         gameObject.SetActive(true);
         characterName = character.GetName();
-        Vector3 characterPosition = character.gameObject.transform.position;
         transform.Find("DialogPanel").GetComponent<DialogPanel>().Initialize(character.GetDialog());
         transform.Find("Name").GetComponent<Text>().text = characterName;
 

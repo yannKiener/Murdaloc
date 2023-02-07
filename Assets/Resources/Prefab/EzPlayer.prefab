@@ -49,6 +49,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -60,6 +61,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -145,17 +147,20 @@ MonoBehaviour:
   CharacterName: Murdaloc
   level: 1
   isElite: 0
+  resourceType: 
   statPercent: 100
   LootTable: []
   QuestLootTable: []
   SpellList:
   - Astral Recall
+  - Basic attack
   aggroSounds: []
   attackSounds: []
   woundSounds: []
   woundCritSounds: []
   deathSounds: []
-  LevelUpAnimation: {fileID: 0}
+  LevelUpAnimation: {fileID: 6021034846423661688, guid: aab5372650d80b7469964dc75e450ab9,
+    type: 3}
 --- !u!95 &5933614480340180006
 Animator:
   serializedVersion: 3

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
 
-public abstract class Character : MonoBehaviour 
+public abstract class Character : InteractableBehaviour
 {
     protected int currentLife;
     protected int currentResource;
@@ -500,11 +500,13 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-	void OnMouseDown(){
+
+    public override bool OnClick() {
         if (!IsDead())
         {
             FindUtils.GetPlayer().SetTarget(this);
         }
+        return true;
 	}
 		
 
@@ -620,44 +622,70 @@ public abstract class Character : MonoBehaviour
         SoundManager.PlaySound(DatabaseUtils.GetWeaponAudio(weapType)); 
     }
 
-	protected virtual void UpdateAutoAttack(){
-		if (autoAttackEnabled && target != null && !casting)
-        {
-            if (autoAttack1Damage > 0 && autoAttack1Speed > 0f)
-            {
-                autoAttack1Time += Time.deltaTime;
-                if (autoAttack1Time >= modifiedAutoAttackTime(autoAttack1Speed) && autoAttackDistanceOK())
-                {
-                    autoAttack1Time = 0;
-                    int autoattack1Dmg = modifiedAutoAttackDamage(autoAttack1Damage);
-                    bool isAutoattack1Crit = autoAttackIsCrit;
-                    target.ApplyDamage(autoattack1Dmg, isAutoattack1Crit, true);
-                    if (this.GetResourceType() is Rage)
-                    {
-                        GainRage(autoattack1Dmg, isAutoattack1Crit);
-                    }
-                    PlayAutoAttackSoundAndAnim(true);
-                }
-            }
+    public bool IsReadyToAutoAttack()
+    {
+        return IsReadyToAutoAttack1() || IsReadyToAutoAttack2();
+    }
 
-            if(autoAttack2Damage > 0 && autoAttack2Speed > 0f)
-            {
-                autoAttack2Time += Time.deltaTime;
-                if (autoAttack2Time >= modifiedAutoAttackTime(autoAttack2Speed) && autoAttackDistanceOK())
-                {
-                    autoAttack2Time = 0;
-                    int autoattack2Dmg = modifiedAutoAttackDamage(autoAttack2Damage);
-                    bool isAutoattack2Crit = autoAttackIsCrit;
-                    target.ApplyDamage(autoattack2Dmg, isAutoattack2Crit, true);
-                    if(this.GetResourceType() is Rage)
-                    {
-                        GainRage(autoattack2Dmg, isAutoattack2Crit, false);
-                    }
-                    PlayAutoAttackSoundAndAnim(false);
-                }
-            }
+
+    protected bool IsReadyToAutoAttack1()
+    {
+        return (autoAttack1Damage > 0 && autoAttack1Speed > 0f) && autoAttack1Time >= modifiedAutoAttackTime(autoAttack1Speed) && autoAttackDistanceOK();
+
+    }
+
+    protected bool IsReadyToAutoAttack2()
+    {
+        return (autoAttack2Damage > 0 && autoAttack2Speed > 0f) && autoAttack2Time >= modifiedAutoAttackTime(autoAttack2Speed) && autoAttackDistanceOK();
+    }
+
+    protected virtual void UpdateAutoAttack(){
+
+        if (autoAttack1Damage > 0 && autoAttack1Speed > 0f)
+        {
+            autoAttack1Time += Time.deltaTime;
+        }
+
+        if (autoAttack2Damage > 0 && autoAttack2Speed > 0f)
+        {
+            autoAttack2Time += Time.deltaTime;
+        }
+
+        if (autoAttackEnabled && target != null && !casting && !(this is Player))
+        {
+            ApplyAutoAttack();
 		}
 	}
+
+    public void ApplyAutoAttack()
+    {
+        if (IsReadyToAutoAttack1())
+        {
+            autoAttack1Time = 0;
+            int autoattack1Dmg = modifiedAutoAttackDamage(autoAttack1Damage);
+            bool isAutoattack1Crit = autoAttackIsCrit;
+            target.ApplyDamage(autoattack1Dmg, isAutoattack1Crit, true);
+            if (this.GetResourceType() is Rage)
+            {
+                GainRage(autoattack1Dmg, isAutoattack1Crit);
+            }
+            PlayAutoAttackSoundAndAnim(true);
+        }
+        
+        if (IsReadyToAutoAttack2())
+        {
+            autoAttack2Time = 0;
+            int autoattack2Dmg = modifiedAutoAttackDamage(autoAttack2Damage);
+            bool isAutoattack2Crit = autoAttackIsCrit;
+            target.ApplyDamage(autoattack2Dmg, isAutoattack2Crit, true);
+            if (this.GetResourceType() is Rage)
+            {
+                GainRage(autoattack2Dmg, isAutoattack2Crit, false);
+            }
+            PlayAutoAttackSoundAndAnim(false);
+        }
+        
+    }
 
     protected void GainRage(int autoattackDamage, bool isCrit, bool isMainHand = true)
     {
@@ -963,11 +991,11 @@ public abstract class Character : MonoBehaviour
     {
         hasCasted = true;
         SoundManager.StopSound(castingSpell.GetPreCastSound());
-        castingSpell.Cast (this, target);
         if (anim != null)
         {
             anim.Play("Cast");
         }
+        castingSpell.Cast (this, target);
         castingTime = 0;
         casting = false;
         castingSpell = null;

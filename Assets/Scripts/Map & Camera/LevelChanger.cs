@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelChanger : MonoBehaviour {
+public class LevelChanger : InteractableBehaviour {
 
     public string Scene;
     public string Message;
     public Vector2 positionAfterLoading;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnPlayerFarOrDead()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            Interface.DrawModalDialog(Message, new System.Action(() => { GameUtils.LoadScene(Scene); SceneManager.sceneLoaded += movePlayerToPosition; }));
-        }
+        Interface.CloseModalDialog();
     }
+
+    public override void OnClickPlayerCloseEnough()
+    {
+        Interface.DrawModalDialog(Message, new System.Action(() => { GameUtils.LoadScene(Scene); SceneManager.sceneLoaded += movePlayerToPosition; }));
+    }
+
+    public override void OnUpdate() { }
+    public override bool OnClick() { return true; }
+
 
     private void movePlayerToPosition(Scene scene, LoadSceneMode mode)
     {
@@ -32,7 +38,6 @@ public class LevelChanger : MonoBehaviour {
         {
             Message = "Change level to " + Scene + " ? ";
         }
-        GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
 }

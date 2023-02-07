@@ -237,4 +237,35 @@ public static class FindUtils  {
         return talentSheetGrid;
     }
 
+
+
+
+    public static bool IsPlayerNearAndAlive(Transform trans, bool showMessage)
+    {
+        return IsPlayerNearAndAlive(trans, Constants.LootMaxDistance, showMessage);
+    }
+
+    public static bool IsPlayerNearAndAlive(Transform trans, float distance, bool showMessage)
+    {
+        if (!FindUtils.GetPlayer().IsDead())
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(trans.position.x, trans.position.y), distance);
+            int i = 0;
+            while (i < hitColliders.Length)
+            {
+                if (hitColliders[i].tag == "Player")
+                {
+                    return true;
+                }
+                i++;
+            }
+            if (showMessage)
+            {
+                MessageUtils.ErrorMessage("It's too far away !");
+            }
+        }
+
+        return false;
+    }
+
 }

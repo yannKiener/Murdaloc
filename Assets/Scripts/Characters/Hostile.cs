@@ -41,8 +41,9 @@ public class Hostile : Character
         this.autoAttack1Damage = (int)(autoAttack1Damage * Constants.MobAutoAttackMultiplier);
     }
 
-    void Update()
-    {
+
+    public override void OnUpdate() {
+
         UpdateCharacter();
         if (!IsStunned())
         {
@@ -279,5 +280,19 @@ public class Hostile : Character
 		yield return new WaitForSeconds(delayTime);
 		Destroy(obj);
 	}
+
+    public override bool OnClick()
+    {
+        base.OnClick();
+        return false;
+    }
+
+
+
+
+    public override void OnClickPlayerCloseEnough() { }
+    public override void OnPlayerFarOrDead() { }
+
+
 
 }

@@ -36,8 +36,7 @@ public class Friendly : Character
         DisplayNameAndTitle();
     }
 
-    void Update()
-    {
+    public override void OnUpdate() { 
         if (!IsDead())
         {
             UpdateRegen();
@@ -109,13 +108,17 @@ public class Friendly : Character
         FindUtils.GetVendorPanel().RefreshSelf();
     }
 
-    void OnMouseDown()
-    {
-        FindUtils.GetPlayer().SetTarget(this);
-        //check distance?
+
+    public override void OnClickPlayerCloseEnough() {
+
         if (!FindUtils.GetPlayer().IsDead())
         {
             FindUtils.GetDialogBoxComponent().Initialize(this);
         }
     }
+
+    public override void OnPlayerFarOrDead() {
+        FindUtils.GetDialogBox().SetActive(false);
+    }
+
 }
