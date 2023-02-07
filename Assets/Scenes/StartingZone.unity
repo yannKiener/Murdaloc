@@ -4086,7 +4086,7 @@ PrefabInstance:
     - target: {fileID: 224487171085165688, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000026803796
+      value: 0.0000019155748
       objectReference: {fileID: 0}
     - target: {fileID: 224836550732518792, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
@@ -4101,7 +4101,7 @@ PrefabInstance:
     - target: {fileID: 6881639620964112449, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15.000015
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 224012200752985828, guid: b9b3c7baaaf32ed4285ee0e9e24a2462,
         type: 3}
@@ -4488,6 +4488,7 @@ MonoBehaviour:
   CharacterName: Garkl
   level: 1
   isElite: 0
+  resourceType: 
   statPercent: 100
   LootTable: []
   QuestLootTable: []
@@ -4770,6 +4771,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Title
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114744252492532388, guid: 3171b50d25accba47af617bff814fc30,
+        type: 3}
+      propertyPath: resourceType
+      value: Energy
       objectReference: {fileID: 0}
     - target: {fileID: 212708766642961996, guid: 3171b50d25accba47af617bff814fc30,
         type: 3}
@@ -6498,6 +6504,7 @@ MonoBehaviour:
   CharacterName: Gurblarg
   level: 1
   isElite: 0
+  resourceType: Rage
   statPercent: 100
   LootTable: []
   QuestLootTable: []
@@ -9307,6 +9314,7 @@ MonoBehaviour:
   CharacterName: Chief Murgles
   level: 5
   isElite: 1
+  resourceType: 
   statPercent: 130
   LootTable: []
   QuestLootTable: []
@@ -10902,6 +10910,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Title
       value: Blacksmith
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357436185621360249, guid: 47ba2bb1a457d4a48accb619cb2dbe70,
+        type: 3}
+      propertyPath: resourceType
+      value: Rage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ba2bb1a457d4a48accb619cb2dbe70, type: 3}

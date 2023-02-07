@@ -17,6 +17,7 @@ public abstract class Character : MonoBehaviour
 	protected Spell castingSpell;
 	public int level;
     public bool isElite;
+    public string resourceType;
     public float statPercent = 100;
     protected bool inCombat;
 	protected List<Character> enemyList = new List<Character>();
@@ -71,7 +72,7 @@ public abstract class Character : MonoBehaviour
         }
         addSpells(SpellList);
 
-        if (resource == null)
+        if(resource == null)
         {
             resource = new Mana();
         }
@@ -81,6 +82,20 @@ public abstract class Character : MonoBehaviour
         currentResource = stats.MaxResource;
         autoAttack1Damage = GetBasicAutoAttackDamage();
         autoAttack1Speed = Constants.BaseAutoAttackSpeed;
+
+        if (Constants.Rage.Equals(resourceType))
+        {
+            SetResourceType(new Rage());
+        }
+        else if (Constants.Energy.Equals(resourceType))
+        {
+            SetResourceType(new Energy());
+        }
+        else
+        {
+            SetResourceType(new Mana());
+        }
+
         if (lootTable == null || lootTable.Count == 0)
         {
             lootTable = GetDefaultLootTableForLevel(level);
@@ -214,17 +229,18 @@ public abstract class Character : MonoBehaviour
     protected virtual Dictionary<string, object> GetDefaultLootTableForLevel(int level)
     {
         Dictionary<string, object> result = new Dictionary<string, object>();
-        result.Add("Random", 5 + (int)((level / Constants.MaxLevel) * 100));
+        result.Add("Random", 10 + (int)((level / Constants.MaxLevel) * 100));
         result.Add("Haunch of Meat", 20);
         result.Add("Longjaw Mud Snapper", 10);
         result.Add("Ice Cold Milk", 20);
         result.Add("Refreshing Spring Water", 10);
-        result.Add("Potion of cunning", 1);
-        result.Add("Potion of might", 1);
-        result.Add("Potion of deftness", 1);
+        result.Add("Potion of cunning", 2);
+        result.Add("Potion of might", 2);
+        result.Add("Potion of deftness", 2);
+        result.Add("Minor health potion", 3);
         if (isElite)
         {
-            result["Random"] = 35+(int)((level / Constants.MaxLevel) * 100);
+            result["Random"] = 40+(int)((level / Constants.MaxLevel) * 100);
         }
         return result;
     }
@@ -368,7 +384,11 @@ public abstract class Character : MonoBehaviour
         if(res is Energy || res is Rage)
         {
             stats.MaxResource = Constants.BaseResource;
+            SetCurrentResource(0);
             stats.IsResourceMana(false);
+        } else
+        {
+            SetCurrentResource(stats.MaxResource);
         }
     }
 
@@ -471,7 +491,6 @@ public abstract class Character : MonoBehaviour
             {
                 UpdateCast();
                 UpdateAutoAttack();
-
             }
             UpdateCombat();
             UpdateRegen();

@@ -10,10 +10,12 @@ public static class Constants {
 
 	//Strings
 	public static readonly string Mana = "Mana";
+    public static readonly string Rage = "Rage";
+    public static readonly string Energy = "Energy";
 
 
-	//Interface
-	public static readonly float characterBarswPercent = 22;
+    //Interface
+    public static readonly float characterBarswPercent = 22;
 	public static readonly float characterBarshPercent = 4;
 	public static readonly bool drawCastBar = true;
 	public static readonly float castBarwPercent = 22;
@@ -64,28 +66,28 @@ public static class Constants {
     //Equipments
     public static readonly float MainStatMultiplier = 1.3f;
     public static readonly float OffStatMultiplier = 0.2f;
-    public static readonly float TwoHandedAutoAttackMultiplier = 1.2f;
+    public static readonly float TwoHandedAutoAttackMultiplier = 1.3f;
     public static readonly float StaffAutoAttackDivider = 1.2f;
     public static readonly float TwoHandedStatMultiplier = 1.8f;
     public static readonly float OffHandStatMultiplier = 1.2f;
-    public static readonly float CommonStatMultiplier = 0.5f;
-    public static readonly float UncommonStatMultiplier = 0.7f;
-    public static readonly float RareStatMultiplier = 1f;
+    public static readonly float CommonStatMultiplier = 0.7f;
+    public static readonly float UncommonStatMultiplier = 0.9f;
+    public static readonly float RareStatMultiplier = 1.1f;
     public static readonly float EpicStatMultiplier = 1.3f;
     public static readonly float PriceMultiplierEpic = 1.5f;
     public static readonly float PriceMultiplierRare = 1.2f;
     public static readonly float PriceMultiplierUncommon = 1f;
     public static readonly float PriceMultiplierCommon = 0.8f;
     public static readonly float RarityWeapDpsReducer = 5;
-    public static readonly int DropReducer = 20;
-    public static readonly int EpicDropChancePercent = 10;
-    public static readonly int RareDropChancePercent = 40;
-    public static readonly int UncommonDropChancePercent = 90;
     public static readonly float WeapDamageRandomiser = 0.2f;
 
     //Loot
     public static readonly int DeleteLootAfterSeconds = 120;
     public static readonly float BuyPriceMultiplier = 5;
+    public static readonly int DropReducer = 20;
+    public static readonly int EpicDropChancePercent = 10;
+    public static readonly int RareDropChancePercent = 40;
+    public static readonly int UncommonDropChancePercent = 90;
 
     //Enemies 
     public static readonly float AggroDistance = 2;

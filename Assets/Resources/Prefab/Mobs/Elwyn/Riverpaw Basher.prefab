@@ -145,6 +145,7 @@ MonoBehaviour:
   CharacterName: Riverpaw Basher
   level: 6
   isElite: 0
+  resourceType: Rage
   statPercent: 100
   LootTable: []
   QuestLootTable: []
@@ -170,6 +171,7 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 76aaa1b2300d1d246bacd9ed78277687, type: 3}
   moveRandom: 0
+  isPassive: 0
 --- !u!95 &3839760018661550940
 Animator:
   serializedVersion: 3

@@ -36,6 +36,15 @@ public class Friendly : Character
         DisplayNameAndTitle();
     }
 
+    void Update()
+    {
+        if (!IsDead())
+        {
+            UpdateRegen();
+            UpdateEffects();
+        }
+    }
+
     private void DisplayNameAndTitle()
     {
         GameObject textOverFriendlyPrefab =Resources.Load<GameObject>("Prefab/UI/TextOverFriendly");
