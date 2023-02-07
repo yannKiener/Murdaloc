@@ -25,13 +25,14 @@ using UnityEngine;
         }
 
         void Cast(){
-            CheckCondition();
+            if(CheckCondition()){
+ 
+            }
 
         }
 
         private bool CheckCondition(){
-
-
+            return true;
         }
 
 
